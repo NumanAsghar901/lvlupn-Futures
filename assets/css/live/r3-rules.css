@@ -1,0 +1,705 @@
+/* =========================================================================
+   r3-rules.css - Sicht-Fixes Runde 3 fuer die Seite /rules/ (Post 8048)
+   Nur Overrides. Kaans Dateien (rules.css, lvlup-theme.css, lvlup-home-v2)
+   bleiben unangetastet. Geladen von Plugin lvlup-fixes (Prioritaet 1200).
+
+   Alle Sollwerte sind an den Referenz-Schnipseln
+   runde3/referenz/rules/{1,2,3,4,Lvlup Futures - Trading Rules Page}.jpg
+   gemessen (2500px breit = 1760 CSS-px, Faktor 1,42045).
+   Messprotokoll: runde3/rules/befunde.md
+   ========================================================================= */
+
+/* ---------------------------------------------------------------- HERO --- */
+
+/* R3-rules-01: Hero-Kopf sitzt zu hoch. Gemessene Ink-Oberkanten
+   (Referenz gegen Live): Badge 228,8 / 171,8 -> 57,0 zu hoch;
+   H1 340,7 / 290,0 -> 50,7 zu hoch; Sub 428,7 / 388,6 -> 40,1 zu hoch;
+   Pills 568,8 / 566,7 -> 2,1 zu hoch. Der Abstand waechst also nach unten
+   auf, deshalb: Polster oben groesser, die drei Abstaende darunter kleiner. */
+@media (min-width: 1024px) {
+  .lvr-r1 .lvr-r1-inner { padding-top: 217px; }
+  .lvr-r1 .lvr-r1-title { margin-top: 20px; }
+  .lvr-r1 .lvr-r1-sub   { margin-top: 25px; }
+  /* Kaans Regel .lvr-r1 .lvr-r1-pills{margin-top:122px} steht hinter allen
+     Media Queries und gilt auch mobil - hier nur Desktop korrigieren. */
+  .lvr-r1 .lvr-r1-pills { margin-top: 71px; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .lvr-r1 .lvr-r1-pills { margin-top: 56px; }  /* Wert aus Kaans Tablet-Block */
+}
+@media (max-width: 767px) {
+  .lvr-r1 .lvr-r1-pills { margin-top: 40px; }  /* Wert aus Kaans Mobil-Block */
+}
+
+/* R3-rules-02: Der Rahmen-Container um die fuenf Feature-Pills fehlt.
+   Referenz: Oberkante y=541,4, Unterkante y=606,8 (Hoehe 65,4),
+   Kanten x=352 und x=1410. Pill-Reihe darin bei y=553,3..595,3.
+   -> 1px Rahmen + 11px/9px Polster ergibt exakt 66px Aussenhoehe. */
+@media (min-width: 1024px) {
+  .lvr-r1 .lvr-r1-pills {
+    padding: 11px 9px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.02);
+    max-width: 1058px;
+  }
+}
+
+/* R3-rules-03: Rahmen des Suchfelds laeuft nach rechts ins Nichts.
+   Referenz misst oben ueber die ganze Breite rgb(70,97,113) (x=300 bis
+   x=1400 konstant), unten rgb(57,114,144). Live faellt er von
+   rgb(2,32,51) auf rgb(2,6,13) ab. */
+.lvr-r1 .lvr-r1-search {
+  background:
+    linear-gradient(#000000, #000000) padding-box,
+    linear-gradient(180deg, rgb(70, 97, 113) 0%, rgb(52, 106, 136) 100%) border-box;
+}
+
+/* R3-rules-04: Hello-Elementor reset.css setzt input[type=text]{padding:.5rem 1rem}
+   mit 0-1-1; der Platzhalter startet dadurch 16px zu weit rechts. */
+input.lvr-r1-search-input { padding: 0; }
+
+/* R3-rules-05: Die Kategorie-Chips sind in der Referenz Kaesten mit Rahmen
+   und dunkler Fuellung (nachgemessen an ref y1170..1215), live sind sie zu
+   reinen Textlinks reduziert. Kaans Block ab Zeile 262 haengt die richtigen
+   Definitionen ab Zeile 206 aus - hier zurueckgeholt. */
+.lvr-r1 .lvr-r1-chip {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) padding-box,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.22) 53%, rgba(255, 255, 255, 0.3) 100%) border-box;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.lvr-r1 .lvr-r1-chip--active {
+  background:
+    linear-gradient(180deg, rgba(140, 213, 255, 0.12) 0%, rgba(18, 169, 255, 0.12) 100%) padding-box,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.32) 53%, rgba(255, 255, 255, 0.45) 100%) border-box;
+  color: #ffffff;
+  font-weight: 400;
+}
+
+/* ------------------------------------------------- KARTEN (r3 bis r9) --- */
+
+/* R3-rules-06: Karten sind 19px zu hoch. An Karte "Account Types" gemessen:
+   Referenz Oberkante 2222,5 / Unterkante 2615,7 (Hoehe 393,6),
+   Live 2364,0 / 2777,0 (Hoehe 413,0).
+   Aufteilung: Polster unter der Kopfleiste Soll 30,0 / Ist 36,6 (-7),
+   Kartenfuss Soll 36,2 / Ist 47,6 (-12). Gilt fuer alle 17 gemessenen Karten. */
+@media (min-width: 1024px) {
+  .lvr-r3 .lvr-r3-body { padding-top: 22px; }
+  .lvr-r4 .lvr-r4-body { padding-top: 22px; }
+  .lvr-r5 .lvr-r5-body { padding-top: 22px; }
+  .lvr-r6 .lvr-r6-body { padding-top: 22px; }
+  .lvr-r7 .lvr-r7-body { padding-top: 22px; }
+  .lvr-r8 .lvr-r8-body { padding-top: 22px; }
+  .lvr-r9 .lvr-r9-body { padding-top: 22px; }
+
+  .lvr-r3 .lvr-r3-card { padding-bottom: 27px; }
+  .lvr-r4 .lvr-r4-card { padding-bottom: 27px; }
+  .lvr-r5 .lvr-r5-card { padding-bottom: 27px; }
+  .lvr-r6 .lvr-r6-card { padding-bottom: 27px; }
+  .lvr-r7 .lvr-r7-card { padding-bottom: 27px; }
+  .lvr-r8 .lvr-r8-card { padding-bottom: 27px; }
+  .lvr-r9 .lvr-r9-card { padding-bottom: 27px; }
+}
+
+/* R3-rules-07: Kartenrahmen viel zu deutlich. Live misst die Kantenzeile
+   rgb(46,46,52) bis rgb(55,55,55) (Luma 46-55), die Referenz zeigt an
+   derselben Stelle keine sichtbare Linie (Luma 13-17, also Kartenfuellung). */
+.lvr-r3 .lvr-r3-card,
+.lvr-r4 .lvr-r4-card,
+.lvr-r5 .lvr-r5-card,
+.lvr-r6 .lvr-r6-card,
+.lvr-r7 .lvr-r7-card,
+.lvr-r8 .lvr-r8-card,
+.lvr-r9 .lvr-r9-card {
+  border-color: rgba(53, 174, 244, 0.08);
+}
+
+/* R3-rules-08: Die Abdunklung aus Runde 2 (background-color rgba(1,4,7,0.92))
+   hat die Karten praktisch undurchsichtig gemacht und alle Varianten
+   eingeebnet. Gemessen an "Account Types": Soll-Fuellung Luma 14,9,
+   Live 2,2 - und die Kopfleiste ist dadurch heller als die Karte statt
+   dunkler. Hier werden die Ausgangswerte aus Kaans Basisregeln
+   wiederhergestellt, Varianten einzeln. */
+.lvr-r3 .lvr-r3-card { background-color: rgba(255, 255, 255, 0.05); }
+.lvr-r3 .lvr-r3-card--dark { background-color: rgba(0, 0, 0, 0.62); }
+.lvr-r3 .lvr-r3-card--solid { background-color: rgba(0, 0, 0, 0.85); }
+
+.lvr-r4 .lvr-r4-card { background-color: rgba(255, 255, 255, 0.02); }
+.lvr-r4 .lvr-r4-card--dark { background-color: rgba(0, 0, 0, 0.62); }
+
+.lvr-r5 .lvr-r5-card { background-color: rgba(255, 255, 255, 0.05); }
+.lvr-r5 .lvr-r5-card--soft { background-color: rgba(255, 255, 255, 0.02); }
+.lvr-r5 .lvr-r5-card--dark { background-color: rgba(0, 0, 0, 0.35); }
+.lvr-r5 .lvr-r5-card--darker { background-color: rgba(0, 0, 0, 0.85); }
+
+.lvr-r6 .lvr-r6-card { background-color: rgba(255, 255, 255, 0.02); }
+.lvr-r6 .lvr-r6-card--mid { background-color: rgba(0, 0, 0, 0.35); }
+.lvr-r6 .lvr-r6-card--deeper { background-color: rgba(0, 0, 0, 0.69); }
+.lvr-r6 .lvr-r6-card--dark { background-color: rgba(0, 0, 0, 0.85); }
+
+.lvr-r7 .lvr-r7-card { background-color: rgba(255, 255, 255, 0.02); }
+
+.lvr-r8 .lvr-r8-card { background-color: rgba(255, 255, 255, 0.02); }
+.lvr-r8 .lvr-r8-card--d45 { background-color: rgba(0, 0, 0, 0.45); }
+.lvr-r8 .lvr-r8-card--d50 { background-color: rgba(0, 0, 0, 0.5); }
+.lvr-r8 .lvr-r8-card--d80 { background-color: rgba(0, 0, 0, 0.8); }
+.lvr-r8 .lvr-r8-card--d85 { background-color: rgba(0, 0, 0, 0.85); }
+
+.lvr-r9 .lvr-r9-card { background-color: rgba(255, 255, 255, 0.02); }
+.lvr-r9 .lvr-r9-card--dark { background-color: rgba(0, 0, 0, 0.8); }
+
+/* R3-rules-09: Kartentitel sind reinweiss. Ursache: lvlup-theme.css setzt
+   .lvf-page.lvf-page h1..h6{color:inherit} mit 0-2-1 und schlaegt die
+   0-1-0-Regeln in rules.css. Referenz-Spitzenwert 236-242 -> 0,9. */
+.lvr-r3 h3.lvr-r3-cardtitle,
+.lvr-r4 h3.lvr-r4-cardtitle,
+.lvr-r5 h3.lvr-r5-cardtitle,
+.lvr-r6 h3.lvr-r6-cardtitle,
+.lvr-r7 h3.lvr-r7-cardtitle,
+.lvr-r8 h3.lvr-r8-cardtitle,
+.lvr-r9 h3.lvr-r9-cardtitle {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ------------------------------------------------------------ TABELLEN --- */
+
+/* R3-rules-10: Zeilenraster der Tabellen. Referenz misst in JEDER Tabelle
+   45px Zeilenabstand. Live: r3 52px, r5 44px, r6 48px, r8 44px.
+   -> nur r3 und r6 korrigieren. */
+@media (min-width: 1024px) {
+  .lvr-r3 .lvr-r3-table th,
+  .lvr-r3 .lvr-r3-table td { padding-top: 13px; padding-bottom: 13px; }
+  .lvr-r6 .lvr-r6-table td { padding-top: 13px; padding-bottom: 13px; }
+}
+
+/* R3-rules-11: Tabellenkopfzeilen sind reinweiss, im Soll so hell wie die
+   Zellen darunter. Referenz "Account Size": rgb(165,166,167), live
+   rgb(255,255,255); Zelltext beide rund rgb(163,165,167). */
+.lvr-r3 .lvr-r3-table th,
+.lvr-r5 .lvr-r5-table th,
+.lvr-r6 .lvr-r6-table th,
+.lvr-r8 .lvr-r8-table thead th {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* ------------------------------------------- SEKTIONS-ABSTAENDE (Rhythmus) --- */
+
+/* R3-rules-12: Alle Sektionsabstaende an der Referenz nachgemessen. Basis sind
+   die Ink-Oberkanten der 13 nummerierten Ueberschriften (Badge-Erkennung +
+   Ink-Band), Referenz gegen Live nach R3-rules-01/06:
+     S1 +153,5  S2 +165,4  S3 +282,3  S4 +286,5  S5 +349,2  S6 +373,1
+     S7 +450,6  S8 +497,7  S9 +580,8  S10 +571,6 S11 +642,8 S12 +670,9
+     S13 +710,3   Seitenhoehe 22600 statt 21576.
+   Die Differenz je Uebergang wird hier herausgenommen. Innerhalb einer Sektion
+   ueber head--x{margin-top}, zwischen zwei Sektionen anteilig ueber
+   padding-bottom/padding-top (Verhaeltnis wie bei Kaan, damit die Glow-Boxen
+   ihre Proportion behalten). Nur Desktop - Tablet/Mobil haben eigene Werte. */
+@media (min-width: 1024px) {
+  /* Hero-Unterkante zu Ueberschrift "Account Rules Overview": Soll 110,8
+     (Chips-Unterkante 858 -> H2-Oberkante 968,8), Ist 202. */
+  .lvr-r1 .lvr-r1-inner { padding-bottom: 55px; }
+  .lvr-r2 { padding-top: 56px; }
+
+  /* H2 -> Tabellenoberkante: Soll 40 (Ref 1006,8 -> 1046,8), Ist 48. */
+  .lvr-r2 .lvr-r2-title { margin-bottom: 40px; }
+
+  /* Tabellenunterkante -> Badge 1: Soll 204,8 (Ref 1916,5 -> 2121,6), Ist 250.
+     Zusaetzlich 9px, weil die Tabelle selbst 879 statt 870 hoch ist. */
+  .lvr-r2 { padding-bottom: 136px; }
+
+  /* Badge 1 -> Badge 2 (in r3): -12 */
+  .lvr-r3 .lvr-r3-head--dd { margin-top: 99px; }
+  /* r3 -> r4: Soll 73 statt 190 */
+  .lvr-r3 { padding-bottom: 50px; }
+  .lvr-r4 { padding-top: 23px; }
+  /* Badge 3 -> Badge 4: -4 */
+  .lvr-r4 .lvr-r4-head--cond { margin-top: 107px; }
+  /* r4 -> r5: Soll 77 statt 140 */
+  .lvr-r4 { padding-bottom: 72px; }
+  .lvr-r5 { padding-top: 5px; }
+  /* Badge 5 -> Badge 6: -24 */
+  .lvr-r5 .lvr-r5-head--payout { margin-top: 87px; }
+  /* r5 -> r6: Soll 113 statt 190 */
+  .lvr-r5 { padding-bottom: 77px; }
+  .lvr-r6 { padding-top: 36px; }
+  /* Badge 7 -> Badge 8: -47 */
+  .lvr-r6 .lvr-r6-head--starter { margin-top: 116px; }
+  /* r6 -> r7: Soll 92 statt 175 */
+  .lvr-r6 { padding-bottom: 60px; }
+  .lvr-r7 { padding-top: 32px; }
+  /* Badge 9 -> Badge 10: +9 (hier war der Abstand zu klein) */
+  .lvr-r7 .lvr-r7-head--protector { margin-top: 120px; }
+  /* r7 -> r8: Soll 136 statt 207 */
+  .lvr-r7 { padding-bottom: 96px; }
+  .lvr-r8 { padding-top: 39px; }
+  /* Badge 11 -> Badge 12: -28 */
+  .lvr-r8 .lvr-r8-head--verification { margin-top: 83px; }
+  /* r8 -> r9: Soll 108 statt 147 */
+  .lvr-r8 { padding-bottom: 108px; }
+  /* r9-Unterkante -> CTA-Panel: Soll 103 (Ref 19970 -> 20073), Ist 194. */
+  .lvr-r9 { padding-bottom: 59px; }
+}
+
+/* ------------------------------------------------------- LEUCHTEN (Glows) --- */
+
+/* R3-rules-13: Die seitlichen Leuchten sind drei- bis zehnfach zu schwach.
+   Am Seitenrand gemessen (Mittel ueber x 0..50 bzw. 2450..2500 im Schnipsel):
+     links  y=1588 Soll 245 / Ist  80   y=4779 Soll 254 / Ist 16
+            y=11350 Soll 254 / Ist 18   y=17006 Soll 251 / Ist  5
+     rechts y=1654 Soll 232 / Ist  80   y=2102 Soll 228 / Ist  4
+            y=9072 Soll 206 / Ist  73   y=15418 Soll 206 / Ist 27
+   Waagerecht ist der Kern ein Plateau: Soll 254 bei x=0 bis 245 bei x=255,
+   dahinter (ab Kartenkante x=260) faellt die Referenz auf 38 - die Leuchten
+   liegen also HINTER den Karten und werden von ihnen verdeckt.
+   Deshalb zwei Ebenen am Seitenrahmen mit Maske auf den 260px-Rand, statt die
+   Sektions-Glows aufzudrehen (die wuerden durch die halbtransparenten Karten
+   durchschlagen). Die Ebenen liegen auf der Seite, nicht in den Sektionen -
+   dadurch laufen sie ueber die Sektionsgrenzen hinweg weiter und es entstehen
+   keine harten Kanten (Befund "Abgeschnittenes"). */
+/* ABNAHME-R3-rules-A1: Diese Seitenebene traegt feste Desktop-y-Werte (4779 /
+   11350 / 17006 / 21300 px) und eine Maske, die bis x=255px voll deckt. Bei 390px
+   Fensterbreite deckt sie damit 65 Prozent der Bildbreite und legt sich als heller
+   Schleier UEBER die Karten - der Fliesstext in Sektion 5 war unlesbar. Die Ebene
+   gilt jetzt nur noch ab 1024px, wie alle uebrigen Geometrie-Overrides dieser Datei. */
+@media (min-width: 1024px) {
+body.page-id-8048 .lvf-page { position: relative; }
+}
+@media (min-width: 1024px) {
+body.page-id-8048 .lvf-page::before,
+body.page-id-8048 .lvf-page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+}
+/* linke Kerne. Die Ellipsen sind waagerecht bewusst sehr breit (3000px),
+   damit sie im sichtbaren Rand ihr Plateau behalten - den waagerechten
+   Abschluss macht die Maske bei 255..345px, genau dort, wo in der Referenz
+   die Karten beginnen. */
+@media (min-width: 1024px) {
+body.page-id-8048 .lvf-page::before {
+  background:
+    radial-gradient(ellipse 3000px 2600px at 0 4779px,
+      rgba(255,255,255,1) 0%, rgba(253,254,255,.99) 10%, rgba(233,248,255,.95) 21%,
+      rgba(196,235,255,.85) 33%, rgba(140,213,255,.70) 44%, rgba(80,190,255,.52) 56%,
+      rgba(30,170,255,.36) 67%, rgba(0,158,248,.18) 83%, rgba(0,150,240,.06) 94%,
+      rgba(0,150,240,0) 100%),
+    radial-gradient(ellipse 3000px 2600px at 0 11350px,
+      rgba(255,255,255,1) 0%, rgba(253,254,255,.99) 10%, rgba(233,248,255,.95) 21%,
+      rgba(196,235,255,.85) 33%, rgba(140,213,255,.70) 44%, rgba(80,190,255,.52) 56%,
+      rgba(30,170,255,.36) 67%, rgba(0,158,248,.18) 83%, rgba(0,150,240,.06) 94%,
+      rgba(0,150,240,0) 100%),
+    radial-gradient(ellipse 3000px 2000px at 0 17006px,
+      rgba(255,255,255,1) 0%, rgba(253,254,255,.99) 10%, rgba(233,248,255,.95) 21%,
+      rgba(196,235,255,.85) 33%, rgba(140,213,255,.70) 44%, rgba(80,190,255,.52) 56%,
+      rgba(30,170,255,.36) 67%, rgba(0,158,248,.18) 83%, rgba(0,150,240,.06) 94%,
+      rgba(0,150,240,0) 100%);
+  -webkit-mask-image: linear-gradient(90deg, #000 0, #000 255px, rgba(0,0,0,0) 345px);
+          mask-image: linear-gradient(90deg, #000 0, #000 255px, rgba(0,0,0,0) 345px);
+}
+}
+/* rechte Kerne: heller Kern plus flaches blaues Band darueber (die Referenz
+   zeigt rechts oberhalb jedes Kerns ein konstantes Plateau von rund 76). */
+@media (min-width: 1024px) {
+body.page-id-8048 .lvf-page::after {
+  background:
+    radial-gradient(ellipse 3000px 950px at 100% 1860px,
+      rgba(255,255,255,.95) 0%, rgba(240,250,255,.90) 28%, rgba(160,220,255,.62) 55%,
+      rgba(50,175,255,.28) 78%, rgba(0,150,240,0) 100%),
+    radial-gradient(ellipse 3000px 2500px at 100% 2150px,
+      rgba(140,213,255,.34) 0%, rgba(40,175,255,.24) 45%, rgba(0,162,255,.10) 75%,
+      rgba(0,162,255,0) 100%),
+    radial-gradient(ellipse 3000px 700px at 100% 8990px,
+      rgba(235,248,255,.82) 0%, rgba(200,238,255,.76) 25%, rgba(140,213,255,.58) 45%,
+      rgba(50,175,255,.34) 65%, rgba(0,155,245,.10) 85%, rgba(0,150,240,0) 100%),
+    radial-gradient(ellipse 3000px 1750px at 100% 7900px,
+      rgba(0,162,255,.40) 0%, rgba(0,162,255,.39) 50%, rgba(0,162,255,.22) 78%,
+      rgba(0,162,255,0) 100%),
+    radial-gradient(ellipse 3000px 700px at 100% 15340px,
+      rgba(235,248,255,.82) 0%, rgba(200,238,255,.76) 25%, rgba(140,213,255,.58) 45%,
+      rgba(50,175,255,.34) 65%, rgba(0,155,245,.10) 85%, rgba(0,150,240,0) 100%),
+    radial-gradient(ellipse 3000px 1750px at 100% 14250px,
+      rgba(0,162,255,.40) 0%, rgba(0,162,255,.39) 50%, rgba(0,162,255,.22) 78%,
+      rgba(0,162,255,0) 100%);
+  -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,0) calc(100% - 345px), #000 calc(100% - 255px), #000 100%);
+          mask-image: linear-gradient(90deg, rgba(0,0,0,0) calc(100% - 345px), #000 calc(100% - 255px), #000 100%);
+}
+}
+
+/* R3-rules-14: Das r2-Leuchten ist in der Referenz an den Raendern am
+   hellsten und in der Mitte etwas schwaecher (y=1600: x=0 -> 246,
+   x=880 -> 169, x=1759 -> 232). Live war es genau umgekehrt
+   (151 / 222 / 152), weil eine weisse Mittelellipse davorliegt. */
+@media (min-width: 1024px) {
+  .lvr-r2 .lvr-r2-glow {
+    inset: 60px 0 0 0;
+    background:
+      radial-gradient(ellipse 700px 820px at 0 62%,
+        rgba(255,255,255,1) 0%, rgba(240,250,255,.95) 26%, rgba(170,224,255,.82) 46%,
+        rgba(60,180,255,.5) 66%, rgba(0,150,240,0) 100%),
+      radial-gradient(ellipse 660px 700px at 100% 72%,
+        rgba(255,255,255,.9) 0%, rgba(236,249,255,.86) 32%, rgba(150,215,255,.7) 52%,
+        rgba(50,175,255,.36) 70%, rgba(0,150,240,0) 100%),
+      radial-gradient(ellipse 78% 46% at 50% 66%,
+        rgba(198,236,255,.72) 0%, rgba(90,196,255,.5) 45%, rgba(0,162,255,.2) 70%, rgba(0,162,255,0) 92%),
+      radial-gradient(ellipse 130% 105% at 50% 50%, rgba(4,48,74,.5) 0%, rgba(4,48,74,0) 82%);
+  }
+}
+
+/* R3-rules-15: Kaans Sektions-Glows enthalten je eine dunkle Abdeckebene
+   rgba(4,48,74,0.5..0.65). Sie liegt ueber der Seiten-Leuchtebene aus
+   R3-rules-13 und druckt deren Kern von 254 auf rund 170 herunter
+   (gemessen links y=4779: 171 statt 254). Die Referenz hat dort keinen
+   Grauschleier. Hier dieselben Stapel ohne die dunkle Ebene. */
+@media (min-width: 1024px) {
+  .lvr-r3 .lvr-r3-glow {
+    background:
+      radial-gradient(ellipse 80% 22% at 82% 2%, rgba(0,162,255,.22) 0%, rgba(0,162,255,0) 70%),
+      radial-gradient(ellipse 70% 26% at 12% 74%, rgba(0,162,255,.5) 0%, rgba(0,162,255,0) 70%),
+      radial-gradient(ellipse 40% 15% at 6% 74%, rgba(140,213,255,.35) 0%, rgba(140,213,255,0) 72%);
+  }
+  /* Die beiden unteren Linksglows von Kaan (78%/82%) liegen genau im Schweif
+     des Seiten-Kerns bei y=4779 und machten y 6900..7500 um 24 bis 43 Stufen
+     zu hell (Soll 53/26/5). Sie entfallen. */
+  .lvr-r4 .lvr-r4-glow {
+    background:
+      radial-gradient(ellipse 55% 40% at -6% 12%, rgba(0,162,255,.4) 0%, rgba(0,162,255,0) 68%),
+      radial-gradient(ellipse 40% 30% at 0% 18%, rgba(140,213,255,.22) 0%, rgba(140,213,255,0) 70%);
+  }
+  .lvr-r5 .lvr-r5-glow {
+    background:
+      radial-gradient(ellipse 55% 30% at 98% 32%, rgba(0,162,255,.5) 0%, rgba(0,162,255,0) 70%),
+      radial-gradient(ellipse 38% 22% at 90% 36%, rgba(140,213,255,.28) 0%, rgba(140,213,255,0) 72%),
+      radial-gradient(ellipse 60% 30% at 95% 62%, rgba(0,162,255,.42) 0%, rgba(0,162,255,0) 70%),
+      radial-gradient(ellipse 40% 22% at 88% 66%, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 72%),
+      radial-gradient(ellipse 45% 24% at 0% 6%, rgba(0,162,255,.2) 0%, rgba(0,162,255,0) 70%);
+  }
+  .lvr-r6 .lvr-r6-glow {
+    background:
+      radial-gradient(ellipse 55% 38% at -6% 10%, rgba(0,162,255,.4) 0%, rgba(0,162,255,0) 68%),
+      radial-gradient(ellipse 40% 28% at 0% 16%, rgba(140,213,255,.22) 0%, rgba(140,213,255,0) 70%),
+      radial-gradient(ellipse 70% 40% at 10% 45%, rgba(0,162,255,.28) 0%, rgba(0,162,255,0) 70%),
+      radial-gradient(ellipse 45% 30% at 4% 55%, rgba(140,213,255,.18) 0%, rgba(140,213,255,0) 72%);
+  }
+  .lvr-r7 .lvr-r7-glow {
+    background:
+      radial-gradient(ellipse 50% 26% at -8% 2%, rgba(0,162,255,.42) 0%, rgba(0,162,255,0) 68%),
+      radial-gradient(ellipse 34% 20% at 0% 9%, rgba(140,213,255,.22) 0%, rgba(140,213,255,0) 70%),
+      radial-gradient(ellipse 42% 30% at -5% 40%, rgba(0,162,255,.26) 0%, rgba(0,162,255,0) 70%),
+      radial-gradient(ellipse 40% 28% at 104% 46%, rgba(0,162,255,.26) 0%, rgba(0,162,255,0) 70%),
+      radial-gradient(ellipse 36% 22% at 100% 62%, rgba(18,169,255,.18) 0%, rgba(18,169,255,0) 72%);
+  }
+  .lvr-r8 .lvr-r8-glow {
+    background:
+      radial-gradient(ellipse 46% 24% at -6% 38%, rgba(0,162,255,.4) 0%, rgba(0,162,255,0) 68%),
+      radial-gradient(ellipse 32% 18% at 2% 46%, rgba(140,213,255,.2) 0%, rgba(140,213,255,0) 70%),
+      radial-gradient(ellipse 40% 26% at 103% 30%, rgba(0,162,255,.28) 0%, rgba(0,162,255,0) 70%),
+      radial-gradient(ellipse 44% 24% at -4% 92%, rgba(0,162,255,.22) 0%, rgba(0,162,255,0) 70%);
+  }
+}
+
+/* ------------------------------------------ HERO-BILD UND ZWEIFARBIGE TEXTE --- */
+
+/* R3-rules-16: Das Hero-Bild ist entsaettigt (Grauschleier) und oben zu hell.
+   Messpaare Referenz/Live: (1500,300) rgb(2,57,89)/rgb(33,45,56);
+   (880,60) rgb(13,26,33)/rgb(32,46,53); (1600,500) rgb(4,34,51)/rgb(11,15,25).
+   Die Bildebene wandert in ein ::before, damit der Filter nur das Bild trifft
+   und nicht die darueberliegenden Verlaeufe (die kommen ins ::after).
+   Zusaetzlich Runde-2-Befund: erste Bildzeile Soll rgb(2,6,7), Ist rgb(35,64,88)
+   - der Abdunkler oben stand nur auf 50 Prozent und war ab y=124 weg. */
+.lvr-r1 .lvr-r1-bg { background: none; }
+.lvr-r1 .lvr-r1-bg::before,
+.lvr-r1 .lvr-r1-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.lvr-r1 .lvr-r1-bg::before {
+  background: url('https://lvlup.tivaosagencytempdomains.de/wp-content/uploads/2026/08/lvlup-a7ba857d2a.webp') center top / cover no-repeat;
+  filter: saturate(3.6) contrast(1.05) brightness(0.5); /* bester Fit, RMS 16,3 von 255 an 10 Messpunkten */
+}
+.lvr-r1 .lvr-r1-bg::after {
+  background:
+    linear-gradient(180deg, rgba(5, 6, 15, 0.95) 0%, rgba(5, 6, 15, 0.70) 9%, rgba(5, 6, 15, 0) 32%),
+    linear-gradient(180deg, rgba(5, 6, 15, 0) 52%, var(--lvf-bg) 98%),
+    radial-gradient(90% 70% at 50% 24%, rgba(0, 162, 255, 0.18) 0%, rgba(0, 162, 255, 0) 68%);
+}
+
+/* R3-rules-17: Badge und Pills sind in der Referenz zweifarbig, live einfarbig
+   weiss. Gemessen (hellste Bildpunkte): Badge "Zero" rgb(126,204,244) gegen
+   "Hidden Rules" rgb(181,188,195); Pille 1 "No Daily" rgb(148,185,202) gegen
+   "Loss Limit" rgb(202,205,208). Live durchgehend rgb(242..251).
+   Das Markup dafuer wurde in _elementor_data ergaenzt (Sicherung in
+   runde3/rules/backups/). */
+.lvr-r1 .lvr-r1-badge { font-weight: 400; color: rgba(255, 255, 255, 0.75); }
+.lvr-r1 .lvr-r1-badge-hl { color: var(--lvf-blue-light); font-weight: 500; }
+.lvr-r1 .lvr-r1-pill { font-weight: 400; color: rgba(255, 255, 255, 0.8); }
+.lvr-r1 .lvr-r1-pill-hl { color: var(--lvf-blue-light); font-weight: 600; }
+
+/* R3-rules-18: In den Zeilen "Drawdown Type" und "Payout Terms" ist im Soll der
+   vordere Teil fett und schwarz, der hintere duenn und 60 Prozent schwarz -
+   und beide stehen nebeneinander, nicht gestapelt (die Startup-Spalten zeigen
+   das Muster bereits). Markup ergaenzt, hier die Laufrichtung. */
+.lvr-r2 .lvr-r2-c--inline { flex-direction: row; gap: 5px; }
+
+/* R3-rules-19: "1. Lvlup Accounts / 2. Starter Accounts." steht im Soll
+   eingerueckt (Soll x=316 gegen x=305 beim Absatz darueber), live buendig.
+   Doppelte Klasse noetig, weil lvlup-theme.css .lvf-page ol auf
+   list-style:none setzt. */
+.lvr-r3 .lvr-r3-list.lvr-r3-list {
+  list-style: decimal;
+  margin: 0 0 0 1em;
+  padding-left: 11px;
+}
+.lvr-r3 .lvr-r3-list.lvr-r3-list li::marker { color: rgba(230, 238, 245, 0.5); }
+.lvr-r3 .lvr-r3-body .lvr-r3-list + p { margin-top: 26px; }
+
+/* ------------------------------------------------- TABELLE r2 UND CTA --- */
+
+/* R3-rules-20: Die beiden dunklen Preiszeilen laufen im Soll als durchgehendes
+   schwarzes Band ueber die ganze Tabelle, auch ueber die Feature-Spalte.
+   Gemessen (340,1380): Soll rgb(12,12,12), Ist rgb(79,142,181). Die Klasse
+   liegt im Markup bereits an, nur die Flaeche fehlte. Zusaetzlich ist die
+   Zellfuellung im Soll reines Schwarz, live mit blauem Aufheller. */
+.lvr-r2 .lvr-r2-row--dark-top .lvr-r2-f,
+.lvr-r2 .lvr-r2-row--dark-bot .lvr-r2-f {
+  background: #000000;
+  color: #ffffff;
+  box-shadow: none;
+}
+.lvr-r2 .lvr-r2-c--dark { background: #000000; }
+
+/* R3-rules-21: Das r2-Leuchten ist unter der Tabelle zu grau. Gemessen
+   (340,1880): Soll rgb(58,179,248), Ist rgb(109,173,213) - der Rotkanal liegt
+   51 Stufen zu hoch, weil die Kernebene fast weiss ist. Cyanere Mitte. */
+@media (min-width: 1024px) {
+  .lvr-r2 .lvr-r2-glow {
+    background:
+      radial-gradient(ellipse 700px 820px at 0 62%,
+        rgba(255,255,255,1) 0%, rgba(240,250,255,.95) 26%, rgba(170,224,255,.82) 46%,
+        rgba(60,180,255,.5) 66%, rgba(0,150,240,0) 100%),
+      radial-gradient(ellipse 660px 700px at 100% 72%,
+        rgba(255,255,255,.9) 0%, rgba(236,249,255,.86) 32%, rgba(150,215,255,.7) 52%,
+        rgba(50,175,255,.36) 70%, rgba(0,150,240,0) 100%),
+      radial-gradient(ellipse 78% 46% at 50% 72%,
+        rgba(140,213,255,.8) 0%, rgba(40,180,255,.62) 45%, rgba(0,162,255,.25) 70%, rgba(0,162,255,0) 92%),
+      radial-gradient(ellipse 130% 105% at 50% 50%, rgba(4,48,74,.5) 0%, rgba(4,48,74,0) 82%);
+  }
+}
+
+/* R3-rules-22: Zwischen der letzten r9-Karte und dem Footer laeuft in der
+   Referenz ein durchgehendes, nach unten staerker werdendes Blau an beiden
+   Seitenraendern; live ist der Bereich flach rgb(5,6,15).
+   Gemessen links: y19600 rgb(2,53,84) / y20000 rgb(2,68,105) /
+   y20400 rgb(2,91,142) / y20600 rgb(2,112,172);
+   rechts: y19600 rgb(2,68,106) / y20000 rgb(3,104,163) / y20600 rgb(19,131,188).
+   Wird an die Seitenebenen aus R3-rules-13 angehaengt, damit es ohne harte
+   Kante ueber die Sektionsgrenze r9/CTA laeuft. */
+@media (min-width: 1024px) {
+body.page-id-8048 .lvf-page::before {
+  background-image:
+    radial-gradient(ellipse 3000px 2200px at 0 21300px,
+      rgba(200,238,255,.95) 0%, rgba(150,216,255,.90) 15%, rgba(40,180,255,.66) 32%,
+      rgba(0,168,255,.45) 50%, rgba(0,162,255,.30) 70%, rgba(0,162,255,.19) 95%,
+      rgba(0,162,255,0) 100%),
+    radial-gradient(ellipse 3000px 2600px at 0 4779px,
+      rgba(255,255,255,1) 0%, rgba(253,254,255,.99) 10%, rgba(233,248,255,.95) 21%,
+      rgba(196,235,255,.85) 33%, rgba(140,213,255,.70) 44%, rgba(80,190,255,.52) 56%,
+      rgba(30,170,255,.36) 67%, rgba(0,158,248,.18) 83%, rgba(0,150,240,.06) 94%,
+      rgba(0,150,240,0) 100%),
+    radial-gradient(ellipse 3000px 2600px at 0 11350px,
+      rgba(255,255,255,1) 0%, rgba(253,254,255,.99) 10%, rgba(233,248,255,.95) 21%,
+      rgba(196,235,255,.85) 33%, rgba(140,213,255,.70) 44%, rgba(80,190,255,.52) 56%,
+      rgba(30,170,255,.36) 67%, rgba(0,158,248,.18) 83%, rgba(0,150,240,.06) 94%,
+      rgba(0,150,240,0) 100%),
+    radial-gradient(ellipse 3000px 2000px at 0 17006px,
+      rgba(255,255,255,1) 0%, rgba(253,254,255,.99) 10%, rgba(233,248,255,.95) 21%,
+      rgba(196,235,255,.85) 33%, rgba(140,213,255,.70) 44%, rgba(80,190,255,.52) 56%,
+      rgba(30,170,255,.36) 67%, rgba(0,158,248,.18) 83%, rgba(0,150,240,.06) 94%,
+      rgba(0,150,240,0) 100%);
+}
+}
+@media (min-width: 1024px) {
+body.page-id-8048 .lvf-page::after {
+  background-image:
+    radial-gradient(ellipse 3000px 2400px at 100% 21200px,
+      rgba(190,234,255,.95) 0%, rgba(120,205,255,.80) 25%, rgba(20,170,255,.63) 50%,
+      rgba(0,162,255,.42) 70%, rgba(0,162,255,.22) 85%, rgba(0,162,255,0) 100%),
+    radial-gradient(ellipse 3000px 950px at 100% 1860px,
+      rgba(255,255,255,.95) 0%, rgba(240,250,255,.90) 28%, rgba(160,220,255,.62) 55%,
+      rgba(50,175,255,.28) 78%, rgba(0,150,240,0) 100%),
+    radial-gradient(ellipse 3000px 2500px at 100% 2150px,
+      rgba(140,213,255,.34) 0%, rgba(40,175,255,.24) 45%, rgba(0,162,255,.10) 75%,
+      rgba(0,162,255,0) 100%),
+    radial-gradient(ellipse 3000px 700px at 100% 8990px,
+      rgba(235,248,255,.82) 0%, rgba(200,238,255,.76) 25%, rgba(140,213,255,.58) 45%,
+      rgba(50,175,255,.34) 65%, rgba(0,155,245,.10) 85%, rgba(0,150,240,0) 100%),
+    radial-gradient(ellipse 3000px 1750px at 100% 7900px,
+      rgba(0,162,255,.40) 0%, rgba(0,162,255,.39) 50%, rgba(0,162,255,.22) 78%,
+      rgba(0,162,255,0) 100%),
+    radial-gradient(ellipse 3000px 700px at 100% 15340px,
+      rgba(235,248,255,.82) 0%, rgba(200,238,255,.76) 25%, rgba(140,213,255,.58) 45%,
+      rgba(50,175,255,.34) 65%, rgba(0,155,245,.10) 85%, rgba(0,150,240,0) 100%),
+    radial-gradient(ellipse 3000px 1750px at 100% 14250px,
+      rgba(0,162,255,.40) 0%, rgba(0,162,255,.39) 50%, rgba(0,162,255,.22) 78%,
+      rgba(0,162,255,0) 100%);
+}
+}
+
+/* R3-rules-23: CTA-Knopf "Choose Your Evaluation" hat weisse statt schwarzer
+   Schrift. Ursache: lvlup-theme.css .lvf-page a{color:inherit} (0-1-1) schlaegt
+   .lvf-s10-btn (0-1-0). Nur auf dieser Seite. */
+body.page-id-8048 .lvf-s10 a.lvf-s10-btn { color: #060606; }
+
+/* R3-rules-24: Ghost-Knopf "View the Rules": die spaetere Regel
+   rgba(20,66,92,0.85) ist zu hell, Soll-Fuellung rgb(1,24,36). Zurueck auf die
+   Grundregel. */
+body.page-id-8048 .lvf-s10 a.lvf-s10-btn2 { background: rgba(6, 18, 24, 0.9); }
+
+/* R3-rules-25: Im CTA-Panel ist die Mitte im Soll dunkel und die Ecken sind
+   hell. Gemessen (Panel-Oberkante = 0): rel 180 x=420 Soll rgb(3,16,22) /
+   Ist rgb(11,77,117); rel 25 x=300 Soll rgb(20,96,139) / Ist rgb(2,21,34);
+   rel 520 x=300 Soll rgb(72,196,233) / Ist rgb(32,125,180). */
+@media (min-width: 768px) {
+  body.page-id-8048 .lvf-s10 .lvf-s10-glow::after {
+    background:
+      radial-gradient(72% 24% at 50% 92%, rgba(70, 185, 255, 0.62) 0%, rgba(40, 150, 220, 0.26) 55%, rgba(0, 162, 255, 0) 80%),
+      radial-gradient(100% 26% at 50% 100%, rgba(45, 150, 215, 0.45) 0%, rgba(0, 162, 255, 0) 80%);
+  }
+}
+@media (min-width: 1024px) {
+  body.page-id-8048 .lvf-s10 .lvf-s10-glow {
+    background:
+      radial-gradient(70% 95% at 108% 6%, rgba(150, 215, 255, 0.78) 0%, rgba(0, 165, 250, 0.62) 40%, rgba(0, 80, 122, 0.22) 64%, rgba(0, 162, 255, 0) 84%),
+      radial-gradient(72% 100% at -10% 96%, rgba(160, 220, 255, 0.75) 0%, rgba(0, 160, 245, 0.6) 38%, rgba(0, 80, 122, 0.22) 62%, rgba(0, 162, 255, 0) 82%),
+      radial-gradient(60% 70% at -8% 2%, rgba(60, 180, 255, 0.5) 0%, rgba(0, 130, 200, 0.25) 50%, rgba(0, 162, 255, 0) 80%),
+      radial-gradient(85% 50% at 50% 112%, rgba(45, 150, 215, 0.55) 0%, rgba(15, 90, 140, 0.26) 50%, rgba(0, 162, 255, 0) 82%),
+      linear-gradient(180deg, rgba(4, 20, 32, 0.55) 0%, rgba(2, 12, 20, 0.75) 45%, rgba(2, 12, 20, 0.55) 100%);
+  }
+}
+
+/* R3-rules-26: Kaans r9-Glow (48% 32% at -4% 60% mit 0,75) sitzt genau dort,
+   wo die Referenz links nur rgb(2,40,62) zeigt; live waren es rgb(21,131,196).
+   Abgeschwaecht, der helle Kern bei y=17006 kommt aus R3-rules-13. */
+@media (min-width: 1024px) {
+  .lvr-r9 .lvr-r9-glow {
+    background:
+      radial-gradient(ellipse 48% 32% at -4% 60%, rgba(0,162,255,.22) 0%, rgba(0,162,255,0) 68%),
+      radial-gradient(ellipse 26% 20% at 0% 63%, rgba(167,223,255,.12) 0%, rgba(167,223,255,0) 70%),
+      radial-gradient(ellipse 45% 20% at 0% 12%, rgba(0,162,255,.18) 0%, rgba(0,162,255,0) 70%),
+      radial-gradient(ellipse 60% 22% at 25% 102%, rgba(0,162,255,.4) 0%, rgba(0,162,255,0) 72%),
+      radial-gradient(ellipse 40% 16% at 40% 99%, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 72%);
+  }
+}
+
+/* R3-rules-27: Harte Kante an der Sektionsgrenze r2/r3. Gemessen als
+   Helligkeitssprung ueber die Grenze am linken Rand: live -150 von 255,
+   Referenz 0,1 an derselben Stelle (die Referenz hat ihren bekannten
+   Export-Absatz einige Pixel frueher). Ursache: .lvr-r2 hat overflow:hidden,
+   die Glow-Ellipse ist an der Unterkante noch voll deckend.
+   Bewusst KEINE Maske ueber die ganze Sektion (das hat in Runde 2 die
+   Leuchten getoetet), sondern nur die letzten 90px ausblenden. */
+@media (min-width: 1024px) {
+  .lvr-r2 .lvr-r2-glow {
+    -webkit-mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - 90px), rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - 90px), rgba(0,0,0,0) 100%);
+  }
+}
+
+/* R3-rules-28: Am Footer-Anfang stiess die Seitenebene aus R3-rules-13/22 hart
+   auf den undurchsichtigen Footer-Kasten (Sprung -28 links, -39 rechts;
+   Referenz 0,3/0,2). Die Ebene laeuft jetzt vor dem Footer aus.
+   Der Footer selbst (Vorlage 67) bleibt unangetastet - seine eigene
+   Abweichung steht in header-footer-befunde.md. */
+@media (min-width: 1024px) {
+body.page-id-8048 .lvf-page::before {
+  -webkit-mask-image:
+    linear-gradient(90deg, #000 0, #000 255px, rgba(0,0,0,0) 345px),
+    linear-gradient(180deg, #000 0, #000 20430px, rgba(0,0,0,0) 20860px);
+          mask-image:
+    linear-gradient(90deg, #000 0, #000 255px, rgba(0,0,0,0) 345px),
+    linear-gradient(180deg, #000 0, #000 20430px, rgba(0,0,0,0) 20860px);
+  -webkit-mask-composite: source-in;
+          mask-composite: intersect;
+}
+}
+@media (min-width: 1024px) {
+body.page-id-8048 .lvf-page::after {
+  -webkit-mask-image:
+    linear-gradient(90deg, rgba(0,0,0,0) calc(100% - 345px), #000 calc(100% - 255px), #000 100%),
+    linear-gradient(180deg, #000 0, #000 20430px, rgba(0,0,0,0) 20860px);
+          mask-image:
+    linear-gradient(90deg, rgba(0,0,0,0) calc(100% - 345px), #000 calc(100% - 255px), #000 100%),
+    linear-gradient(180deg, #000 0, #000 20430px, rgba(0,0,0,0) 20860px);
+  -webkit-mask-composite: source-in;
+          mask-composite: intersect;
+}
+}
+
+/* R3-rules-29: Nachjustierung nach dem Listen-Umbau in Karte "Account Types"
+   (R3-rules-19): die erste Karte wurde 4px kuerzer, alle Ueberschriften ab
+   Badge 2 sassen dadurch 4,2px zu hoch. */
+@media (min-width: 1024px) {
+  .lvr-r3 .lvr-r3-head--dd { margin-top: 103px; }
+}
+
+/* R3-rules-30: Restliche harte Kanten an den Sektionsgrenzen r3/r4 und r6/r7
+   (Sprung -25 bzw. -23 von 255 am linken Rand, Referenz -0,4 bzw. -0,8).
+   Ursache: Kaans Sektions-Glows sind an der Unterkante noch deckend und werden
+   von overflow:hidden hart abgeschnitten. Nur die letzten 90px ausblenden -
+   keine Maske ueber die ganze Sektion. */
+@media (min-width: 1024px) {
+  .lvr-r3 .lvr-r3-glow,
+  .lvr-r4 .lvr-r4-glow,
+  .lvr-r5 .lvr-r5-glow,
+  .lvr-r6 .lvr-r6-glow,
+  .lvr-r7 .lvr-r7-glow,
+  .lvr-r8 .lvr-r8-glow,
+  .lvr-r9 .lvr-r9-glow {
+    -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0) 0, #000 90px, #000 calc(100% - 90px), rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(180deg, rgba(0,0,0,0) 0, #000 90px, #000 calc(100% - 90px), rgba(0,0,0,0) 100%);
+  }
+}
+
+/* ABNAHME-R3-rules-A2: Die blauen Teile der Ueberschriften stehen im Soll
+   schwerer als die weissen (Vertrag: weiss 500, blau 600). Kaans rules.css gibt
+   den Akzent-Spans nur den Verlauf, nicht das Gewicht - sie erben 500.
+   Nachgewiesen ueber die Wortbreiten (Schnipsel gegen Live-Render, 1760px):
+   weisse Woerter der gleichen Ueberschrift stimmen auf +-1 Prozent, die blauen
+   sind durchgehend zu schmal - 13 Sektionsueberschriften im Mittel -5,1 Prozent
+   (Streuung 0,8), H2 "Overview" -4,9, H1 "Every Rule." -6,0.
+   Gegenprobe im Haus: .lvf-s10-title-blue hat bereits font-weight 700 und misst
+   nur -2,2 Prozent - dort, wo das Gewicht gesetzt ist, stimmt die Breite. */
+body.page-id-8048 .lvr-r1 .lvr-r1-title-line--blue,
+body.page-id-8048 .lvr-r2 .lvr-r2-accent,
+body.page-id-8048 .lvr-r3 .lvr-r3-accent,
+body.page-id-8048 .lvr-r4 .lvr-r4-accent,
+body.page-id-8048 .lvr-r5 .lvr-r5-accent,
+body.page-id-8048 .lvr-r6 .lvr-r6-accent,
+body.page-id-8048 .lvr-r7 .lvr-r7-title-accent,
+body.page-id-8048 .lvr-r8 .lvr-r8-title-accent,
+body.page-id-8048 .lvr-r9 .lvr-r9-accent {
+  font-weight: 600;
+}
+
+/* ABNAHME-R3-rules-A3: R3-rules-17 hat .lvr-r1-pill von Kaans font-weight 550
+   auf 400 gesetzt, um den hellen Teil der Pillen-Beschriftung duenner zu machen.
+   Der Farbwert stimmt danach, die Laufweite nicht: gemessen sind die nicht
+   hervorgehobenen Woerter 10 bis 15 Prozent zu schmal ("Payout" Soll 42,2 /
+   Ist 37,0; "Access" Soll 45,8 / Ist 41,0), und der Pillen-Kasten insgesamt
+   34px (Soll x 350,6..1409,4 = 1058,8; Ist 367,0..1392,0 = 1025,0).
+   Die hervorgehobenen Woerter mit font-weight 600 stimmen dagegen ("10%"
+   Soll 23,2 / Ist 24,0). Farbe bleibt, nur das Gewicht geht zurueck.
+   Kaans Ausgangswert 550 laesst die Reihe an Kaans max-width-Deckel (1058px,
+   R3-rules-02) anstossen und auf zwei Zeilen umbrechen - die Seite wurde damit
+   51px hoeher (Pillenhoehe 42 + Luecke 9). Gemessen: 500 -> Kasten 1045,
+   525 -> 1051, 550 -> Umbruch. Gewaehlt 525: 7,8px unter dem Soll von 1058,8,
+   aber mit 7px Luft bis zum Umbruch. */
+body.page-id-8048 .lvr-r1 .lvr-r1-pill { font-weight: 525; }

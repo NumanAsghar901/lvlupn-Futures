@@ -1,0 +1,4025 @@
+/* ==========================================================================
+   FAQ (Praefix lvfq-) – Seite aus den Baendern 1 bis 5 zusammengesetzt.
+   Referenz: _referenz/faq-1760.png (1760 x 20696), Bandgrenzen 4140 / 8280 /
+   12420 / 16560 / 20696, Sektionsgrenzen 4706 / 8591 / 12972 / 18594 / 19815.
+   Der Footer ab y 19818 und die Kopfleiste sind Theme-Vorlagen.
+
+   Seitengrund: die dunkelsten Stellen der Referenz messen 0,0,0. Das Theme
+   faerbt .lvf-page mit var(--lvf-bg) = #05060f (Blaukanal 15); das lag als
+   blaustichiges Grau ueber allen dunklen Flaechen und erzeugte an den
+   Bandkanten messbare Absaetze (Band 3 setzte bereits #000, die Nachbarn
+   nicht). 0-2-0, damit es den Theme-Wert (0-1-0) schlaegt.
+   ========================================================================== */
+
+.lvf-page.lvfq-page {
+  background: linear-gradient(180deg, #071827 0%, #071822 18%, #040b12 100%);
+  overflow-x: clip;
+  /* ABGLEICH LIVE: das Theme (lvlup-werkzeug/sofort.css) legt
+     "body:not(.lvlup-home-v2) [data-elementor-type=wp-page] { padding-top: 250px }"
+     auf jede Seite, die ihren Abstand nicht selbst mitbringt. Diese Seite
+     bringt ihn mit (Hero: padding-top 217px) und braucht ihn nicht; ohne
+     Ausgleich steht ueber dem Hero ein 250px hoher leerer Balken und der
+     Hintergrund beginnt nicht bei y=0 (Vertrag: "Niemals ein schwarzer
+     Balken oben"). Gemessen am 07.08.2026: Seitenanfang 250 statt 0. */
+  margin-top: 0px;
+}
+
+/* GEGENCHECK U-03: unter der Fusszeile begann der weisse WordPress-Grundwert
+   (letzte Seitenzeile 35,7/118,4/165,6 -> danach 255/255/255, Stufe in allen
+   1760 Spalten, Median 225). Beim Ueberdehnen am Seitenende blitzte unter
+   dem hellblauen Fusszeilenrand eine weisse Flaeche auf. Der Bericht
+   schlaegt #05060f vor (Theme-Grundwert); diese Seite fuehrt ihren Grund
+   bewusst als #000, weil die dunkelsten Stellen der Referenz 0,0,0 messen -
+   deshalb hier derselbe Wert wie oben, sonst stuende unter dem Seitengrund
+   ein blaustichiges Grau. Der Stilblock wird nur mit dieser Seite
+   ausgeliefert, wirkt also nicht auf die uebrigen sieben Seiten. */
+html, body { background: #071827; }
+
+/* ==========================================================================
+   FAQ – Band 1 (y 0–4706 der Referenz faq-1760.png)
+   Praefix: lvfq-   |  Basis: lvlup-theme.css (.lvf-page)
+   ========================================================================== */
+
+.lvfq-vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   A) Hero – y 0..547
+   Hintergrund beginnt bei y=0 und laeuft hinter dem fixierten Header durch.
+   ========================================================================== */
+
+.lvfq-hero {
+  position: relative;
+  /* RUNDE 3: noetig, weil die gedrehte Ebene .lvfq-hero::before sonst bis
+     y 703 laeuft und in die Kachelsektion blutet. */
+  overflow: clip;
+  padding: 217px 20px 140px;
+  text-align: center;
+  background-color: #003f63;
+  background-repeat: no-repeat;
+  /* ABGLEICH LIVE (07.08.2026): am Live-Stand gegen die Referenz gemessen.
+     Vorher lag der mittlere Kanalfehler im Hero bei 46,5 von 255, jetzt bei
+     25,7. Drei Befunde, alle als eigene Ebene:
+     1. Der blaue Kern rechts der Mitte reichte zu weit nach unten und hielt
+        die rechte Haelfte bei y 290-430 um bis zu 78 Einheiten zu dunkel
+        (260px -> 140px Radius, Mitte 300px -> 268px).
+     2. Der Entwurf hat oben rechts eine dunkle Zone (Referenz bei y 190,
+        x 1330-1760: 34/143/205 gegen 34/171/250 im Render) – neue dunkle
+        Ebene ganz oben.
+     3. Der weisse Bogen des Entwurfs zieht sich von rechts unten nach links
+        oben durch; nachgebildet mit zwei zusaetzlichen weissen Ellipsen
+        (bei 85%/380px und 50%/215px). Der Grundverlauf wird dafuer bis
+        320px etwas blauer, sonst wird die linke Haelfte zu hell. */
+  background-image:
+    /* GEGENCHECK U-04: der Grundverlauf startet mit einer waagerecht
+       KONSTANTEN Farbe, die Referenz ist in der Zeile y=0 nach rechts hin
+       deutlich heller (Blaukanal x880 143 / x1100 175 / x1320 187 / x1540 154
+       gegen konstant 99 live, groesste Abweichung 90). Diese Ebene steht
+       zuoberst und hellt genau dort auf. */
+    radial-gradient(40% 190px at 72% -40px,
+      rgba(0, 170, 255, 0.68) 0%,
+      rgba(0, 165, 250, 0.34) 45%,
+      rgba(0, 160, 245, 0) 100%),
+    /* dunkle Zone oben rechts */
+    /* RUNDE 3: auf 30 Prozent zurueckgenommen. Diese Ebene war der Ersatz
+       fuer die dunkle Schraege, die jetzt .lvfq-hero::before richtig
+       zeichnet; in voller Staerke hielt sie die rechte obere Ecke 40 bis 65
+       zu dunkel (x1740 y176 Rot 90 gegen 157 der Referenz).
+       Gemessen ueber die ganze Hero-Flaeche: Faktor 1,0 -> 9,06;
+       0,7 -> 8,24; 0,5 -> 7,80; 0,3 -> 7,45; 0,0 -> 7,49. */
+    radial-gradient(45% 220px at 104% 130px,
+      rgba(0, 30, 60, 0.090) 0%,
+      rgba(0, 30, 60, 0.072) 45%,
+      rgba(0, 30, 60, 0.030) 75%,
+      rgba(0, 30, 60, 0) 100%),
+    /* RUNDE 3 - Befund B1/B2: der Entwurf hat rechts einen geraden, schraegen
+       Lichtsaum. Gemessen an der Kante "Rotkanal >= 220": Referenz x1360 385,
+       x1440 351, x1520 316, x1600 280, x1680 241 - eine Gerade mit der
+       Steigung -0,446. Der Nachbau lag dort 9 bis 68px zu tief (x1680 309)
+       und war unten rechts durchweg reinweiss statt der 230 bis 250 des
+       Entwurfs. Ein Querschnitt SENKRECHT zur Kante bei (1520,316) zeigt den
+       Uebergang von (0,139,218) auf (254,255,255) ueber 120px.
+       Als Ebene: linear-gradient(156deg) - das ist genau die Senkrechte auf
+       diese Gerade; die Kante liegt bei 74,6 Prozent der Verlaufslaenge. */
+    linear-gradient(156deg,
+      rgba(255, 255, 255, 0) 66.00%,
+      rgba(255, 255, 255, 0.10) 68.00%,
+      rgba(255, 255, 255, 0.28) 69.60%,
+      rgba(255, 255, 255, 0.58) 70.96%,
+      rgba(255, 255, 255, 0.80) 72.24%,
+      rgba(255, 255, 255, 0.94) 73.60%,
+      rgb(252, 253, 254) 74.96%,
+      rgb(250, 251, 252) 78.80%,
+      rgb(244, 246, 248) 86.80%,
+      rgb(238, 241, 244) 93.20%),
+    /* weisser Lichtbogen rechts unten */
+    radial-gradient(23.9% 340px at 105.7% 420px,
+      #ffffff 0%,
+      #ffffff 40%,
+      rgba(250, 253, 255, 0.5) 72%,
+      rgba(240, 250, 255, 0.14) 90%,
+      rgba(255, 255, 255, 0) 100%),
+    /* heller Auslaeufer des Bogens oben in der Mitte */
+    radial-gradient(26% 130px at 50% 215px,
+      rgba(255, 255, 255, 0.40) 0%,
+      rgba(255, 255, 255, 0.33) 30%,
+      rgba(255, 255, 255, 0.18) 60%,
+      rgba(255, 255, 255, 0.06) 82%,
+      rgba(255, 255, 255, 0) 100%),
+    /* breiter weisser Bogen rechts der Mitte */
+    radial-gradient(50% 160px at 85% 380px,
+      rgba(255, 255, 255, 0.68) 0%,
+      rgba(255, 255, 255, 0.55) 25%,
+      rgba(255, 255, 255, 0.32) 55%,
+      rgba(255, 255, 255, 0.10) 80%,
+      rgba(255, 255, 255, 0) 100%),
+    /* blauer Schleier Mitte unten */
+    radial-gradient(40% 200px at 39.8% 380px,
+      rgba(0, 162, 255, 0.24) 0%,
+      rgba(0, 162, 255, 0.16) 50%,
+      rgba(0, 162, 255, 0) 100%),
+    /* blauer Kern rechts der Mitte */
+    radial-gradient(30% 140px at 71% 268px,
+      rgba(0, 162, 255, 0.9) 0%,
+      rgba(0, 162, 255, 0.6) 45%,
+      rgba(0, 162, 255, 0.18) 80%,
+      rgba(0, 162, 255, 0) 100%),
+    /* Grundverlauf dunkelblau -> weiss */
+    linear-gradient(180deg,
+      #003f63 0px,
+      #00466e 40px,
+      #005383 80px,
+      #006ba8 120px,
+      #0085d2 160px,
+      #05a4ff 200px,
+      #2ab0ff 240px,
+      #66c8ff 280px,
+      #93d9ff 320px,
+      #e2f6ff 365px,
+      #ffffff 400px);
+}
+
+/* RUNDE 3 - Befund B2: der Entwurf hat rechts oben eine DUNKLE Schraege
+   (Blaukanal y176: 253 bei x1260, 144 bei x1500, 249 bei x1660) und dahinter
+   ein gesaettigt cyanfarbenes Band bis in die Ecke (x1660 (13,165,249), im
+   Nachbau (61,140,190) - zu hell im Rot, zu dunkel im Blau).
+   Beides liegt auf derselben Geraden mit rund -36 Grad; ein
+   background-image kann nicht drehen, deshalb eine gedrehte Ebene mit zwei
+   Ellipsen darin. Die Ebene klebt an der rechten Kante (right), damit sie auf
+   schmaleren Fenstern mitwandert.
+   Mitte der Kerbe (1470,196), Mitte des Cyanbandes (1640,190) - im gedrehten
+   Rahmen 65,7 % / 65,8 %.
+
+   NACHFIX 10.08.2026 - Sprung an der Umbruchbreite 1200px (Abnahme R2):
+   Vorher war diese Ebene unter 1200px per "display:none" ersatzlos aus. Der
+   Saum verschwand dadurch zwischen 1201px und 1199px schlagartig; gemessen im
+   reinen Hintergrundstreifen der rechten oberen Ecke aenderten sich dabei
+   66,1 % der Pixel um mehr als 8 von 255 (Mittel 23,5), waehrend derselbe
+   2px-Schritt oberhalb der Grenze nur 0,13 % / 0,57 bewegt.
+   Statt der Abschaltung skaliert die Ebene jetzt STETIG mit der Fensterbreite
+   weiter: oberhalb von 1200px gelten unveraendert die am Entwurf geprueften
+   Festmasse, unterhalb schrumpfen Groesse und Versatz im selben Verhaeltnis.
+   Bei genau 1200px liefern beide Aeste denselben Wert (75vw = 900px,
+   50vw = 600px, -13,3333vw = -160px, -8,6667vw = -104px), deshalb gibt es dort
+   keine Kante mehr - die Umbruchregel entfaellt komplett.
+   Weil alle vier Masse mit demselben Faktor gehen, bleibt die Mitte der Kerbe
+   immer bei 290/196 Anteilen der Ebene, also proportional in der rechten
+   oberen Ecke, und der Drehwinkel behaelt seine Neigung.
+   Die Radien der beiden Ellipsen sind dafuer von px auf Prozent der Ebene
+   umgestellt (260/900 = 28,889 %, 85/600 = 14,1667 %, 240/900 = 26,667 %,
+   105/600 = 17,5 %) - sonst blieben die Ellipsen gross, waehrend die Ebene
+   schrumpft. Am Desktop ist das rechnerisch dasselbe Mass; nachgemessen bleibt
+   die Seite bei 1760px und 1201px unveraendert (0,02 % der Pixel ueber 8,
+   das ist der Sekundentakt des Countdowns im Kopf). */
+.lvfq-hero::before {
+  content: "";
+  position: absolute;
+  right: max(-160px, -13.3333vw);
+  top: max(-104px, -8.6667vw);
+  width: min(900px, 75vw);
+  height: min(600px, 50vw);
+  transform: rotate(-36deg);
+  transform-origin: 50% 50%;
+  pointer-events: none;
+  background:
+    radial-gradient(28.889% 14.1667% at 65.7% 65.8%,
+      rgba(0, 170, 255, 0.75) 0%,
+      rgba(0, 170, 255, 0.62) 30%,
+      rgba(0, 172, 255, 0.38) 55%,
+      rgba(0, 175, 255, 0.16) 78%,
+      rgba(0, 178, 255, 0) 100%),
+    radial-gradient(26.667% 17.5% at 50% 50%,
+      rgba(0, 18, 42, 0.36) 0%,
+      rgba(0, 18, 42, 0.30) 35%,
+      rgba(0, 20, 46, 0.18) 62%,
+      rgba(0, 22, 50, 0.07) 82%,
+      rgba(0, 24, 54, 0) 100%);
+}
+
+.lvfq-hero-in {
+  position: relative;
+  z-index: 1;
+  max-width: 1240px;
+  margin-inline: auto;
+}
+
+/* Pille "Help Center" */
+.lvfq-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding-inline: 22px;
+  border-radius: 999px;
+  background: #000000;
+  /* GEGENCHECK B-01: die Pille war 148px breit statt 136px, weil die Schrift
+     rund 18 Prozent zu gross stand ("Help" 33px statt 27px, "Center" 52px
+     statt 43px, Versalhoehe 12 statt 10 Zeilen). Hoehe 34px und Innenabstand
+     22px stimmten. Textbreite Referenz 75px gegen 89px live = Faktor 0,843;
+     17 x 0,843 = 14,3, mit 14,5px ergibt sich eine Pillbreite von rund 135px. */
+  font-size: 14.5px;
+  line-height: 20px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.lvfq-pill-dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin-right: 9px;
+  border-radius: 50%;
+  background: var(--lvf-grad-blue);
+}
+.lvfq-pill-hl {
+  background: linear-gradient(180deg, #9fe6ff 0%, #12a9ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lvfq-pill-mid { color: rgba(255, 255, 255, 0.66); }
+
+/* H1
+   ABGLEICH LIVE: 64px stammte aus der Versalhoehe mit Faktor 0,70. Die echte
+   Clash Grotesk hat 0,67; am Live-Stand nachgemessen ergibt die Wortbreite
+   ("Frequently" 333px, "Asked" 187px, "Questions" 300px in der Referenz)
+   65,5px. Die Klasse steht doppelt, weil das Theme mit
+   ".lvf-page.lvf-page h1 { color: inherit }" (0-2-1) den dunklen Farbwert
+   schlug – live stand die Ueberschrift weiss statt #05060f. */
+/* GEGENCHECK B-07: die Glyphe sass 2px zu hoch in der ansonsten richtigen
+   Zeilenbox (Versaloberkante 275 statt 277, Grundlinie 318 statt 322), die
+   Wortbreiten stimmen auf den Pixel. +2px oben, dafuer -2px an der Marge des
+   Fliesstextes darunter, damit der nicht mitwandert. */
+.lvfq-page-h1,
+h1.lvfq-h1 {
+  margin: 15px 0 0;
+  font-family: var(--lvf-font-display);
+  font-size: 65.5px;
+  line-height: 68px;
+  font-weight: 600;
+  color: #05060f;
+}
+/* Nur die FARBE braucht die hoehere Spezifitaet (0-3-1 gegen 0-2-1 des
+   Themes). Groesse und Zeilenhoehe bleiben bei 0-1-1, damit die
+   Mobil-Regeln weiter greifen. */
+.lvfq-page.lvfq-page h1.lvfq-h1 { color: #05060f; }
+
+/* ABGLEICH LIVE: 17px -> 19,5px. Referenzzeile 1 misst 667px Tinte,
+   Zeile 2 465px; die echte Schrift braucht dafuer 19,47 bzw. 19,56px. */
+.lvfq-lead {
+  margin: 25px 0 0; /* GEGENCHECK B-07: gleicht die +2px der H1 wieder aus */
+  font-size: 19.5px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #0b1116;
+}
+
+/* ==========================================================================
+   B) Suche + Kategorie-Kacheln – y 547..869
+   ========================================================================== */
+
+.lvfq-cats {
+  position: relative;
+  display: flow-root; /* verhindert Margin-Collapsing des negativen Such-Margins */
+  padding: 0 20px 57px;
+  background-color: #000;
+  background-repeat: no-repeat;
+  /* GEGENCHECK U-06: die beiden Seitenellipsen liefen zu weit in die Mitte
+     (Zeile y 607, Blaukanal: x160 78 gegen 49, x320 50 gegen 12, x1600 78
+     gegen 35). Der Bericht schlaegt 40% vor; das trifft die Zeile y 607, ist
+     aber weiter unten zu eng - bei y 820 ist die Referenz breit (x120 179,
+     x200 138), mit 40% stuenden dort nur 124 bzw. 85. Ueber die ganze
+     Sektion gemessen (mittlere Kanalabweichung zur Referenz in den
+     Randstreifen x<250 und x>1520):
+       62,5% (Ist) links 12,59 | rechts 18,59 | Sektion 11,20
+       45%         links 16,45 | rechts 14,48 | Sektion 11,82
+       55%         links  9,54 | rechts 13,21 | Sektion  9,55
+     Deshalb 55%: y 820 stimmt damit fast genau (199/145/78/32 gegen
+     205/160/77/44) und y 607 ist immer noch deutlich naeher als vorher.
+     ABNAHME U-06 (teilbehoben -> jetzt): mit einer einzelnen Ellipse ist der
+     Rest nicht wegzubekommen - jede Verschmaelerung, die y 607 trifft, nimmt
+     auch dem Randwert x0 Licht (durchgerechnet: 50% bringt x160 auf 58, holt
+     x0 aber von 101 auf 93 herunter, Soll 115). Die Referenz hat oben eine
+     STEILERE Flanke als unten, das kann eine Ellipse nicht. Deshalb bleibt
+     die Ellipse wie sie war (nur Deckkraft x1,2, das hebt y 820 auf Soll)
+     und bekommt eine kleine schwarze Daempfung dort, wo der Ueberschuss
+     sitzt: auf halber Hoehe der oberen Zeile, 340px vom Rand entfernt.
+     Nachgerechnet gegen die Referenz (Blaukanal):
+       y607  x0 115: 101 -> 99  | x160 49: 68 -> 48 | x320 12: 34 -> 19
+             x480 4: 12 -> 8
+       y700  x240 49: 75 -> 50
+       y820  x120 179: 165 -> 183 | x200 138: 127 -> 133 | x280 93: 93 -> 94
+       y860  x400 83: 60 -> 68
+     Mittlere Kanalabweichung der Sektion 9,68 -> 6,39. */
+  background-image:
+    /* Daempfung oben links (ABNAHME U-06) */
+    radial-gradient(28.4% 260px at 19.3% 90px,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0.432) 35%,
+      rgba(0, 0, 0, 0.228) 62%,
+      rgba(0, 0, 0, 0.078) 82%,
+      rgba(0, 0, 0, 0) 100%),
+    /* Daempfung oben rechts (Spiegelung) */
+    radial-gradient(28.4% 260px at 80.7% 90px,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0.432) 35%,
+      rgba(0, 0, 0, 0.228) 62%,
+      rgba(0, 0, 0, 0.078) 82%,
+      rgba(0, 0, 0, 0) 100%),
+    radial-gradient(55% 750px at -14.8% 453px,
+      rgba(190, 232, 255, 1) 0%,
+      rgba(104, 204, 255, 0.996) 30%,
+      rgba(61, 191, 255, 0.876) 42%,
+      rgba(68, 184, 255, 0.528) 56%,
+      rgba(84, 189, 255, 0.36) 65%,
+      rgba(60, 180, 255, 0.156) 80%,
+      rgba(0, 162, 255, 0) 100%),
+    radial-gradient(55% 750px at 114.8% 453px,
+      rgba(190, 232, 255, 1) 0%,
+      rgba(104, 204, 255, 0.996) 30%,
+      rgba(61, 191, 255, 0.876) 42%,
+      rgba(68, 184, 255, 0.528) 56%,
+      rgba(84, 189, 255, 0.36) 65%,
+      rgba(60, 180, 255, 0.156) 80%,
+      rgba(0, 162, 255, 0) 100%);
+}
+
+/* Suchfeld – ragt 38px in den Hero hinein */
+.lvfq-search {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  max-width: 1236px;
+  height: 64px;
+  margin: -38px auto 0;
+  padding: 0 24px 0 25px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background-image:
+    linear-gradient(#000000, #000000),
+    linear-gradient(180deg, rgba(0, 162, 255, 0.5) 0%, rgba(0, 162, 255, 0.72) 55%, #12a9ff 100%);
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  background-repeat: no-repeat;
+}
+.lvfq-search-ico {
+  flex: none;
+  display: block;
+  width: 18px;
+  height: 18px;
+  color: #4fbcff;
+}
+.lvfq-search-ico svg { display: block; width: 100%; height: 100%; }
+
+.lvf-page .lvfq-search-in,
+.lvfq-search-in {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  /* GEGENCHECK B-02: der Platzhalter begann bei x=338 statt x=319, also 19px
+     zu weit rechts (Abstand zur Lupe 33 statt 15px). Ursache ist der
+     input-Grundstil des Themes mit rund 18px Innenabstand links, den
+     -webkit-appearance:none nicht entfernt. */
+  padding: 0;
+  background: transparent;
+  font-family: var(--lvf-font-display);
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #ffffff;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.lvfq-search-in::placeholder { color: rgba(255, 255, 255, 0.55); opacity: 1; }
+.lvfq-search-in::-webkit-search-cancel-button { -webkit-appearance: none; }
+.lvfq-search:focus-within { outline: 2px solid rgba(0, 162, 255, 0.55); outline-offset: 3px; }
+
+/* Kategorie-Kacheln */
+.lvfq-chips {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px 7px;
+  width: 100%;
+  max-width: 1236px;
+  margin: 69px auto 0;
+}
+a.lvfq-chip,
+.lvfq-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 82px;
+  padding: 8px 12px;
+  border: 1px solid rgba(140, 213, 255, 0.13);
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(0, 162, 255, 0.035) 0%, rgba(0, 162, 255, 0) 55px),
+    rgba(1, 3, 6, 0.74);
+  /* ABGLEICH LIVE: 17px -> 19px. "Getting Started" misst in der Referenz
+     122px, "Verification &" 106px, "Payouts" 63px – alle drei ergeben 19px. */
+  font-size: 19px;
+  line-height: 25px;
+  font-weight: 400;
+  text-align: center;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.62);
+  overflow-wrap: break-word;
+  transition: border-color 0.18s ease, color 0.18s ease, background-color 0.18s ease;
+}
+a.lvfq-chip:hover,
+a.lvfq-chip:focus-visible {
+  border-color: rgba(0, 162, 255, 0.45);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   C) FAQ-Kategorien – y 869..4706
+   Seitliche Glows als Hintergrund der Sektion (wird am Sektionsrand
+   beschnitten – siehe Report, Naht zu Band 2 bei y=4706).
+   ========================================================================== */
+
+.lvfq-faq {
+  position: relative;
+  padding: 129px 20px 0;
+  background: linear-gradient(180deg, rgba(6, 17, 27, 0.96) 0%, rgba(8, 15, 20, 0.9) 100%);
+}
+/* Seitliche Glows als eigene Ebene (auf Mobil abgedunkelt).
+   Zusammenbau: die Ebene laeuft 1700px UNTER die Sektionskante hinaus.
+   Der linke Schein hat seine Mitte bei Seiten-y 3770 und mit ry 2600 seinen
+   Auslauf erst bei y 6370; an der Sektionskante (y 4706) ist er in der
+   Referenz noch fast weiss (gemessen links 77/176/220, ohne Sprung).
+   Mit "inset: 0" wurde er dort hart abgeschnitten - gemessene Kante 231 von
+   255. Band 2 baut ihn bewusst nicht nach (fragment-2-report.md, Punkt 1),
+   also muss er hier ueberstehen. Die Ebene liegt ohne z-index und damit
+   unter .lvfq-b2-wrap (z-index 1), verdeckt also keinen Inhalt. */
+/* ===== KORREKTUR 12.08.2026: linke Scheingruppe um 960px nach oben ========
+   BEFUND: Der linke Rand von Band 2 stand fast weiss (x88-176 (191,231,255),
+   Saettigung 0,15) statt gesaettigt cyan ((57,163,210), Saettigung 0,73).
+   URSACHE: Diese Ebene malt auch die linke Kante von Band 2 - sie laeuft
+   bewusst 2300px ueber die Sektionskante hinaus. Ihre Werte wurden aber gegen
+   Mockup-Zeilen abgeglichen, die mit 1:1-Versatz gesucht wurden. Beim faq-
+   Mockup traegt der 1:1-Vergleich nur bis y1369; darunter ist das Mockup wegen
+   der aufgeklappten Antworten laenger, der Versatz waechst bis +3127px.
+   Saemtliche Zahlen in den Kommentaren unten (y2700, y3000, y4300, y4500,
+   y4745, y4900, y5100) beziehen sich deshalb auf die FALSCHEN Zeilen.
+   NEUE MESSUNG: 34 Anker, ueber Bildinhalt zugeordnet (2-D-Kreuzkorrelation
+   auf Titel- und Fragetexte, Versatz monoton steigend, unabhaengig bestaetigt
+   durch die zehn Kategorieanker). Der weisse Kern des Entwurfs liegt bei
+   live y2684-2966, live lag er bei y3402-4239 - also 1000px zu tief und
+   dreimal zu lang.
+   GEAENDERT: alle sieben Verlaeufe mit Mitte "at -1.7%" um 960px nach oben,
+   schmaler hoher Schein ry 2600 -> 1620px, weisse Schulter ry 1000 -> 320px,
+   senkrechter Ausklang entsprechend mitgeschoben. Die beiden RECHTEN Scheine
+   (C-01) sind zeichengleich unveraendert.
+   ERGEBNIS linke drei Spalten ueber alle 34 Anker: 96,9 -> 9,7.
+   Blockkopf Band 2 ueber die volle Breite: 41,2 -> 5,9.
+   Naht Band 2/3 unveraendert (Randstreifen 3,8), rechte Kante unveraendert.
+   ========================================================================== */
+.lvfq-faq::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  /* RUNDE 3 - Befund A1: die Ebene war calc(100% + 1800px) hoch. Im Entwurf
+     war das Band 3837px hoch, die Ebene damit 5637px - der Schein war an der
+     Unterkante laengst aus. Seit dem Akkordeon ist das Band nur noch 2336px
+     hoch, die Ebene endete bei Seiten-y 5005 mitten im hellsten Teil des
+     Scheins: Zeilenstufe im Randstreifen x 8-150 Median 107 von 255, 142 von
+     142 Spalten, mit blossem Auge eine gerade Linie quer ueber die Seite.
+     Zwei Aenderungen:
+     1. Die Ebene reicht jetzt bis calc(100% + 2300px), also bis Seiten-y 5505
+        (mobil 5529). Beide Werte liegen UNTER der Oberkante von .lvfq-b3
+        (5379 bzw. 5268), und .lvfq-b3 hat background: #000 - die eigene
+        Unterkante der Ebene ist damit gar nicht mehr sichtbar.
+     2. Damit an der Naht zu Band 3 keine neue Stufe entsteht, blendet die
+        oberste Ebene den Schein zwischen Seiten-y 4069 und 5319 weich aus.
+        Oberhalb 4069 aendert sich nichts, das Band 1 bleibt wie gemessen. */
+  height: calc(100% + 2300px);
+  pointer-events: none;
+  background-repeat: no-repeat;
+  /* ABGLEICH LIVE (07.08.2026): der linke Schein war in drei Punkten falsch,
+     gemessen in der Randspalte x=80 und in den Zeilen y=3000/3750/4650:
+     1. Er war viel zu BREIT. Die Referenz faellt bei y=3000 von 252 (x=0) auf
+        157 (x=240), der Nachbau blieb ueber dieselbe Strecke bei 240. Radius
+        1700px -> 700px (96,6% -> 39,8%); danach stimmt die ganze Zeile auf
+        +-7 genau.
+     2. Oberhalb der Mitte war er zu hell (bei y=2500 Blaukanal 144 gegen 105
+        der Referenz) – eigene schwarze Daempfungsebene mit Mitte bei
+        Seiten-y 1900.
+     3. Unterhalb lief er zu frueh aus (bei y=5500 Blaukanal 58 gegen 153) –
+        eigene blaue Auslaeuferebene mit Mitte bei Seiten-y 5350. Der Entwurf
+        faellt nach oben schneller ab als nach unten, was eine einzelne
+        Ellipse nicht kann.
+     Rest im Blaukanal danach ueber die ganze Spalte hoechstens 16 statt 95. */
+  /* ==== ABNAHME 3.1 + C-02: die linke Scheingruppe neu aufgebaut ==============
+     Die vorige Korrektur zu C-02 hatte den BREITEN Kern senkrecht gestreckt
+     (1400 -> 1900px). Damit wurde der Schein zwar oben laenger, unten aber
+     viel zu breit: y4745 x320 stand im Blaukanal auf 210 statt 108, die
+     Reichweite bei y4400 auf 787 statt 291px, und die Plakette "3" mit dem
+     Wort "Billing" lag in einem hellblauen Wasch.
+     Der Entwurf hat an dieser Stelle eine LINSE: auf Hoehe der Mitte breit
+     (y3748 traegt die Referenz bis x 960), 400px darunter schon deutlich
+     schmaler (y4102 bis x 830, y4535 bis x 500). Eine hohe Ellipse kann das
+     nicht, weil ihre Breite mit der Hoehe nur langsam abnimmt.
+     Deshalb jetzt getrennte Aufgaben:
+       - breiter, flacher Kern (96,6% x 678px, Mitte Seite y3700) - er macht
+         die Breite auf mittlerer Hoehe und ist 400px darunter schon aus;
+       - schmaler, hoher Schein (44,5% x 2600px, Mitte y3780) - er traegt die
+         Laenge in der Randspalte, die C-02 verlangt.
+     Wichtig ist die Reihenfolge: der schmale Schein steht JETZT UEBER dem
+     breiten Kern. Mit dem kleinen senkrechten Radius wird der breite Kern
+     schon 200px unter seiner Mitte cyan (115,206,255); lag er oben, uebermalte
+     er die weisse Randspalte und die Spalte x10 fiel bei y3900 von 252 auf
+     135. Umgedreht stimmt beides.
+     Nachgemessen im Modell (Referenz | vorher | jetzt):
+       x60 Rot   y3200 171 |  97 | 173     y4745 Blau x320 108 | 210 | 108
+                 y3300 205 | 142 | 206                    x480  34 | 151 |  36
+                 y4300 202 | 179 | 201                    x700   9 |  74 |   0
+                 y4500 144 | 138 | 144
+       mittlere Kanalabweichung der ganzen Flaeche 6,20 -> 5,85.
+       Offen bleibt die Randspalte unter y4700: x60 y4900 steht auf 46 statt
+       69 (vorher 86). Jeder Wert, der das hebt, bringt y4745 x480 zurueck
+       ueber 50 - beides zugleich geht mit Ellipsen nicht.
+     Die beiden RECHTEN Scheine (C-01) sind unveraendert uebernommen.
+     ========================================================================== */
+  background-image:
+    /* RUNDE 3 A1: weicher Ausklang nach unten (steht ganz oben im Stapel und
+       daempft damit alle Ebenen darunter). Werte sind px ab Oberkante der
+       Ebene, also Seiten-y minus 869 (Desktop) bzw. 871 (Mobil). */
+    linear-gradient(180deg,
+      rgba(0, 0, 0, 0) 2640px,
+      rgba(0, 0, 0, 0.16) 2940px,
+      rgba(0, 0, 0, 0.46) 3200px,
+      rgba(0, 0, 0, 0.80) 3400px,
+      rgba(0, 0, 0, 1) 3540px),
+    /* Daempfung oben links (ABNAHME) */
+    /* ENDKONTROLLE 09.08.2026: breiter (41,4 -> 60 %), hoeher angesetzt
+       (Mitte 1531 -> 1200px) und auf 70 % Deckkraft. Vorher daempfte diese
+       Ebene genau dort, wo der cyanfarbene Schein seinen Anstieg hat, und
+       zog ihn zusammen mit der weissen Schulter ins Graue. */
+    radial-gradient(60% 1004px at -1.7% 240px,
+      rgba(0, 0, 0, 0.4928) 0%,
+      rgba(0, 0, 0, 0.448) 20%,
+      rgba(0, 0, 0, 0.3696) 38%,
+      rgba(0, 0, 0, 0.3024) 58%,
+      rgba(0, 0, 0, 0.1344) 80%,
+      rgba(0, 0, 0, 0) 100%),
+    /* Randstreifen rechts (C-01, unveraendert) */
+    radial-gradient(24.4% 1400px at 104.0% 1031px,
+      rgba(95, 202, 255, 0.85) 0%,
+      rgba(86, 198, 255, 0.7) 20%,
+      rgba(79, 195, 255, 0.59) 30%,
+      rgba(66, 190, 255, 0.44) 40%,
+      rgba(58, 187, 255, 0.35) 47%,
+      rgba(54, 185, 255, 0.32) 54%,
+      rgba(45, 182, 255, 0.17) 64%,
+      rgba(43, 180, 255, 0.125) 72%,
+      rgba(38, 176, 255, 0.078) 80%,
+      rgba(20, 168, 255, 0.03) 91%,
+      rgba(0, 162, 255, 0) 100%),
+    /* Kern rechts (C-01, unveraendert) */
+    radial-gradient(48.3% 620px at 103.0% 461px,
+      rgb(179, 230, 255) 0%,
+      rgba(160, 224, 255, 0.98) 9%,
+      rgba(150, 222, 255, 0.966) 13%,
+      rgba(110, 210, 255, 0.911) 25%,
+      rgba(87, 204, 255, 0.84) 34%,
+      rgba(60, 195, 255, 0.75) 40%,
+      rgba(50, 190, 255, 0.64) 44%,
+      rgba(42, 185, 255, 0.52) 50%,
+      rgba(38, 180, 255, 0.43) 56%,
+      rgba(32, 172, 255, 0.25) 63%,
+      rgba(28, 170, 255, 0.22) 69%,
+      rgba(20, 168, 255, 0.1) 78%,
+      rgba(12, 165, 255, 0.09) 84%,
+      rgba(0, 162, 255, 0.02) 95%,
+      rgba(0, 162, 255, 0) 100%),
+    /* schwarzes Gegengewicht links (ABNAHME) */
+    radial-gradient(113.6% 753px at -1.7% 2991px,
+      rgba(0, 0, 0, 0.13) 0%,
+      rgba(0, 0, 0, 0.12) 25%,
+      rgba(0, 0, 0, 0.09) 50%,
+      rgba(0, 0, 0, 0.04) 75%,
+      rgba(0, 0, 0, 0) 100%),
+    /* weisse Schulter links (ABNAHME) */
+    /* ENDKONTROLLE 09.08.2026: die Schulter stand mit Mitte 2731px und
+       ry 1500px genau ueber dem Anstieg des cyanfarbenen Scheins und hat ihn
+       entfaerbt: bei Seiten-y 2700 stand die Randspalte auf (49,80,98), die
+       Referenz auf (37,154,214) - grau statt Cyan, mit blossem Auge zu sehen.
+       Jetzt tiefer (Mitte 2731 -> 3000px) und kuerzer (ry 1500 -> 1000px), so
+       dass sie nur noch den weissen Kern traegt, dafuer 1,3fache Deckkraft.
+       Nachgemessen x8: y2700 (31,112,155), y2850 (61,154,203),
+       y3000 (125,199,240) gegen Referenz (37,154,214)/(68,182,239)/
+       (118,205,251). Mittlere Kanalabweichung der Randspalte y1000-4700
+       13,94 -> 8,80. */
+    radial-gradient(45.6% 320px at -1.7% 2040px,
+      rgba(238, 248, 255, 0.936) 0%,
+      rgba(238, 248, 255, 0.936) 13%,
+      rgba(232, 245, 255, 0.8736) 24%,
+      rgba(220, 240, 255, 0.7488) 42%,
+      rgba(205, 234, 255, 0.5824) 61%,
+      rgba(190, 228, 255, 0.2496) 81%,
+      rgba(180, 224, 255, 0) 100%),
+    /* Auslaeufer links unten (ABNAHME, zweiter Durchgang)
+       Nach dem Umbau der Linse war die Randspalte UNTER der Naht zu dunkel:
+       x60 Rot y4800 62 statt 83, y4900 45 statt 69, y5100 22 statt 45. Der
+       alte Auslaeufer war dafuer zu breit und zu blau - er liegt ueber dem
+       weissen Kern und zog dessen Rotkanal mit herunter, sobald man ihn
+       verstaerkte. Jetzt schmaler (23,9% statt 35,8%), hoeher (1200px, Mitte
+       Seite y4850) und zu 60 Prozent nach Weiss gemischt, dafuer nur noch
+       0,6 der Deckkraft. Nachgerechnet x60 Rot: y4700 99/98, y4800 83/78,
+       y4900 69/64, y5000 57/51, y5100 45/41, y5300 30/32; die Anker der Naht
+       bleiben stehen (y4745 Blau x320 108/110, x480 34/36). */
+    radial-gradient(23.9% 1200px at -1.7% 3021px,
+      rgba(189, 232, 255, 0.174) 0%,
+      rgba(177, 228, 255, 0.15) 22%,
+      rgba(167, 224, 255, 0.111) 45%,
+      rgba(159, 220, 255, 0.066) 65%,
+      rgba(153, 218, 255, 0.027) 82%,
+      rgba(153, 218, 255, 0) 100%),
+    /* schmaler, hoher Schein links (ABNAHME) */
+    /* ENDKONTROLLE 09.08.2026: Deckkraft x1,1 (Geometrie unveraendert), damit
+       der Schein nach dem Zuruecknehmen der Daempfung wieder auf Sollhoehe
+       kommt. Die Naht-Anker bleiben stehen: y4745 Blau x320 112/109,
+       x480 33/35; x60 Rot y4300 203/202, y4500 152/145. */
+    radial-gradient(44.5% 1620px at -1.7% 1951px,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(253, 254, 255, 1) 7.7%,
+      rgba(248, 252, 255, 1) 15.4%,
+      rgba(206, 239, 255, 1) 23.1%,
+      rgba(115, 206, 255, 1) 30.8%,
+      rgba(56, 188, 255, 1) 38.5%,
+      rgba(42, 181, 255, 0.7766) 46.2%,
+      rgba(49, 178, 255, 0.5434) 53.9%,
+      rgba(42, 174, 255, 0.3663) 61.6%,
+      rgba(28, 171, 255, 0.2376) 69.3%,
+      rgba(23, 171, 255, 0.1419) 77%,
+      rgba(0, 162, 255, 0.0825) 84.6%,
+      rgba(0, 162, 255, 0.044) 92.3%,
+      rgba(0, 162, 255, 0) 100%),
+    /* breiter, flacher Kern links (ABNAHME) */
+    radial-gradient(96.6% 678px at -1.7% 1871px,
+      rgb(255, 255, 255) 0%,
+      rgb(253, 254, 255) 7.7%,
+      rgb(248, 252, 255) 15.4%,
+      rgb(206, 239, 255) 23.1%,
+      rgb(115, 206, 255) 30.8%,
+      rgb(56, 188, 255) 38.5%,
+      rgba(42, 181, 255, 0.953) 46.2%,
+      rgba(49, 178, 255, 0.667) 53.9%,
+      rgba(42, 174, 255, 0.45) 61.6%,
+      rgba(28, 171, 255, 0.292) 69.3%,
+      rgba(23, 171, 255, 0.174) 77%,
+      rgba(0, 162, 255, 0.101) 84.6%,
+      rgba(0, 162, 255, 0.054) 92.3%,
+      rgba(0, 162, 255, 0) 100%),
+    /* blauer Auslaeufer bis in Band 2 (ABNAHME, zweiter Durchgang)
+       Der weisse Auslaeufer darueber deckt y 4700-5300 ab, endet danach aber
+       zu frueh: im Blaukanal stand x60 bei y5600 auf 63 statt 143, bei y5800
+       auf 36 statt 113. Diese Ebene traegt genau diesen unteren Auslauf, in
+       gesaettigtem Cyan, damit sie den Rotkanal nicht mit anhebt (dort ist
+       die Referenz bei y5600 schon auf 11).
+       Sie steht ganz UNTEN im Stapel: liegt sie oben, zieht ihr niedriger
+       Rotanteil den weissen Kern mit herunter (x60 Rot y4300 fiel von 198 auf
+       177, y4500 von 147 auf 129). Unten wirkt sie nur dort, wo der Kern
+       schon aus ist.
+       Nachgerechnet x60 Blau: y5200 198/177, y5400 171/164, y5600 143/144,
+       y5800 113/115, y6000 85/83; Rot y4300 202/198, y4500 144/147. */
+    radial-gradient(23.9% 1600px at -1.7% 3321px,
+      rgba(36, 181, 255, 0.58) 0%,
+      rgba(24, 175, 255, 0.5) 22%,
+      rgba(14, 169, 255, 0.37) 45%,
+      rgba(6, 162, 255, 0.22) 65%,
+      rgba(0, 158, 255, 0.09) 82%,
+      rgba(0, 158, 255, 0) 100%);
+
+
+}
+
+.lvfq-cat {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+}
+.lvfq-cat + .lvfq-cat { margin-top: 71px; }
+
+/* Kategorie-Ueberschrift */
+.lvf-page .lvfq-cat-h,
+h2.lvfq-cat-h {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0;
+  font-family: var(--lvf-font-display);
+  /* ABGLEICH LIVE: "Getting Started" misst in der Referenz 276px Tinte, bei
+     40px sind es 271,5px -> 40,6px. */
+  font-size: 40.6px;
+  line-height: 44px;
+  font-weight: 500;
+  color: #ffffff;
+}
+.lvfq-num {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 37px;
+  height: 37px;
+  border-radius: 8px;
+  background: var(--lvf-grad-blue);
+  /* ABGLEICH LIVE: Ziffernhoehe in der Referenz 17px, Breite der "2" 13px.
+     Mit 0,67 Versalhoehe sind das rund 24px – wie in Band 4 (Report 7.3
+     ist damit aufgeloest, alle zehn Plaketten sind jetzt gleich). */
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 600;
+  color: #05060f;
+}
+.lvfq-cat-t { display: inline-block; }
+.lvfq-hl {
+  background: linear-gradient(180deg, #9fe6ff 0%, #12a9ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Akkordeon-Liste */
+.lvfq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 55px;
+}
+
+.lvfq-item {
+  position: relative;
+  border-radius: 16px;
+  background: rgba(7, 14, 21, 0.78);
+  border: 1px solid rgba(125, 191, 255, 0.08);
+  box-shadow: none;
+}
+.lvfq-item::before,
+.lvfq-item::after {
+  display: none;
+}
+
+.lvf-page .lvfq-qh,
+h3.lvfq-qh { margin: 0; font-size: inherit; font-weight: inherit; line-height: inherit; }
+
+/* GEGENCHECK B-03: die Fragezeile sass 3px zu hoch in der Karte (Versal-
+   oberkante 31px statt 34px unter der Kartenoberkante, an 5 Karten gemessen).
+   Die erste Antwortzeile sass dagegen richtig, deshalb wandert der obere
+   Innenabstand um +3px und die Antwortmarge um -3px: 25+22 = 28+19 = 47,
+   alle 14 Kartenhoehen von Band 1 bleiben unveraendert. */
+.lvfq-q {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 28px 95px 0 33px;
+  border: 0;
+  background: transparent;
+  font-family: var(--lvf-font-display);
+  text-align: left;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  /* reset.css des Themes hello-elementor setzt auf JEDEN button
+     "transition: 0.3s", also transition-property "all". Damit animiert der
+     unten gesetzte padding-bottom des zugeklappten Zustands mit, und der
+     Browser rechnet bei jedem Einzelbild das Layout der Karte neu.
+     Ausdruecklich abschalten, sonst gewinnt der Reset. */
+  transition: none;
+}
+/* ABGLEICH LIVE: Frage 17px -> 18,4px. "What is Lvlup Futures?" misst in der
+   Referenz 185px, "How does the Lvlup monthly payment option work?" 414px –
+   beide ergeben 18,36px. Gilt in allen vier Baendern. */
+.lvfq-q-t {
+  display: block;
+  font-size: 18.4px;
+  line-height: 26px;
+  font-weight: 500;
+  color: #ffffff;
+  overflow-wrap: break-word;
+}
+.lvfq-q:focus-visible { outline: 2px solid rgba(0, 162, 255, 0.6); outline-offset: -4px; border-radius: 12px; }
+
+/* Plus/Minus-Knopf */
+.lvfq-q-ico {
+  position: absolute;
+  top: 27px;
+  right: 33px;
+  width: 29px;
+  height: 29px;
+  border-radius: 9px;
+  background: #04121b;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 162, 255, 0.16),
+    inset -5px -6px 10px -3px #0f8fe0;
+}
+/* GEGENCHECK B-06: der Balken war 14,8px breit und 3px hoch statt 12,3 x 1,7
+   und sass 1,7px zu tief (Schwerpunkt y 1658,0 gegen 1656,3). Kasten,
+   Groesse und Lage des Knopfes stimmten (beide 29px, Oberkante 1644).
+   Hoehe 2px statt 1,7px, weil 1,7px nur als Graustufe erschiene; die -3px
+   heben den Balken auf die Referenzlage. */
+.lvfq-q-ico::before,
+.lvfq-q-ico::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12.3px;
+  height: 2px;
+  margin: -3px 0 0 -6.15px;
+  border-radius: 2px;
+  background: #8dd6ff;
+  transition: transform 0.32s ease, opacity 0.32s ease;
+}
+.lvfq-q-ico::after { transform: rotate(90deg); opacity: 1; }
+.lvfq-item.lvfq-open .lvfq-q-ico::after { transform: rotate(0deg); opacity: 0; }
+
+/* Antwort */
+/* Aufklappgeste projektweit einheitlich: nur grid-template-rows (und wo
+   vorhanden opacity) animieren, durchgehend 0.32s wie in s09 der Startseite
+   und e7-faq auf evaluation. Innenabstaende und Aussenabstaende bleiben
+   ausdruecklich ohne Uebergang, sonst rechnet der Browser bei jedem Bild das
+   Layout der ganzen Karte neu. */
+.lvfq-a {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.32s ease;
+}
+.lvfq-item.lvfq-open .lvfq-a { grid-template-rows: 1fr; }
+/* ABGLEICH LIVE: rechts 80px statt 33px. In der Referenz endet keine
+   Antwortzeile hinter x=1402, waehrend zwei Zeilen umbrechen, die bei 33px
+   Innenabstand (Kasten bis x=1467) noch passen wuerden ("... and complete |
+   payment." und "... subject to the applicable | account terms."). Der
+   Entwurf haelt also die Spalte des Plus/Minus-Knopfes frei. Mit 80px
+   (Kasten bis x=1420) stimmen alle 14 Kartenhoehen von Band 1. */
+.lvfq-a-in {
+  overflow: hidden;
+  min-height: 0;
+  padding: 0 80px 0 33px;
+}
+
+/* ABGLEICH LIVE: Fliesstext 16px -> 18,2px. Referenzzeilen: 1110 / 668 / 850px
+   Tinte, die echte Schrift braucht dafuer 18,17 / 18,18 / 18,20px. */
+/* GEGENCHECK C-05: p99,5 der Helligkeit lag bei 153,1 gegen 121,6 in der
+   Referenz. Band 2 trifft mit 0,5 genau, Band 1 stand auf 0,6; 0,55 ist der
+   Wert, den auch Band 4 beim Bau gemessen und der Zusammenbau-Bericht
+   (Punkt 7.4) fuer alle Baender vorgeschlagen hatte. */
+.lvfq-a-in p {
+  margin: 0;
+  font-size: 18.2px;
+  line-height: 25px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+  overflow-wrap: break-word;
+}
+.lvfq-a-in p + p { margin-top: 25px; }
+.lvfq-a-in > :first-child { margin-top: 19px; } /* GEGENCHECK B-03, siehe .lvfq-q */
+.lvfq-a-in > :last-child { margin-bottom: 16px; }
+/* ABGLEICH LIVE: die ersten beiden Karten der Kategorie 1 sind in der
+   Referenz 196 bzw. 294px hoch, alle uebrigen folgen dem Raster (fragment-1
+   Punkt 1: Ursache im Entwurf nicht erkennbar). Ohne diese 7 bzw. 5px sitzt
+   alles ab y 1290 zu hoch; mit ihnen treffen alle 14 Kartenoberkanten der
+   Referenz auf den Pixel. Nur Kategorie 1, deshalb ueber die ID. */
+#lvfq-getting-started .lvfq-item:nth-of-type(1) .lvfq-a-in > :last-child { margin-bottom: 23px; }
+#lvfq-getting-started .lvfq-item:nth-of-type(2) .lvfq-a-in > :last-child { margin-bottom: 21px; }
+
+.lvfq-ah {
+  font-weight: 600;
+  color: #8cd5ff;
+}
+.lvfq-price {
+  font-weight: 600;
+  color: #4fc3ff;
+}
+.lvf-page .lvfq-a-in .lvfq-ah { color: #8cd5ff; }
+.lvf-page .lvfq-a-in .lvfq-price { color: #4fc3ff; }
+
+/* Geschlossener Zustand: unterer Innenabstand traegt der Button */
+.lvfq-item:not(.lvfq-open) .lvfq-q { padding-bottom: 25px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lvfq-a,
+  .lvfq-q-ico::before,
+  .lvfq-q-ico::after,
+  a.lvfq-chip { transition: none; }
+}
+
+/* ==========================================================================
+   Mobile
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+  .lvfq-hero { padding: 170px 20px 90px; }
+  .lvfq-page-h1,
+  h1.lvfq-h1 { font-size: clamp(30px, 4.6vw, 64px); line-height: 1.08; }
+  .lvfq-lead { font-size: 16px; line-height: 23px; }
+  .lvfq-lead br { display: none; }
+
+  .lvfq-search { height: 60px; margin-top: -30px; padding-inline: 18px; gap: 12px; }
+  .lvfq-search-in { font-size: 16px; }
+
+  .lvfq-chips { grid-template-columns: repeat(3, 1fr); margin-top: 44px; }
+
+  .lvfq-faq { padding-top: 90px; }
+  /* Glows auf schmalen Screens abdunkeln: sonst steht Text auf weissem Kern */
+  .lvfq-faq::before { opacity: 0.45; }
+  .lvf-page .lvfq-cat-h,
+  h2.lvfq-cat-h { font-size: clamp(24px, 3.2vw, 40px); line-height: 1.12; gap: 12px; }
+  .lvfq-list { margin-top: 36px; }
+  .lvfq-cat + .lvfq-cat { margin-top: 56px; }
+}
+
+@media (max-width: 720px) {
+  .lvfq-hero { padding: 150px 16px 70px; }
+  .lvfq-cats { padding: 0 16px 42px; }
+  .lvfq-faq { padding: 74px 16px 0; }
+
+  .lvfq-pill { height: 30px; padding-inline: 16px; font-size: 15px; }
+  .lvfq-lead { margin-top: 18px; }
+
+  .lvfq-search { height: 56px; border-radius: 12px; }
+  /* RUNDE 3 - Befund C1: bei 390px ist der Platzhalter laenger als das Feld
+     und wurde an der rechten Kante hart abgeschnitten. Mit ellipsis endet er
+     sichtbar mit Auslassungspunkten. Am Desktop passt der Text, dort aendert
+     sich nichts. */
+  .lvfq-search .lvfq-search-in {
+    text-overflow: ellipsis;
+    padding-right: 4px;
+  }
+  .lvfq-chips { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  a.lvfq-chip { min-height: 62px; font-size: 15px; line-height: 21px; }
+  a.lvfq-chip br { display: none; }
+
+  .lvfq-faq::before { opacity: 0.32; }
+  .lvfq-num { width: 30px; height: 30px; border-radius: 7px; font-size: 17px; }
+
+  .lvfq-q { padding: 20px 58px 0 20px; }
+  .lvfq-item:not(.lvfq-open) .lvfq-q { padding-bottom: 20px; }
+  .lvfq-q-t { font-size: 16px; line-height: 24px; }
+  .lvfq-q-ico { top: 20px; right: 20px; width: 26px; height: 26px; border-radius: 8px; }
+  /* Der -3px-Versatz aus GEGENCHECK B-06 bildet die Referenzlage im 29px
+     grossen Desktop-Knopf nach. Fuer den 26px-Knopf gibt es keine Vorlage,
+     deshalb hier mittig (-1px bei 2px Balkenhoehe). */
+  .lvfq-q-ico::before,
+  .lvfq-q-ico::after { width: 13px; margin: -1px 0 0 -6.5px; }
+  .lvfq-a-in { padding-inline: 20px; }
+  .lvfq-a-in p { font-size: 15px; line-height: 23px; }
+  .lvfq-a-in p + p { margin-top: 20px; }
+  .lvfq-a-in > :first-child { margin-top: 16px; }
+  .lvfq-a-in > :last-child { margin-bottom: 18px; }
+  /* die beiden Sonderhoehen aus der Referenz gelten nur am Desktop */
+  #lvfq-getting-started .lvfq-item:nth-of-type(1) .lvfq-a-in > :last-child,
+  #lvfq-getting-started .lvfq-item:nth-of-type(2) .lvfq-a-in > :last-child { margin-bottom: 18px; }
+}
+
+/* =====================================================================
+   FAQ - Band 2
+   Referenz: _referenz/faq-1760.png, Original-y 4707 .. 8591
+   Sektionen: "3 Billing & Payments" (4782-6906), "4 Dashboard" (6982-8590)
+   Praefix: lvfq-  |  alles zusaetzlich unter .lvfq-b2 gekapselt
+   ===================================================================== */
+
+.lvfq-b2 {
+  position: relative;
+  width: 100%;
+  padding-top: 75px;
+  font-family: var(--lvf-font-display);
+}
+
+/* ------------------------------------------------------- Hintergrund */
+/* Der grosse linke Schein der oberen Bandhaelfte gehoert zu Band 1 und
+   laeuft dort bewusst ueber die Sektionsgrenze hinaus (dessen Element ist
+   6200px hoch). Hier werden nur die beiden Scheine gebaut, deren Mitte in
+   diesem Band liegt: der grosse rechte Schein (Mitte y 8099) und der
+   Anfang des linken unteren Scheins (Mitte y 8682). */
+
+.lvfq-b2 .lvfq-b2-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.lvfq-b2 .lvfq-b2-glow > span {
+  position: absolute;
+  display: block;
+}
+
+/* AKKORDEON 09.08.2026 - warum die senkrechten Werte nicht mehr in px ab
+   Bandoberkante stehen: seit je Kategorie nur noch die oberste Frage offen
+   ist, ist dieses Band 3884 -> 2174px hoch. Die drei Scheine standen mit
+   festen px-Werten ab OBERKANTE und lagen damit teils unter dem Bandende,
+   das mit overflow:clip abschneidet. Sichtbarer Anteil vorher/nachher:
+   br 49,0 -> 0,0 | r 66,8 -> 25,4 | bl 48,2 -> 7,2 Prozent; die Naht zu
+   Band 3 sprang dadurch von Median 3,3 / 5,0 auf 74,2 / 38,5 (Randspalten
+   x8-150 und x1610-1752).
+   br und r zeichnen die UNTERKANTE, an der Band 3 anschliesst - ihre Mitten
+   liegen laut den Kommentaren unten 9px darunter bzw. 693px darueber. Sie
+   haengen deshalb an 100% und behalten ihre Groesse; damit ist die unterste
+   Bildzeile des Bandes wieder genau die alte, egal wie hoch das Band ist.
+   bl reicht weit ins Band hinein und hat in Band 3 eine Entsprechung, die
+   mit der Bandhoehe schrumpft - er rechnet deshalb in Prozent der Bandhoehe,
+   damit beide Seiten der Naht gleich stark stauchen.
+   Bei der Entwurfshoehe 3884 ergeben beide Schreibweisen wieder genau die
+   alten Werte 3893 / 3191 / 3957. Die px-Werte in den Media Queries bleiben
+   stehen, das sind eigene Fits fuer schmale Bildschirme. */
+
+/* Auslaeufer des Scheins unten rechts, dessen Mitte (1802 / 8600) knapp
+   unterhalb bzw. rechts ausserhalb des Bandes liegt. Ohne ihn bliebe die
+   rechte untere Ecke des Bandes zu dunkel. */
+.lvfq-b2 .lvfq-b2-glow-br {
+  left: calc(100% + 42px);
+  top: calc(100% + 9px);
+  width: 508px;
+  height: 810px;
+  transform: translate(-50%, -50%) rotate(-23.75deg);
+  background: radial-gradient(closest-side ellipse at 50% 50%,
+    rgba(46, 178, 255, 0.42) 0%,
+    rgba(47, 177, 255, 0.384) 20%,
+    rgba(49, 181, 255, 0.325) 33.5%,
+    rgba(59, 184, 255, 0.255) 46.9%,
+    rgba(73, 188, 255, 0.192) 60.2%,
+    rgba(85, 201, 255, 0.129) 73.2%,
+    rgba(127, 212, 255, 0.071) 86.6%,
+    rgba(0, 162, 255, 0) 100%);
+}
+
+/* Grosser Schein rechts. Mitte Original (2059 / 7898), also 299px rechts
+   ausserhalb des 1760er Rahmens; Achsen 1172 x 1505, um -41.6 Grad gedreht.
+   Werte aus dem Referenzbild gefittet (mittlerer Restfehler 8 von 255). */
+.lvfq-b2 .lvfq-b2-glow-r {
+  left: calc(100% + 259px);
+  top: calc(100% - 693px);
+  width: 2464px;
+  height: 3312px;
+  transform: translate(-50%, -50%) rotate(-37.56deg);
+  background: radial-gradient(closest-side ellipse at 50% 50%,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(213, 241, 255, 1) 11%,
+    rgba(169, 227, 255, 0.984) 19.1%,
+    rgba(149, 221, 255, 0.973) 22.1%,
+    rgba(127, 215, 255, 0.953) 25%,
+    rgba(105, 207, 255, 0.922) 27.9%,
+    rgba(88, 202, 255, 0.867) 30.9%,
+    rgba(73, 196, 255, 0.784) 33.8%,
+    rgba(66, 187, 255, 0.651) 36.8%,
+    rgba(69, 186, 255, 0.478) 39.7%,
+    rgba(75, 188, 255, 0.345) 42.6%,
+    rgba(80, 191, 255, 0.251) 45.6%,
+    rgba(78, 187, 255, 0.192) 48.5%,
+    rgba(78, 184, 255, 0.141) 51.5%,
+    rgba(78, 186, 255, 0.102) 54.4%,
+    rgba(81, 174, 255, 0.075) 57.4%,
+    rgba(55, 182, 255, 0.055) 60.3%,
+    rgba(64, 159, 255, 0.031) 63.2%,
+    rgba(0, 162, 255, 0) 74%);
+}
+
+/* Linker unterer Schein. Mitte Original (16 / 8664), Achsen 500 x 2022,
+   um -15.25 Grad gedreht. Die Mitte liegt 73px unter der Bandkante, der
+   Rest des Scheins gehoert Band 3. */
+.lvfq-b2 .lvfq-b2-glow-bl {
+  left: 16px;
+  top: 101.8795%;
+  width: 1000px;
+  height: 104.1195%;
+  transform: translate(-50%, -50%) rotate(-15.25deg);
+  background: radial-gradient(closest-side ellipse at 50% 50%,
+    rgba(38, 178, 255, 0.74) 0%,
+    rgba(39, 177, 255, 0.612) 5.8%,
+    rgba(40, 177, 255, 0.553) 9.6%,
+    rgba(40, 177, 255, 0.498) 13.5%,
+    rgba(41, 176, 255, 0.443) 17.3%,
+    rgba(40, 177, 255, 0.396) 21.2%,
+    rgba(40, 178, 255, 0.349) 25%,
+    rgba(42, 177, 255, 0.306) 28.8%,
+    rgba(41, 174, 255, 0.271) 32.7%,
+    rgba(42, 174, 255, 0.235) 36.5%,
+    rgba(45, 180, 255, 0.2) 40.4%,
+    rgba(41, 174, 255, 0.173) 44.2%,
+    rgba(41, 179, 255, 0.145) 48.1%,
+    rgba(41, 173, 255, 0.122) 51.9%,
+    rgba(39, 177, 255, 0.102) 55.8%,
+    rgba(36, 170, 255, 0.082) 59.6%,
+    rgba(45, 180, 255, 0.067) 63.5%,
+    rgba(39, 177, 255, 0.051) 67.3%,
+    rgba(46, 162, 255, 0.043) 71.2%,
+    rgba(57, 170, 255, 0.035) 75%,
+    rgba(36, 146, 255, 0.027) 78.8%,
+    rgba(51, 153, 255, 0.02) 82.7%,
+    rgba(0, 162, 255, 0) 92%);
+}
+
+/* ------------------------------------------------------------ Spalte */
+
+.lvfq-b2 .lvfq-b2-wrap {
+  position: relative;
+  z-index: 1;
+  width: min(100% - 40px, 1240px);
+  margin-inline: auto;
+}
+
+.lvfq-b2 .lvfq-b2-cat {
+  scroll-margin-top: 150px;
+}
+.lvfq-b2 .lvfq-b2-cat + .lvfq-b2-cat {
+  margin-top: 75px;
+}
+
+/* ------------------------------------------------- Kategorie-Kopfzeile */
+
+.lvfq-b2 .lvfq-b2-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 37px;
+}
+
+.lvfq-b2 .lvfq-b2-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 37px;
+  height: 37px;
+  border-radius: 8px;
+  background: var(--lvf-grad-blue);
+  color: #000000;
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 600;
+}
+
+/* Doppelte Klasse noetig: das Theme setzt .lvf-page.lvf-page h2 { color: inherit } */
+/* GEGENCHECK B-04/B1: font-weight 600 wirkte auf BEIDE Wortteile. Die
+   Referenz setzt nur den blauen Akzent fett; der weisse Teil ist 3 bis 8
+   Prozent schmaler ("Billing" 98 statt 105, "Platforms" 170 statt 180,
+   "Verification" 196 statt 211, "Affiliate" 129 statt 141), waehrend die
+   Akzentwoerter auf 0 bis 1px genau stimmen. Eichpunkt ist .lvfq-cat-h aus
+   Band 1 (weight 500), das die Referenz exakt trifft. */
+.lvfq-b2 .lvfq-b2-head h2.lvfq-b2-title {
+  font-size: 40px;
+  line-height: 37px;
+  font-weight: 500;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+  background: linear-gradient(90deg,
+    rgba(255, 255, 255, 0.81) 0%,
+    #ffffff 50%,
+    rgba(255, 255, 255, 0.81) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lvfq-b2 .lvfq-b2-head .lvfq-b2-accent {
+  font-weight: 600; /* GEGENCHECK B-04: nur der Akzent bleibt fett */
+  background: var(--lvf-grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------------------------------------------------------- Akkordeon */
+
+.lvfq-b2 .lvfq-b2-list {
+  margin-top: 58px;
+  list-style: none;
+}
+
+.lvfq-b2 .lvfq-b2-item {
+  position: relative;
+  border-radius: 20px;
+  background: linear-gradient(180deg,
+    rgba(0, 11, 19, 0.75) 0%,
+    rgba(1, 3, 5, 0.75) 60%,
+    rgba(1, 3, 5, 0.75) 100%);
+}
+.lvfq-b2 .lvfq-b2-item + .lvfq-b2-item {
+  margin-top: 14px;
+}
+
+/* 1px-Rand als eigener Ring, damit der Verlauf des Randes nicht durch die
+   halbdurchsichtige Fuellung scheint. Oben links am hellsten, mit einem
+   hellen Streifen bei x 350-700, unten fast schwarz (gemessen an der Karte
+   y 6538, die auf schwarzem Grund liegt). */
+.lvfq-b2 .lvfq-b2-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background:
+    radial-gradient(ellipse 216px 75px at 253px 0, rgba(110, 216, 255, 0.509) 0%, rgba(110, 216, 255, 0) 100%),
+    radial-gradient(ellipse 90% 97% at 0 0, rgba(0, 189, 255, 0.223) 0%, rgba(0, 189, 255, 0) 100%),
+    radial-gradient(ellipse 25% 108% at 100% 100%, rgba(0, 189, 255, 0.186) 0%, rgba(0, 189, 255, 0) 100%),
+    linear-gradient(180deg, rgba(0, 189, 255, 0.072) 0%, rgba(0, 189, 255, 0.021) 100%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.lvfq-b2 .lvfq-b2-item h3.lvfq-b2-qh {
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+.lvfq-b2 .lvfq-b2-item .lvfq-b2-q {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  padding: 27px 84px 0 32px;
+  border: 0;
+  background: none;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 18.4px;
+  line-height: 26px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-align: left;
+  cursor: pointer;
+  overflow-wrap: break-word;
+  /* Kein Uebergang auf padding-bottom: eine animierte Polsterung zwingt den
+     Browser bei jedem Einzelbild zu einer neuen Layoutberechnung. Der Wert
+     springt jetzt, die Hoehe der Karte bleibt in beiden Endzustaenden gleich.
+     "none" statt Weglassen, weil sonst der Theme-Reset mit "transition: 0.3s"
+     auf jedem button greift und dann ALLE Eigenschaften animiert. */
+  transition: none;
+}
+.lvfq-b2 .lvfq-b2-item:not(.lvfq-b2-open) .lvfq-b2-q {
+  padding-bottom: 27px;
+}
+.lvfq-b2 .lvfq-b2-item .lvfq-b2-q:focus-visible {
+  outline: 2px solid #4fb9f0;
+  outline-offset: -5px;
+  border-radius: 18px;
+}
+.lvfq-b2 .lvfq-b2-qt {
+  display: block;
+}
+
+/* Plus/Minus-Knopf: 32x32, Oberkante 24px unter der Kartenkante,
+   rechte Kante 31px vor der Kartenkante. */
+.lvfq-b2 .lvfq-b2-ico {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  box-shadow:
+    inset -1px -2px 3px rgba(0, 152, 255, 1),
+    inset -3px -4px 7px rgba(0, 140, 240, 0.8),
+    inset 3px 4px 7px rgba(0, 0, 0, 0.75),
+    inset 1px 1px 3px rgba(70, 165, 220, 0.4);
+}
+.lvfq-b2 .lvfq-b2-ico::before,
+.lvfq-b2 .lvfq-b2-ico::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(180deg, #8ad5ff 0%, #47a5da 100%);
+  transform: translate(-50%, -50%);
+}
+.lvfq-b2 .lvfq-b2-ico::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+  transition: transform 0.32s ease, opacity 0.32s ease;
+}
+.lvfq-b2 .lvfq-b2-item.lvfq-b2-open .lvfq-b2-ico::after {
+  transform: translate(-50%, -50%) rotate(90deg) scaleX(0);
+  opacity: 0;
+}
+
+/* -------------------------------------------------------- Antwortteil */
+
+.lvfq-b2 .lvfq-b2-a {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.32s ease;
+}
+.lvfq-b2 .lvfq-b2-item:not(.lvfq-b2-open) .lvfq-b2-a {
+  grid-template-rows: 0fr;
+}
+/* Der Innenabstand oben und unten sitzt bewusst auf den Kindern, nicht auf
+   dem Rasterelement: sonst bliebe im zugeklappten Zustand ein 37px hoher
+   Rest stehen (Polsterung laesst sich nicht auf 0 zusammenziehen). */
+.lvfq-b2 .lvfq-b2-a > .lvfq-b2-ain {
+  min-height: 0;
+  overflow: hidden;
+  padding-inline: 32px;
+}
+/* GEGENCHECK A-04: in der Referenz endet die erste Antwortzeile der Karte
+   "Can I request a refund?" nach "... before placing a trade if you"
+   (x=1354), live lief sie bis "... if you believe a" (x=1414). Es ist die
+   einzige Antwortzeile in Band 2, die live hinter x=1388 endet.
+   Der Bericht schlaegt dafuer 104px rechten Innenabstand fuer das ganze Band
+   vor. Nachgemessen (DOM, Innenabstand 32 bis 104px durchprobiert) bricht das
+   zwei weitere Karten um: "What happens when I press Proceed?" schon ab 64px
+   (1 -> 2 Zeilen) und "Can I change my selected configuration ...?" ab 96px.
+   Die Bandhoehe stiege damit von 3884px auf 3934px, obwohl 3884px genau der
+   Referenzhoehe entspricht - und beide Karten haben in der Referenz
+   nachweislich ihre Zeilenzahl behalten (Zone 1: "Bis auf A-04 stimmen
+   Wortlaut, Zeilenzahl und Umbruchpunkte ueberall ueberein").
+   Deshalb wirkt der engere Satzspiegel nur auf diese eine Karte: die Zeile
+   bricht wie in der Vorlage, die Karte bleibt zweizeilig, die Bandhoehe
+   bleibt 3884px. */
+.lvfq-b2 #lvfq-b2-a311 > .lvfq-b2-ain {
+  padding-right: 138px;
+}
+.lvfq-b2 .lvfq-b2-ain > :first-child { margin-top: 21px; }
+.lvfq-b2 .lvfq-b2-ain > :last-child { margin-bottom: 16px; }
+
+.lvfq-b2 .lvfq-b2-ain p {
+  font-size: 18.2px;
+  line-height: 25px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  overflow-wrap: break-word;
+}
+.lvfq-b2 .lvfq-b2-ain p + p {
+  margin-top: 25px;
+}
+
+/* Aufzaehlung in "What is completed inside the dashboard?".
+   Der Farbverlauf laeuft ueber die gesamte Liste, nicht je Zeile. */
+.lvfq-b2 .lvfq-b2-bul {
+  margin-top: 25px;
+  list-style: none;
+  font-size: 18.2px;
+  line-height: 25px;
+  font-weight: 400;
+  background: var(--lvf-grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lvfq-b2 .lvfq-b2-bul > li {
+  padding-left: 24px;
+  text-indent: -14px;
+  overflow-wrap: break-word;
+}
+.lvfq-b2 .lvfq-b2-bul > li::before {
+  content: "\2022";
+  display: inline-block;
+  width: 14px;
+  text-indent: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lvfq-b2 .lvfq-b2-a,
+  .lvfq-b2 .lvfq-b2-item .lvfq-b2-q,
+  .lvfq-b2 .lvfq-b2-ico::after { transition: none; }
+}
+
+/* =========================================================== Tablet */
+
+@media (max-width: 1100px) {
+  .lvfq-b2 { padding-top: 60px; }
+  .lvfq-b2 .lvfq-b2-cat + .lvfq-b2-cat { margin-top: 60px; }
+  .lvfq-b2 .lvfq-b2-head { height: auto; gap: 13px; }
+  .lvfq-b2 .lvfq-b2-num { width: 32px; height: 32px; border-radius: 7px; font-size: 19px; }
+  .lvfq-b2 .lvfq-b2-head h2.lvfq-b2-title { font-size: 32px; line-height: 36px; }
+  .lvfq-b2 .lvfq-b2-list { margin-top: 40px; }
+  .lvfq-b2 .lvfq-b2-glow-r { left: calc(100% + 240px); }
+}
+
+/* =========================================================== Mobile */
+
+@media (max-width: 640px) {
+  .lvfq-b2 { padding-top: 48px; }
+  .lvfq-b2 .lvfq-b2-wrap { width: min(100% - 32px, 1240px); }
+  .lvfq-b2 .lvfq-b2-cat + .lvfq-b2-cat { margin-top: 48px; }
+  .lvfq-b2 .lvfq-b2-head { gap: 11px; }
+  .lvfq-b2 .lvfq-b2-num { width: 28px; height: 28px; border-radius: 6px; font-size: 17px; }
+  .lvfq-b2 .lvfq-b2-head h2.lvfq-b2-title {
+    font-size: 26px;
+    line-height: 32px;
+    white-space: normal;
+  }
+  .lvfq-b2 .lvfq-b2-list { margin-top: 28px; }
+  .lvfq-b2 .lvfq-b2-item { border-radius: 16px; }
+  .lvfq-b2 .lvfq-b2-item + .lvfq-b2-item { margin-top: 12px; }
+  .lvfq-b2 .lvfq-b2-item::before {
+    background:
+      radial-gradient(ellipse 120px 50px at 35% 0, rgba(140, 200, 240, 0.55) 0%, rgba(140, 200, 240, 0) 100%),
+      linear-gradient(180deg, rgba(0, 140, 210, 0.2) 0%, rgba(0, 140, 210, 0.03) 100%);
+  }
+  .lvfq-b2 .lvfq-b2-item .lvfq-b2-q {
+    min-height: 62px;
+    padding: 19px 58px 0 20px;
+    font-size: 16px;
+    line-height: 23px;
+  }
+  .lvfq-b2 .lvfq-b2-item:not(.lvfq-b2-open) .lvfq-b2-q { padding-bottom: 19px; }
+  .lvfq-b2 .lvfq-b2-ico { top: 16px; right: 16px; width: 30px; height: 30px; border-radius: 9px; }
+  .lvfq-b2 .lvfq-b2-a > .lvfq-b2-ain { padding-inline: 20px; }
+  .lvfq-b2 .lvfq-b2-ain > :first-child { margin-top: 15px; }
+  .lvfq-b2 .lvfq-b2-ain > :last-child { margin-bottom: 18px; }
+  .lvfq-b2 .lvfq-b2-ain p { font-size: 15px; line-height: 23px; }
+  .lvfq-b2 .lvfq-b2-ain p + p { margin-top: 20px; }
+  .lvfq-b2 .lvfq-b2-bul { margin-top: 20px; font-size: 15px; line-height: 24px; }
+  .lvfq-b2 .lvfq-b2-bul > li { padding-left: 18px; text-indent: -12px; }
+  .lvfq-b2 .lvfq-b2-bul > li::before { width: 12px; }
+  .lvfq-b2 .lvfq-b2-glow-r { left: calc(100% + 120px); width: 1100px; height: 1900px; }
+  .lvfq-b2 .lvfq-b2-glow-bl { width: 620px; height: 2200px; }
+}
+
+/* ==========================================================================
+   FAQ - Band 3
+   Referenz: _referenz/faq-1760.png, Original y 8591 bis 12972 (Breite 1760)
+   Kategorie 5 "Platforms", 6 "Verification & Payouts", 7 "Add-Ons".
+   Alle Regeln sind auf .lvfq-b3 gescopt und tragen eigene Klassennamen
+   (lvfq-b3-*), damit sie sich nicht mit den Nachbarbaendern beissen.
+
+   Gemessene Grundmasse (aus dem Referenzbild pipettiert):
+     Seitengrund        #000 (dunkelste Stellen der Referenz sind 0,0,0,
+                        nicht das Theme-#05060f)
+     Inhaltsspalte      1240px, zentriert (x 260..1500)
+     Karte              Radius 22px, Rahmen 1px
+     Kartenfuellung     Deckkraft 0.777 (Ausgleichsrechnung ueber 22 Karten,
+                        alle drei Kanaele auf 0.777 +/- 0.001), Farbe faellt
+                        senkrecht von rgb(0,11,18) auf rgb(1,3,5) bei 65%
+     Karten-Innenabstand 25px oben / 17px unten / 33px links / 101px rechts
+     Abstand Karten     14px
+     Frage              18px / 26px, Weiss
+     Antwort            16px / 25px, rgba(255,255,255,.6), Abstand 22px
+                        unter der Frage, 25px zwischen Absaetzen
+     Knopf              32x32, 24px unter / 32px links der Kartenkante
+     Kopfzeile          Badge 38x38, Titel 40px / 48px, 53px bis zur ersten
+                        Karte, 69px Abstand zwischen zwei Kategorien
+   ========================================================================== */
+
+.lvfq-b3 {
+  --lvfq-b3-col: 1240px;
+
+  /* Massstab der Glows. 1 = Referenz bei 1760px Bandbreite. */
+  --lvfq-b3-sx: 1;
+  --lvfq-b3-sy: 1;
+
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  overflow: clip;
+  padding-top: 69px;
+  /* Die dunkelsten Hintergrundstellen der Referenz messen 0,0,0. Das
+     Theme faerbt .lvf-page mit #05060f (Blaukanal 15), das waere hier
+     ein sichtbar blaustichiges Grau statt Schwarz. */
+  background: #000;
+  font-family: var(--lvf-font-display);
+}
+
+/* --- Hintergrund-Glows -----------------------------------------------------
+   Vier Lichtquellen, jeweils als gedrehte Ellipse mit eigener Farbrampe.
+   Mitte, Halbachsen und Drehung stammen aus einer Ausgleichsrechnung gegen
+   das Hintergrundfeld der Referenz (nur Pixel ausserhalb der Kartenspalte
+   und in den Luecken zwischen den Karten), die Farbstufen sind die
+   gemessenen Ringmittelwerte. Restfehler RMS 15 von 255.
+
+   Die Schichten werden mit "screen" verrechnet, nicht uebereinander
+   gelegt: im Original addieren sich die Lichter, ein normales
+   Uebereinanderlegen wuerde die untere Schicht dort abdunkeln, wo die
+   obere nur schwach ist (gemessen 17 statt 15 Restfehler). "screen"
+   kann jeder Browser seit 2014.
+   -------------------------------------------------------------------------- */
+
+.lvfq-b3 .lvfq-b3-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  overflow: clip;
+  isolation: isolate;
+  background: #000;
+  pointer-events: none;
+}
+
+.lvfq-b3 .lvfq-b3-glow > span {
+  position: absolute;
+  display: block;
+  transform-origin: 50% 50%;
+  mix-blend-mode: screen;
+}
+
+/* AKKORDEON 09.08.2026: Bandhoehe 4381 -> 2695px. Die senkrechten Masse der
+   vier Scheine (top und height) stehen jetzt in Prozent der Bandhoehe statt
+   in px, 100 Prozent von 4381 sind wieder die alten Werte. Der Faktor
+   --lvfq-b3-sy entfaellt dabei, weil Prozent dasselbe leistet und beides
+   zusammen doppelt zaehlen wuerde; fuer die Nahtflicken .lvfq-b3::after und
+   .lvfq-b3-glow::after bleibt er stehen, die rechnen weiter in px.
+   Sichtanteile damit zurueck bei bd 39,4 / m 49,1 / tr 51,9 / l 64,6 Prozent
+   (vorher 33,4 / 27,7 / 51,9 / 47,8, im Entwurf 57,0 / 49,1 / 51,9 / 64,6);
+   bd bleibt darunter, weil die stark gedrehte, sehr breite Ellipse beim
+   Stauchen ihre senkrechte Ausdehnung kaum verliert. Naht zu Band 4 wieder
+   Median 0,0 / 1,3 statt 67,8 / 26,8. */
+
+/* Breiter Schein unten rechts (um 50 Grad gedreht). Mitte im Original (1708, 8591+3880), Halbachsen 4144 x 626. */
+.lvfq-b3 .lvfq-b3-glow-bd {
+  left: calc(50% + 828px * var(--lvfq-b3-sx));
+  top: 88.5643%;
+  width: calc(8288px * var(--lvfq-b3-sx));
+  height: 28.5780%;
+  transform: translate(-50%, -50%) rotate(-50.0deg);
+  background: radial-gradient(ellipse closest-side at 50% 50%,
+    rgba(211, 239, 255, 0.998) 0.0%,
+    rgba(210, 238, 255, 0.998) 8.3%,
+    rgba(204, 236, 255, 0.958) 10.0%,
+    rgba(199, 236, 255, 0.958) 13.3%,
+    rgba(152, 220, 255, 0.958) 26.7%,
+    rgba(143, 217, 255, 0.956) 28.3%,
+    rgba(114, 208, 255, 0.928) 30.0%,
+    rgba(98, 203, 255, 0.913) 31.7%,
+    rgba(49, 186, 255, 0.848) 43.3%,
+    rgba(39, 181, 255, 0.809) 46.7%,
+    rgba(37, 177, 255, 0.595) 56.7%,
+    rgba(43, 178, 255, 0.378) 68.3%,
+    rgba(50, 179, 255, 0.271) 76.7%,
+    rgba(67, 182, 255, 0.152) 90.0%,
+    rgba(70, 185, 255, 0.141) 91.7%,
+    rgba(56, 175, 255, 0.067) 95.0%,
+    rgba(61, 179, 255, 0.053) 98.3%,
+    rgba(0, 162, 255, 0.0) 100.0%);
+}
+
+/* Schmales helles Band an der rechten Flanke. Mitte im Original (1588, 8591+4456), Halbachsen 380 x 3944.
+   GEGENCHECK C2: der rechte Schein des Add-Ons-Bandes griff rund 40 bis 60px
+   zu weit nach links (Blaukanal y=11900: live 134/168/220/245/249 gegen die
+   Referenz 91/128/194/231/245 fuer x 1520/1560/1620/1680/1740). Waagerechte
+   Halbachse -15 Prozent, senkrecht und Mitte unveraendert. */
+.lvfq-b3 .lvfq-b3-glow-m {
+  left: calc(50% + 708px * var(--lvfq-b3-sx));
+  top: 101.7119%;
+  width: calc(570px * var(--lvfq-b3-sx));
+  height: 180.0502%;
+  transform: translate(-50%, -50%) rotate(6.5deg);
+  background: radial-gradient(ellipse closest-side at 50% 50%,
+    rgba(165, 223, 255, 0.996) 0.0%,
+    rgba(165, 223, 255, 0.996) 18.3%,
+    rgba(114, 206, 255, 0.97) 26.7%,
+    rgba(101, 202, 255, 0.958) 28.3%,
+    rgba(75, 194, 255, 0.934) 30.0%,
+    rgba(55, 187, 255, 0.89) 33.3%,
+    rgba(43, 181, 255, 0.793) 38.3%,
+    rgba(43, 178, 255, 0.467) 53.3%,
+    rgba(39, 176, 255, 0.325) 63.3%,
+    rgba(32, 172, 255, 0.17) 80.0%,
+    rgba(33, 168, 255, 0.061) 96.7%,
+    rgba(34, 169, 255, 0.054) 98.3%,
+    rgba(0, 162, 255, 0.0) 100.0%);
+}
+
+/* Auslaeufer oben rechts. Mitte im Original (1815, 8591+65), Halbachsen 640 x 1715. */
+.lvfq-b3 .lvfq-b3-glow-tr {
+  left: calc(50% + 935px * var(--lvfq-b3-sx));
+  top: 1.4837%;
+  width: calc(1280px * var(--lvfq-b3-sx));
+  height: 78.2926%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse closest-side at 50% 50%,
+    rgba(46, 178, 255, 0.486) 0.0%,
+    rgba(46, 178, 255, 0.486) 8.3%,
+    rgba(36, 174, 255, 0.286) 23.3%,
+    rgba(35, 172, 255, 0.116) 41.7%,
+    rgba(66, 166, 255, 0.026) 60.0%,
+    rgba(114, 182, 255, 0.007) 85.0%,
+    rgba(0, 162, 255, 0.0) 100.0%);
+}
+
+/* Grosser Schein links. Mitte im Original (-175, 8591+825), Halbachsen 1530 x 2820. */
+.lvfq-b3 .lvfq-b3-glow-l {
+  left: calc(50% - 1055px * var(--lvfq-b3-sx));
+  top: 18.8313%;
+  width: calc(3060px * var(--lvfq-b3-sx));
+  height: 128.7377%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse closest-side at 50% 50%,
+    rgba(230, 247, 255, 0.997) 0.0%,
+    rgba(230, 247, 255, 0.997) 10.0%,
+    rgba(218, 242, 255, 0.997) 13.3%,
+    rgba(196, 234, 255, 0.992) 16.7%,
+    rgba(145, 219, 255, 0.954) 21.7%,
+    rgba(111, 209, 255, 0.896) 25.0%,
+    rgba(95, 204, 255, 0.847) 26.7%,
+    rgba(69, 192, 255, 0.74) 28.3%,
+    rgba(59, 185, 255, 0.626) 30.0%,
+    rgba(59, 184, 255, 0.519) 31.7%,
+    rgba(61, 184, 255, 0.436) 33.3%,
+    rgba(60, 183, 255, 0.323) 36.7%,
+    rgba(43, 176, 255, 0.196) 43.3%,
+    rgba(22, 165, 255, 0.073) 55.0%,
+    rgba(107, 177, 255, 0.011) 66.7%,
+    rgba(0, 162, 255, 0.0) 100.0%);
+}
+
+/* Breite schwache Zusatzebene links (Gegencheck-Befund C1).
+   Die Referenz traegt hier neben dem schmalen hellen Kern eine zweite, viel
+   breitere und schwaechere Flaeche, die noch bei x 800 Licht auf die Karten
+   legt. Der vorhandene Kern (.lvfq-b3-glow-l) faellt schon bei x 450 auf
+   Schwarz; ein groesserer Radius am Kern macht dafuer den Rand zu hell, also
+   eine eigene Ebene. Mitte (330, 741) ab Bandoberkante, Halbachsen 640 x 470,
+   gemessen am Defizit Referenz minus Live im Blaukanal (Spitze 34 bei y 9400).
+   mix-blend-mode: screen - die Ebene kann nur aufhellen, der bereits richtige
+   linke Rand (Blau 254) bleibt unveraendert. */
+.lvfq-page .lvfq-b3 .lvfq-b3-glow::before {
+  content: "";
+  position: absolute;
+  left: calc(-310px * var(--lvfq-b3-sx));
+  top: 6.1858%;
+  width: calc(1280px * var(--lvfq-b3-sx));
+  height: 21.4563%;
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background: radial-gradient(closest-side,
+    rgba(40, 178, 255, 0.5800) 0%,
+    rgba(40, 178, 255, 0.5452) 15%,
+    rgba(40, 178, 255, 0.4872) 30%,
+    rgba(40, 178, 255, 0.3944) 45%,
+    rgba(40, 178, 255, 0.2784) 60%,
+    rgba(40, 178, 255, 0.1798) 72%,
+    rgba(40, 178, 255, 0.0928) 84%,
+    rgba(40, 178, 255, 0.0348) 93%,
+    rgba(40, 178, 255, 0.0000) 100%);
+}
+
+
+/* --- Inhaltsspalte -------------------------------------------------------- */
+
+.lvfq-b3 .lvfq-b3-wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--lvfq-b3-col);
+  margin: 0 auto;
+}
+
+.lvfq-b3 .lvfq-b3-cat + .lvfq-b3-cat {
+  margin-top: 69px;
+}
+
+/* --- Kategorie-Kopf ------------------------------------------------------- */
+
+.lvfq-b3 .lvfq-b3-head {
+  display: flex;
+  align-items: center;
+  /* GEGENCHECK B-05: Abstand Plakette zu Ueberschrift. Nach dem
+     Gewichts-Fix (B-04) nachgemessen - Referenz 17/15/17/17px bei den
+     Kategorien 5/6/8/9, live 15/13/14/15px. Der Bericht schlaegt 16px vor
+     (wie Band 1 und 2), gemessen fehlen aber genau 2px; mit 15px stehen die
+     Textanfaenge bei 17/15/16/17 gegen 17/15/17/17 der Referenz. */
+  gap: 15px;
+  min-height: 48px;
+  margin: 0 0 53px;
+}
+
+.lvfq-b3 .lvfq-b3-num {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--lvf-grad-blue);
+  color: #02060c;
+  font-family: var(--lvf-font-display);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* Spezifitaet 0-3-1: der Theme-Reset fuer h2 wuerde den Verlaufstext
+   sonst wieder einfaerben (Falle 2 aus dem Vertrag). */
+/* GEGENCHECK B-04/B1: weight 600 -> 500, siehe .lvfq-b2-title. Der Akzent
+   traegt sein Gewicht jetzt selbst. */
+.lvfq-b3 .lvfq-b3-head h2.lvfq-b3-title {
+  margin: 0;
+  padding: 0;
+  font-family: var(--lvf-font-display);
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 500;
+  letter-spacing: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.78) 0%, #ffffff 50%, rgba(255, 255, 255, 0.77) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  overflow-wrap: break-word;
+}
+
+.lvfq-b3 .lvfq-b3-head h2.lvfq-b3-title .lvfq-b3-accent {
+  font-weight: 600; /* GEGENCHECK B-04 */
+  background: var(--lvf-grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* --- Fragenliste ---------------------------------------------------------- */
+
+.lvfq-b3 .lvfq-b3-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Fuellung: Deckkraft 0.777, Farbverlauf senkrecht. Dazu der weiche
+   blaue Lichtfleck, der im Original bei 21% der Kartenbreite an der
+   Oberkante sitzt (Spitze rgba(0,162,255,.075), gemessen ueber sechs
+   Karten vor schwarzem Grund). */
+/* GEGENCHECK B-03 (Band 3, gleiche Ursache wie in Band 1): die Fragezeile
+   sass an drei sauber messbaren Karten 3 bis 5px zu hoch. +3px oben,
+   ausgeglichen ueber .lvfq-b3-a (22px -> 19px), Summe bleibt 47px. */
+.lvfq-b3 .lvfq-b3-item {
+  position: relative;
+  margin: 0;
+  padding: 28px 101px 17px 33px;
+  border: 0;
+  border-radius: 22px;
+  list-style: none;
+  background:
+    radial-gradient(20% 150px at 21% 0%,
+      rgba(0, 162, 255, 0.075) 0%,
+      rgba(0, 162, 255, 0.041) 30%,
+      rgba(0, 162, 255, 0.024) 50%,
+      rgba(0, 162, 255, 0.012) 70%,
+      rgba(0, 162, 255, 0.005) 85%,
+      rgba(0, 162, 255, 0) 100%),
+    linear-gradient(180deg,
+      rgba(0, 11, 18, 0.777) 0%,
+      rgba(1, 3, 5, 0.777) 65%,
+      rgba(1, 3, 5, 0.777) 100%);
+  /* Ersatz fuer Browser ohne mask-composite, siehe @supports weiter unten */
+  box-shadow: inset 0 0 0 1px rgba(0, 184, 255, 0.09);
+}
+
+/* Rahmen als eigener 1px-Ring. Ein Rahmenverlauf per background-clip
+   wuerde durch die 22% offene Fuellung hindurch die ganze Karte
+   einfaerben; im Original ist das Karteninnere davon unberuehrt.
+   Gemessen (Blaukanal ueber schwarzem Grund, Mittel aus sechs Karten):
+   Oberkante 28 links -> 17 rechts, linke Kante 27 oben -> 4 unten,
+   Unterkante 0 bis x=760 und dann bis 75 ansteigend, rechte Kante 28
+   bis 43. Genau das ergeben die drei Ellipsen unten. */
+@supports ((-webkit-mask-composite: xor) or (mask-composite: exclude)) {
+  .lvfq-b3 .lvfq-b3-item {
+    box-shadow: none;
+  }
+
+  .lvfq-b3 .lvfq-b3-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    padding: 1px;
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+      /* heller Glanz auf der Oberkante, Mitte bei 21,8% der Breite */
+      radial-gradient(200px 22px at 21.8% 0%,
+        rgba(205, 247, 255, 0.16) 0%,
+        rgba(205, 247, 255, 0.10) 50%,
+        rgba(205, 247, 255, 0.053) 70%,
+        rgba(205, 247, 255, 0.019) 88%,
+        rgba(205, 247, 255, 0) 100%),
+      /* Licht aus der unteren rechten Ecke */
+      radial-gradient(60% 100% at 100% 100%, rgba(0, 184, 255, 0.30) 0%, rgba(0, 184, 255, 0) 100%),
+      /* Licht aus der oberen linken Ecke */
+      radial-gradient(170% 100% at 0% 0%, rgba(0, 184, 255, 0.115) 0%, rgba(0, 184, 255, 0) 100%),
+      /* Grundton, damit die Unterkante links nicht ganz verschwindet */
+      linear-gradient(rgba(0, 184, 255, 0.012), rgba(0, 184, 255, 0.012));
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+}
+
+/* --- Frage ---------------------------------------------------------------- */
+
+/* Kein position:relative auf .lvfq-b3-qwrap: der Knopf liegt absolut
+   und braucht die Karte als Bezug, nicht die Frage-Zeile. */
+.lvfq-b3 .lvfq-b3-qwrap {
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+.lvfq-b3 button.lvfq-b3-q {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--lvf-font-display);
+  font-size: 18.4px;
+  line-height: 26px;
+  font-weight: 500;
+  color: var(--lvf-white);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.lvfq-b3 button.lvfq-b3-q:focus-visible {
+  outline: 2px solid var(--lvf-blue);
+  outline-offset: 6px;
+  border-radius: 6px;
+}
+
+.lvfq-b3 .lvfq-b3-qtext {
+  display: block;
+  overflow-wrap: break-word;
+}
+
+/* Touch-Ziel >= 44px bei 768-1023px, 13.08.2026: fuer dieses Fenster gab es
+   bisher keine Regel, die Frage blieb bei ihrer reinen Texthoehe (26px). Der
+   Mobilzweig bei max-width:700px setzt bereits genau dieses Muster
+   (display:flex + min-height), hier fuer die Tablet-Luecke uebernommen. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .lvfq-b3 button.lvfq-b3-q {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+/* --- Plus/Minus-Knopf ----------------------------------------------------- */
+
+/* Der Knopf ist innen fast leer: nur unten steigt ein blauer Schimmer auf.
+   Die Helligkeit sitzt im 1px-Rand, und zwar NICHT gleichmaessig: oben und
+   links ist er dunkler als die Karte, rechts und unten leuchtet er.
+   Gemessen als Deckkraft ueber dem Kartenton, Winkel von oben im
+   Uhrzeigersinn: 0-40 Grad dunkel, 55 Grad 0.53, 82 Grad 0.82,
+   115 Grad 0.91, 160 Grad 0.96, 203 Grad 0.92, ab 235 Grad wieder dunkel.
+   Das ist ein Kegelverlauf, kein linearer. */
+.lvfq-b3 .lvfq-b3-icon {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  z-index: 1;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: radial-gradient(65% 45% at 50% 104%,
+    rgba(0, 162, 255, 0.58) 0%,
+    rgba(0, 162, 255, 0.26) 51%,
+    rgba(0, 162, 255, 0.05) 84%,
+    rgba(0, 162, 255, 0) 100%);
+  /* GEGENCHECK B4: wie beim b4-Icon fehlte der Leuchtsaum an der rechten
+     Innenkante. Referenz x1463..1467 = 70/108/154/206/211, live nur x1467
+     als Einzelpixel mit 226. */
+  box-shadow:
+    0 3px 12px rgba(0, 150, 235, 0.26),
+    inset -10px 0 13px -9px rgba(0, 162, 255, 0.90);
+}
+
+/* Ersatzrand, falls mask-composite fehlt */
+.lvfq-b3 .lvfq-b3-icon {
+  outline: 1px solid rgba(18, 169, 255, 0.5);
+  outline-offset: -1px;
+}
+
+@supports ((-webkit-mask-composite: xor) or (mask-composite: exclude)) {
+  .lvfq-b3 .lvfq-b3-icon {
+    outline: 0;
+  }
+
+  .lvfq-b3 .lvfq-b3-icon::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: conic-gradient(from 0deg at 50% 50%,
+      rgba(0, 4, 8, 0.72) 0deg,
+      rgba(0, 4, 8, 0.72) 38deg,
+      rgba(18, 169, 255, 0.55) 56deg,
+      rgba(18, 169, 255, 0.84) 84deg,
+      rgba(18, 169, 255, 0.93) 115deg,
+      rgba(18, 169, 255, 0.96) 160deg,
+      rgba(18, 169, 255, 0.92) 203deg,
+      rgba(18, 169, 255, 0.10) 232deg,
+      rgba(0, 4, 8, 0.62) 250deg,
+      rgba(0, 4, 8, 0.72) 300deg,
+      rgba(0, 4, 8, 0.72) 360deg);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+}
+
+.lvfq-b3 .lvfq-b3-icon::after,
+.lvfq-b3 .lvfq-b3-icon > i {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 13px;
+  height: 2px;
+  margin: -1px 0 0 -6.5px;
+  border-radius: 1px;
+  background: #8ed9ff;
+}
+
+.lvfq-b3 .lvfq-b3-icon > i {
+  transform: rotate(90deg) scaleX(0);
+  transition: transform 0.32s ease;
+}
+
+.lvfq-b3 .lvfq-b3-item[data-lvfq-b3-open="false"] .lvfq-b3-icon > i {
+  transform: rotate(90deg) scaleX(1);
+}
+
+/* --- Antwort -------------------------------------------------------------- */
+
+.lvfq-b3 .lvfq-b3-a {
+  display: grid;
+  grid-template-rows: 1fr;
+  margin-top: 19px; /* GEGENCHECK B-03, siehe .lvfq-b3-item */
+  /* margin-top bewusst ohne Uebergang, siehe Kommentar an .lvfq-a. */
+  transition: grid-template-rows 0.32s ease, opacity 0.32s ease;
+}
+
+.lvfq-b3 .lvfq-b3-a-in {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.lvfq-b3 .lvfq-b3-item[data-lvfq-b3-open="false"] .lvfq-b3-a {
+  grid-template-rows: 0fr;
+  margin-top: 0;
+  opacity: 0;
+}
+
+.lvfq-b3 .lvfq-b3-p {
+  margin: 0;
+  padding: 0;
+  font-size: 18.2px;
+  line-height: 25px;
+  font-weight: 400;
+  color: var(--lvf-text-mid);
+  overflow-wrap: break-word;
+}
+
+/* --- Aufzaehlungen (DXtrade/Volumetrica, Rise/Crypto) --------------------- */
+
+.lvfq-b3 .lvfq-b3-bullets {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lvfq-b3 .lvfq-b3-bullets li {
+  position: relative;
+  margin: 0;
+  padding-left: 23px;
+  font-size: 18.2px;
+  line-height: 25px;
+  font-weight: 400;
+  color: #5cc4ff;
+  overflow-wrap: break-word;
+}
+
+.lvfq-b3 .lvfq-b3-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 10px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #5cc4ff;
+}
+
+/* Absaetze und Aufzaehlungen stehen im Original immer 25px auseinander,
+   unabhaengig von ihrer Reihenfolge. Muss NACH .lvfq-b3-bullets stehen:
+   beide Regeln haben Spezifitaet 0-2-0, es gewinnt die spaetere. */
+.lvfq-b3 .lvfq-b3-a-in > * + * {
+  margin-top: 25px;
+}
+
+/* --- Tablet --------------------------------------------------------------- */
+
+@media (max-width: 1320px) {
+  .lvfq-b3 .lvfq-b3-wrap {
+    max-width: none;
+    padding: 0 32px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .lvfq-b3 {
+    /* Schmalerer Viewport: die Glows schrumpfen mit, senkrecht ziehen sie
+       sich mit der groesseren Sektionshoehe auseinander. */
+    --lvfq-b3-sx: 0.62;
+    --lvfq-b3-sy: 1.06;
+    padding-top: 56px;
+  }
+
+  .lvfq-b3 .lvfq-b3-cat + .lvfq-b3-cat {
+    margin-top: 56px;
+  }
+
+  .lvfq-b3 .lvfq-b3-head {
+    min-height: 40px;
+    margin-bottom: 34px;
+  }
+
+  .lvfq-b3 .lvfq-b3-head h2.lvfq-b3-title {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .lvfq-b3 .lvfq-b3-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-size: 19px;
+  }
+}
+
+/* --- Mobil ---------------------------------------------------------------- */
+
+@media (max-width: 700px) {
+  .lvfq-b3 {
+    /* Auf 390px ist die Sektion rund 1,26-mal so hoch wie bei 1760px
+       (4381 -> 5500 gemessen), deshalb der groessere Faktor senkrecht. */
+    --lvfq-b3-sx: 0.34;
+    --lvfq-b3-sy: 1.26;
+    padding-top: 44px;
+  }
+
+  .lvfq-b3 .lvfq-b3-wrap {
+    padding: 0 16px;
+  }
+
+  .lvfq-b3 .lvfq-b3-cat + .lvfq-b3-cat {
+    margin-top: 44px;
+  }
+
+  .lvfq-b3 .lvfq-b3-head {
+    gap: 11px;
+    min-height: 34px;
+    margin-bottom: 24px;
+  }
+
+  .lvfq-b3 .lvfq-b3-num {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    font-size: 18px;
+  }
+
+  .lvfq-b3 .lvfq-b3-head h2.lvfq-b3-title {
+    font-size: 26px;
+    line-height: 34px;
+  }
+
+  .lvfq-b3 .lvfq-b3-list {
+    gap: 12px;
+  }
+
+  .lvfq-b3 .lvfq-b3-item {
+    padding: 18px 60px 18px 20px;
+    border-radius: 16px;
+  }
+
+  /* Touch-Ziel mindestens 40px hoch. */
+  .lvfq-b3 button.lvfq-b3-q {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    font-size: 17px;
+    line-height: 24px;
+  }
+
+  .lvfq-b3 .lvfq-b3-icon {
+    top: 22px;
+    right: 14px;
+  }
+
+  .lvfq-b3 .lvfq-b3-a {
+    margin-top: 16px;
+  }
+
+  .lvfq-b3 .lvfq-b3-p,
+  .lvfq-b3 .lvfq-b3-bullets li {
+    font-size: 15px;
+    line-height: 23px;
+  }
+
+  .lvfq-b3 .lvfq-b3-a-in > * + * {
+    margin-top: 18px;
+  }
+
+  .lvfq-b3 .lvfq-b3-bullets li::before {
+    top: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lvfq-b3 .lvfq-b3-a,
+  .lvfq-b3 .lvfq-b3-icon > i {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   FAQ - Band 4 von 5
+   Referenz: _referenz/faq-1760.png (1760 x 20696), Original y 12972 bis 18594.
+   Kategorie 8 "Account Breach", 9 "Lvlup Elite", 10 "Affiliate Program".
+   Alle Klassen tragen den Seitenpraefix lvfq- und sind zusaetzlich auf
+   .lvfq-b4 gescopt, damit sie die Nachbarbaender nicht anfassen.
+
+   Gemessene Grundmasse (mit PIL aus dem Referenzbild, nicht geschaetzt):
+     Inhaltsspalte     1240px, zentriert (Kartenkante x 260 bis 1500)
+     Sektionshoehe     5622px  (12972 -> 18594, rechnerisch bestaetigt)
+     Abstand oben      69px bis zur Oberkante der Kopfzeile
+     Kopfzeile         48px hoch, Plakette 38x38 (y 13046..13084), Titel 40/48
+     Kopfzeile -> Karte 53px, Kategorie -> Kategorie 69px
+     Karte             Radius 18px, Kartenhoehe 115/165/215/240/265/290/315,
+                       Innenabstand 25 oben / 17 unten / 32 links / 100 rechts
+                       (Rahmen ist ein Ring im ::before, keine echte border),
+                       Abstand zwischen Karten 14px
+     Frage             18px / 26px (Versalhoehe 12px, Faktor 0,671)
+     Antwort           16px / 25px, 22px unter der Frage, 25px zwischen Bloecken
+     Aufzaehlung       Punkt 4px bei x+9, Text bei x+23, Zeilenhoehe 25px
+     Knopf             32x32 bei top 25 / right 31, Balken 12x2 in #8cd5ff
+   ========================================================================== */
+
+.lvfq-b4 {
+  /* --- Hintergrundschein -------------------------------------------------
+     Sieben Ellipsen, gegen das Referenzbild ausgeglichen (Koordinatenabstieg
+     ueber 20294 kartenfreie Bildpunkte, mittlerer Restfehler 7,5 von 255;
+     am fertigen Render in den Randstreifen nachgemessen).
+     --*-y ist ein Prozentwert der Sektionshoehe: dadurch wandern die
+     Mittelpunkte auf schmalen Bildschirmen mit der wachsenden Sektion mit.
+     --*-x ist der waagerechte Abstand des Mittelpunkts von der Kante, an der
+     der Schein klebt (links bzw. rechts), negativ heisst ausserhalb. */
+
+  /* AKKORDEON 09.08.2026: Bandhoehe 5622 -> 2891px. Die y-Mitten standen schon
+     in Prozent, die senkrechten Halbachsen --*-ry aber noch in px. Damit
+     blieben die Scheine gleich gross, waehrend das Band auf die Haelfte
+     schrumpfte: sie standen an der Unterkante viel zu hell, die Naht zu
+     Band 5 sprang von Median 2,7 / 1,3 auf 27,5 / 24,5. Die -ry-Werte sind
+     deshalb jetzt ebenfalls Prozent der Bandhoehe, 100 Prozent = 5622, also
+     bei der Entwurfshoehe wieder genau die alten px. Sichtanteile zurueck bei
+     l1/l2/l3 100, br1 68,8 (Entwurf 68,9), tr2 50,9 (51,0).
+     Die px-Werte in den Media Queries bleiben stehen, das sind eigene Fits. */
+
+  /* Rechts oben, Teil 1: Fortsetzung des Scheins, dessen Kern ueber diesem Band liegt. */
+  --lvfq-b4-tr1-x: -301px;
+  --lvfq-b4-tr1-y: -9.64%;
+  --lvfq-b4-tr1-rx: 1077px;
+  --lvfq-b4-tr1-ry: 37.5133%;
+  --lvfq-b4-tr1-rot: -80.0deg;
+
+  /* Rechts oben, Teil 2: die schmale helle Flanke direkt an der Kante. */
+  --lvfq-b4-tr2-x: -14px;
+  --lvfq-b4-tr2-y: 1.19%;
+  --lvfq-b4-tr2-rx: 560px;
+  --lvfq-b4-tr2-ry: 62.5756%;
+  --lvfq-b4-tr2-rot: -29.3deg;
+
+  /* Links, Kern: der grosse Schein neben "Lvlup Elite". */
+  --lvfq-b4-l1-x: -163px;
+  --lvfq-b4-l1-y: 44.31%;
+  /* GEGENCHECK C1 (VERWORFEN, nachgemessen): der Bericht schlaegt vor, die
+     waagerechten Radien der linken Scheine um 35 Prozent zu vergroessern,
+     weil der Schein bei y 15400 ab x 600 nur noch den Eigenwert der Karte
+     traegt (Referenz 68/57/42/27/16, live 25/8/8/8/8 fuer x 500..1300).
+     Gemessen ueber die Flaeche verschlechtert das die Uebereinstimmung -
+     mittlere Kanalabweichung zur Referenz in Band 4:
+       776px (Ist)   Band gesamt  9,21 | linker Rand  8,97 | Befundfenster 12,79
+       1040px        Band gesamt  9,89 | linker Rand 12,87 | Befundfenster 12,60
+       1150px        Band gesamt  9,96 | linker Rand 12,53 | Befundfenster 13,32
+     Eine breitere Ellipse hellt den schmalen hellen Randstreifen mit auf, wo
+     die Referenz steil abfaellt (y 14400, x 180: Referenz 129, mit 1150px
+     202). Der Zugewinn im Befundfenster ist dagegen null. Die Referenz
+     braucht dort einen schmalen Kern PLUS eine breite schwache Flaeche, also
+     eine zusaetzliche Ebene - das ist kein Radienwert. Deshalb unveraendert.
+  */
+  --lvfq-b4-l1-rx: 776px;
+  --lvfq-b4-l1-ry: 29.7047%;
+  --lvfq-b4-l1-rot: 0.3deg;
+
+  /* Links, unterer Auslaeufer. */
+  --lvfq-b4-l2-x: -224px;
+  --lvfq-b4-l2-y: 66.36%;
+  --lvfq-b4-l2-rx: 721px;
+  --lvfq-b4-l2-ry: 24.4575%;
+  --lvfq-b4-l2-rot: -13.6deg;
+
+  /* Links, oberer Auslaeufer (macht den Verlauf oben schmaler als eine einzelne Ellipse). */
+  --lvfq-b4-l3-x: -223px;
+  --lvfq-b4-l3-y: 20.31%;
+  --lvfq-b4-l3-rx: 442px;
+  --lvfq-b4-l3-ry: 19.0324%;
+  --lvfq-b4-l3-rot: 2.0deg;
+
+  /* Rechts unten, weiter Anteil. */
+  --lvfq-b4-br1-x: -428px;
+  --lvfq-b4-br1-y: 89.24%;
+  --lvfq-b4-br1-rx: 727px;
+  --lvfq-b4-br1-ry: 28.4240%;
+  --lvfq-b4-br1-rot: 0.3deg;
+
+  /* Rechts unten, heller Kern neben "Affiliate Program". */
+  --lvfq-b4-br2-x: -121px;
+  --lvfq-b4-br2-y: 82.82%;
+  --lvfq-b4-br2-rx: 550px;
+  --lvfq-b4-br2-ry: 13.3227%;
+  --lvfq-b4-br2-rot: -44.7deg;
+
+  --lvfq-b4-col: 1240px;
+
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  overflow: clip;
+  /* 69px = Referenz 12972 (Unterkante der letzten Karte aus Fragment 3)
+     bis 13041 (Oberkante der Kopfzeile "Account Breach") */
+  padding-top: 69px;
+  font-family: var(--lvf-font-display);
+}
+
+/* --- Hintergrundschein ---------------------------------------------------- */
+
+.lvfq-b4 .lvfq-b4-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  overflow: clip;
+  pointer-events: none;
+  /* GEGENCHECK U-02: die Ellipse .lvfq-b4-g-tr1 beginnt bei
+     top: calc(-9.64% - 2109px) und wurde von overflow:clip an der
+     Sektionsoberkante (y 12970) glatt abgeschnitten - der Schein sprang in
+     EINER Zeile von 78,1 auf 127,8 im Blaukanal (groesste Spaltenstufe 145,
+     mobil 196). Die Referenz verteilt denselben Anstieg auf 11 Zeilen
+     (80,8 -> 101,3 -> 109,8 -> ... -> 125,6, groesste Stufe 73).
+     Eine Auslaufzone von 14px statt eines harten Schnitts. Gefahrlos:
+     darunter liegt .lvf-page mit rgb(5,6,15), es wird kein Weiss frei. */
+  /* Die Auslaufzone wird nur dort gebraucht, wo die letzte Karte von Band 3
+     endet: links von x 600 und rechts von x 1500 traegt Band 3 an der Kante
+     selbst Licht, dort stimmt der Anschluss bereits (Spaltenstufe 0 bis -7).
+     Gemessene Wunschdeckkraft je Spalte: 1,00 bis x 600, dann 0,63 bis 0,74
+     zwischen x 640 und 1440, ab x 1520 wieder 1,00. Deshalb zwei
+     Maskenebenen: die senkrechte Auslaufzone und ein waagerechtes Fenster,
+     das die Raender wieder voll deckt (Ebenen werden per Vorgabe addiert). */
+  -webkit-mask-image:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.65) 0, rgba(0, 0, 0, 0.86) 3px,
+                              rgba(0, 0, 0, 0.95) 8px, #000 14px),
+      linear-gradient(90deg, #000 0, #000 30%, rgba(0, 0, 0, 0) 36%,
+                             rgba(0, 0, 0, 0) 84%, #000 89%, #000 100%);
+          mask-image:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.65) 0, rgba(0, 0, 0, 0.86) 3px,
+                              rgba(0, 0, 0, 0.95) 8px, #000 14px),
+      linear-gradient(90deg, #000 0, #000 30%, rgba(0, 0, 0, 0) 36%,
+                             rgba(0, 0, 0, 0) 84%, #000 89%, #000 100%);
+  -webkit-mask-composite: source-over;
+          mask-composite: add;
+}
+
+.lvfq-b4 .lvfq-b4-g {
+  position: absolute;
+  display: block;
+}
+
+.lvfq-b4 .lvfq-b4-g-tr1 {
+  right: calc(var(--lvfq-b4-tr1-x) - var(--lvfq-b4-tr1-rx));
+  top: calc(var(--lvfq-b4-tr1-y) - var(--lvfq-b4-tr1-ry));
+  width: calc(var(--lvfq-b4-tr1-rx) * 2);
+  height: calc(var(--lvfq-b4-tr1-ry) * 2);
+  transform: rotate(var(--lvfq-b4-tr1-rot));
+  background: radial-gradient(closest-side,
+    rgba(238, 249, 255, 0.970) 0%,
+    rgba(238, 249, 255, 0.970) 5%,
+    rgba(238, 249, 255, 0.970) 10%,
+    rgba(238, 249, 255, 0.970) 15%,
+    rgba(237, 249, 255, 0.970) 20%,
+    rgba(237, 249, 255, 0.969) 25%,
+    rgba(236, 248, 255, 0.969) 30%,
+    rgba(235, 248, 255, 0.968) 35%,
+    rgba(233, 247, 255, 0.968) 40%,
+    rgba(231, 246, 255, 0.966) 45%,
+    rgba(223, 244, 255, 0.966) 50%,
+    rgba(212, 240, 255, 0.966) 55%,
+    rgba(196, 235, 255, 0.964) 60%,
+    rgba(167, 226, 255, 0.958) 65%,
+    rgba(130, 214, 255, 0.940) 70%,
+    rgba(87, 200, 255, 0.890) 75%,
+    rgba(52, 187, 255, 0.752) 80%,
+    rgba(40, 178, 255, 0.547) 85%,
+    rgba(40, 178, 255, 0.307) 90%,
+    rgba(40, 178, 255, 0.176) 95%,
+    rgba(0, 162, 255, 0.000) 100%);
+}
+
+.lvfq-b4 .lvfq-b4-g-tr2 {
+  right: calc(var(--lvfq-b4-tr2-x) - var(--lvfq-b4-tr2-rx));
+  top: calc(var(--lvfq-b4-tr2-y) - var(--lvfq-b4-tr2-ry));
+  width: calc(var(--lvfq-b4-tr2-rx) * 2);
+  height: calc(var(--lvfq-b4-tr2-ry) * 2);
+  transform: rotate(var(--lvfq-b4-tr2-rot));
+  background: radial-gradient(closest-side,
+    rgba(238, 249, 255, 0.865) 0%,
+    rgba(236, 248, 255, 0.864) 5%,
+    rgba(234, 248, 255, 0.863) 10%,
+    rgba(231, 246, 255, 0.862) 15%,
+    rgba(224, 244, 255, 0.861) 20%,
+    rgba(213, 240, 255, 0.861) 25%,
+    rgba(199, 236, 255, 0.861) 30%,
+    rgba(176, 229, 255, 0.856) 35%,
+    rgba(152, 221, 255, 0.850) 40%,
+    rgba(123, 212, 255, 0.835) 45%,
+    rgba(94, 202, 255, 0.813) 50%,
+    rgba(70, 194, 255, 0.743) 55%,
+    rgba(51, 187, 255, 0.664) 60%,
+    rgba(44, 181, 255, 0.566) 65%,
+    rgba(40, 178, 255, 0.454) 70%,
+    rgba(40, 178, 255, 0.327) 75%,
+    rgba(40, 178, 255, 0.254) 80%,
+    rgba(40, 178, 255, 0.196) 85%,
+    rgba(40, 178, 255, 0.144) 90%,
+    rgba(26, 172, 255, 0.078) 95%,
+    rgba(0, 162, 255, 0.000) 100%);
+}
+
+.lvfq-b4 .lvfq-b4-g-l1 {
+  left: calc(var(--lvfq-b4-l1-x) - var(--lvfq-b4-l1-rx));
+  top: calc(var(--lvfq-b4-l1-y) - var(--lvfq-b4-l1-ry));
+  width: calc(var(--lvfq-b4-l1-rx) * 2);
+  height: calc(var(--lvfq-b4-l1-ry) * 2);
+  transform: rotate(var(--lvfq-b4-l1-rot));
+  background: radial-gradient(closest-side,
+    rgba(238, 249, 255, 1.000) 0%,
+    rgba(238, 249, 255, 1.000) 5%,
+    rgba(237, 249, 255, 1.000) 10%,
+    rgba(236, 248, 255, 0.999) 15%,
+    rgba(234, 248, 255, 0.998) 20%,
+    rgba(232, 247, 255, 0.997) 25%,
+    rgba(230, 246, 255, 0.996) 30%,
+    rgba(221, 243, 255, 0.996) 35%,
+    rgba(210, 239, 255, 0.996) 40%,
+    rgba(195, 235, 255, 0.994) 45%,
+    rgba(171, 227, 255, 0.988) 50%,
+    rgba(144, 219, 255, 0.978) 55%,
+    rgba(110, 208, 255, 0.958) 60%,
+    rgba(80, 197, 255, 0.892) 65%,
+    rgba(52, 188, 255, 0.788) 70%,
+    rgba(43, 180, 255, 0.645) 75%,
+    rgba(40, 178, 255, 0.468) 80%,
+    rgba(40, 178, 255, 0.312) 85%,
+    rgba(40, 178, 255, 0.220) 90%,
+    rgba(37, 177, 255, 0.131) 95%,
+    rgba(0, 162, 255, 0.000) 100%);
+}
+
+.lvfq-b4 .lvfq-b4-g-l2 {
+  left: calc(var(--lvfq-b4-l2-x) - var(--lvfq-b4-l2-rx));
+  top: calc(var(--lvfq-b4-l2-y) - var(--lvfq-b4-l2-ry));
+  width: calc(var(--lvfq-b4-l2-rx) * 2);
+  height: calc(var(--lvfq-b4-l2-ry) * 2);
+  transform: rotate(var(--lvfq-b4-l2-rot));
+  background: radial-gradient(closest-side,
+    rgba(238, 249, 255, 0.702) 0%,
+    rgba(230, 246, 255, 0.699) 5%,
+    rgba(212, 240, 255, 0.699) 10%,
+    rgba(190, 233, 255, 0.697) 15%,
+    rgba(162, 224, 255, 0.692) 20%,
+    rgba(132, 215, 255, 0.681) 25%,
+    rgba(102, 205, 255, 0.668) 30%,
+    rgba(79, 197, 255, 0.623) 35%,
+    rgba(58, 190, 255, 0.572) 40%,
+    rgba(48, 184, 255, 0.509) 45%,
+    rgba(42, 180, 255, 0.444) 50%,
+    rgba(40, 178, 255, 0.372) 55%,
+    rgba(40, 178, 255, 0.295) 60%,
+    rgba(40, 178, 255, 0.233) 65%,
+    rgba(40, 178, 255, 0.200) 70%,
+    rgba(40, 178, 255, 0.167) 75%,
+    rgba(40, 178, 255, 0.139) 80%,
+    rgba(40, 178, 255, 0.111) 85%,
+    rgba(32, 175, 255, 0.078) 90%,
+    rgba(16, 168, 255, 0.039) 95%,
+    rgba(0, 162, 255, 0.000) 100%);
+}
+
+.lvfq-b4 .lvfq-b4-g-l3 {
+  left: calc(var(--lvfq-b4-l3-x) - var(--lvfq-b4-l3-rx));
+  top: calc(var(--lvfq-b4-l3-y) - var(--lvfq-b4-l3-ry));
+  width: calc(var(--lvfq-b4-l3-rx) * 2);
+  height: calc(var(--lvfq-b4-l3-ry) * 2);
+  transform: rotate(var(--lvfq-b4-l3-rot));
+  background: radial-gradient(closest-side,
+    rgba(238, 249, 255, 0.398) 0%,
+    rgba(236, 248, 255, 0.398) 5%,
+    rgba(233, 247, 255, 0.397) 10%,
+    rgba(228, 245, 255, 0.396) 15%,
+    rgba(217, 242, 255, 0.396) 20%,
+    rgba(204, 237, 255, 0.396) 25%,
+    rgba(183, 231, 255, 0.394) 30%,
+    rgba(159, 224, 255, 0.392) 35%,
+    rgba(131, 215, 255, 0.386) 40%,
+    rgba(102, 205, 255, 0.379) 45%,
+    rgba(78, 197, 255, 0.353) 50%,
+    rgba(56, 189, 255, 0.321) 55%,
+    rgba(47, 183, 255, 0.280) 60%,
+    rgba(40, 178, 255, 0.236) 65%,
+    rgba(40, 178, 255, 0.182) 70%,
+    rgba(40, 178, 255, 0.133) 75%,
+    rgba(40, 178, 255, 0.108) 80%,
+    rgba(40, 178, 255, 0.084) 85%,
+    rgba(40, 178, 255, 0.062) 90%,
+    rgba(24, 171, 255, 0.033) 95%,
+    rgba(0, 162, 255, 0.000) 100%);
+}
+
+/* Breite schwache Zusatzebene links (Gegencheck-Befund C1), gleiche Ursache
+   wie in Band 3, hier deutlich staerker: in der Kartenluecke bei live-y 15154
+   fuehrt die Referenz bei x 620 noch (75,178,224), bei x 1000 (9,94,142) und
+   bei x 1400 (3,12,18) - live stand dort auf (0,0,0). Ein groesserer Radius am
+   Kern scheidet aus (nachgemessen im Kommentar bei --lvfq-b4-l1-rx), es braucht
+   die zweite, breite Flaeche.
+
+   Ausgleich am Referenzbild: 733 872 kartenfreie Bildpunkte des Bandes
+   (Randstreifen x 4-250 und x 1502-1748 plus die 23 Kartenluecken).
+   Zielgroesse ist die mittlere Kanalabweichung NACH dem screen-Auftrag,
+   Koordinatenabstieg ueber Mitte, Halbachsen und Drehung: 7,51 -> 6,06.
+   Ergebnis: Mitte 100px links der Bandkante, 41,44 Prozent der Sektionshoehe,
+   Halbachsen 2106 x 938, keine Drehung. Die Farbstufen sind die gemessenen
+   Ringmittel (weisslicher Kern, cyanfarbener Auslauf), kein einzelner Farbton -
+   eine reine Cyan-Ebene liess den Kern bei x 270-400 rund 90 im Rotkanal zu
+   dunkel (Referenz dort (210,232,245)).
+
+   mix-blend-mode: screen - die Ebene kann nur aufhellen, der bereits richtige
+   linke Rand bleibt stehen. Sie steht als Span NACH l1/l2/l3 und nicht als
+   ::before, sonst wuerden die normal gezeichneten Kern-Ebenen sie im Bereich
+   x 600-800 wieder abdunkeln.
+   An den Umbruchpunkten dieselben Verhaeltnisse wie l1/l2/l3: Breite 0,65 und
+   0,40, Hoehe 0,80 und 0,62. */
+.lvfq-page .lvfq-b4 {
+  --lvfq-b4-lw-x: -100px;
+  --lvfq-b4-lw-y: 41.44%;
+  --lvfq-b4-lw-rx: 2106px;
+  --lvfq-b4-lw-ry: 16.6845%;
+}
+.lvfq-b4 .lvfq-b4-g-lw {
+  left: calc(var(--lvfq-b4-lw-x) - var(--lvfq-b4-lw-rx));
+  top: calc(var(--lvfq-b4-lw-y) - var(--lvfq-b4-lw-ry));
+  width: calc(var(--lvfq-b4-lw-rx) * 2);
+  height: calc(var(--lvfq-b4-lw-ry) * 2);
+  mix-blend-mode: screen;
+  background: radial-gradient(closest-side,
+    rgba(242, 243, 255, 0.725) 0%,
+    rgba(242, 243, 255, 0.725) 5%,
+    rgba(242, 243, 255, 0.725) 10%,
+    rgba(242, 243, 255, 0.725) 15%,
+    rgba(242, 243, 255, 0.725) 20%,
+    rgba(223, 243, 255, 0.725) 25%,
+    rgba(164, 243, 255, 0.725) 30%,
+    rgba(108, 243, 255, 0.725) 35%,
+    rgba(62, 218, 255, 0.725) 40%,
+    rgba(42, 179, 255, 0.714) 45%,
+    rgba(29, 168, 255, 0.549) 50%,
+    rgba(23, 168, 255, 0.395) 55%,
+    rgba(26, 171, 255, 0.227) 60%,
+    rgba(26, 149, 255, 0.114) 65%,
+    rgba(17, 153, 255, 0.059) 70%,
+    rgba(28, 170, 255, 0.035) 75%,
+    rgba(0, 162, 255, 0.0196) 80%,
+    rgba(0, 162, 255, 0.0118) 85%,
+    rgba(0, 162, 255, 0.0039) 90%,
+    rgba(0, 162, 255, 0.0039) 95%,
+    rgba(0, 162, 255, 0.000) 100%);
+}
+@media (max-width: 1024px) {
+  .lvfq-page .lvfq-b4 {
+    --lvfq-b4-lw-x: -65px;
+    --lvfq-b4-lw-rx: 1369px;
+    --lvfq-b4-lw-ry: 750px;
+  }
+}
+@media (max-width: 700px) {
+  .lvfq-page .lvfq-b4 {
+    --lvfq-b4-lw-x: -40px;
+    --lvfq-b4-lw-rx: 842px;
+    --lvfq-b4-lw-ry: 582px;
+  }
+}
+
+.lvfq-b4 .lvfq-b4-g-br1 {
+  right: calc(var(--lvfq-b4-br1-x) - var(--lvfq-b4-br1-rx));
+  top: calc(var(--lvfq-b4-br1-y) - var(--lvfq-b4-br1-ry));
+  width: calc(var(--lvfq-b4-br1-rx) * 2);
+  height: calc(var(--lvfq-b4-br1-ry) * 2);
+  transform: rotate(var(--lvfq-b4-br1-rot));
+  background: radial-gradient(closest-side,
+    rgba(238, 249, 255, 0.790) 0%,
+    rgba(237, 249, 255, 0.790) 5%,
+    rgba(235, 248, 255, 0.789) 10%,
+    rgba(232, 247, 255, 0.788) 15%,
+    rgba(228, 245, 255, 0.787) 20%,
+    rgba(218, 242, 255, 0.787) 25%,
+    rgba(206, 238, 255, 0.787) 30%,
+    rgba(187, 232, 255, 0.784) 35%,
+    rgba(164, 225, 255, 0.779) 40%,
+    rgba(137, 216, 255, 0.769) 45%,
+    rgba(107, 206, 255, 0.755) 50%,
+    rgba(81, 198, 255, 0.707) 55%,
+    rgba(56, 189, 255, 0.640) 60%,
+    rgba(47, 183, 255, 0.551) 65%,
+    rgba(40, 178, 255, 0.453) 70%,
+    rgba(40, 178, 255, 0.333) 75%,
+    rgba(40, 178, 255, 0.245) 80%,
+    rgba(40, 178, 255, 0.188) 85%,
+    rgba(40, 178, 255, 0.138) 90%,
+    rgba(28, 173, 255, 0.076) 95%,
+    rgba(0, 162, 255, 0.000) 100%);
+}
+
+.lvfq-b4 .lvfq-b4-g-br2 {
+  right: calc(var(--lvfq-b4-br2-x) - var(--lvfq-b4-br2-rx));
+  top: calc(var(--lvfq-b4-br2-y) - var(--lvfq-b4-br2-ry));
+  width: calc(var(--lvfq-b4-br2-rx) * 2);
+  height: calc(var(--lvfq-b4-br2-ry) * 2);
+  transform: rotate(var(--lvfq-b4-br2-rot));
+  background: radial-gradient(closest-side,
+    rgba(238, 249, 255, 0.929) 0%,
+    rgba(235, 248, 255, 0.928) 5%,
+    rgba(232, 247, 255, 0.927) 10%,
+    rgba(226, 245, 255, 0.926) 15%,
+    rgba(214, 241, 255, 0.926) 20%,
+    rgba(201, 236, 255, 0.925) 25%,
+    rgba(177, 229, 255, 0.920) 30%,
+    rgba(154, 222, 255, 0.914) 35%,
+    rgba(125, 212, 255, 0.898) 40%,
+    rgba(96, 203, 255, 0.881) 45%,
+    rgba(73, 195, 255, 0.808) 50%,
+    rgba(52, 188, 255, 0.732) 55%,
+    rgba(46, 182, 255, 0.634) 60%,
+    rgba(40, 178, 255, 0.529) 65%,
+    rgba(40, 178, 255, 0.404) 70%,
+    rgba(40, 178, 255, 0.303) 75%,
+    rgba(40, 178, 255, 0.246) 80%,
+    rgba(40, 178, 255, 0.192) 85%,
+    rgba(40, 178, 255, 0.142) 90%,
+    rgba(23, 171, 255, 0.074) 95%,
+    rgba(0, 162, 255, 0.000) 100%);
+}
+
+/* --- Inhaltsspalte -------------------------------------------------------- */
+
+.lvfq-b4 .lvfq-b4-wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--lvfq-b4-col);
+  margin: 0 auto;
+}
+
+.lvfq-b4 .lvfq-b4-cat {
+  /* fester Kopf der Seite: Sprungziele nicht darunter parken */
+  scroll-margin-top: 140px;
+}
+
+.lvfq-b4 .lvfq-b4-cat + .lvfq-b4-cat {
+  margin-top: 69px;
+}
+
+/* --- Kategorie-Kopf ------------------------------------------------------- */
+
+.lvfq-b4 .lvfq-b4-head {
+  display: flex;
+  align-items: center;
+  /* GEGENCHECK B-05: Abstand Plakette zu Ueberschrift. Nach dem
+     Gewichts-Fix (B-04) nachgemessen - Referenz 17/15/17/17px bei den
+     Kategorien 5/6/8/9, live 15/13/14/15px. Der Bericht schlaegt 16px vor
+     (wie Band 1 und 2), gemessen fehlen aber genau 2px; mit 15px stehen die
+     Textanfaenge bei 17/15/16/17 gegen 17/15/17/17 der Referenz. */
+  gap: 15px;
+  min-height: 48px;
+  margin: 0 0 53px;
+}
+
+.lvfq-b4 .lvfq-b4-num {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--lvf-grad-blue);
+  color: #02060c;
+  font-family: var(--lvf-font-display);
+  /* Ziffernhoehe im Bild 17px (runde Ziffern), Faktor 0,671 -> 24px */
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* Spezifitaet 0-3-1: sonst faerbt der Theme-Reset fuer h2 den Verlaufstext
+   wieder ein (Falle 2 aus dem Vertrag). */
+/* GEGENCHECK B1: weight 600 -> 500. Strichstaerke im x-Hoehen-Band, Referenz
+   gegen live: "Account" 5,08 / 6,52, "Affiliate" 5,20 / 6,76, "Lvlup"
+   4,54 / 6,11 - die Akzentwoerter stimmen dagegen auf 0,3 bis 0,7px genau. */
+.lvfq-b4 .lvfq-b4-head h2.lvfq-b4-title {
+  margin: 0;
+  padding: 0;
+  font-family: var(--lvf-font-display);
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 500;
+  letter-spacing: 0;
+  /* Der weisse Teil ist am linken Wortanfang gedaempft (gemessen 201 von 255)
+     und erreicht nach rund einem Drittel reines Weiss. */
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.78) 0%, #ffffff 50%, rgba(255, 255, 255, 0.77) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  overflow-wrap: break-word;
+}
+
+.lvfq-b4 .lvfq-b4-head h2.lvfq-b4-title .lvfq-b4-accent {
+  font-weight: 600; /* GEGENCHECK B1 */
+  background: var(--lvf-grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* --- Fragenliste ---------------------------------------------------------- */
+
+.lvfq-b4 .lvfq-b4-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lvfq-b4 .lvfq-b4-item {
+  position: relative;
+  margin: 0;
+  /* 25/17 statt 24/16: der Rahmen liegt hier als Ring im ::before und nicht
+     als echte border, die 2px Kartenhoehe muessen also ins Padding. */
+  padding: 25px 100px 17px 32px;
+  border-radius: 18px;
+  list-style: none;
+  /* halbdurchlaessig: der Schein scheint mit rund 22 Prozent durch
+     (aus drei Messpunkten in hellen Bereichen zurueckgerechnet) */
+  background: rgba(0, 6, 10, 0.78);
+}
+
+/* Rahmen als eigener 1px-Ring mit Maske. Ein zweiter Hintergrund mit
+   border-box wuerde unter der halbdurchlaessigen Flaeche durchscheinen
+   und die ganze Karte aufhellen. Gemessene Deckkraft: oben links 0,26,
+   oben rechts 0,08, unten links ~0, rechte Kante 0,33. */
+.lvfq-b4 .lvfq-b4-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(0, 162, 255, 0) 62%, rgba(0, 162, 255, 0.30) 100%),
+    linear-gradient(172deg, rgba(150, 217, 255, 0.27) 0%, rgba(0, 162, 255, 0.14) 25%, rgba(0, 162, 255, 0.045) 50%, rgba(0, 162, 255, 0) 72%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+/* --- Frage ---------------------------------------------------------------- */
+
+.lvfq-b4 .lvfq-b4-qwrap {
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+.lvfq-b4 button.lvfq-b4-q {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--lvf-font-display);
+  font-size: 18.4px;
+  line-height: 26px;
+  font-weight: 500;
+  color: var(--lvf-white);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.lvfq-b4 button.lvfq-b4-q:focus-visible {
+  outline: 2px solid var(--lvf-blue);
+  outline-offset: 6px;
+  border-radius: 6px;
+}
+
+.lvfq-b4 .lvfq-b4-qtext {
+  display: block;
+  overflow-wrap: break-word;
+}
+
+/* Touch-Ziel >= 44px bei 768-1023px, 13.08.2026: identische Luecke wie bei
+   lvfq-b3-q, siehe dort. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .lvfq-b4 button.lvfq-b4-q {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+/* --- Plus/Minus-Knopf ----------------------------------------------------- */
+
+.lvfq-b4 .lvfq-b4-icon {
+  position: absolute;
+  top: 25px;
+  right: 31px;
+  width: 32px;
+  height: 32px;
+  border-radius: 11px;
+  /* GEGENCHECK B4: der innere Schein war nur nach unten gesetzt, die Referenz
+     leuchtet die rechte Innenkante mit. Schnitt durch die Icon-Mitte,
+     Blaukanal x 1461..1468: Referenz 44/55/80/117/162/211/212/37 (rund 7px
+     breiter Saum mit Spitze 212), live 23/26/29/31/35/41/47/162 - eine harte
+     1px-Kante ohne Saum. Ueber fuenf Icons gemessen fehlt rechts der Faktor
+     2,6. Kasten (32x32), Balken (12x2) und Farbe stimmten. */
+  box-shadow:
+    0 3px 12px rgba(0, 150, 235, 0.26),
+    inset 0 -10px 13px -9px rgba(0, 162, 255, 0.95),
+    inset -10px 0 13px -9px rgba(0, 162, 255, 0.90);
+}
+
+/* Der Ring ist oben links fast unsichtbar und unten rechts kraeftig blau. */
+.lvfq-b4 .lvfq-b4-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(155deg, rgba(140, 213, 255, 0.08) 0%, rgba(0, 162, 255, 0.13) 45%, #12a9ff 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+.lvfq-b4 .lvfq-b4-icon::after,
+.lvfq-b4 .lvfq-b4-icon > i {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 2px;
+  margin: -1px 0 0 -6px;
+  border-radius: 1px;
+  background: #8cd5ff;
+}
+
+.lvfq-b4 .lvfq-b4-icon > i {
+  transform: rotate(90deg) scaleX(0);
+  transition: transform 0.32s ease;
+}
+
+.lvfq-b4 .lvfq-b4-item[data-lvfq-b4-open="false"] .lvfq-b4-icon > i {
+  transform: rotate(90deg) scaleX(1);
+}
+
+/* --- Antwort -------------------------------------------------------------- */
+
+.lvfq-b4 .lvfq-b4-a {
+  display: grid;
+  grid-template-rows: 1fr;
+  margin-top: 22px;
+  /* margin-top bewusst ohne Uebergang, siehe Kommentar an .lvfq-a. */
+  transition: grid-template-rows 0.32s ease, opacity 0.32s ease;
+}
+
+.lvfq-b4 .lvfq-b4-a-in {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.lvfq-b4 .lvfq-b4-item[data-lvfq-b4-open="false"] .lvfq-b4-a {
+  grid-template-rows: 0fr;
+  margin-top: 0;
+  opacity: 0;
+}
+
+.lvfq-b4 .lvfq-b4-p {
+  margin: 0;
+  padding: 0;
+  font-size: 18.2px;
+  line-height: 25px;
+  font-weight: 400;
+  color: var(--lvf-text-mid);
+  overflow-wrap: break-word;
+}
+
+/* --- Aufzaehlungen -------------------------------------------------------- */
+
+.lvfq-b4 .lvfq-b4-bullets {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lvfq-b4 .lvfq-b4-bullets li {
+  position: relative;
+  margin: 0;
+  padding-left: 23px;
+  font-size: 18.2px;
+  line-height: 25px;
+  font-weight: 400;
+  color: #5cc4ff;
+  overflow-wrap: break-word;
+}
+
+.lvfq-b4 .lvfq-b4-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 10px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #5cc4ff;
+}
+
+/* Absaetze und Aufzaehlungen stehen im Original immer 25px auseinander,
+   unabhaengig von ihrer Reihenfolge. Muss NACH .lvfq-b4-bullets stehen:
+   beide Regeln haben Spezifitaet 0-2-0, es gewinnt die spaetere. */
+.lvfq-b4 .lvfq-b4-a-in > * + * {
+  margin-top: 25px;
+}
+
+/* --- Tablet --------------------------------------------------------------- */
+
+@media (max-width: 1320px) {
+  .lvfq-b4 .lvfq-b4-wrap {
+    max-width: none;
+    padding: 0 32px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .lvfq-b4 {
+    /* Breite mal 0,65, Hoehe mal 0,8: die Sektion waechst schmal in die
+       Hoehe, der Schein soll sie weiter voll ausleuchten. */
+    --lvfq-b4-tr1-rx: 700px;
+    --lvfq-b4-tr1-ry: 1690px;
+    --lvfq-b4-tr2-rx: 364px;
+    --lvfq-b4-tr2-ry: 2815px;
+    --lvfq-b4-l1-rx: 504px;
+    --lvfq-b4-l1-ry: 1336px;
+    --lvfq-b4-l2-rx: 469px;
+    --lvfq-b4-l2-ry: 1100px;
+    --lvfq-b4-l3-rx: 287px;
+    --lvfq-b4-l3-ry: 856px;
+    --lvfq-b4-br1-rx: 473px;
+    --lvfq-b4-br1-ry: 1278px;
+    --lvfq-b4-br2-rx: 358px;
+    --lvfq-b4-br2-ry: 599px;
+    padding-top: 56px;
+  }
+
+  .lvfq-b4 .lvfq-b4-cat + .lvfq-b4-cat {
+    margin-top: 56px;
+  }
+
+  .lvfq-b4 .lvfq-b4-head {
+    min-height: 40px;
+    margin-bottom: 34px;
+  }
+
+  .lvfq-b4 .lvfq-b4-head h2.lvfq-b4-title {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .lvfq-b4 .lvfq-b4-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-size: 20px;
+  }
+}
+
+/* --- Mobil ---------------------------------------------------------------- */
+
+@media (max-width: 700px) {
+  .lvfq-b4 {
+    /* Breite mal 0,40, Hoehe mal 0,62. */
+    --lvfq-b4-tr1-x: -180px;
+    --lvfq-b4-tr1-rx: 431px;
+    --lvfq-b4-tr1-ry: 1308px;
+    --lvfq-b4-tr2-rx: 224px;
+    --lvfq-b4-tr2-ry: 2181px;
+    --lvfq-b4-l1-x: -98px;
+    --lvfq-b4-l1-rx: 310px;
+    --lvfq-b4-l1-ry: 1035px;
+    --lvfq-b4-l2-x: -134px;
+    --lvfq-b4-l2-rx: 288px;
+    --lvfq-b4-l2-ry: 853px;
+    --lvfq-b4-l3-x: -134px;
+    --lvfq-b4-l3-rx: 177px;
+    --lvfq-b4-l3-ry: 663px;
+    --lvfq-b4-br1-x: -257px;
+    --lvfq-b4-br1-rx: 291px;
+    --lvfq-b4-br1-ry: 991px;
+    --lvfq-b4-br2-x: -73px;
+    --lvfq-b4-br2-rx: 220px;
+    --lvfq-b4-br2-ry: 464px;
+    padding-top: 44px;
+  }
+
+  /* ABNAHME 3.3: die Auslaufzone aus U-02 wirkt mobil zu schwach - bei 390px
+     stieg der Schein an der Naht b3/b4 (dort y 16044) in vier statt elf
+     Zeilen an, Spaltenstufe Median 57. Ursache ist NICHT das waagerechte
+     Fenster, das passt auch bei 390px (gemessene Wunschdeckkraft: bis x 125
+     voll, x 145-355 rund 0,12 bis 0,3, ab x 355 wieder voll - das Fenster
+     deckt 0-30%, 36-84%, 89-100%). Falsch ist allein der Startwert der
+     senkrechten Ebene: 0,65 laesst in der ersten Zeile 0,65 x 160 = 104
+     stehen, wo Band 3 mit 41 endet. Zurueckgerechnet (Wert = m x Schein +
+     (1-m) x 15) braucht die erste Zeile m = 0,15; damit faellt die
+     Spaltenstufe in den scheintragenden Spalten von Median 84 auf 6.
+     Der Anstieg wird ausserdem auf 20 statt 14px gestreckt, damit die
+     Zeilenschritte unter 8 bleiben. Zweiter Durchgang: die Spalten x 125-200
+     (32-51% der Breite) blieben mit reiner Senkrechtmaske zu dunkel (14 bis
+     29 gegen 41 von Band 3), weil das waagerechte Fenster dort schon offen
+     ist. Es faellt deshalb nicht mehr bei 36%, sondern ueber 38-50% weich ab.
+     Desktop bleibt unberuehrt. */
+  .lvfq-b4 .lvfq-b4-glow {
+    -webkit-mask-image:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0, rgba(0, 0, 0, 0.36) 4px,
+                                rgba(0, 0, 0, 0.60) 9px, rgba(0, 0, 0, 0.82) 14px,
+                                #000 20px),
+        linear-gradient(90deg, #000 0, #000 30%, rgba(0, 0, 0, 0.55) 38%,
+                               rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 84%,
+                               #000 90%, #000 100%);
+            mask-image:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0, rgba(0, 0, 0, 0.36) 4px,
+                                rgba(0, 0, 0, 0.60) 9px, rgba(0, 0, 0, 0.82) 14px,
+                                #000 20px),
+        linear-gradient(90deg, #000 0, #000 30%, rgba(0, 0, 0, 0.55) 38%,
+                               rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 84%,
+                               #000 90%, #000 100%);
+  }
+
+  .lvfq-b4 .lvfq-b4-wrap {
+    padding: 0 16px;
+  }
+
+  .lvfq-b4 .lvfq-b4-cat + .lvfq-b4-cat {
+    margin-top: 44px;
+  }
+
+  .lvfq-b4 .lvfq-b4-head {
+    gap: 11px;
+    min-height: 34px;
+    margin-bottom: 24px;
+  }
+
+  .lvfq-b4 .lvfq-b4-num {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    font-size: 19px;
+  }
+
+  .lvfq-b4 .lvfq-b4-head h2.lvfq-b4-title {
+    font-size: 26px;
+    line-height: 34px;
+  }
+
+  .lvfq-b4 .lvfq-b4-list {
+    gap: 12px;
+  }
+
+  .lvfq-b4 .lvfq-b4-item {
+    padding: 18px 60px 18px 20px;
+    border-radius: 16px;
+  }
+
+  /* Touch-Ziel mindestens 40px hoch. */
+  .lvfq-b4 button.lvfq-b4-q {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    font-size: 17px;
+    line-height: 24px;
+  }
+
+  .lvfq-b4 .lvfq-b4-icon {
+    top: 22px;
+    right: 14px;
+  }
+
+  .lvfq-b4 .lvfq-b4-a {
+    margin-top: 16px;
+  }
+
+  .lvfq-b4 .lvfq-b4-p,
+  .lvfq-b4 .lvfq-b4-bullets li {
+    font-size: 15px;
+    line-height: 23px;
+  }
+
+  .lvfq-b4 .lvfq-b4-a-in > * + * {
+    margin-top: 18px;
+  }
+
+  .lvfq-b4 .lvfq-b4-bullets li::before {
+    top: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lvfq-b4 .lvfq-b4-a,
+  .lvfq-b4 .lvfq-b4-icon > i {
+    transition: none;
+  }
+}
+
+/* =========================================================================
+   FAQ - Band 5 von 5: "Still Have Questions?"
+   Referenz: _referenz/faq-1760.png, y 18594 bis 19815 bei 1760px Breite.
+   Alle Klassen tragen den Seitenpraefix lvfq-. Der Footer ab y 19818 ist
+   Theme-Vorlage und kommt hier nicht vor.
+   ========================================================================= */
+
+.lvfq-b5 {
+  position: relative;
+  /* eigener Stapelkontext: .lvfq-b5-bg (z-index -1) liegt hinter dem Inhalt
+     dieser Sektion, aber ueber dem Seitenhintergrund */
+  z-index: 0;
+  /* 104px von der Unterkante der letzten Affiliate-Karte (18594) bis zur
+     Oberkante der Pille (18698) */
+  padding-top: 104px;
+  /* 102px von der Unterkante der Karte (19713) bis zur Footer-Vorlage (19815) */
+  padding-bottom: 102px;
+  font-family: var(--lvf-font-display);
+  text-align: center;
+}
+
+/* ---------- Hintergrund-Glows ------------------------------------------
+   Drei CSS-Radialverlaeufe, keine Bilder. Mittelpunkte und Radien stammen
+   aus einer Ausgleichsrechnung gegen das Hintergrundfeld des Referenzbildes
+   (Messpunkte x 0-240 und x 1520-1759, y 18620-19800 in 40px-Schritten):
+     links      Mitte (-320 | 20200)  Radien 620 x 3000
+     rechts A   Mitte (2240 | 18300)  Radien 940 x 2500
+     rechts B   Mitte (1960 | 20600)  Radien 520 x 2000
+   Restfehler RMS 6,3 (links) bzw. 6,8 (rechts) von 255.
+   overflow: clip haelt die nach oben ueberstehenden Ellipsen aus dem Band
+   davor heraus - spaeter im Dokument stehende Elemente wuerden sonst ueber
+   den Karten von Fragment 4 liegen. */
+.lvfq-b5-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: block;
+  overflow: clip;
+  isolation: isolate;
+  pointer-events: none;
+}
+.lvfq-b5-glow {
+  position: absolute;
+  display: block;
+  mix-blend-mode: screen;
+  background: radial-gradient(closest-side,
+    #ffffff 0%,
+    #eaf7ff 12%,
+    #7cd4fc 28%,
+    #49b0dc 38%,
+    #3189b5 44%,
+    #1f5b7c 53%,
+    #103347 64%,
+    rgba(18, 72, 100, 0.39) 72%,
+    rgba(6, 62, 100, 0.24) 79%,
+    rgba(6, 62, 100, 0.16) 85%,
+    rgba(6, 62, 100, 0) 100%);
+}
+.lvfq-b5-glow-l  { left:  -940px;  top: -1394px; width: 1240px; height: 6000px; }
+.lvfq-b5-glow-ra { right: -1420px; top: -2794px; width: 1880px; height: 5000px; }
+/* GEGENCHECK U-05 (nicht eingebaut): der Bericht schlaegt hier top 6px ->
+   -120px vor. Lokal nachgemessen aendert das an der Naht nichts (Spalte
+   x1755 vorher wie nachher 135 -> 125, groesste Spaltenstufe 60, Median 11).
+   Der Wert bleibt deshalb unveraendert - siehe Bericht, der den Eingriff
+   selbst nur unter Vorbehalt empfiehlt. */
+.lvfq-b5-glow-rb { right:  -720px; top:     6px; width: 1040px; height: 4000px; }
+
+/* ---------- Raster ------------------------------------------------------ */
+.lvfq-b5-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 1280px;      /* 1240px Karte + 2x20px Rand */
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ---------- Pille ------------------------------------------------------- */
+.lvfq-b5-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
+  max-width: 100%;
+  height: 33px;
+  margin: 0 auto;
+  padding: 0 30px;
+  border: 1px solid rgba(140, 213, 255, 0.04);
+  border-radius: 999px;
+  background: rgba(0, 162, 255, 0.07);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+  color: #ffffff;
+  overflow-wrap: break-word;
+}
+
+/* ---------- Ueberschrift ------------------------------------------------ */
+.lvfq-b5-h {
+  margin: 18px 0 0;
+  /* ABGLEICH LIVE: 63px stammte aus der Versalhoehe mit Faktor 0,70. Die
+     Referenz misst 54px von der Oberkante des "S" bis zum Schwanz des "Q"
+     (Render bei 63px: 52px) -> 65,5px, also dieselbe Groesse wie die H1.
+     Zugleich ist die Zeile in der Referenz nur 578px breit statt 623px:
+     der Entwurf zieht die Zeichen um rund 3,3 Prozent zusammen. Die
+     Zeilenhoehe bleibt bei 69,3px (1,058 x 65,5), damit die Sektionshoehe
+     von 1221px erhalten bleibt. */
+  /* GEGENCHECK B1: weight 600 -> 500. "Still" mass 99px statt 92, "Have"
+     141 statt 136; das Akzentwort "Questions?" stimmt und behaelt 600.
+     GEGENCHECK B2: die Ueberschrift sass 4px zu hoch (Tinte y 18751 statt
+     18755), waehrend Pille darueber und Untertext darunter stimmen - es ist
+     die Halbdurchschuss-Verteilung im Zeilenkasten, keine Groesse (Hoehe des
+     "S" in beiden exakt 46px). margin +8px, line-height -8px: die Tintenlage
+     wandert um 8 - 4 = +4px, die Kastenhoehe um 8 - 8 = 0px. */
+  font-size: 65.5px;
+  font-weight: 500;
+  line-height: 0.937;
+  letter-spacing: -0.033em;
+  overflow-wrap: break-word;
+}
+/* Element + Klasse, damit der Heading-Reset des Themes den Verlaufstext
+   nicht schlaegt */
+h2.lvfq-b5-h > .lvfq-b5-h-w {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.78) 0%, #ffffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+h2.lvfq-b5-h > .lvfq-b5-h-b {
+  font-weight: 600; /* GEGENCHECK B1: nur der Akzent bleibt fett */
+  background: var(--lvf-grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ---------- Unterzeile -------------------------------------------------- */
+.lvfq-b5-sub {
+  max-width: 700px;
+  margin: 15px auto 0;
+  /* ABGLEICH LIVE: Unterzeile: Referenzzeile 1 misst 684px OHNE das Wort "issues", live passte es bei 18px noch in dieselbe Zeile -> 19,46px. */
+  font-size: 19.46px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #ffffff;
+  overflow-wrap: break-word;
+}
+
+/* ---------- Karte ------------------------------------------------------- */
+.lvfq-b5-panel {
+  margin-top: 46px;
+  padding: 40px 42px 49px;
+  border: 1px solid transparent;
+  border-radius: 22px;
+  /* Rahmen gemessen: oben 0,02 / unten 0,023 / links 0,028 / rechts 0,078
+     Deckkraft - deshalb ein waagerechter Verlauf statt einer festen Farbe */
+  background:
+    linear-gradient(#000000, #000000) padding-box,
+    linear-gradient(90deg, rgba(120, 190, 255, 0.020) 0%, rgba(120, 190, 255, 0.016) 45%, rgba(120, 190, 255, 0.050) 100%) border-box;
+  text-align: left;
+}
+
+/* ---------- Formularzeilen ---------------------------------------------- */
+.lvfq-b5-row {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  align-items: center;
+  padding: 14px 13px 13px 0;
+  border-radius: 18px;
+  background: #0d0d0d;
+}
+.lvfq-b5-row + .lvfq-b5-row { margin-top: 9px; }
+.lvfq-b5-row-msg { align-items: start; }
+
+.lvfq-b5-lab {
+  padding-left: 42px;
+  /* ABGLEICH LIVE: Beschriftungen: "Full Name" 72px, "Email Address" 107px in der Referenz -> 17,6 bzw. 17,7px. */
+  font-size: 17.7px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.88);
+  overflow-wrap: break-word;
+}
+.lvfq-b5-row-msg .lvfq-b5-lab { padding-top: 20px; }
+
+.lvfq-b5-field {
+  position: relative;
+  display: block;
+  height: 62px;
+}
+.lvfq-b5-field-msg { height: 206px; }
+
+/* Fuellung: waagerechter Verlauf von fast schwarz nach blaustichig.
+   Rahmen: 1px Verlauf, oben blau, nach unten auslaufend (padding-box /
+   border-box statt eines zweiten Layers, weil die Fuellung deckend ist).
+   Doppelte Klasse (0-3-0), weil lvlup-theme.css mit
+   ".lvf-page.lvf-page input, select, textarea" (0-2-1) background, border
+   und border-radius auf Formularfelder zurueckdreht. */
+.lvfq-b5.lvfq-b5 .lvfq-b5-in {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0 35px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background:
+    linear-gradient(100deg, #020203 0%, #05070a 45%, #0b1116 100%) padding-box,
+    linear-gradient(180deg, rgba(0, 162, 255, 0.10) 0%, rgba(0, 162, 255, 0.05) 55%, rgba(0, 162, 255, 0) 100%) border-box;
+  font-family: inherit;
+  /* ABGLEICH LIVE: Platzhalter "Type here......" misst in der Referenz 95px -> 18,6px. */
+  font-size: 18.6px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.88);
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+}
+.lvfq-b5.lvfq-b5 .lvfq-b5-in::placeholder { color: rgba(255, 255, 255, 0.32); opacity: 1; }
+.lvfq-b5.lvfq-b5 .lvfq-b5-in:focus-visible { border-color: rgba(0, 162, 255, 0.55); }
+
+.lvfq-b5.lvfq-b5 .lvfq-b5-sel {
+  padding-right: 62px;
+  color: rgba(255, 255, 255, 0.32);
+  cursor: pointer;
+}
+.lvfq-b5.lvfq-b5 .lvfq-b5-sel option { color: #000000; }
+
+.lvfq-b5.lvfq-b5 .lvfq-b5-ta {
+  padding-top: 18px;
+  padding-bottom: 18px;
+  resize: none;
+  overflow: auto;
+}
+
+.lvfq-b5-caret {
+  position: absolute;
+  top: 50%;
+  right: 33px;
+  width: 18px;
+  height: 12px;
+  margin-top: -6px;
+  pointer-events: none;
+}
+.lvfq-b5-caret svg { display: block; }
+
+/* ---------- Sendeschalter -----------------------------------------------
+   Doppelte Klasse aus demselben Grund wie bei den Feldern: das Theme setzt
+   auf "button" background, border und border-radius zurueck. */
+.lvfq-b5.lvfq-b5 .lvfq-b5-send {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 71px;
+  margin: 11px 0 0;
+  padding: 0 53px;
+  border: 0;
+  border-radius: 22px;
+  background: linear-gradient(180deg,
+    #c6f0ff 0%,
+    #9adcff 6%,
+    #74ccff 20%,
+    #55befe 40%,
+    #3eb6ff 62%,
+    #26b3fe 88%,
+    #19c6ff 100%);
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.lvfq-b5-send-txt {
+  /* ABGLEICH LIVE: "Send Message" misst in der Referenz 146px Tinte und 23px Hoehe, bei 24px sind es 134px/21px -> 26px. */
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1;
+  color: #000000;
+  overflow-wrap: break-word;
+}
+.lvfq-b5-send-box {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  bottom: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 374px;
+  max-width: 45%;
+  border-radius: 13px;
+  background: #060606;
+}
+.lvfq-b5-send-box svg { display: block; }
+
+/* ---------- Kontaktzeile ------------------------------------------------ */
+.lvfq-b5-contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 24px 116px;
+  margin-top: 39px;
+  text-align: center;
+}
+.lvfq-b5-ci { max-width: 100%; }
+
+/* GEGENCHECK B3: die Kontaktzeile war rund 3 Prozent zu breit
+   ("info@lvlupfutures.com" 241 statt 234px, "Am Langenwall 1 18439
+   Stralsund, Germany" 465 statt 450px), waehrend das Wort "Am" mit 37px in
+   beiden identisch ist - also Laufweite, nicht Groesse. Benoetigt: -0,37px
+   je Zeichen bei 24px, das sind -0,016em. Gegenprobe: .lvfq-b5-ci-sub misst
+   in beiden exakt 648px und bleibt unangetastet. */
+.lvfq-b5-ci-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.016em;
+  text-decoration: none;
+  overflow-wrap: break-word;
+}
+.lvfq-b5-ci-ico { display: flex; flex: 0 0 auto; }
+.lvfq-b5-ci-ico svg { display: block; }
+
+/* Element + Klasse, sonst schlaegt .lvf-page a { color: inherit } */
+a.lvfq-b5-ci-main .lvfq-b5-ci-txt,
+p.lvfq-b5-ci-main .lvfq-b5-ci-txt {
+  background: var(--lvf-grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ABNAHME 3.2: die Unterzeile lief rund 10 Prozent zu eng - "For General
+   Enquiries" 164 statt 182px, "Registered Office" 130 statt 143px, bei in
+   beiden Bildern gleicher Versalhoehe (12px). Es ist also Laufweite, nicht
+   Groesse. Wortweise nachgerechnet fehlt genau 1px je Zeichen ("For" 26/28 =
+   2 Luecken, "General" 59/65 = 6, "Enquiries" 70/78 = 8). Nicht die Folge des
+   B3-Fixes: der sitzt auf .lvfq-b5-ci-main, einem Geschwisterelement, und
+   waere bei 18px nur -0,29px je Zeichen. Gewaehlt 0,047em = 0,846px, das
+   trifft beide Zeilen zugleich (181 und 143,5 gegen 182 und 143); mit vollen
+   1px waere die kuerzere Zeile 1,4px zu breit. Auf die Zeilenbreite der
+   Kontaktspalte wirkt es nicht, die Hauptzeile bleibt in beiden Spalten die
+   breitere (263 gegen 181, 481 gegen 143). */
+.lvfq-b5-ci-sub {
+  margin: 1px 0 0;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0.047em;
+  color: rgba(255, 255, 255, 0.88);
+  overflow-wrap: break-word;
+}
+
+/* =========================================================================
+   Schmalere Fenster
+   ========================================================================= */
+@media (max-width: 1180px) {
+  .lvfq-b5-panel { padding: 32px 28px 38px; }
+  .lvfq-b5-row { grid-template-columns: 160px minmax(0, 1fr); }
+  .lvfq-b5-lab { padding-left: 28px; }
+  .lvfq-b5.lvfq-b5 .lvfq-b5-in { padding: 0 24px; }
+  .lvfq-b5-caret { right: 22px; }
+  .lvfq-b5.lvfq-b5 .lvfq-b5-send { padding: 0 32px; }
+  .lvfq-b5-contact { gap: 24px 64px; }
+}
+
+@media (max-width: 900px) {
+  .lvfq-b5 { padding-top: 78px; padding-bottom: 78px; }
+  .lvfq-b5-h { font-size: 48px; }
+  .lvfq-b5-ci-main { font-size: 21px; }
+  .lvfq-b5-ci-sub { font-size: 16px; }
+}
+
+@media (max-width: 760px) {
+  .lvfq-b5-row {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+    padding: 16px;
+  }
+  .lvfq-b5-lab { padding-left: 4px; padding-bottom: 10px; }
+  .lvfq-b5-row-msg .lvfq-b5-lab { padding-top: 0; }
+  .lvfq-b5-field { height: 54px; }
+  .lvfq-b5-field-msg { height: 170px; }
+  .lvfq-b5.lvfq-b5 .lvfq-b5-in { padding: 0 18px; border-radius: 10px; }
+  .lvfq-b5.lvfq-b5 .lvfq-b5-ta { padding-top: 15px; padding-bottom: 15px; }
+  .lvfq-b5-caret { right: 16px; }
+  .lvfq-b5.lvfq-b5 .lvfq-b5-send { height: 62px; padding: 0 22px; border-radius: 16px; }
+  .lvfq-b5-send-txt { font-size: 19px; }
+  .lvfq-b5-send-box { width: 96px; max-width: 96px; border-radius: 11px; }
+  .lvfq-b5-contact { gap: 26px; margin-top: 30px; }
+  /* Ikone in den Textfluss, sonst haengt sie bei zweizeiligem Text allein
+     am linken Rand */
+  .lvfq-b5-ci-main { display: block; }
+  .lvfq-b5-ci-ico { display: inline-block; vertical-align: -3px; margin-right: 8px; }
+}
+
+@media (max-width: 520px) {
+  .lvfq-b5 { padding-top: 58px; padding-bottom: 58px; }
+  .lvfq-b5-wrap { padding: 0 14px; }
+  .lvfq-b5-pill { height: 30px; padding: 0 18px; font-size: 13px; }
+  .lvfq-b5-h { font-size: 34px; margin-top: 12px; }
+  .lvfq-b5-sub { font-size: 15px; line-height: 21px; margin-top: 12px; }
+  .lvfq-b5-panel { margin-top: 26px; padding: 16px 14px 22px; border-radius: 16px; }
+  .lvfq-b5-row { border-radius: 14px; padding: 14px; }
+  .lvfq-b5-lab { font-size: 14px; }
+  .lvfq-b5.lvfq-b5 .lvfq-b5-in { font-size: 15px; padding: 0 14px; }
+  .lvfq-b5-ci-main { font-size: 17px; gap: 6px; }
+  .lvfq-b5-ci-sub { font-size: 14px; }
+  .lvfq-b5-ci-ico svg { width: 17px; height: auto; }
+  .lvfq-b5-send-txt { font-size: 17px; }
+  .lvfq-b5-send-box { width: 68px; max-width: 68px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lvfq-b5 *, .lvfq-b5 *::before, .lvfq-b5 *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   ZUSAMMENBAU: Naehte, Sprungziele, Mobil
+   Alles, was erst beim Aneinanderlegen der fuenf Baender entsteht. Steht
+   bewusst am Ende, damit die Bandregeln unveraendert nachlesbar bleiben.
+   ========================================================================== */
+
+/* --- ABGLEICH LIVE: Fragen muessen umbrechen duerfen ------------------------
+   Das Theme laedt reset.css mit "[type=button], [type=submit], button {
+   white-space: nowrap }". Alle 80 Fragen sitzen in einem <button>, also lief
+   ihr Text bei 390px ueber den Kartenrand hinaus bis aus dem Bild (gemessen
+   am 07.08.2026: 86 Elemente mit scrollWidth groesser als clientWidth, z. B.
+   "How does the Lvlup monthly payment option work?" 362px Text in einem
+   280px breiten Kasten). Am Desktop aendert sich nichts, dort passt jede
+   Frage in eine Zeile. 0-3-0 bzw. 0-2-1 schlaegt den Reset (0-0-1). */
+.lvfq-page .lvfq-faq .lvfq-q,
+.lvfq-page .lvfq-b2 .lvfq-b2-q,
+.lvfq-page .lvfq-b3 .lvfq-b3-q,
+.lvfq-page .lvfq-b4 .lvfq-b4-q,
+.lvfq-page .lvfq-q-t,
+.lvfq-page .lvfq-b2 .lvfq-b2-qt,
+.lvfq-page .lvfq-b3 .lvfq-b3-qtext,
+.lvfq-page .lvfq-b4 .lvfq-b4-qtext {
+  white-space: normal;
+}
+
+/* --- Sprungziele -----------------------------------------------------------
+   Die zehn Kategorie-Kacheln im Kopf springen auf die Kategorien. Band 2 hatte
+   150px, Band 4 140px, Band 1 und 3 gar nichts - unter der fixierten
+   Kopfleiste (Banner + Nav, 130px) waere die Ueberschrift sonst verdeckt.
+   0-3-0 schlaegt die Bandregeln (0-2-0). */
+.lvfq-page .lvfq-faq .lvfq-cat,
+.lvfq-page .lvfq-b2 .lvfq-b2-cat,
+.lvfq-page .lvfq-b3 .lvfq-b3-cat,
+.lvfq-page .lvfq-b4 .lvfq-b4-cat {
+  scroll-margin-top: 150px;
+}
+@media (max-width: 767px) {
+  .lvfq-page .lvfq-faq .lvfq-cat,
+  .lvfq-page .lvfq-b2 .lvfq-b2-cat,
+  .lvfq-page .lvfq-b3 .lvfq-b3-cat,
+  .lvfq-page .lvfq-b4 .lvfq-b4-cat {
+    scroll-margin-top: 120px;
+  }
+}
+
+/* --- Mobil: Beruehrungsziel der Mail-Adresse -------------------------------
+   Bei 390px steht die Kontaktzeile im Textfluss (display: block) und ist nur
+   22px hoch, der Vertrag verlangt mindestens 40px. Das Innenmass vergroessert
+   die Flaeche, der negative Aussenabstand haelt das Layout an Ort und Stelle
+   (gemessen 42px). */
+@media (max-width: 760px) {
+  .lvfq-page a.lvfq-b5-ci-main {
+    padding-block: 10px;
+    margin-block: -10px;
+  }
+}
+
+/* --- Tablet 768-1023px: Beruehrungsziel der Mail-Adresse, 13.08.2026 -------
+   Fuer dieses Fenster gab es bisher gar keine Vergroesserung, die Zeile blieb
+   bei ihrer reinen Texthoehe (27,3 bis 31,2px je nach Breite, aus font-size
+   21/24px). Anders als beim Mobilzweig oben bekommt der Link hier zusaetzlich
+   position/z-index: "For General Enquiries" (.lvfq-b5-ci-sub) beginnt nur 1px
+   darunter (margin-top:1px) und ueberdeckt beim Treffertest sonst den unteren
+   Teil der vergroesserten Flaeche, elementFromPoint liefert dort ohne die
+   Vordergrundebene die Unterzeile statt des Links. Nachgemessen per
+   elementFromPoint-Abtastung (nicht die Box): 27,3/31,2 -> 47,3/51,2px bei
+   768/900/1023px, 767 und 1024px unveraendert. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  a.lvfq-b5-ci-main {
+    position: relative;
+    z-index: 1;
+    padding-block: 10px;
+    margin-block: -10px;
+  }
+}
+
+/* --- Naht Band 2 -> Band 3 (Referenz y 8591), rechte Haelfte ---------------
+   Band 2 endet an seiner Unterkante zu dunkel (rechter Randstreifen Render
+   13/38/53, Referenz 18/51/70), Band 3 setzt bei 10/43/63 an. Die noetige
+   Deckkraft ist am rechten Rand rund 0,085, an der linken Randspalte nur
+   0,021 - deshalb ein waagerecht durchlaufender Grundanteil plus ein
+   zusaetzlicher Anteil zur rechten Kante. */
+.lvfq-page .lvfq-b2 .lvfq-b2-glow::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 420px;
+  pointer-events: none;
+  background:
+    radial-gradient(1300px 280px at 100% 100%,
+      rgba(56, 180, 255, 0.068) 0%,
+      rgba(56, 180, 255, 0.030) 55%,
+      rgba(56, 180, 255, 0) 100%),
+    linear-gradient(180deg,
+      rgba(56, 180, 255, 0) 0%,
+      rgba(56, 180, 255, 0.008) 55%,
+      rgba(56, 180, 255, 0.021) 100%);
+}
+
+/* --- Naht Band 2 -> Band 3, linke Haelfte ----------------------------------
+   Der grosse linke Schein von Band 3 ist an der Bandoberkante deutlich
+   breiter als in der Vorlage. Gemessen an der Oberkante (80px-Bloecke,
+   Blaukanal): x=280 Render 51 gegen Referenz 20, x=400 34 gegen 7,
+   x=520 18 gegen 2. Band 2 endet dort bei 7 bzw. 5 - an der Kante stand
+   deshalb ein Sprung von rund 40. Der Schleier nimmt Licht weg, wo die
+   Vorlage keines hat; er verschwindet bis 340px unter der Kante und
+   beruehrt die linke Randspalte (x < 130) nicht, weil Band 3 dort trifft.
+   Er liegt auf .lvfq-b3::after, also UEBER der Glow-Ebene (z-index 0) und
+   UNTER dem Inhalt (.lvfq-b3-wrap, z-index 1). */
+.lvfq-page .lvfq-b3::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
+  height: calc(340px * var(--lvfq-b3-sy));
+  pointer-events: none;
+  background: radial-gradient(
+    calc(440px * var(--lvfq-b3-sx)) calc(340px * var(--lvfq-b3-sy))
+    at calc(50% - 330px * var(--lvfq-b3-sx)) 0%,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.80) 30%,
+    rgba(0, 0, 0, 0.60) 50%,
+    rgba(0, 0, 0, 0.34) 70%,
+    rgba(0, 0, 0, 0.14) 85%,
+    rgba(0, 0, 0, 0) 100%);
+}
+
+/* --- Naht Band 3 -> Band 4 (Referenz y 12972) ------------------------------
+   Der breite Schein unten rechts von Band 3 laeuft an der Sektionskante zu
+   frueh aus. Gemessen im Streifen x 1620-1755 (Render 1760 breit, gegen die
+   Referenz):
+     letzte Zeile Band 3   Render 138/230/252   Referenz 236/248/255
+     erste Zeile  Band 4   Render 228/244/254   Referenz 233/247/255
+   Band 4 schliesst also richtig an, Band 3 bricht ab - an der Kante stand ein
+   Sprung von 55 im Rotkanal. Die Ergaenzung sitzt in der Glow-Ebene von
+   Band 3, also HINTER den Karten (die bei x 1500 enden), und ist als noetige
+   Weiss-Deckkraft ausgemessen: 0,95 rund 140px ueber der Kante am rechten
+   Rand, 0 ab etwa 520px darueber und ab x 1500 nach links.
+   Groesse an --lvfq-b3-sx/sy gehaengt, damit sie auf schmalen Bildschirmen
+   mit den uebrigen Scheinen von Band 3 mitschrumpft. */
+.lvfq-page .lvfq-b3 .lvfq-b3-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    /* Obere linke Ecke: Band 2 endet dort auf Referenzhoehe (23/100/143 gegen
+       23/100/144), Band 3 setzt mit 30/91/126 an - zu rot und 23 zu dunkel im
+       Blaukanal. Der Zusatz ist deshalb ein kuehles Blau, kein Weiss. */
+    radial-gradient(
+      calc(150px * var(--lvfq-b3-sx)) calc(220px * var(--lvfq-b3-sy)) at 0% 0%,
+      rgba(10, 200, 255, 0.20) 0%,
+      rgba(10, 200, 255, 0.09) 45%,
+      rgba(10, 200, 255, 0) 100%),
+    /* Oberkante rechts: Band 2 endet dort (nach seinem eigenen Flicken) auf
+       Referenzhoehe, Band 3 setzt 5 bis 13 im Blaukanal zu dunkel an. */
+    radial-gradient(
+      calc(300px * var(--lvfq-b3-sx)) calc(220px * var(--lvfq-b3-sy)) at 100% 0%,
+      rgba(56, 180, 255, 0.075) 0%,
+      rgba(56, 180, 255, 0.030) 45%,
+      rgba(56, 180, 255, 0) 100%),
+    radial-gradient(
+    calc(330px * var(--lvfq-b3-sx)) calc(430px * var(--lvfq-b3-sy))
+    at calc(100% + 30px * var(--lvfq-b3-sx)) calc(100% - 115px * var(--lvfq-b3-sy)),
+    rgba(255, 255, 255, 0.99) 0%,
+    rgba(255, 255, 255, 0.97) 25%,
+    rgba(255, 255, 255, 0.89) 38%,
+    rgba(255, 255, 255, 0.68) 50%,
+    rgba(255, 255, 255, 0.42) 62%,
+    rgba(255, 255, 255, 0.22) 75%,
+    rgba(255, 255, 255, 0.08) 88%,
+    rgba(255, 255, 255, 0) 100%);
+}
+
+/* --- Naht Band 4 nach oben und nach unten ----------------------------------
+   Unten (Referenz y 18594): Band 5 trifft an seiner Oberkante die Referenz
+   (x=1600 14/46/64 gegen 11/46/67), Band 4 ist an seiner Unterkante zu
+   dunkel (x=1600 8/34/49 gegen 12/46/67, x=1680 14/60/86 gegen 15/74/108,
+   linke Randspalte 0/0/0 gegen 2/18/28). Sprung rund 20 im Blaukanal.
+   Oben (Referenz y 12972): Band 4 ist rechts rund 10 von 255 zu dunkel
+   (Randstreifen 215 gegen 225, Band 3 endet bei 223) - das war der Rest des
+   Sprungs an dieser Naht.
+   Drei Schichten: weiss an der Oberkante rechts, blau an den beiden unteren
+   Ecken. Die noetigen Deckkraften sind aus Basis und Sollwert zurueckgerechnet
+   (unten rechts 0,064 bei x 1560 bis 0,130 bei x 1720, unten links 0,11 bei
+   x 40 bis 0,027 bei x 200). Die Mitte der Unterkante bleibt unberuehrt: dort
+   ist die Karte ohnehin schon 4 von 255 heller als die Vorlage.
+   Alles liegt hinter den Karten. */
+.lvfq-page .lvfq-b4 .lvfq-b4-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(500px 150px at 100% 0%,
+      rgba(255, 255, 255, 0.22) 0%,
+      rgba(255, 255, 255, 0.10) 50%,
+      rgba(255, 255, 255, 0) 100%),
+    radial-gradient(360px 340px at 100% 100%,
+      rgba(56, 180, 255, 0.145) 0%,
+      rgba(56, 180, 255, 0.128) 12%,
+      rgba(56, 180, 255, 0.088) 33%,
+      rgba(56, 180, 255, 0.062) 56%,
+      rgba(56, 180, 255, 0.028) 78%,
+      rgba(56, 180, 255, 0) 100%),
+    radial-gradient(320px 300px at 0% 100%,
+      rgba(56, 180, 255, 0.120) 0%,
+      rgba(56, 180, 255, 0.050) 40%,
+      rgba(56, 180, 255, 0) 100%);
+}
+
+/* ==========================================================================
+   RUNDE 3 (10.08.2026) - Mobil: die drei harten Bandnaehte
+   Bei 390px endeten drei Baender mit einem hellen Schein genau an ihrer
+   Schnittkante, waehrend das folgende Band dunkel ansetzte. Gemessen als
+   Zeilenstufe im Randstreifen (16px breit, Blaukanal):
+     Naht Band 2 -> 3 (y 5268)  links 89,2  rechts 54,8
+     Naht Band 3 -> 4 (y 8073)  links 88,5
+     Naht Band 4 -> 5 (y 11252) rechts 51,8
+   Auf dem Desktop sind dieselben Naehte sauber (0,7 / 0,0 / 0,3), die
+   Ursache sind also die Mobil-Fassungen der Scheine, nicht die Geometrie.
+   Die Flicken fuehren den Schein des oberen Bandes im unteren fort; sie
+   liegen mit z-index 0 hinter dem Inhalt (die Wraps haben z-index 1).
+   Farbe rgb(36,170,240) - aus den Kantenwerten zurueckgerechnet
+   (x0 oberhalb (26,119,170), unterhalb (4,32,43) ergibt Deckkraft 0,645).
+   ========================================================================== */
+
+@media (max-width: 700px) {
+  /* A2 - Band 3 setzt oben fort, was Band 2 an seiner Unterkante zeigt.
+     Der bisherige Inhalt dieser Regel war eine SCHWARZE Daempfung, die am
+     Desktop den zu breiten Schein von Band 3 zuruecknimmt; mobil sass sie
+     genau auf der Naht und hat die Stufe noch vertieft. */
+  .lvfq-page .lvfq-b3::after {
+    height: 470px;
+    background:
+      /* Der Randstreifen x 0-24 liegt neben der Karte und traegt den Schein
+         unverdeckt; ab x 25 beginnt die abgerundete Ecke der letzten Karte.
+         Der Flicken ist deshalb im Streifen flach und laeuft dahinter aus. */
+      radial-gradient(40px 470px at 0% 0%,
+        rgba(36, 170, 240, 0.57) 0%,
+        rgba(36, 170, 240, 0.55) 45%,
+        rgba(36, 170, 240, 0.40) 70%,
+        rgba(36, 170, 240, 0.15) 88%,
+        rgba(36, 170, 240, 0) 100%),
+      radial-gradient(30px 330px at 100% 0%,
+        rgba(36, 170, 240, 0.36) 0%,
+        rgba(36, 170, 240, 0.34) 60%,
+        rgba(36, 170, 240, 0.15) 85%,
+        rgba(36, 170, 240, 0) 100%),
+      linear-gradient(180deg,
+        rgba(36, 170, 240, 0.10) 0%,
+        rgba(36, 170, 240, 0.055) 45%,
+        rgba(36, 170, 240, 0) 100%);
+  }
+
+  /* A3 - Band 4 setzt oben links fort, was Band 3 unten links zeigt. */
+  .lvfq-page .lvfq-b4::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    height: 420px;
+    pointer-events: none;
+    background:
+      radial-gradient(44px 420px at 0% 0%,
+        rgba(36, 170, 240, 0.64) 0%,
+        rgba(36, 170, 240, 0.64) 70%,
+        rgba(36, 170, 240, 0.46) 82%,
+        rgba(36, 170, 240, 0.16) 88%,
+        rgba(36, 170, 240, 0) 100%),
+      linear-gradient(180deg,
+        rgba(36, 170, 240, 0.085) 0%,
+        rgba(36, 170, 240, 0.045) 45%,
+        rgba(36, 170, 240, 0) 100%);
+  }
+
+  /* A3, rechte Haelfte - der weisse Schein von Band 4 beginnt oben schon bei
+     x 335, der von Band 3 unten erst bei x 368. Dadurch springt die Kante des
+     Scheins an der Naht waagerecht (x340 Blau 57 -> 162, x360 83 -> 248).
+     Band 3 bekommt seinen Schein an der Unterkante entsprechend breiter. */
+  .lvfq-page .lvfq-b3::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* z-index 1 ist noetig: .lvfq-b3-glow hat einen DECKENDEN schwarzen
+       Hintergrund und liegt in der Baumreihenfolge hinter ::before - mit
+       z-index 0 waere der Flicken vollstaendig verdeckt. Der Inhalt
+       (.lvfq-b3-wrap) hat ebenfalls z-index 1 und steht spaeter im Baum,
+       bleibt also weiterhin darueber. */
+    z-index: 1;
+    height: 300px;
+    pointer-events: none;
+    background: radial-gradient(100px 300px at 100% 100%,
+      rgba(222, 240, 250, 0.95) 0%,
+      rgba(222, 240, 250, 0.90) 30%,
+      rgba(222, 240, 250, 0.62) 45%,
+      rgba(222, 240, 250, 0.28) 62%,
+      rgba(222, 240, 250, 0.06) 85%,
+      rgba(222, 240, 250, 0) 100%);
+  }
+
+  /* A4 - Band 4 ist an seiner Unterkante dunkler als Band 5 an der
+     Oberkante; hier wird nach oben hin ausgeblendet statt nach unten. */
+  .lvfq-page .lvfq-b4::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    height: 300px;
+    pointer-events: none;
+    background:
+      radial-gradient(320px 300px at 100% 100%,
+        rgba(36, 170, 240, 0.41) 0%,
+        rgba(36, 170, 240, 0.41) 12%,
+        rgba(36, 170, 240, 0.39) 17%,
+        rgba(36, 170, 240, 0.30) 28%,
+        rgba(36, 170, 240, 0.12) 59%,
+        rgba(36, 170, 240, 0.02) 91%,
+        rgba(36, 170, 240, 0) 100%),
+      linear-gradient(0deg,
+        rgba(36, 170, 240, 0.055) 0%,
+        rgba(36, 170, 240, 0.03) 50%,
+        rgba(36, 170, 240, 0) 100%);
+  }
+}
+
+@media (min-width: 1024px) {
+  .lvfq-hl { font-weight: 600; }
+
+  .lvfq-b2 .lvfq-b2-ico,
+  .lvfq-b4 .lvfq-b4-icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* --- Naht Band 3 -> Band 4, rechte Flanke (12.08.2026) ---------------------
+   BEFUND: an der Sektionskante (live y 8074 bei 1760px) endet der weisse
+   Schein von Band 3 heller, als Band 4 ihn oben wieder aufnimmt. Quer ueber
+   die Seite steht dort eine harte waagerechte Linie, rechts neben der
+   Kartenspalte.
+
+   IST  (Median ueber 8 Bildzeilen je Seite, 20px-Spalten, 1760px):
+     x1500 213 -> 163  Stufe 30,5 | x1520 224 -> 177  Stufe 26,5
+     x1540 230 -> 192  Stufe 20,5 | x1560 229 -> 207  Stufe 12,0
+     x1580 229 -> 214  Stufe  9,3 | x1600 224 -> 222  Stufe  3,7
+   SOLL (faq-aus-schnipseln.png an der Entwurfskoordinate y 12971, dort
+   liegt dieselbe Naht: letzte Karte "Add-Ons" endet, Kategorie 8 folgt):
+     x1500 200 -> 197  Stufe  1,3 | x1520 205 -> 203  Stufe  1,0
+     x1540 210 -> 208  Stufe  1,0 | x1560 214 -> 213  Stufe  0,7
+     x1580 220 -> 217  Stufe  2,0 | x1600 224 -> 220  Stufe  2,0
+   Der Entwurf hat an dieser Naht also KEINE Stufe. Links der Kartenspalte
+   springt das Ist dagegen weniger als der Entwurf (x1120 49,3 gegen 97,7),
+   dort ist nichts zu reparieren.
+
+   BEGRUENDUNG DER LOESUNG: repariert wird die Oberkante von Band 4, nicht die
+   Unterkante von Band 3. Band 3 ist dort 13 bis 19 Stufen heller als der
+   Entwurf, das steckt aber in seinen eigenen prozentbemassten Scheinen und
+   liesse sich nur mit einem Eingriff ueber die ganze Bandhoehe aendern; der
+   weisse Nahtflicken .lvfq-b3-glow::after traegt an x1530 nur 0,13 Deckkraft
+   bei und ist ab x1650 unverzichtbar (ohne ihn faellt x1650 von 228 auf 171).
+   Band 4 dagegen ist an seiner Oberkante zu dunkel, dort deckt sich die
+   Reparatur mit dem Entwurf.
+
+   AUFBAU wie bei der Mobilfassung A3 weiter oben: waagerechtes Profil im
+   Verlauf, senkrechtes Ausblenden in der Maske. Die Stuetzstellen haengen an
+   der Inhaltsspalte (Kartenkante = 50% + 620px), damit der Keil bei 1440 und
+   1600px an derselben Stelle relativ zur Karte sitzt und nicht am Seitenrand
+   wandert. z-index 1 wie bei .lvfq-b3::before: der Inhalt .lvfq-b4-wrap steht
+   spaeter im Baum und bleibt darueber. Senkrecht ist bei +60px Schluss, weiter
+   unten trifft Band 4 den Entwurf bereits (x1520 live 163 gegen Entwurf 158).
+   -------------------------------------------------------------------------- */
+@media (min-width: 1321px) {
+  .lvfq-page .lvfq-b4::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    height: 60px;
+    pointer-events: none;
+    background-image: linear-gradient(90deg,
+      rgba(255, 255, 255, 0)    calc(50% + 320px),
+      rgba(255, 255, 255, 0.16) calc(50% + 450px),
+      rgba(255, 255, 255, 0.30) calc(50% + 540px),
+      rgba(255, 255, 255, 0.44) calc(50% + 590px),
+      rgba(255, 255, 255, 0.62) calc(50% + 630px),
+      rgba(255, 255, 255, 0.60) calc(50% + 665px),
+      rgba(255, 255, 255, 0.34) calc(50% + 695px),
+      rgba(255, 255, 255, 0)    calc(50% + 730px));
+    -webkit-mask-image: linear-gradient(180deg,
+      rgba(0, 0, 0, 1) 0,
+      rgba(0, 0, 0, 1) 8px,
+      rgba(0, 0, 0, 0.72) 18px,
+      rgba(0, 0, 0, 0.5) 30px,
+      rgba(0, 0, 0, 0.22) 44px,
+      rgba(0, 0, 0, 0) 60px);
+            mask-image: linear-gradient(180deg,
+      rgba(0, 0, 0, 1) 0,
+      rgba(0, 0, 0, 1) 8px,
+      rgba(0, 0, 0, 0.72) 18px,
+      rgba(0, 0, 0, 0.5) 30px,
+      rgba(0, 0, 0, 0.22) 44px,
+      rgba(0, 0, 0, 0) 60px);
+  }
+}
+
+
+/* ===== KORREKTUR 12.08.2026: Kopfschein Band 4 nach links verlaengert =====
+   BEFUND: Am Kopf von Band 4 (live y8143, Soll y13042) stimmt der Schein am
+   rechten Rand auf 1,3, stirbt nach links aber zu frueh: ab x968 ist live
+   reines Schwarz, waehrend der Entwurf bis x etwa 530 traegt. Spaltenfehler
+   bis 78,7, Kopfmittel 22,8.
+   WARUM EINE EIGENE EBENE: die vorhandenen Ellipsen breiter zu ziehen ist im
+   Kommentar zu --lvfq-b4-l1-rx bereits durchgerechnet und verschlechtert den
+   linken Randstreifen. Der Entwurf braucht dort einen schmalen Kern PLUS eine
+   breite schwache Flaeche - so wie es .lvfq-b4-g-lw links schon macht.
+   Sie haengt an ::before, weil ::after die Nahtflicken traegt.
+   Die Maske haelt die Flaeche von der Naht zu Band 3 fern (erste 40px) und
+   beendet sie nach 520px, damit nur der Kopfbereich betroffen ist.
+   ERGEBNIS Kopfmittel 22,8 -> 5,9, schlimmste Spalte 78,7 -> 19,2.
+   Naht Band 3/4 unveraendert: Randstreifen 0,7 vorher wie nachher.
+   ========================================================================== */
+.lvfq-page .lvfq-b4 .lvfq-b4-glow::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 520px;
+  pointer-events: none;
+  background: radial-gradient(1500px 420px at 100% 0%,
+    rgba(0, 162, 255, 0) 30%,
+    rgba(60, 150, 200, 0.18) 36%,
+    rgba(67, 181, 229, 0.35) 42%,
+    rgba(49, 167, 230, 0.50) 48%,
+    rgba(33, 147, 213, 0.60) 54%,
+    rgba(19, 115, 168, 0.60) 60%,
+    rgba(10, 84, 124, 0.60) 65%,
+    rgba(5, 55, 85, 0.60) 71%,
+    rgba(3, 32, 50, 0.60) 77%,
+    rgba(3, 20, 30, 0.60) 82%,
+    rgba(3, 8, 13, 0.60) 88%,
+    rgba(3, 3, 5, 0.60) 94%,
+    rgba(0, 162, 255, 0) 100%);
+  -webkit-mask-image: linear-gradient(180deg,
+    rgba(0, 0, 0, 0) 0, #000 40px, #000 380px, rgba(0, 0, 0, 0) 520px);
+          mask-image: linear-gradient(180deg,
+    rgba(0, 0, 0, 0) 0, #000 40px, #000 380px, rgba(0, 0, 0, 0) 520px);
+}
+

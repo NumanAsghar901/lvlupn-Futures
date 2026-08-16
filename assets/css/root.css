@@ -1,0 +1,51 @@
+/* Design tokens (--lvf-*) now come from the real production file,
+   assets/css/live/lvlup-theme.css, pulled directly off the live site.
+   This file only holds the temporary placeholder nav/footer styling. */
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--lvf-bg, #000);
+  color: var(--lvf-white);
+  font-family: var(--lvf-font-display);
+  -webkit-font-smoothing: antialiased;
+}
+img, video { max-width: 100%; display: block; }
+a { color: inherit; }
+
+/* --- temporary placeholder nav/footer, not the final Figma component --- */
+.tmp-nav {
+  background: #000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  position: relative;
+  z-index: 1000;
+}
+.tmp-nav-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.tmp-nav-logo { font-size: 14px; color: var(--lvf-blue-light); }
+.tmp-nav-logo em { color: rgba(255, 255, 255, 0.45); font-style: normal; font-size: 11px; }
+.tmp-nav-links { display: flex; gap: 18px; flex-wrap: wrap; }
+.tmp-nav-links a {
+  text-decoration: none;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 4px 2px;
+}
+.tmp-nav-links a[aria-current="page"] { color: var(--lvf-blue); border-bottom: 1px solid var(--lvf-blue); }
+.tmp-nav-links a:hover { color: #fff; }
+
+.tmp-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 24px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+}

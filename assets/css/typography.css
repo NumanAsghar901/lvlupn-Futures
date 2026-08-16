@@ -1,0 +1,100 @@
+/* Shared typography utilities for eyebrow, headline and subtext */
+:root {
+  --eyebrow-font-size: 14px;
+  --eyebrow-color: #0a84c6;
+  --eyebrow-bg: transparent;
+  --eyebrow-padding: 6px 14px;
+  --eyebrow-margin-bottom: 18px;
+
+  --headline-color: #071323;
+  --headline-font-size: 36px;
+  --headline-margin-bottom: 12px;
+
+  --subtext-color: #586069;
+  --subtext-font-size: 16px;
+  --subtext-margin-top: 8px;
+}
+
+/* Eyebrow/label */
+.eyebrow,
+.lvf-eyebrow,
+.lvct-eyebrow,
+.lvab-eyebrow,
+.lve-e2-eyebrow {
+  display: inline-block;
+  font-size: var(--eyebrow-font-size);
+  color: var(--eyebrow-color);
+  background: var(--eyebrow-bg);
+  padding: var(--eyebrow-padding);
+  margin: 0 0 var(--eyebrow-margin-bottom) 0;
+  border-radius: 999px;
+  line-height: 1;
+}
+
+/* Headline */
+.headline,
+h1.headline, h2.headline, h3.headline,
+.lvf-headline {
+  color: var(--headline-color);
+  font-size: var(--headline-font-size);
+  margin: 0 0 var(--headline-margin-bottom) 0;
+  line-height: 1.08;
+  font-weight: 700;
+}
+
+/* Subtext / supporting copy */
+.subtext,
+.lvf-subtext,
+.eyebrow-subtext {
+  color: var(--subtext-color);
+  font-size: var(--subtext-font-size);
+  margin: var(--subtext-margin-top) 0 0 0;
+  line-height: 1.4;
+}
+
+/* Small responsive ramps */
+@media (max-width: 800px) {
+  :root { --headline-font-size: 28px; }
+  :root { --eyebrow-font-size: 13px; }
+}
+
+/* Elite page: footer matches Elite (gold) theme */
+body.page-id-8046 .lvf-s11::before {
+  background:
+    radial-gradient(62% 56% at 16% 60%, rgba(235, 150, 20, 0.3) 0%, rgba(235, 150, 20, 0) 70%),
+    radial-gradient(62% 56% at 86% 40%, rgba(235, 150, 20, 0.25) 0%, rgba(235, 150, 20, 0) 70%),
+    radial-gradient(190px 2600px at 15.3% 100%,
+      rgba(255, 250, 236, 1) 0%,
+      rgba(255, 246, 224, 1) 19%,
+      rgba(255, 230, 178, 0.97) 23%,
+      rgba(255, 216, 134, 0.92) 29%,
+      rgba(255, 202, 96, 0.85) 35%,
+      rgba(253, 190, 74, 0.78) 42%,
+      rgba(251, 180, 56, 0.64) 48%,
+      rgba(226, 144, 20, 0.38) 62%,
+      rgba(190, 112, 4, 0) 82%),
+    radial-gradient(190px 2600px at 84.7% 100%,
+      rgba(255, 250, 236, 1) 0%,
+      rgba(255, 246, 224, 1) 19%,
+      rgba(255, 230, 178, 0.97) 23%,
+      rgba(255, 216, 134, 0.92) 29%,
+      rgba(255, 202, 96, 0.85) 35%,
+      rgba(253, 190, 74, 0.78) 42%,
+      rgba(251, 180, 56, 0.64) 48%,
+      rgba(226, 144, 20, 0.38) 62%,
+      rgba(190, 112, 4, 0) 82%),
+    radial-gradient(150% 420px at 50% 98%, rgba(200, 128, 30, 0.92) 0%, rgba(165, 104, 22, 0.6) 45%, rgba(110, 68, 12, 0.25) 74%, rgba(110, 68, 12, 0) 96%),
+    radial-gradient(46% 38% at 50% 92%, rgba(250, 210, 140, 0.14) 0%, rgba(250, 210, 140, 0) 72%);
+  filter: blur(46px);
+}
+
+/* ensure the page background under the footer is dark to match Elite */
+body.page-id-8046 { background-color: #080502; }
+html:has(body.page-id-8046) { background-color: #080502; }
+
+body.page-id-8046 .lvf-s11-cardbg {
+  background:
+    linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0)) padding-box,
+    linear-gradient(90deg, rgba(244, 180, 53, 0) 0%, #f4b435 52%, rgba(238, 169, 49, 0) 100%) border-box;
+  box-shadow: 6px 23px 23px rgba(0, 0, 0, 0.25);
+}

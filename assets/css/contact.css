@@ -1,0 +1,1852 @@
+/* =====================================================================
+   Contact  -  lvlup.tivaosagencytempdomains.de
+   Zusammengefuehrt aus fragment-1 (y 0..2735) und fragment-2
+   (y 2735..4252) der Referenz _referenz/contact-1760.png (1760 x 5129).
+   Kopfzeile (y 0..~125) und Fusszeile (ab y 4252) sind Theme-Vorlagen
+   und stehen hier bewusst nicht.
+   Alle Selektoren tragen den Praefix lvct-.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   Seitenebene
+   --------------------------------------------------------------------- */
+
+/* Fangnetz gegen Querlauf. clip statt hidden, damit kein Scroll-Container
+   entsteht; die Sektionen bringen ihr eigenes overflow: clip mit. */
+.lvct-page {
+  overflow-x: clip;
+  overflow-wrap: break-word;
+}
+
+/* Der site-weite Sofort-Fix des Werkzeug-Plugins gibt jeder Seite OHNE die
+   Body-Klasse lvlup-home-v2 250 px Innenabstand oben
+   (body:not(...):not(.lvlup-home-v2) [data-elementor-type="wp-page"]).
+   Diese Seite bringt den Abstand selbst mit (Hero: 214 px) und ihr
+   Hintergrund soll laut Vertrag bei y = 0 beginnen und hinter der fixierten
+   Kopfleiste durchlaufen. Ohne diese Zeile steht oben ein 250 px hoher
+   weisser Balken und die ganze Seite sitzt 250 px zu tief.
+   Der Selektor greift ueber :has() nur auf Seiten, die diese Seite enthalten;
+   die drei Attribute heben die Spezifitaet ueber die Regel aus sofort.css. */
+body:has(.lvct-page)
+  [data-elementor-type="wp-page"][data-elementor-post-type][data-elementor-id] {
+  padding-top: 0;
+}
+
+/* Sprungziel des Knopfes "Send a Message" aus Karte 3. Ohne das landet
+   das Formular unter der fixierten Kopfleiste. Werte wie im Theme fuer
+   die uebrigen Sprungziele (dort 150 px bzw. 120 px). */
+.lvct-page #lvct-kontaktformular { scroll-margin-top: 150px; }
+@media (max-width: 767.98px) {
+  .lvct-page #lvct-kontaktformular { scroll-margin-top: 120px; }
+}
+
+/* =====================================================================
+   TEIL 1  -  Hero, "Choose How You'd Like to Connect", Formular
+   Referenz y 0..2735. Masse 1:1 aus contact-1760.png, Farben pipettiert.
+   ===================================================================== */
+
+.lvct-hero,
+.lvct-connect,
+.lvct-formsec {
+  --lvct-shell: 1280px;
+  --lvct-pad: 20px;
+  /* Befund C4: der Verlauf lief ueber die volle Zeilenbox und war dadurch in
+     der Glyphenmitte rund 20 zu hell im Rotkanal. Im Entwurf sitzt er enger
+     auf der Versalhoehe: 0 % bei y 345 statt 328, 100 % bei y 383 statt 392. */
+  /* Nacharbeit 08.08. zu Befund C4: mit -8 % / 95,6 % blieb der obere Teil
+     der Glyphen noch +13 (Kartentitel) bzw. +10 (H1) im Rotkanal zu hell.
+     Aus den gemessenen Geraden je Ebene neu aufgeloest: die Steigung des
+     Entwurfs verlangt eine Spanne von 114 % statt 103,6 %, der Achsenwert
+     am Kastenoberrand 172 statt 189. Das ergibt -18,5 % / 95,5 % und trifft
+     Kartentitel und H1 zusammen auf +-2 im Rotkanal.
+     Gilt fuer die BLOCK-Ebenen (.lvct-hero-l2 Kastenhoehe 63 px,
+     .lvct-card-title 40 px). Die Inline-Spannen in den h2 haben eine
+     andere Kastenhoehe und deshalb weiter unten einen eigenen Verlauf. */
+  --lvct-head-blue: linear-gradient(180deg, #cdf7ff -18.5%, #04abff 95.5%);
+  --lvct-head-silver: linear-gradient(180deg, #e6e6e6 0%, #ffffff 45%, #ffffff 100%);
+  /* Aus allen drei Knoepfen (Hero 47 px, Karte 47 px, Send 70 px) abgelesen:
+     derselbe Verlauf, oben (172,233,255), unten (17,166,255), oben deutlich
+     steiler als unten. Vier Stufen bilden die Kruemmung nach. */
+  --lvct-btn-grad: linear-gradient(180deg, #ace9ff 0%, #78d1ff 20%, #4dbfff 50%, #11a6ff 100%);
+  --lvct-btn-edge: rgba(255, 255, 255, 0.18);
+  --lvct-pill-bg: rgba(2, 6, 11, 0.78);
+  --lvct-pill-line: rgba(255, 255, 255, 0.05);
+  /* Befund C8: Referenz (241,241,241), gerendert reinweiss. */
+  --lvct-sub: rgba(255, 255, 255, 0.945);
+
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  font-family: var(--lvf-font-display);
+}
+
+.lvct-shell {
+  position: relative;
+  z-index: 1;
+  max-width: var(--lvct-shell);
+  margin-inline: auto;
+  padding-inline: var(--lvct-pad);
+}
+
+/* ---------- gemeinsame Bausteine ---------- */
+
+.lvct-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
+  max-width: 100%;
+  margin-inline: auto;
+  border-radius: 999px;
+  background: var(--lvct-pill-bg);
+  box-shadow: inset 0 0 0 1px var(--lvct-pill-line);
+  /* 16 statt 14: mit der echten Clash Grotesk ist die Tintenbreite von
+     "Get the Right Help" im Referenzbild 121,2 px, gerendert waren es bei
+     14 px nur 107,1 px (Faktor 1,132). "Contact Support" ergibt 1,125. */
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.95);
+  white-space: nowrap;
+}
+.lvct-eyebrow--hero  { height: 34px; gap: 8px;  padding-inline: 18px 19px; }
+/* Befund B4: "Contact Lvlup" war 94 statt 88 px breit; die beiden anderen
+   Pillen stimmen bei 16 px exakt, nur die Hero-Fassung ist kleiner gesetzt.
+   Befund C10: die Referenz zeigt an dieser Pille keinerlei Kantensprung,
+   fuer --plain und --wide ist der Rand schon einzeln ueberschrieben. */
+.lvct-eyebrow--hero  { font-size: 15px; box-shadow: none; }
+.lvct-eyebrow--plain { height: 34px; padding-inline: 21px; }
+.lvct-eyebrow--wide  { height: 30px; padding-inline: 43px; }
+
+/* Die drei Pillen haben im Entwurf DREI verschiedene Fuellungen, gemessen an
+   einer textfreien Stelle in der Pille (Blaukanal ueber Schwarz):
+     Hero  (1,6,9)   - der gemeinsame Wert oben passt
+     S2    (0,1,2)   - praktisch unsichtbar, nur ein Hauch Rand
+     S3    (0,11,17) - deutlich blau, wie die Pille in Sektion 4
+   Das ist eine Ungereimtheit des Entwurfs, kein Fehler; hier 1:1 uebernommen. */
+.lvct-eyebrow--plain {
+  background: rgba(0, 162, 255, 0.010);
+  box-shadow: inset 0 0 0 1px rgba(140, 200, 255, 0.022);
+}
+/* R3-contact-ABN4: Diese Pille steht als einzige mitten im Schein von
+   Sektion 3. Bisher war sie durchscheinend (rgba .068), dadurch lief der
+   Schein mit: gemessen im Pilleninneren links (0,32,51), rechts (7,56,82).
+   Der Entwurf zeigt dort ueber die ganze Pillenbreite denselben Wert
+   (1,12,18) - die Fuellung ist also DECKEND und haelt den Schein zurueck.
+   Waagerechter Schnitt y1770 (Blaukanal): Referenz 18 von x 787 bis 975
+   ohne jede Steigung, live 49 -> 82.
+   Auch der Rand faellt weg: an der Kante geht die Referenz 52-44-25-18
+   monoton dunkler, live setzt dort mit 64 einen hellen Saum, den es im
+   Entwurf nicht gibt. */
+.lvct-eyebrow--wide {
+  background: rgb(1, 12, 18);
+  box-shadow: none;
+}
+
+.lvct-eyebrow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #5cc5ff;
+  flex: none;
+}
+.lvct-eyebrow-txt { display: inline; }
+/* Stammbreite im Referenzbild 1,55 px bei 16 px Schriftgrad; das entspricht
+   Gewicht 450, nicht 600 (gerendert 2,13 px). */
+.lvct-eyebrow-hl { color: #6ecaff; font-weight: 450; }
+.lvct-eyebrow--hero { color: rgba(255, 255, 255, 0.63); }
+
+/* Falle 2 aus dem Vertrag: das Theme setzt ".lvf-page.lvf-page h1..h6
+   { color: inherit }" mit 0-2-1. Verlaufstext braucht deshalb entweder eine
+   hoehere Spezifitaet oder -webkit-text-fill-color. Hier beides. */
+.lvct-head-silver,
+.lvct-head-blue {
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+h1 .lvct-head-silver, h2 .lvct-head-silver,
+.lvct-head-silver { background-image: var(--lvct-head-silver); font-weight: 500; }
+/* Gewicht 600 statt 700: die Stammbreite des blauen Teils misst im
+   Referenzbild 9,7 bis 10,0 px bei 64 px Schriftgrad, gerendert waren es
+   bei 700 zwischen 12,0 und 12,6 px. Der silberne Teil (500) stimmt
+   dagegen genau (Referenz 6,8 / gerendert 6,9). */
+h1 .lvct-head-blue, h2 .lvct-head-blue,
+.lvct-head-blue { background-image: var(--lvct-head-blue); font-weight: 600; }
+/* Nacharbeit 08.08. zu Befund C4: diese Spannen sind INLINE, ihr Malkasten
+   ist der Inhaltsbereich der Zeile und damit 75,8 px hoch (gemessen ueber
+   die Steigung -2,56 pro Zeile bei 64 px Schriftgrad), nicht 40 oder 63 px
+   wie bei den Block-Ebenen. Mit dem gemeinsamen Verlauf blieb "Like to
+   Connect" +15 zu hell. Aus Steigung (-2,78) und Lage der Referenz eigens
+   aufgeloest: Spanne 95,35 %, Achsenwert 185. */
+h2 .lvct-head-blue,
+.lvct-connect-title .lvct-head-blue,
+.lvct-formsec-title .lvct-head-blue {
+  background-image: linear-gradient(180deg, #cdf7ff -9.4%, #04abff 86%);
+}
+
+/* R3-contact-ABN1: Der silberne Teil beider H2 lief bisher ueber einen
+   SENKRECHTEN Verlauf (#e6e6e6 -> weiss bei 45 %) und war dadurch gerendert
+   flach 255. Der Entwurf traegt dort einen WAAGERECHTEN Verlauf, der links
+   grau ansetzt und erst gegen die Seitenmitte weiss wird - dasselbe Muster,
+   das .lvct-quick-h und .lvct-final-h schon haben.
+   Messung (Spitzenhelligkeit je Spalte, Median ueber 27 Spalten; das
+   Verfahren gibt an den beiden bekannten Verlaeufen die CSS-Werte 164 und
+   133 auf unter 1 genau zurueck, ist also geeicht):
+     "Choose How You'd " (Spanne x 368,6..914,0):
+        Referenz 193 am Spannenanfang, 255 bei 87 % - live durchgehend 255
+     "Tell Us What "     (Spanne x 547,5..918,0):
+        Referenz 189 am Spannenanfang, 255 bei 79 % - live durchgehend 255
+   Ausgleichsrechnung ueber alle Spalten: c0 = 185,5 bzw. 187,5, RMS 3,11
+   bzw. 2,73. Je Ueberschrift eigener Verlauf, weil die Spannen verschieden
+   breit sind und beide erst nahe der Seitenmitte (x 840) weiss werden. */
+h2.lvct-connect-title .lvct-head-silver {
+  background-image: linear-gradient(90deg, #b9b9b9 0%, #ffffff 87%);
+}
+h2.lvct-formsec-title .lvct-head-silver {
+  background-image: linear-gradient(90deg, #bcbcbc 0%, #ffffff 79%);
+}
+
+.lvct-sectionsub {
+  max-width: 900px;
+  margin-inline: auto;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 400;
+  color: var(--lvct-sub);
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+/* ---------- Knoepfe ---------- */
+/* Falle 1 aus dem Vertrag: ".lvf-page a { color: inherit }" (0-1-1) schlaegt
+   eine einfache Klasse. Deshalb jede Farbregel zusaetzlich als a.klasse.
+   Korrektur 12.08.: drei der vier Kartenknoepfe sind jetzt echte
+   button-Elemente statt span (Sektion 2, Ziel siehe Kommentare dort). Fuer
+   das Element button gilt dieselbe Falle nochmal staerker: lvlup-theme.css setzt in
+   ".lvf-page :is(button, [type=button], ...)" Rahmenradius (0-1-0), Fuellung
+   und Schriftfarbe (0-2-0) auf "none"/"inherit" zurueck, und in
+   ".lvf-page.lvf-page button" (0-2-1) zusaetzlich Rahmen, Appearance und
+   Schriftgroesse/-schnitt/-laufweite auf "inherit". Das ist Absicht (siehe
+   Kommentar dort: "Fragmentregeln brauchen hier zwei Klassen") und faengt
+   fast alles ab, aber Farbverlauf, Schriftgroesse und -schnitt der eigenen
+   Knoepfe muessen darum ebenfalls mit ".lvf-page button.klasse" nachgezogen
+   werden, sonst blieben die drei umgestellten Knoepfe unsichtbar (kein
+   Hintergrund) statt nur unauffaellig anders. Rahmen, Fuellfarbe und
+   Innenabstand passen bereits durch die Theme-Regel selbst. */
+.lvct-btn,
+a.lvct-btn,
+.lvf-page button.lvct-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  transition: filter 0.15s ease;
+}
+.lvct-btn:hover,
+.lvct-btn:focus-visible { filter: brightness(1.08); }
+/* Korrektur 12.08.: Fokusring ergaenzt, der Helligkeitseffekt oben bleibt
+   bestehen. Gleiches Muster wie a.lvct-faqbtn weiter unten und wie auf home,
+   about und affiliate. */
+.lvct-btn:focus-visible { outline: 2px solid #8cd5ff; outline-offset: 3px; }
+
+
+.lvct-btn--primary,
+a.lvct-btn--primary,
+/* Korrektur 12.08.: siehe Kommentar bei ".lvct-btn" oben - ohne diese Zeile
+   bleibt der Farbverlauf fuer das Element button aus (lvlup-theme.css setzt
+   background:none mit 0-2-0, hier noetig: mindestens 0-2-x). */
+.lvf-page button.lvct-btn--primary {
+  background: var(--lvct-btn-grad);
+  color: #060606;
+  box-shadow:
+    inset 0 0 0 1px var(--lvct-btn-edge),
+    inset 0 -7px 11px -5px rgba(20, 255, 255, 0.5),
+    0 4px 14px rgba(0, 0, 0, 0.35);
+}
+.lvct-btn--primary .lvct-btn-label,
+a.lvct-btn--primary .lvct-btn-label { color: #060606; }
+/* Befund B5: ClashGrotesk-Variable ist ohne font-weight-Deskriptor
+   eingebunden, Chromium meldet die Familie als 400 und faelscht ab 600 einen
+   synthetischen Fettschnitt (Tinte +50 %). 500 loest das noch nicht aus.
+   Nur der Hero-Knopf: bei den Karten-Knoepfen stimmt die Strichstaerke. */
+.lvct-btn--primary .lvct-btn-label,
+a.lvct-btn--primary .lvct-btn-label { font-weight: 500; }
+.lvct-btn--hero.lvct-btn--primary .lvct-btn-label { font-size: 16.6px; }
+/* Die Karten-Beschriftungen sind in der Referenz bei gleicher Breite
+   kraeftiger als die des Hero-Knopfes (492 gegen 437 Tintenpunkte). */
+.lvct-btn--card .lvct-btn-label { font-weight: 530; }
+
+/* "Visit Help Center": dunkle Flaeche, Licht kommt von der Unterkante und
+   von der rechten Kante. Beide Baender aus dem Referenzbild abgelesen
+   (Blaukanal am unteren Rand 235, 12 px darueber 96, 22 px darueber 35). */
+.lvct-btn--ghost,
+a.lvct-btn--ghost {
+  color: #ffffff;
+  font-weight: 400;
+  background:
+    linear-gradient(to left,
+      rgba(18, 171, 255, 0.86) 0%,
+      rgba(18, 171, 255, 0.76) 2%,
+      rgba(18, 171, 255, 0.40) 5.5%,
+      rgba(18, 171, 255, 0.11) 9%,
+      rgba(18, 171, 255, 0) 13%),
+    linear-gradient(to top,
+      rgba(18, 171, 255, 0.97) 0%,
+      rgba(18, 171, 255, 0.92) 6%,
+      rgba(18, 171, 255, 0.68) 17%,
+      rgba(18, 171, 255, 0.35) 30%,
+      rgba(18, 171, 255, 0.10) 47%,
+      rgba(18, 171, 255, 0.045) 68%,
+      rgba(18, 171, 255, 0.035) 100%),
+    #06070a;
+  box-shadow:
+    inset 6px 5px 12px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(0, 0, 0, 0.25);
+}
+.lvct-btn--ghost .lvct-btn-label,
+a.lvct-btn--ghost .lvct-btn-label { color: #ffffff; }
+
+.lvct-btn--hero {
+  height: 47px;
+  font-size: 16px;
+}
+.lvct-btn--hero.lvct-btn--primary { width: 178px; gap: 14px; padding: 0 16px 0 7px; justify-content: flex-start; }
+.lvct-btn--hero.lvct-btn--ghost   { width: 164px; }
+
+.lvct-btn-ico {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #0b0b0d;
+}
+.lvct-btn-ico svg { width: 18px; height: 18px; display: block; }
+
+/* =====================================================================
+   Sektion 1 - Hero   (Referenz y 0..640)
+   Pille 214..248, H1-Versalien 274 und 337 (Zeilenabstand 63),
+   Fliesstext 416..464, Knoepfe 500..547.
+   Vertrag: 214 px oberer Innenabstand fuer die fixierte Kopfleiste,
+   der Hintergrund beginnt trotzdem bei y = 0 und laeuft dahinter durch.
+   ===================================================================== */
+.lvct-hero {
+  padding: 214px 0 93px;
+  text-align: center;
+}
+.lvct-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(max(1705px, 96.9vw) 792px at calc(50% - 39px) calc(100% - 753px), rgba(137,217,255,0) 92%, rgba(137,217,255,0.223) 93.14%, rgba(137,217,255,0.381) 94.29%, rgba(137,217,255,0.521) 95.43%, rgba(137,217,255,0.65) 96.57%, rgba(137,217,255,0.772) 97.71%, rgba(137,217,255,0.888) 98.86%, rgba(137,217,255,1) 100%),
+    radial-gradient(max(1766px, 100.3vw) 686px at calc(50% + 152px) calc(100% - 698px), rgba(0,157,251,0) 85%, rgba(0,157,251,0.122) 87.14%, rgba(0,157,251,0.256) 89.29%, rgba(0,157,251,0.396) 91.43%, rgba(0,157,251,0.538) 93.57%, rgba(0,157,251,0.684) 95.71%, rgba(0,157,251,0.831) 97.86%, rgba(0,157,251,0.98) 100%),
+    linear-gradient(180deg, #000000 0, rgb(0,5,7) 130px, rgb(0,16,24) 470px, rgb(0,16,24) 100%);
+}
+
+/* 68 px statt 66 und ohne Laufweitenkorrektur: die Versalhoehe des N von
+   "Need" misst im Referenzbild 46,55 px, gerendert bei 66 px waren es
+   45,14 px (Faktor 1,031). Mit 68 px und letter-spacing 0 trifft auch die
+   Tintenbreite beider Zeilen (Soll 335,1 und 768,8; rechnerisch 334,3 und
+   772,2). */
+.lvct-hero .lvct-hero-title {
+  margin-top: 18px;
+  font-size: 68px;
+  line-height: 63px;
+  letter-spacing: 0;
+}
+.lvct-hero-title .lvct-hero-l1,
+.lvct-hero-title .lvct-hero-l2 { display: block; }
+.lvct-hero-title .lvct-hero-l1 { color: #ffffff; font-weight: 500; }
+.lvct-hero-title .lvct-hero-l2 {
+  background-image: var(--lvct-head-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+
+/* 19,6 px statt 18: die erste Zeile misst im Referenzbild 825,2 px Tinte,
+   dieselbe Zeichenkette bei 18 px nur 760,7 px (Faktor 1,085). Damit faellt
+   auch der Umbruch wieder wie im Entwurf nach "our support" - bei 18 px
+   passte "team is" noch in die 840 px breite Spalte. */
+.lvct-hero .lvct-hero-sub {
+  max-width: 840px;
+  margin: 24px auto 0;
+  font-size: 19.6px;
+  line-height: 24px;
+  font-weight: 400;
+  color: var(--lvct-sub);
+  overflow-wrap: break-word;
+}
+
+.lvct-hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+
+/* =====================================================================
+   Sektion 2 - Choose How You'd Like to Connect  (y 640..1709)
+   Pille 728..762, H2-Versalien 787..831, Fliesstext 869..893,
+   Karten 968..1303 und 1319..1654 (612 x 335, Abstand 16).
+   ===================================================================== */
+.lvct-connect {
+  padding: 88px 0 55px;
+  background: #000000;
+  text-align: center;
+}
+/* R3-contact-F1: der Entwurf traegt oben links in Sektion 2 ein schmales,
+   scharf berandetes Schraegband. Gemessen im Referenzbild: Fuellung
+   gleichmaessig (4,5,7) oben bis (5,6,8) unten, harte Kanten (Sprung von 0
+   auf 6 innerhalb von 10 px). Rechte Kante laeuft von (145, y640+10) nach
+   (15, y640+180), linke Kante 110 px daneben; unten laeuft das Band aus dem
+   linken Bildrand, oben schneidet die Sektionskante bei y 640.
+   Umgesetzt als Schraegverlauf mit harten Stufen in einem 200 x 210 px
+   grossen Kasten in der oberen linken Ecke; Winkel 126,5 Grad ist die
+   Senkrechte auf die Bandrichtung (Steigung -0,74). */
+.lvct-connect { position: relative; }
+.lvct-connect::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 200px;
+  height: 210px;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(126.5deg,
+    rgba(160,190,255,0) 30px, rgba(160,190,255,0.028) 36px,
+    rgba(160,190,255,0.028) 118px, rgba(160,190,255,0) 124px);
+}
+
+.lvct-connect-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    /* R3-contact-G3: in der rechten oberen Ecke von Sektion 2 setzt der
+       Schein im Entwurf mit einem Sockel ein, der gerenderte lief dort erst
+       spaeter an. Gemessen am rechten Rand (x 1740):
+       y645 44/21, y720 59/32, y795 71/48, y870 77/65 (Referenz/gerendert),
+       ab y 895 stimmt es. Zwei Zulagen: ein breiter flacher Sockel bis
+       x 1400 und ein enger Kern an der Kante. Farbe rgba(90,200,255) statt
+       reinem Blau, weil auch der Rotkanal fehlte (+12 bei x1750/y700).
+       Die Radien enden bei y 930 bzw. 1000, damit das darunter liegende
+       Band (y 850..1150, dort ist der gerenderte Schein umgekehrt 10 bis 14
+       ZU hell) nicht zusaetzlich aufgehellt wird. */
+    radial-gradient(180px 300px at calc(100% + 40px) 60px,
+      rgba(90,200,255,0.105) 0%, rgba(90,200,255,0.09) 30%, rgba(90,200,255,0.053) 55%,
+      rgba(90,200,255,0.023) 75%, rgba(90,200,255,0) 100%),
+    radial-gradient(520px 240px at calc(100% + 30px) 50px,
+      rgba(90,200,255,0.038) 0%, rgba(90,200,255,0.035) 40%, rgba(90,200,255,0.026) 60%,
+      rgba(90,200,255,0.011) 80%, rgba(90,200,255,0) 100%),
+    /* Nacharbeit 08.08. zu Befund B2, zweiter Schritt: die Naht ist zwar
+       stufenlos, der Schein oberhalb davon erreichte an der Messstelle
+       x 1000 / y 1700 aber nur 15 von 56 im Blaukanal. Ursache ist nicht
+       die Ellipse darunter, sondern die zu steile linke Flanke der fuenf
+       Figma-Ellipsen: bei y 1700 laeuft der Entwurf von 26 (x 800) ueber
+       47 (x 960) auf 84 (x 1120), gerendert steht dort 14 / 15 / 108.
+       Diese Zulage traegt genau die Delle zwischen x 800 und x 1060 nach.
+       Mittelpunkt Seite x 950 / y 1720, Radien 200 x 100, Spitzendeckung
+       0,15; Parameter aus einer Rasterausgleichung gegen das Referenzbild
+       (mittlerer Fehler im Bereich y 1600..2400 von 8,29 auf 7,67).
+       Dieselbe Ellipse steht in .lvct-formsec-glow und dessen ::before,
+       auf denselben Seitenkoordinaten, damit an y 1709 nichts springt. */
+    radial-gradient(150px 80px at 56.82% 1040px,
+      rgba(0,162,255,0.05) 0%, rgba(0,162,255,0.0458) 25%, rgba(0,162,255,0.0365) 45%,
+      rgba(0,162,255,0.025) 62%, rgba(0,162,255,0.0125) 78%, rgba(0,162,255,0.0042) 90%,
+      rgba(0,162,255,0) 100%),
+    radial-gradient(200px 100px at 53.98% 1080px,
+      rgba(0,162,255,0.15) 0%, rgba(0,162,255,0.1375) 25%, rgba(0,162,255,0.1094) 45%,
+      rgba(0,162,255,0.075) 62%, rgba(0,162,255,0.0375) 78%, rgba(0,162,255,0.0125) 90%,
+      rgba(0,162,255,0) 100%),
+    /* Befund B2: dieselbe weiche Ellipse wie in .lvct-formsec-glow, nur in
+       Sektion-2-Koordinaten (Mittelpunkt Seite y 1971, Sektionsanfang 640).
+       Ohne sie setzt der Schein an der Sektionsgrenze y 1709 mit einer Stufe
+       von 17 bis 19 von 255 ein statt weich auszulaufen. */
+    radial-gradient(760px 350px at 51.7% 1331px,
+      rgba(0,162,255,0.24) 0%, rgba(0,162,255,0.22) 25%, rgba(0,162,255,0.175) 45%,
+      rgba(0,162,255,0.12) 62%, rgba(0,162,255,0.06) 78%, rgba(0,162,255,0.02) 90%,
+      rgba(0,162,255,0) 100%),
+    radial-gradient(533px 1050px at calc(100% + 41px) 613px, rgba(48,192,255,1) 0%, rgba(48,192,255,0.683) 12.5%, rgba(48,192,255,0.44) 25%, rgba(48,192,255,0.262) 37.5%, rgba(48,192,255,0.139) 50%, rgba(48,192,255,0.061) 62.5%, rgba(48,192,255,0.019) 75%, rgba(48,192,255,0.003) 87.5%, rgba(48,192,255,0) 100%),
+    radial-gradient(400px 811px at calc(100% + 37px) 1520px, rgba(255,255,255,1) 0%, rgba(255,255,255,0.94) 12.5%, rgba(255,255,255,0.876) 25%, rgba(255,255,255,0.806) 37.5%, rgba(255,255,255,0.727) 50%, rgba(255,255,255,0.637) 62.5%, rgba(255,255,255,0.529) 75%, rgba(255,255,255,0.384) 87.5%, rgba(255,255,255,0) 100%),
+    radial-gradient(1254px 411px at calc(100% + 35px) 1431px, rgba(137,229,255,1) 0%, rgba(137,229,255,0.934) 12.5%, rgba(137,229,255,0.864) 25%, rgba(137,229,255,0.787) 37.5%, rgba(137,229,255,0.702) 50%, rgba(137,229,255,0.606) 62.5%, rgba(137,229,255,0.493) 75%, rgba(137,229,255,0.346) 87.5%, rgba(137,229,255,0) 100%),
+    radial-gradient(1059px 859px at calc(100% + 179px) 1462px, rgba(0,173,255,1) 0%, rgba(0,173,255,0.958) 12.5%, rgba(0,173,255,0.912) 25%, rgba(0,173,255,0.86) 37.5%, rgba(0,173,255,0.801) 50%, rgba(0,173,255,0.731) 62.5%, rgba(0,173,255,0.642) 75%, rgba(0,173,255,0.514) 87.5%, rgba(0,173,255,0) 100%);
+}
+
+/* Schriftgrad 64 statt der urspruenglichen 66: die Versalhoehe dieser
+   Ueberschrift ist im Referenzbild mit 42,81 px (Zusammenbau nachgemessen)
+   identisch mit der von "Your Answer May Already Be Waiting" (42,66 px)
+   in Sektion 4. Beide Ebenen tragen jetzt denselben Wert. Die Zeilenhoehe
+   bleibt bei 66 px, damit die geprueften Folgeabstaende erhalten bleiben. */
+/* +3 px gegenueber dem Bauzustand: die Versalien der Ueberschrift sitzen im
+   Referenzbild 3 px tiefer als gerendert. Der Fliesstext darunter bekommt
+   dieselben 3 px wieder abgezogen, damit alles Folgende stehen bleibt. */
+.lvct-connect .lvct-connect-title {
+  margin-top: 15px;
+  font-size: 64px;
+  line-height: 66px;
+  letter-spacing: -0.5px;
+  /* Befund B6: die Wortbreiten stimmen exakt, die fuenf Wortluecken waren
+     zusammen 10 px zu gross (Gesamttinte 973 statt 963 px). */
+  word-spacing: -1.6px;
+}
+/* Beide Fliesstexte unter den Abschnittsueberschriften sind im Entwurf
+   NICHT gleich gross: Sektion 2 misst 856,4 px Tinte (bei 18 px waeren es
+   714,5 -> 21,6 px), Sektion 3 misst 649,7 px (bei 18 px 598,1 -> 19,6 px).
+   Deshalb je Sektion gesetzt statt in .lvct-sectionsub. */
+.lvct-connect .lvct-sectionsub { margin-top: 26px; font-size: 21.6px; }
+
+.lvct-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 75px;
+  text-align: left;
+}
+
+.lvct-card {
+  position: relative;
+  overflow: clip;
+  min-height: 335px;
+  padding: 40px 32px 31px;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  background:
+    /* R3-contact-F2: Referenz zeigt im Karteninneren an textfreier Stelle
+       (1,1,1), gerendert war es (0,0,0). */
+    linear-gradient(#010101, #010101) padding-box,
+    /* Befund C3: oben und unten wurde 0,30 gerendert (76), die Referenz
+       zeigt dort 44 bis 51 mit Blaustich, in der Mitte 24 bis 27. */
+    linear-gradient(180deg, rgba(210,235,245,0.20) 0%, rgba(210,235,245,0.105) 45%, rgba(210,235,245,0.16) 100%) border-box;
+}
+
+/* ".lvf-page img { max-width:100%; height:auto }" ist 0-1-1, deshalb hier
+   0-2-0 bzw. 0-2-1, sonst greift der Theme-Reset. */
+.lvct-card .lvct-card-wm {
+  position: absolute;
+  z-index: 0;
+  /* Im Original liegt das Riesenmotiv fast farblos bei 4 von 255 ueber Schwarz.
+     Die blaue Icon-Kopie muss dafuer entsaettigt werden, sonst wird sie blau. */
+  /* R3-contact-A1: Groesse, Lage und Deckkraft aller vier Wasserzeichen neu
+     bestimmt. Verfahren: das Original-Icon wird als Modell ueber die
+     Kartenflaeche gelegt und Breite/left/top/Deckkraft per Ausgleichung gegen
+     das Referenzbild geloest (Hintergrund als Ebene mitgeschaetzt). Am
+     Live-Render geeicht - dort liefert dasselbe Verfahren die bekannten Werte
+     466 / 475 / 900 / 0,032 auf 1 px genau zurueck. Gegenprobe mit dem
+     Live-Render als JPEG (q75/82/90) zeigt keine Daempfung durch die
+     Kompression, die Referenzwerte sind also belastbar.
+     Deckkraft je Karte gemessen: 0,0129 / 0,0140 / 0,0141 / 0,0123;
+     hier der gemeinsame Mittelwert. */
+  opacity: 0.0133;
+  filter: grayscale(0.85);
+  pointer-events: none;
+  max-width: none;
+  height: auto;
+}
+/* R3-contact-A1: vorher 466/215/-68, 400/250/-39, 509/158/-87, 443/224/-101.
+   Karte 3 lief mit 509 px mit der Flieger-Spitze in die rechte Kartenkante
+   und wurde dort gekappt; im Entwurf steht sie frei. */
+.lvct-card .lvct-card-wm--chat      { width: 431px; left: 223px; top: -60px; }
+.lvct-card .lvct-card-wm--help      { width: 364px; left: 240px; top: -17px; }
+.lvct-card .lvct-card-wm--send      { width: 483px; left: 170px; top: -87px; }
+.lvct-card .lvct-card-wm--community { width: 444px; left: 210px; top: -95px; }
+
+.lvct-card-icobox {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 61px;
+  height: 61px;
+  border-radius: 16px;
+  /* Befund C2: die Referenz hat einen weichen, oben hellen und unten fast
+     erloschenen Rand mit leichtem Blaustich (oben (28,33,34), unten (8,8,8)),
+     nicht den gleichmaessig grauen 1-px-Rand aus rgba(255,255,255,0.22). */
+  border: 1px solid transparent;
+  background:
+    linear-gradient(rgba(255,255,255,0.008), rgba(255,255,255,0.008)) padding-box,
+    linear-gradient(180deg, rgba(210,240,250,0.13) 0%, rgba(210,240,250,0.03) 100%) border-box;
+}
+.lvct-card .lvct-card-icobox img { width: 36px; height: 36px; }
+
+.lvct-card h3.lvct-card-title,
+.lvct-card .lvct-card-title {
+  position: relative;
+  z-index: 1;
+  margin-top: 24px;
+  /* Stammbreite des L von "Live" im Referenzbild 5,28 px bei 40 px
+     Schriftgrad; gerendert bei 700 waren es 7,63 px. Das entspricht 550.
+     Bei 550 ist die Schrift schmaler, deshalb 40,7 statt 40. */
+  font-size: 40.7px;
+  line-height: 40px;
+  font-weight: 550;
+  letter-spacing: -0.3px;
+  background-image: var(--lvct-head-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.lvct-card .lvct-card-text {
+  position: relative;
+  z-index: 1;
+  margin-top: 13px;
+  /* Referenz Zeile 1: 418,4 px Tinte, bei 14 px gerendert 380,8 (Faktor 1,099) */
+  font-size: 15.4px;
+  line-height: 26px;
+  font-weight: 400;
+  /* Befund C5: Referenz (162,162,162), gerendert (192,192,192). */
+  color: rgba(255, 255, 255, 0.635);
+  overflow-wrap: break-word;
+}
+
+.lvct-card-foot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+.lvct-btn--card,
+/* Korrektur 12.08.: siehe Kommentar bei ".lvct-btn" oben - lvlup-theme.css
+   setzt fuer das Element button font-size:inherit mit 0-2-1, hier noetig
+   0-2-x. Ohne das wurden die drei umgestellten Kartenknoepfe bei 16px statt
+   16,5px gerendert. */
+.lvf-page button.lvct-btn--card {
+  width: 258px;
+  height: 47px;
+  /* Befund B3: Tintenbreiten lagen im Mittel um Faktor 1,066 unter der
+     Referenz (z. B. "Join the Community" 139 statt 149 px). Bei Gewicht 500
+     (siehe B5) braucht dieselbe Breite 16,5 px. */
+  font-size: 16.5px;
+}
+/* Gewicht 400 statt 600: Stammbreite im Referenzbild 1,01 px, gerendert
+   2,55 px. Der Schriftgrad stimmt (Tinte 81,3 gegen 80,5). */
+.lvct-card-note {
+  /* Bei Gewicht 400 ist "Available 24/7" schmaler als bei 600 (die Ziffern
+     laufen mit), deshalb 13,5 statt 12: Referenz 81,3 px Tinte. */
+  font-size: 13.5px;
+  line-height: 1.4;
+  font-weight: 400;
+  /* Befund C6: Gruen und Blau passen, im Rotkanal fehlten rund 48
+     (Referenz (63,104,153) gegen (14,104,158)). */
+  color: rgba(100, 166, 244, 0.62);
+}
+
+/* =====================================================================
+   Sektion 3 - Tell Us What You Need (Formular)  (y 1709..2735)
+   Pille 1765..1795, H2-Versalien 1821..1865, Fliesstext 1890..1914,
+   Panel 260-1500 x 1990..2735, Send-Knopf 2622..2692.
+   ===================================================================== */
+.lvct-formsec {
+  /* unten 0: Teil 2 setzt seine Huelle an der Panel-Unterkante an (y 2735) */
+  padding: 56px 0 0;
+  background: #000000;
+  text-align: center;
+}
+.lvct-formsec-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    /* Nacharbeit 08.08. zu Befund B2, Gegenstueck zur Zulage in
+       .lvct-connect-glow. Mittelpunkt Seite y 1720, Sektionsanfang 1709. */
+    radial-gradient(150px 80px at 56.82% -29px,
+      rgba(0,162,255,0.05) 0%, rgba(0,162,255,0.0458) 25%, rgba(0,162,255,0.0365) 45%,
+      rgba(0,162,255,0.025) 62%, rgba(0,162,255,0.0125) 78%, rgba(0,162,255,0.0042) 90%,
+      rgba(0,162,255,0) 100%),
+    radial-gradient(200px 100px at 53.98% 11px,
+      rgba(0,162,255,0.15) 0%, rgba(0,162,255,0.1375) 25%, rgba(0,162,255,0.1094) 45%,
+      rgba(0,162,255,0.075) 62%, rgba(0,162,255,0.0375) 78%, rgba(0,162,255,0.0125) 90%,
+      rgba(0,162,255,0) 100%),
+    /* Nachtrag beim 1:1-Abgleich: die vier aus Sektion 2 uebernommenen
+       Ellipsen enden in Sektion 3 an einer harten Kante bei x rund 1010.
+       Links davon ist der Grund im Entwurf noch blau (Blaukanal 5 bis 60),
+       gerendert war er 0. Diese weiche Ellipse traegt genau das nach;
+       ihr Kern liegt hinter dem Panel und ist deshalb nur oberhalb
+       davon (y 1709 bis 1990) sichtbar. */
+    radial-gradient(760px 350px at 51.7% 262px,
+      rgba(0,162,255,0.24) 0%, rgba(0,162,255,0.22) 25%, rgba(0,162,255,0.175) 45%,
+      rgba(0,162,255,0.12) 62%, rgba(0,162,255,0.06) 78%, rgba(0,162,255,0.02) 90%,
+      rgba(0,162,255,0) 100%),
+    radial-gradient(533px 1050px at calc(100% + 41px) -456px, rgba(48,192,255,1) 0%, rgba(48,192,255,0.683) 12.5%, rgba(48,192,255,0.44) 25%, rgba(48,192,255,0.262) 37.5%, rgba(48,192,255,0.139) 50%, rgba(48,192,255,0.061) 62.5%, rgba(48,192,255,0.019) 75%, rgba(48,192,255,0.003) 87.5%, rgba(48,192,255,0) 100%),
+    radial-gradient(400px 811px at calc(100% + 37px) 451px, rgba(255,255,255,1) 0%, rgba(255,255,255,0.94) 12.5%, rgba(255,255,255,0.876) 25%, rgba(255,255,255,0.806) 37.5%, rgba(255,255,255,0.727) 50%, rgba(255,255,255,0.637) 62.5%, rgba(255,255,255,0.529) 75%, rgba(255,255,255,0.384) 87.5%, rgba(255,255,255,0) 100%),
+    radial-gradient(1254px 411px at calc(100% + 35px) 362px, rgba(137,229,255,1) 0%, rgba(137,229,255,0.934) 12.5%, rgba(137,229,255,0.864) 25%, rgba(137,229,255,0.787) 37.5%, rgba(137,229,255,0.702) 50%, rgba(137,229,255,0.606) 62.5%, rgba(137,229,255,0.493) 75%, rgba(137,229,255,0.346) 87.5%, rgba(137,229,255,0) 100%),
+    radial-gradient(1059px 859px at calc(100% + 179px) 394px, rgba(0,173,255,1) 0%, rgba(0,173,255,0.958) 12.5%, rgba(0,173,255,0.912) 25%, rgba(0,173,255,0.86) 37.5%, rgba(0,173,255,0.801) 50%, rgba(0,173,255,0.731) 62.5%, rgba(0,173,255,0.642) 75%, rgba(0,173,255,0.514) 87.5%, rgba(0,173,255,0) 100%),
+    radial-gradient(28.409% 1850px at 111.648% 2291px,
+    rgba(0,162,255,0.678) 0%, rgba(0,162,255,0.678) 40%, rgba(0,162,255,0.662) 42.5%,
+    rgba(0,162,255,0.492) 57.5%, rgba(0,162,255,0.248) 75%, rgba(0,162,255,0.152) 82.5%,
+    rgba(0,162,255,0.086) 90%, rgba(0,162,255,0.067) 95%, rgba(0,162,255,0.053) 110%,
+    rgba(0,162,255,0.038) 112.5%, rgba(0,162,255,0.036) 120%, rgba(0,162,255,0.015) 127.5%,
+    rgba(0,162,255,0.008) 145%, rgba(0,162,255,0.008) 217.5%, rgba(0,162,255,0) 220%),
+    /* R3-contact-G1: linke Ellipse neu bestimmt. Alt: Mittelpunkt Seite
+       x -100 / y 4600, Radien 400 x 3300. Der linke Rand war dadurch von
+       y 1740 bis 2580 um 8 bis 10 von 255 zu hell und von y 2820 bis 3540
+       um 5 bis 13 zu dunkel.
+       Neu bestimmt am 250 px breiten Randstreifen (y 1715..4245, 79 500
+       Messpunkte): Rasterlauf ueber Mittelpunkt und beide Halbachsen, je
+       Kandidat die bestmoegliche freie Radialkurve (Median je Radiusband,
+       monoton erzwungen), Guetemass der mittlere quadratische Fehler.
+       Ergebnis Mittelpunkt Seite x -400 / y 4750, Radien 800 x 4000,
+       RMS 4,26 -> 3,40. Die Stufen sind die zugehoerige gemessene Kurve.
+       Ein Restfehler bleibt: der Entwurf hat oben links (y 1800..2400)
+       praktisch keinen Schein, traegt aber gleichzeitig bei x 180 in
+       mittlerer Hoehe mehr als eine Ellipse leisten kann. Rest dort
+       +5 bis +7 von 255, siehe BERICHT. */
+    radial-gradient(45.4545% 4000px at -22.7273% 3041px,
+    rgba(0,162,255,0.65) 0.0%, rgba(0,162,255,0.6118) 51.5%, rgba(0,162,255,0.5765) 52.5%, rgba(0,162,255,0.5373) 53.5%,
+      rgba(0,162,255,0.5059) 54.5%, rgba(0,162,255,0.4667) 55.5%, rgba(0,162,255,0.4412) 56.5%, rgba(0,162,255,0.4157) 57.5%,
+      rgba(0,162,255,0.3882) 58.5%, rgba(0,162,255,0.3608) 59.5%, rgba(0,162,255,0.3412) 60.5%, rgba(0,162,255,0.3176) 61.5%,
+      rgba(0,162,255,0.2941) 62.5%, rgba(0,162,255,0.2706) 63.5%, rgba(0,162,255,0.2549) 64.5%, rgba(0,162,255,0.2353) 65.5%,
+      rgba(0,162,255,0.2196) 66.5%, rgba(0,162,255,0.2) 67.5%, rgba(0,162,255,0.1824) 68.5%, rgba(0,162,255,0.1647) 69.5%,
+      rgba(0,162,255,0.1529) 70.5%, rgba(0,162,255,0.1412) 71.5%, rgba(0,162,255,0.1255) 72.5%, rgba(0,162,255,0.1098) 73.5%,
+      rgba(0,162,255,0.098) 74.5%, rgba(0,162,255,0.0863) 75.5%, rgba(0,162,255,0.0745) 76.5%, rgba(0,162,255,0.0627) 78.5%,
+      rgba(0,162,255,0.0549) 79.5%, rgba(0,162,255,0.0471) 81.5%, rgba(0,162,255,0.0431) 82.5%, rgba(0,162,255,0.0353) 84.5%,
+      rgba(0,162,255,0.0275) 88.5%, rgba(0,162,255,0.0196) 89.5%, rgba(0,162,255,0.0078) 95.0%, rgba(0,162,255,0.004) 110.0%,
+      rgba(0,162,255,0.0) 125.0%);
+}
+
+/* Naht y 2735: Teil 1 und Teil 2 modellieren denselben Schein mit zwei
+   verschiedenen Ellipsen-Saetzen. Teil 1 trifft oben, Teil 2 unten. Ohne
+   Uebergang steht an der Kante eine Stufe von bis zu 56 (Blau) bzw. 42 (Rot)
+   von 255. Deshalb blendet die untere Haelfte von Sektion 3 auf 320 px
+   linear in das Modell von Teil 2 hinueber.
+   "plus-lighter" ist noetig, weil zwei halbdurchsichtige Schichten normal
+   uebereinander DUNKLER werden als jede fuer sich (gemessen: bis -60 in der
+   Mitte des Uebergangs). Kann der Browser das nicht, bleibt es bei der
+   Fassung darueber: dann steht die Stufe wieder da, aber nichts ist kaputt. */
+@supports (mix-blend-mode: plus-lighter) {
+  .lvct-formsec-glow { background: none; }
+  .lvct-formsec-glow::before,
+  .lvct-formsec-glow::after { content: ""; position: absolute; inset: 0; }
+  .lvct-formsec-glow::before {
+    background:
+      /* dieselbe Zulage wie in der Grundfassung, siehe dort */
+      radial-gradient(150px 80px at 56.82% -29px,
+        rgba(0,162,255,0.05) 0%, rgba(0,162,255,0.0458) 25%, rgba(0,162,255,0.0365) 45%,
+        rgba(0,162,255,0.025) 62%, rgba(0,162,255,0.0125) 78%, rgba(0,162,255,0.0042) 90%,
+        rgba(0,162,255,0) 100%),
+      radial-gradient(200px 100px at 53.98% 11px,
+        rgba(0,162,255,0.15) 0%, rgba(0,162,255,0.1375) 25%, rgba(0,162,255,0.1094) 45%,
+        rgba(0,162,255,0.075) 62%, rgba(0,162,255,0.0375) 78%, rgba(0,162,255,0.0125) 90%,
+        rgba(0,162,255,0) 100%),
+      /* dieselbe Nachtrags-Ellipse wie in der Grundfassung, siehe dort */
+      radial-gradient(760px 350px at 51.7% 262px,
+        rgba(0,162,255,0.24) 0%, rgba(0,162,255,0.22) 25%, rgba(0,162,255,0.175) 45%,
+        rgba(0,162,255,0.12) 62%, rgba(0,162,255,0.06) 78%, rgba(0,162,255,0.02) 90%,
+        rgba(0,162,255,0) 100%),
+      radial-gradient(533px 1050px at calc(100% + 41px) -456px, rgba(48,192,255,1) 0%, rgba(48,192,255,0.683) 12.5%, rgba(48,192,255,0.44) 25%, rgba(48,192,255,0.262) 37.5%, rgba(48,192,255,0.139) 50%, rgba(48,192,255,0.061) 62.5%, rgba(48,192,255,0.019) 75%, rgba(48,192,255,0.003) 87.5%, rgba(48,192,255,0) 100%),
+      radial-gradient(400px 811px at calc(100% + 37px) 451px, rgba(255,255,255,1) 0%, rgba(255,255,255,0.94) 12.5%, rgba(255,255,255,0.876) 25%, rgba(255,255,255,0.806) 37.5%, rgba(255,255,255,0.727) 50%, rgba(255,255,255,0.637) 62.5%, rgba(255,255,255,0.529) 75%, rgba(255,255,255,0.384) 87.5%, rgba(255,255,255,0) 100%),
+      radial-gradient(1254px 411px at calc(100% + 35px) 362px, rgba(137,229,255,1) 0%, rgba(137,229,255,0.934) 12.5%, rgba(137,229,255,0.864) 25%, rgba(137,229,255,0.787) 37.5%, rgba(137,229,255,0.702) 50%, rgba(137,229,255,0.606) 62.5%, rgba(137,229,255,0.493) 75%, rgba(137,229,255,0.346) 87.5%, rgba(137,229,255,0) 100%),
+      radial-gradient(1059px 859px at calc(100% + 179px) 394px, rgba(0,173,255,1) 0%, rgba(0,173,255,0.958) 12.5%, rgba(0,173,255,0.912) 25%, rgba(0,173,255,0.86) 37.5%, rgba(0,173,255,0.801) 50%, rgba(0,173,255,0.731) 62.5%, rgba(0,173,255,0.642) 75%, rgba(0,173,255,0.514) 87.5%, rgba(0,173,255,0) 100%),
+      radial-gradient(28.409% 1850px at 111.648% 2291px,
+      rgba(0,162,255,0.678) 0%, rgba(0,162,255,0.678) 40%, rgba(0,162,255,0.662) 42.5%,
+      rgba(0,162,255,0.492) 57.5%, rgba(0,162,255,0.248) 75%, rgba(0,162,255,0.152) 82.5%,
+      rgba(0,162,255,0.086) 90%, rgba(0,162,255,0.067) 95%, rgba(0,162,255,0.053) 110%,
+      rgba(0,162,255,0.038) 112.5%, rgba(0,162,255,0.036) 120%, rgba(0,162,255,0.015) 127.5%,
+      rgba(0,162,255,0.008) 145%, rgba(0,162,255,0.008) 217.5%, rgba(0,162,255,0) 220%),
+      radial-gradient(45.4545% 4000px at -22.7273% 3041px,
+      rgba(0,162,255,0.65) 0.0%, rgba(0,162,255,0.6118) 51.5%, rgba(0,162,255,0.5765) 52.5%, rgba(0,162,255,0.5373) 53.5%,
+      rgba(0,162,255,0.5059) 54.5%, rgba(0,162,255,0.4667) 55.5%, rgba(0,162,255,0.4412) 56.5%, rgba(0,162,255,0.4157) 57.5%,
+      rgba(0,162,255,0.3882) 58.5%, rgba(0,162,255,0.3608) 59.5%, rgba(0,162,255,0.3412) 60.5%, rgba(0,162,255,0.3176) 61.5%,
+      rgba(0,162,255,0.2941) 62.5%, rgba(0,162,255,0.2706) 63.5%, rgba(0,162,255,0.2549) 64.5%, rgba(0,162,255,0.2353) 65.5%,
+      rgba(0,162,255,0.2196) 66.5%, rgba(0,162,255,0.2) 67.5%, rgba(0,162,255,0.1824) 68.5%, rgba(0,162,255,0.1647) 69.5%,
+      rgba(0,162,255,0.1529) 70.5%, rgba(0,162,255,0.1412) 71.5%, rgba(0,162,255,0.1255) 72.5%, rgba(0,162,255,0.1098) 73.5%,
+      rgba(0,162,255,0.098) 74.5%, rgba(0,162,255,0.0863) 75.5%, rgba(0,162,255,0.0745) 76.5%, rgba(0,162,255,0.0627) 78.5%,
+      rgba(0,162,255,0.0549) 79.5%, rgba(0,162,255,0.0471) 81.5%, rgba(0,162,255,0.0431) 82.5%, rgba(0,162,255,0.0353) 84.5%,
+      rgba(0,162,255,0.0275) 88.5%, rgba(0,162,255,0.0196) 89.5%, rgba(0,162,255,0.0078) 95.0%, rgba(0,162,255,0.004) 110.0%,
+      rgba(0,162,255,0.0) 125.0%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 320px), transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 320px), transparent 100%);
+  }
+  /* dieselben fuenf Ellipsen wie .lvct-band2-glow, nur in die Koordinaten von
+     Sektion 3 umgerechnet (Bandanfang y 2735 minus Sektionsanfang y 1709) */
+  .lvct-formsec-glow::after {
+    background:
+      radial-gradient(28.409% 2000px at 102.273% 491px,
+      rgba(255,255,255,0.632) 0%, rgba(255,255,255,0.632) 25%, rgba(255,255,255,0.42) 35%,
+      rgba(255,255,255,0.334) 40%, rgba(255,255,255,0.266) 45%, rgba(255,255,255,0.193) 52.5%,
+      rgba(255,255,255,0.124) 65%, rgba(255,255,255,0.075) 77.5%, rgba(255,255,255,0.027) 95%,
+      rgba(255,255,255,0.007) 115%, rgba(255,255,255,0) 135%),
+      radial-gradient(31.818% 2000px at 102.273% 441px,
+      rgba(0,162,255,0.768) 0%, rgba(0,162,255,0.768) 27.5%, rgba(0,162,255,0.74) 30%,
+      rgba(0,162,255,0.608) 37.5%, rgba(0,162,255,0.37) 50%, rgba(0,162,255,0.211) 57.5%,
+      rgba(0,162,255,0.115) 62.5%, rgba(0,162,255,0.077) 65%, rgba(0,162,255,0.053) 67.5%,
+      rgba(0,162,255,0.009) 90%, rgba(0,162,255,0.007) 140%, rgba(0,162,255,0) 147.5%),
+      radial-gradient(28.409% 1850px at 111.648% 2291px,
+      rgba(0,162,255,0.678) 0%, rgba(0,162,255,0.678) 40%, rgba(0,162,255,0.662) 42.5%,
+      rgba(0,162,255,0.492) 57.5%, rgba(0,162,255,0.248) 75%, rgba(0,162,255,0.152) 82.5%,
+      rgba(0,162,255,0.086) 90%, rgba(0,162,255,0.067) 95%, rgba(0,162,255,0.053) 110%,
+      rgba(0,162,255,0.038) 112.5%, rgba(0,162,255,0.036) 120%, rgba(0,162,255,0.015) 127.5%,
+      rgba(0,162,255,0.008) 145%, rgba(0,162,255,0.008) 217.5%, rgba(0,162,255,0) 220%),
+      radial-gradient(34.091% 1200px at 110.795% 591px,
+      rgba(0,162,255,0.808) 0%, rgba(0,162,255,0.808) 45%, rgba(0,162,255,0.797) 47.5%,
+      rgba(0,162,255,0.754) 50%, rgba(0,162,255,0.733) 52.5%, rgba(0,162,255,0.693) 55%,
+      rgba(0,162,255,0.644) 60%, rgba(0,162,255,0.578) 65%, rgba(0,162,255,0.407) 80%,
+      rgba(0,162,255,0.359) 85%, rgba(0,162,255,0.296) 92.5%, rgba(0,162,255,0.213) 105%,
+      rgba(0,162,255,0.102) 117.5%, rgba(0,162,255,0.069) 122.5%, rgba(0,162,255,0.033) 130%,
+      rgba(0,162,255,0.019) 135%, rgba(0,162,255,0.008) 147.5%, rgba(0,162,255,0.007) 197.5%,
+      rgba(0,162,255,0) 207.5%),
+      radial-gradient(45.4545% 4000px at -22.7273% 3041px,
+      rgba(0,162,255,0.65) 0.0%, rgba(0,162,255,0.6118) 51.5%, rgba(0,162,255,0.5765) 52.5%, rgba(0,162,255,0.5373) 53.5%,
+      rgba(0,162,255,0.5059) 54.5%, rgba(0,162,255,0.4667) 55.5%, rgba(0,162,255,0.4412) 56.5%, rgba(0,162,255,0.4157) 57.5%,
+      rgba(0,162,255,0.3882) 58.5%, rgba(0,162,255,0.3608) 59.5%, rgba(0,162,255,0.3412) 60.5%, rgba(0,162,255,0.3176) 61.5%,
+      rgba(0,162,255,0.2941) 62.5%, rgba(0,162,255,0.2706) 63.5%, rgba(0,162,255,0.2549) 64.5%, rgba(0,162,255,0.2353) 65.5%,
+      rgba(0,162,255,0.2196) 66.5%, rgba(0,162,255,0.2) 67.5%, rgba(0,162,255,0.1824) 68.5%, rgba(0,162,255,0.1647) 69.5%,
+      rgba(0,162,255,0.1529) 70.5%, rgba(0,162,255,0.1412) 71.5%, rgba(0,162,255,0.1255) 72.5%, rgba(0,162,255,0.1098) 73.5%,
+      rgba(0,162,255,0.098) 74.5%, rgba(0,162,255,0.0863) 75.5%, rgba(0,162,255,0.0745) 76.5%, rgba(0,162,255,0.0627) 78.5%,
+      rgba(0,162,255,0.0549) 79.5%, rgba(0,162,255,0.0471) 81.5%, rgba(0,162,255,0.0431) 82.5%, rgba(0,162,255,0.0353) 84.5%,
+      rgba(0,162,255,0.0275) 88.5%, rgba(0,162,255,0.0196) 89.5%, rgba(0,162,255,0.0078) 95.0%, rgba(0,162,255,0.004) 110.0%,
+      rgba(0,162,255,0.0) 125.0%);
+    mix-blend-mode: plus-lighter;
+    -webkit-mask-image: linear-gradient(to bottom, transparent calc(100% - 320px), #000 100%);
+    mask-image: linear-gradient(to bottom, transparent calc(100% - 320px), #000 100%);
+  }
+}
+
+/* Schriftgrad wie bei .lvct-connect-title, siehe Anmerkung dort. */
+/* +5 px, siehe Anmerkung bei .lvct-connect-title (hier waren es 5 px). */
+.lvct-formsec .lvct-formsec-title {
+  margin-top: 17px;
+  font-size: 64px;
+  line-height: 66px;
+  letter-spacing: -0.5px;
+}
+.lvct-formsec .lvct-sectionsub { margin-top: 12px; font-size: 19.6px; }
+
+/* Panel */
+.lvct-formsec .lvct-panel {
+  position: relative;
+  z-index: 1;
+  margin-top: 76px;
+  padding: 42px 43px 43px;
+  border-radius: 20px;
+  text-align: left;
+  /* Lichtquelle oben rechts ausserhalb des Panels. Groessen in Prozent,
+     damit der Schein auf schmalen Schirmen mitwaechst.
+     R3-contact-G2: die alte Fassung (105% 121% at 119% 7%, linearer Abfall)
+     war nur an den vier Panelkanten angepasst und trug im Inneren viel zu
+     weit nach links unten. Messpunkt (1170, 2600): Referenz (0,4,7),
+     gerendert (4,16,23). Neu bestimmt aus 8760 textfreien Panelpunkten
+     (obere/untere/linke/rechte Innenkante plus die Luecken zwischen den
+     Feldern): Suche ueber Mittelpunkt und Achsverhaeltnis mit freier
+     Radialkurve, danach die Kurve selbst aus den Messwerten abgelesen.
+     Ergebnis: Mittelpunkt 201,3 % / -92,4 %, Radien 209,7 % x 281,6 %,
+     Streuung der Messwerte je Radiusband nur noch 2 bis 4 von 255.
+     RMS im Blaukanal ueber alle Punkte 5,56 -> 3,59. */
+  background:
+    radial-gradient(209.7% 281.6% at 201.3% -92.4%,
+      rgba(15,64,91,1) 0%, rgba(15,64,91,1) 31.6%, rgba(15,64,91,0.753) 59.2%,
+      rgba(15,64,91,0.727) 60.8%, rgba(15,64,91,0.721) 62.3%, rgba(15,64,91,0.713) 63.8%,
+      rgba(15,64,91,0.698) 65.4%, rgba(15,64,91,0.68) 66.9%, rgba(15,64,91,0.658) 68.5%,
+      rgba(15,64,91,0.631) 70%, rgba(15,64,91,0.596) 71.5%, rgba(15,64,91,0.557) 73.1%,
+      rgba(15,64,91,0.516) 74.6%, rgba(15,64,91,0.47) 76.2%, rgba(15,64,91,0.421) 77.7%,
+      rgba(15,64,91,0.376) 79.2%, rgba(15,64,91,0.327) 80.8%, rgba(15,64,91,0.275) 82.3%,
+      rgba(15,64,91,0.225) 83.8%, rgba(15,64,91,0.176) 85.4%, rgba(15,64,91,0.132) 86.9%,
+      rgba(15,64,91,0.098) 88.5%, rgba(15,64,91,0.079) 90%, rgba(15,64,91,0.063) 91.5%,
+      rgba(15,64,91,0.051) 93.1%, rgba(15,64,91,0.037) 94.6%, rgba(15,64,91,0.025) 96.2%,
+      rgba(15,64,91,0.02) 97.7%, rgba(15,64,91,0.008) 99.2%, rgba(15,64,91,0) 100%),
+    #010101;
+  /* Kein Schlagschatten: im Original steht der Schein direkt neben der
+     Panelkante bei (202,236,255), ein Schatten wuerde ihn dort abdunkeln. */
+}
+
+.lvct-formsec .lvct-field {
+  display: flex;
+  align-items: center;
+  min-height: 88px;
+  padding: 13px 14px 13px 0;
+  border-radius: 16px;
+  /* Befund B1: der Verlauf war bei 45 % auf Null und das Band ab x 823 weg.
+     Die Referenz traegt bis zur rechten Kante durch (x400 +13, x1420 +9). */
+  background: linear-gradient(90deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.055) 14%, rgba(255,255,255,0.046) 100%);
+}
+.lvct-formsec .lvct-field + .lvct-field { margin-top: 10px; }
+.lvct-formsec .lvct-field--msg { min-height: 169px; align-items: flex-start; }
+
+.lvct-formsec .lvct-label {
+  flex: none;
+  width: 190px;
+  padding-left: 42px;
+  /* Referenz "Full Name" 73,0 px Tinte, bei 15 px gerendert 61,9
+     (Faktor 1,18); "Account #" ergibt denselben Faktor. */
+  font-size: 17.7px;
+  line-height: 1.4;
+  font-weight: 400;
+  /* Befund C1: Referenz (168,168,168), gerendert (225,225,225). */
+  color: rgba(255, 255, 255, 0.66);
+}
+.lvct-formsec .lvct-field--msg .lvct-label { padding-top: 20px; }
+/* Nacharbeit 08.08. zu Befund C9: #d40000 (212) kam an der hellsten Stelle
+   des 3 x 3 px grossen Sterns mit 180 an, die Referenz zeigt dort (154,7,8).
+   Die Deckung des hellsten Pixels betraegt also 180/212 = 0,849; fuer 154
+   braucht es 181 im Rotkanal und je 6 bis 7 in Gruen und Blau. */
+.lvct-formsec .lvct-req { color: #b50607; font-size: 12px; vertical-align: 2px; margin-left: 1px; }
+
+.lvct-formsec .lvct-panel .lvct-input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 62px;
+  padding: 0 24px 0 35px;
+  border: 0;
+  border-radius: 12px;
+  /* Befund C11: das Feldband schlug durch die zu durchlaessige Fuellung
+     durch (x510/y2075 Referenz (3,3,3) gegen (14,15,16)). */
+  background: rgba(8, 8, 8, 0.55);
+  /* Befund C12: die Referenz zeigt oben eine blaeuliche Lichtkante und unten
+     gar nichts, gerendert war es ein gleichmaessiger Ring ((600,2106) Referenz
+     (2,2,2) gegen (20,24,26)). */
+  box-shadow: inset 0 1px 0 0 rgba(0, 150, 255, 0.13);
+  font-family: inherit;
+  /* Referenz "Enter your account number" 215,4 px Tinte, bei 16 px
+     gerendert 188,7 (Faktor 1,142); "Enter your full name" ergibt 1,148. */
+  font-size: 18.4px;
+  line-height: 62px;
+  font-weight: 400;
+  color: #ffffff;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.lvct-formsec .lvct-panel .lvct-textarea {
+  height: 143px;
+  /* Korrektur 12.08.: rechtes Innenpolster stand bei 190px statt 24px wie bei
+     den vier anderen Feldern derselben Maske (.lvct-input oben). Nutzbare
+     Breite dadurch 725 statt 891 px, Text brach 166 px vor dem sichtbaren
+     Rand um. Der alte Wert war ueber die Platzhalter-Breite von "...may help
+     our team" zurueckgerechnet (Befund A1), aber das zwingt auch getippten
+     Text in dieselbe schmale Spalte. Jetzt wie die Geschwisterfelder 24px;
+     unter 1280 px galt ohnehin schon 24px (Regel weiter unten). */
+  padding: 24px 24px 0 35px;
+  line-height: 23px;
+  /* Im Entwurf gibt es keinen Anfasser; fuer die pixelgenaue Abnahme aus. */
+  resize: none;
+}
+/* Befund C7: Referenz (68,69,71), gerendert (84,87,89). */
+.lvct-formsec .lvct-panel .lvct-input::placeholder { color: rgba(255, 255, 255, 0.25); opacity: 1; }
+.lvct-formsec .lvct-panel .lvct-input:focus-visible { outline: 2px solid rgba(110, 202, 255, 0.7); outline-offset: 2px; }
+
+/* Send-Knopf */
+.lvct-formsec .lvct-panel .lvct-send {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 70px;
+  margin-top: 29px;
+  padding: 7px 7px 7px 53px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--lvct-btn-grad);
+  box-shadow:
+    inset 0 0 0 1px var(--lvct-btn-edge),
+    inset 0 -9px 14px -6px rgba(20, 255, 255, 0.5),
+    0 6px 20px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: filter 0.15s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.lvct-formsec .lvct-panel .lvct-send:hover,
+.lvct-formsec .lvct-panel .lvct-send:focus-visible { filter: brightness(1.06); }
+/* Korrektur 12.08.: bisher gab es fuer Tastatur-Fokus ueberhaupt keine
+   Rueckmeldung (nur :hover war gesetzt). Jetzt wie .lvct-btn: Helligkeit
+   bleibt, dazu ein echter Fokusring. */
+.lvct-formsec .lvct-panel .lvct-send:focus-visible { outline: 2px solid #8cd5ff; outline-offset: 3px; }
+.lvct-send-label {
+  font-family: inherit;
+  /* Befund B1 Zone 2: Tinte 155 statt 169 px breit, dabei 11 % mehr Masse und
+     Stammbreiten von 4 bis 5 statt 3 bis 4 px. 700 ist bei dieser Schrift das
+     Maximum und erzwingt den synthetischen Fettschnitt. */
+  font-size: 25.5px;
+  line-height: 1;
+  font-weight: 600;
+  color: #060606;
+  letter-spacing: 0.4px;
+}
+.lvct-send-ico {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 374px;
+  height: 56px;
+  flex: none;
+  border-radius: 9px;
+  background: #050506;
+}
+/* R3-contact-A2: der Pfeil misst im Referenzbild 21 x 21 px bei 171
+   Tintenpunkten, gerendert waren es 13 x 13 px bei 81. Aus beiden Groessen
+   aufgeloest (Kastenbreite w, Strichstaerke s im viewBox 24: Kantenmass
+   (12+s)*w/24 = 21, Tinte 36*(w/24)*(s*w/24+0,62) = 171) folgt w = 38 px und
+   s = 1,55. Der Mittelpunkt (1263, 2657) stimmte schon vorher. */
+.lvct-send-ico svg { width: 37px; height: 37px; display: block; }
+.lvct-send-ico svg path { stroke-width: 1.8; }
+
+/* =====================================================================
+   TEIL 2  -  "Your Answer May Already Be Waiting" und Abschlusskarte
+   Referenz y 2735..4252. Masse 1:1 bei 1760 px Fensterbreite gemessen,
+   Farben pipettiert, Scheine numerisch angepasst.
+   ===================================================================== */
+
+.lvct-band2 {
+  /* Inhaltsspalte: bei 1760 px ergibt das exakt x 260 bis 1500 */
+  --lvct-wrap-max: 1280px;
+  --lvct-wrap-pad: 20px;
+
+  /* Blauer Textverlauf. Gemessen an den Stammspalten der Ueberschrift:
+     Versaloberkante (145,213,255), Grundlinie (15,168,255). Die Prozente
+     bilden die Lage von Versaloberkante und Grundlinie in der Zeilenbox ab
+     (Annahme Clash Grotesk: Versal 0.68 em, Oberlaenge 1.0, Unterlaenge .25). */
+  --lvct-tx-blue: linear-gradient(180deg, rgb(145,213,255) 26%, rgb(15,168,255) 80%);
+  --lvct-tx-blue-blk: linear-gradient(180deg, rgb(145,213,255) 25%, rgb(15,168,255) 81%);
+  /* Silberner Teil: waagerechter Verlauf ueber die volle Inhaltsbreite,
+     Mitte reinweiss, Raender grau.
+     R3-contact-ABN2: Randwert neu ausgeglichen. Das Messverfahren gibt am
+     gerenderten Stand den CSS-Wert 164 mit 163,6 zurueck (RMS 0,61), ist
+     also geeicht; am Referenzbild liefert dieselbe Ausgleichung fuer
+     "Your Answer May" 178,5 (RMS 3,64). 164 -> 179 = #b3b3b3. */
+  --lvct-tx-silver: linear-gradient(90deg, #b3b3b3 0%, #ffffff 50%, #b3b3b3 100%);
+
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background: #000000;
+  font-family: var(--lvf-font-display);
+  text-align: center;
+}
+
+/* ---------------------------------------------------------------
+   Seitliche Scheine. Fuenf Ellipsen, numerisch an den Bildinhalt
+   angepasst: ein weisser Kern und drei blaue Ellipsen rechts, eine
+   blaue links. Reihenfolge von oben nach unten wie notiert.
+   Restfehler im Browser gemessen, freie Flaeche (Karten, Texte und die
+   Abschlusskarte ausgenommen): im Mittel 3,0 von 255, 95 % unter 11.
+   Die Mittelpunkte sind in Seitenkoordinaten gemessen und hier um den
+   Bandanfang (y 2735) verschoben, damit die Naht zu Teil 1 stimmt.
+   Geometrie in Prozent statt Pixel: bei 1760 x 1517 sind beide Angaben
+   deckungsgleich, auf schmalen Fenstern schrumpft der Schein mit, sonst
+   waere ein Handy-Fenster durchgehend blau.
+   --------------------------------------------------------------- */
+.lvct-band2-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    /* weisser Kern rechts */
+    radial-gradient(28.409% 131.839% at 102.273% -35.267%,
+      rgba(255,255,255,0.632) 0%, rgba(255,255,255,0.632) 25%, rgba(255,255,255,0.42) 35%,
+      rgba(255,255,255,0.334) 40%, rgba(255,255,255,0.266) 45%, rgba(255,255,255,0.193) 52.5%,
+      rgba(255,255,255,0.124) 65%, rgba(255,255,255,0.075) 77.5%, rgba(255,255,255,0.027) 95%,
+      rgba(255,255,255,0.007) 115%, rgba(255,255,255,0) 135%),
+    /* blau rechts, gross */
+    radial-gradient(31.818% 131.839% at 102.273% -38.563%,
+      rgba(0,162,255,0.768) 0%, rgba(0,162,255,0.768) 27.5%, rgba(0,162,255,0.74) 30%,
+      rgba(0,162,255,0.608) 37.5%, rgba(0,162,255,0.37) 50%, rgba(0,162,255,0.211) 57.5%,
+      rgba(0,162,255,0.115) 62.5%, rgba(0,162,255,0.077) 65%, rgba(0,162,255,0.053) 67.5%,
+      rgba(0,162,255,0.009) 90%, rgba(0,162,255,0.007) 140%, rgba(0,162,255,0) 147.5%),
+    /* blau rechts, unten */
+    radial-gradient(28.409% 121.951% at 111.648% 83.388%,
+      rgba(0,162,255,0.678) 0%, rgba(0,162,255,0.678) 40%, rgba(0,162,255,0.662) 42.5%,
+      rgba(0,162,255,0.492) 57.5%, rgba(0,162,255,0.248) 75%, rgba(0,162,255,0.152) 82.5%,
+      rgba(0,162,255,0.086) 90%, rgba(0,162,255,0.067) 95%, rgba(0,162,255,0.053) 110%,
+      rgba(0,162,255,0.038) 112.5%, rgba(0,162,255,0.036) 120%, rgba(0,162,255,0.015) 127.5%,
+      rgba(0,162,255,0.008) 145%, rgba(0,162,255,0.008) 217.5%, rgba(0,162,255,0) 220%),
+    /* blau rechts, oben */
+    radial-gradient(34.091% 79.103% at 110.795% -28.675%,
+      rgba(0,162,255,0.808) 0%, rgba(0,162,255,0.808) 45%, rgba(0,162,255,0.797) 47.5%,
+      rgba(0,162,255,0.754) 50%, rgba(0,162,255,0.733) 52.5%, rgba(0,162,255,0.693) 55%,
+      rgba(0,162,255,0.644) 60%, rgba(0,162,255,0.578) 65%, rgba(0,162,255,0.407) 80%,
+      rgba(0,162,255,0.359) 85%, rgba(0,162,255,0.296) 92.5%, rgba(0,162,255,0.213) 105%,
+      rgba(0,162,255,0.102) 117.5%, rgba(0,162,255,0.069) 122.5%, rgba(0,162,255,0.033) 130%,
+      rgba(0,162,255,0.019) 135%, rgba(0,162,255,0.008) 147.5%, rgba(0,162,255,0.007) 197.5%,
+      rgba(0,162,255,0) 207.5%),
+    /* blau links */
+    radial-gradient(45.4545% 263.68% at -22.7273% 132.83%,
+      rgba(0,162,255,0.65) 0.0%, rgba(0,162,255,0.6118) 51.5%, rgba(0,162,255,0.5765) 52.5%, rgba(0,162,255,0.5373) 53.5%,
+      rgba(0,162,255,0.5059) 54.5%, rgba(0,162,255,0.4667) 55.5%, rgba(0,162,255,0.4412) 56.5%, rgba(0,162,255,0.4157) 57.5%,
+      rgba(0,162,255,0.3882) 58.5%, rgba(0,162,255,0.3608) 59.5%, rgba(0,162,255,0.3412) 60.5%, rgba(0,162,255,0.3176) 61.5%,
+      rgba(0,162,255,0.2941) 62.5%, rgba(0,162,255,0.2706) 63.5%, rgba(0,162,255,0.2549) 64.5%, rgba(0,162,255,0.2353) 65.5%,
+      rgba(0,162,255,0.2196) 66.5%, rgba(0,162,255,0.2) 67.5%, rgba(0,162,255,0.1824) 68.5%, rgba(0,162,255,0.1647) 69.5%,
+      rgba(0,162,255,0.1529) 70.5%, rgba(0,162,255,0.1412) 71.5%, rgba(0,162,255,0.1255) 72.5%, rgba(0,162,255,0.1098) 73.5%,
+      rgba(0,162,255,0.098) 74.5%, rgba(0,162,255,0.0863) 75.5%, rgba(0,162,255,0.0745) 76.5%, rgba(0,162,255,0.0627) 78.5%,
+      rgba(0,162,255,0.0549) 79.5%, rgba(0,162,255,0.0471) 81.5%, rgba(0,162,255,0.0431) 82.5%, rgba(0,162,255,0.0353) 84.5%,
+      rgba(0,162,255,0.0275) 88.5%, rgba(0,162,255,0.0196) 89.5%, rgba(0,162,255,0.0078) 95.0%, rgba(0,162,255,0.004) 110.0%,
+      rgba(0,162,255,0.0) 125.0%);
+}
+
+.lvct-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: var(--lvct-wrap-max);
+  margin-inline: auto;
+  padding-inline: var(--lvct-wrap-pad);
+}
+
+/* =====================================================================
+   Sektion 4 - "Your Answer May Already Be Waiting"   y 2735 .. 3605
+   ===================================================================== */
+
+.lvct-quick { padding: 108px 0 97px; }
+
+/* Pille y 2843-2876, x 766-994. Fuellung gemessen (0,11,17) ueber Schwarz,
+   das ist rgba(0,162,255,.07); Rand (3,19,28) = rgba(0,162,255,.12). */
+.lvct-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 33px;
+  max-width: 100%;
+  margin: 0;
+  padding-inline: 28px;
+  border: 1px solid rgba(0, 162, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(0, 162, 255, 0.07);
+  /* Referenz 170,0 px Tinte, bei 15 px gerendert 160,8 (Faktor 1,057) */
+  font-size: 15.8px;
+  line-height: 1;
+  font-weight: 400;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+/* 0-3-1 gegen Heading-Resets der Theme-Huelle */
+/* +2 px wie bei den anderen Abschnittsueberschriften; .lvct-qgrid bekommt
+   die 2 px wieder abgezogen, damit die Kartenreihe bei y 3127 bleibt. */
+h2.lvct-quick-h,
+.lvf-page.lvf-page h2.lvct-quick-h {
+  /* Befund B4 Zone 2: Tintenmitte 2,5 px zu hoch. Die 2,5 px kommen hier
+     oben dazu und beim Fliesstext darunter wieder weg, damit Karten und
+     Knopf stehen bleiben. */
+  margin: 16.5px 0 0;
+  font-size: 64px;
+  line-height: 64px;
+  font-weight: 500;
+  /* Befund B5 Zone 2: 1060 statt 1050 px Tinte, Masse stimmt. */
+  letter-spacing: -0.8px;
+  overflow-wrap: break-word;
+  background: var(--lvct-tx-silver);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lvct-quick-h .lvct-quick-h-b,
+.lvf-page.lvf-page .lvct-quick-h .lvct-quick-h-b {
+  /* wie .lvct-head-blue: Stammbreite Referenz gegen gerendert 700 zu breit */
+  font-weight: 600;
+  background: var(--lvct-tx-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Referenz Zeile 1: 757,3 px Tinte, bei 17 px gerendert 664,4 (Faktor 1,140) */
+.lvct-quick-sub {
+  /* Befund B4 Zone 2: Gegenstueck zu den 16,5 px der Ueberschrift, damit
+     Karten und Knopf an ihrer geprueften Stelle stehen bleiben. */
+  margin: 15.5px 0 0;
+  font-size: 19.4px;
+  line-height: 24px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.98);
+  overflow-wrap: break-word;
+}
+
+/* Referenz "Quick Links:" 94,7 px Tinte, bei 17 px gerendert 82,9 (1,142) */
+.lvct-quick-lbl {
+  margin: 67px 0 0;
+  font-size: 19.4px;
+  line-height: 24px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Karten: 3 x 409,33 px, Spalten-Abstand 6, Zeilen-Abstand 5, Hoehe 146 */
+.lvct-qgrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 6px;
+  row-gap: 5px;
+  margin-top: 16px;
+}
+
+.lvct-qcard {
+  position: relative;
+  min-height: 146px;
+  padding: 41px 18px 0;
+  border-radius: 10px;
+  /* gemessen: die Karte dunkelt den Hintergrund auf rund die Haelfte ab */
+  background: rgba(0, 0, 0, 0.5);
+}
+/* 1-px-Rand als Verlauf (oben blaeulich, unten fast weg) ueber Maskentrick,
+   damit der Radius sauber bleibt. Gemessen oben (12,40,55), unten (6,7,8). */
+.lvct-qcard::before,
+.lvct-faqbtn::before,
+.lvct-cbtn--sec::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+.lvct-qcard::before {
+  background: linear-gradient(180deg, rgba(56, 188, 255, 0.21) 0%, rgba(255, 255, 255, 0.028) 100%);
+}
+
+h3.lvct-qcard-h,
+.lvf-page.lvf-page h3.lvct-qcard-h {
+  margin: 0;
+  /* Referenz 1,057-fache Tintenbreite; Stammbreite 1,55 px bei 19 px
+     Schriftgrad entspricht Gewicht 400, gerendert bei 500 war es 5,17. */
+  /* Befund B9 Zone 2: Masse 12,4 % zu gering bei 2,5 % zu schmaler Tinte. */
+  font-size: 19.5px;
+  line-height: 21.6px;
+  font-weight: 450;
+  letter-spacing: 0;
+  overflow-wrap: break-word;
+  background: var(--lvct-tx-blue-blk);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lvct-qcard-t {
+  margin: 10px 0 0;
+  /* Befund B9 Zone 2: Zeilenbreiten 3 bis 4 % zu schmal. */
+  font-size: 15px;
+  line-height: 17px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.75);
+  overflow-wrap: break-word;
+}
+
+.lvct-quick-act { margin: 37px 0 0; }
+
+/* Knopf x 787-974, y 3461-3508. Rand als Verlauf 172deg: oben fast
+   unsichtbar (Alpha .12), unten hell (Alpha .66), rechts heller als links. */
+.lvct-faqbtn,
+a.lvct-faqbtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 187px;
+  max-width: 100%;
+  height: 47px;
+  padding-inline: 36px;
+  border-radius: 9px;
+  background: #000103;
+  /* Referenz 114,7 px Tinte, bei 17 px gerendert 120,6 (Faktor 0,952).
+     Damit greift wieder die min-width 187 und der Knopf trifft x 787-974. */
+  /* Befund B8 Zone 2: Masse war 15 % zu gering. Nur das Gewicht anheben:
+     bei 16,5 px wurde die Tinte 116 px breit und der Knopf riss die
+     min-width von 187 px. */
+  font-size: 16.2px;
+  line-height: 1;
+  font-weight: 450;
+  color: #ffffff;
+  text-decoration: none;
+  transition: filter 0.15s ease;
+}
+.lvct-faqbtn::before {
+  background: linear-gradient(172deg, rgba(0, 162, 255, 0) 0%, rgba(0, 162, 255, 0.8) 100%);
+}
+/* Befund B2 Zone 2: der Rand strahlt in der Referenz nach innen ab
+   (Spalte x 880 unten Summe Blau 466 gegen 167 live, Zeile y 3500 links 288
+   gegen 93). Der 1-px-Ring aus ::before bleibt, der Schein kommt dazu. */
+/* Nacharbeit 08.08.: mit 11 px Weichzeichnung war der Saum da, lief aber
+   viel zu weit nach innen - links ueber 9 px statt ueber 4 px (Randenergie
+   173 % der Referenz) und unten bis 8 px ueber die Kante (121 %). Ursache
+   war die grosse Weichzeichnung des unteren Scheins, die bis y 3500
+   durchschlug und dort quer ueber den ganzen Knopf 25 statt 2 ergab.
+   An einem Pruefstand mit 24 Kombinationen (schwarzer Grund, gleicher
+   Knopf, gleiche Schrift) nachgemessen; diese Fassung trifft den Ausklang
+   der Referenz Zeile fuer Zeile: links nach dem Ring 55/31/16/8/4 gegen
+   Soll 57/32/16/8/4, unten 97 % statt 121 % der Referenzenergie. */
+.lvct-faqbtn,
+a.lvct-faqbtn {
+  box-shadow:
+    inset 0 -2px 4px -1px rgba(0, 162, 255, 1),
+    inset 3px 0 6px -3px rgba(0, 162, 255, 0.26),
+    inset -3px 0 6px -3px rgba(0, 162, 255, 0.26);
+}
+a.lvct-faqbtn:hover,
+a.lvct-faqbtn:focus-visible { filter: brightness(1.35); }
+a.lvct-faqbtn:focus-visible { outline: 2px solid #8cd5ff; outline-offset: 3px; }
+
+/* =====================================================================
+   Sektion 5 - Abschlusskarte   y 3605 .. 4252
+   Aussenkasten 250-1510 x 3605-4172, Ring 10 px, Innenflaeche
+   260-1500 x 3615-4162 (1240 x 547).
+   ===================================================================== */
+
+.lvct-final { padding: 0 0 80px; }
+
+.lvct-final-card {
+  /* der Ring liegt AUSSERHALB der Inhaltsspalte: aussen 250-1510, innen 260-1500 */
+  margin-inline: -10px;
+  padding: 10px;
+  border-radius: 48px;
+  /* gemessener Ring: rund 4 % Weiss ueber dem Untergrund */
+  background: rgba(255, 255, 255, 0.042);
+}
+
+.lvct-final-inner {
+  position: relative;
+  border-radius: 44px;
+  overflow: hidden;
+  /* Rueckfall, falls das Bild fehlt oder mobil abgeschaltet ist */
+  background:
+    radial-gradient(70% 120% at 100% 20%, rgba(150, 220, 255, 0.95) 0%, rgba(60, 170, 240, 0.45) 38%, rgba(0, 90, 150, 0) 68%),
+    radial-gradient(60% 90% at 0% 95%, rgba(140, 225, 255, 0.9) 0%, rgba(40, 150, 220, 0.4) 42%, rgba(0, 80, 140, 0) 72%),
+    radial-gradient(90% 70% at 50% 118%, rgba(120, 205, 255, 0.75) 0%, rgba(30, 130, 200, 0.3) 45%, rgba(0, 70, 120, 0) 75%),
+    linear-gradient(180deg, #020507 0%, #04121c 55%, #07364f 100%);
+}
+
+.lvct-final-plate,
+.lvf-page.lvf-page img.lvct-final-plate {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border: 0;
+  margin: 0;
+}
+
+/* 93 statt 89 oben: die Versalien der Abschluss-Ueberschrift sitzen im
+   Referenzbild 4 px tiefer als gerendert. Der Fliesstext darunter bekommt
+   die 4 px wieder abgezogen (margin 23 statt 27), damit Knoepfe und
+   Kartenhoehe stehen bleiben; unten bleibt es deshalb bei 99. */
+.lvct-final-body {
+  position: relative;
+  z-index: 1;
+  padding: 93px 0 99px;
+}
+
+h2.lvct-final-h,
+.lvf-page.lvf-page h2.lvct-final-h {
+  margin: 0;
+  font-size: 69px;
+  line-height: 65px;
+  font-weight: 500;
+  /* Befund B5 Zone 2: 786 statt 776 px Tinte bei stimmender Masse. */
+  letter-spacing: -0.9px;
+  overflow-wrap: break-word;
+  /* R3-contact-ABN3: Randwert des Silberverlaufs neu ausgeglichen.
+     Eichprobe am gerenderten Stand gibt den CSS-Wert 133 mit 133,8 zurueck
+     (RMS 1,01); dieselbe Ausgleichung am Referenzbild ergibt 171,2
+     (RMS 3,88). Gemessene Spitzenhelligkeit "Start With the Right Team.":
+     x470 Referenz 203 / live 180, x1250 Referenz 210 / live 183.
+     133 -> 171 = #ababab. */
+  background: linear-gradient(90deg, #ababab 0%, #ffffff 50%, #ababab 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lvct-final-h .lvct-final-h-b,
+.lvct-final-h .lvct-final-h-s { display: block; }
+.lvct-final-h .lvct-final-h-b,
+.lvf-page.lvf-page .lvct-final-h .lvct-final-h-b {
+  /* Stammbreite Referenz rund 10,3 px bei 69 px Schriftgrad, gerendert
+     bei 700 zwischen 11,9 und 13,8. */
+  font-weight: 600;
+  background: linear-gradient(180deg, rgb(140, 213, 255) 18%, rgb(89, 194, 255) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Referenz Zeile 1: 335,8 px Tinte, bei 23 px gerendert 302,7 (Faktor 1,109) */
+.lvct-final-t {
+  margin: 23px 0 0;
+  /* Befund B10 Zone 2: alle drei Zeilen 1,5 bis 2 % zu schmal. */
+  font-size: 26px;
+  line-height: 35.5px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.93);
+  overflow-wrap: break-word;
+}
+
+.lvct-final-act {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 48px;
+}
+
+.lvct-cbtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  height: 47px;
+  border-radius: 12px;
+  /* Referenz "Browse Help Center" 142,7 px Tinte, bei 17 px gerendert
+     148,0 (Faktor 0,964) */
+  font-size: 16.4px;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: filter 0.15s ease;
+}
+.lvct-cbtn--pri {
+  min-width: 171px;
+  /* Befund B6 Zone 2: der Knopf war 179 statt 171 px breit und schob den
+     zweiten Knopf 4 px nach rechts. Aus der Referenz abgelesen: links 5 px,
+     Symbolkasten zur Schrift 9 px, rechts 11 px. */
+  gap: 9px;
+  padding: 0 11px 0 5px;
+  justify-content: flex-start;
+  /* Verlauf zeilenweise abgelesen, y 4016-4062 */
+  background: linear-gradient(180deg, #b4ebff 0%, #7ad2ff 20%, #5fc5ff 37%, #3eb8fe 63%, #26bcff 88%, #1ad0ff 100%);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+.lvct-cbtn-ico {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  /* Befund B7 Zone 2: Referenz 36 x 35 mit rund 7 px Radius, gerendert
+     36 x 37 mit 10 bis 11 px. */
+  height: 35px;
+  border-radius: 7px;
+  background: #090b0e;
+  color: #ffffff;
+}
+.lvct-cbtn-ico svg { display: block; }
+/* Befund B6 Zone 2: Tintenmasse +23 % bei nur 3 px mehr Breite, also
+   synthetischer Fettschnitt. 550 bleibt darunter. */
+.lvct-cbtn-lbl { font-weight: 550; color: #060606; }
+
+.lvct-cbtn--sec {
+  min-width: 192px;
+  padding-inline: 25px;
+  justify-content: center;
+  font-weight: 450;
+  color: #ffffff;
+  /* dunkler Kasten mit hellblauem Fuss, Werte aus der Spalte x 1000 */
+  /* Befund B3 Zone 2: die Referenz hat zusaetzlich zum senkrechten Verlauf
+     einen blauen Lichtsaum an der rechten Kante, der ueber rund 35 bis 40 px
+     nach innen ausblendet (7 px vom Rand (13,146,222), 14 px (13,87,129)). */
+  /* 11.08.2026, gemessen statt geschaetzt. Patch C1 wollte nur die drei
+     inneren Deckkraefte des Lichtsaums von .85/.48/.26 auf .65/.42/.24
+     senken. Das bringt nichts: der Spaltenmedian ueber die volle Knopfhoehe
+     (zehn Bloecke, 1760 px, gegen contact-aus-vollbild.png) geht dabei von
+     12,33 auf 12,58, weil die aeusserste Kante ins Zu-Dunkle kippt, waehrend
+     der Block davor gleich zu hell bleibt.
+     Zwei andere Ursachen, beide belegt:
+       1. Der Saum ist zu BREIT. Der Entwurf hat ihn nur im letzten Zehntel
+          (Block 9 Soll (3,31,48), also so dunkel wie die Flaeche daneben,
+          Block 10 (9,85,125)). Live lief er ueber 46 px und hellte Block 9
+          auf (6,59,88) auf. Jetzt 24 px.
+       2. Der senkrechte GRUNDVERLAUF war insgesamt zu hell: Bloecke 2 bis 8
+          lagen bei (9,49,73) statt (4,34,52), also rund 15 Stufen zu hoch
+          ueber die ganze Flaeche. Die sechs mittleren Farbstopps sind
+          entsprechend abgesenkt, Anfang und Ende bleiben.
+     Ergebnis je Block: vorher 4,7 / 10,7 / 13,3 / 13,7 / 12,7 / 14,3 / 13,7 /
+     13,7 / 23,7 / 3,0, Mittel 12,33. Jetzt 0,3 / 1,0 / 3,3 / 3,3 / 3,0 / 4,3 /
+     3,3 / 3,0 / 4,5 / 2,3, Mittel 2,85. */
+  background:
+    radial-gradient(24px 300% at 100% 50%, rgba(40,195,255,1) 0%, rgba(0,175,255,.62) 20%, rgba(0,150,235,.30) 45%, rgba(0,120,200,0) 100%),
+    linear-gradient(180deg, #020c11 0%, #02121a 20%, #031a25 45%, #07293e 68%, #10486a 80%, #1372a6 88%, #15a0d8 96%, #06b4ff 100%);
+  box-shadow: inset 16px 0 20px -10px rgba(0, 0, 0, 0.75);
+}
+.lvct-cbtn--sec::before {
+  background: linear-gradient(180deg, rgba(0, 162, 255, 0.10) 0%, rgba(120, 205, 255, 0.35) 100%);
+}
+.lvct-cbtn:hover,
+.lvct-cbtn:focus-visible { filter: brightness(1.1); }
+/* Korrektur 12.08.: Fokusring ergaenzt, Helligkeitseffekt bleibt. Aktuell
+   sind beide .lvct-cbtn auf dieser Seite noch span ohne Ziel (siehe deren
+   eigene Kommentare weiter unten) und damit per Tastatur nicht erreichbar -
+   diese Regel greift dann erst, wenn dort ein echtes Ziel/Element steht. */
+.lvct-cbtn:focus-visible { outline: 2px solid #8cd5ff; outline-offset: 3px; }
+
+/* =====================================================================
+   Schmalere Fenster. Keine Mobil-Referenz vorhanden, deshalb nur
+   Umbruch und Stapelung, keine neuen Gestaltungsideen.
+   ===================================================================== */
+
+/* ---------- ab hier ist die Inhaltsspalte schmaler als 1240 px ---------- */
+@media (max-width: 1279.98px) {
+  .lvct-hero { padding-top: clamp(150px, 16vw, 214px); }
+  .lvct-hero .lvct-hero-title { font-size: clamp(32px, 5.36vw, 68px); line-height: 0.95; }
+  /* Die drei Fliesstexte sind auf Desktop unterschiedlich gross (19,6 / 21,6
+     / 19,6 px). Unter 1280 px laufen sie gemeinsam auf 16 px zusammen. */
+  .lvct-hero .lvct-hero-sub { font-size: clamp(16px, 1.53vw, 19.6px); }
+  .lvct-connect .lvct-sectionsub { font-size: clamp(16px, 1.69vw, 21.6px); }
+  .lvct-formsec .lvct-sectionsub { font-size: clamp(16px, 1.53vw, 19.6px); }
+  .lvct-formsec .lvct-label { font-size: clamp(15px, 1.38vw, 17.7px); }
+  /* Die 190 px rechts aus Befund A1 gelten nur fuer die Referenzbreite;
+     darunter waere der Tippbereich zu schmal. */
+  .lvct-formsec .lvct-panel .lvct-textarea { padding-right: 24px; }
+  .lvct-formsec .lvct-panel .lvct-input { font-size: clamp(15px, 1.44vw, 18.4px); }
+  .lvct-quick-sub,
+  .lvct-quick-lbl { font-size: clamp(15px, 1.52vw, 19.4px); }
+  .lvct-connect .lvct-connect-title,
+  .lvct-formsec .lvct-formsec-title { font-size: clamp(32px, 5.05vw, 64px); line-height: 1; }
+  .lvct-card h3.lvct-card-title,
+  .lvct-card .lvct-card-title { font-size: clamp(26px, 3.26vw, 40.7px); line-height: 1.05; }
+  /* R3-contact-A1: mit der Desktop-Deckkraft mitgezogen (vorher 0,028 zu
+     0,032, also 0,875 davon). */
+  .lvct-card .lvct-card-wm { opacity: 0.0116; }
+
+  h2.lvct-quick-h,
+  .lvf-page.lvf-page h2.lvct-quick-h { font-size: clamp(34px, 5.05vw, 64px); line-height: 1.02; }
+  h2.lvct-final-h,
+  .lvf-page.lvf-page h2.lvct-final-h { font-size: clamp(30px, 5.4vw, 69px); line-height: 1.0; }
+  .lvct-final-t { font-size: clamp(16px, 2vw, 25.5px); line-height: 1.55; }
+
+  /* Die harten Zeilenumbrueche des Entwurfs gelten fuer Karten von 612 px
+     (Sektion 2) bzw. 409 px (Sektion 4). Unterhalb 1280 px schrumpfen die
+     Karten, deshalb ab hier natuerlicher Umbruch statt der festen Stellen. */
+  .lvct-brk,
+  .lvct-nl { display: none; }
+}
+
+/* Formularfeld-Schrift bei 768-1023px, 13.08.2026: der clamp() zwei Regeln
+   weiter oben (clamp(15px, 1.44vw, 18.4px)) haelt in genau diesem Fenster
+   immer den unteren Riegel, weil 1.44vw dort nie ueber 15px kommt (1.44vw
+   bei 1023px sind erst 14,7px) - gemessen exakt 15px bei 768, 900 und
+   1023px. Unter 16px zoomt iOS Safari beim Fokussieren automatisch hinein.
+   Gleiche Selektor-Spezifitaet (drei Klassen) wie die clamp()-Regel, gewinnt
+   per Reihenfolge im selben Block-Bereich, kein !important. Ab 1024px bleibt
+   der Desktop-Wert (18,4px) unberuehrt, unter 768px bleibt der eigene
+   Mobil-Wert (15px, bewusst gesetzt) unberuehrt. */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .lvct-formsec .lvct-panel .lvct-input { font-size: 16px; }
+}
+
+/* ---------- Karten stapeln, Formularzeilen bleiben zweispaltig ---------- */
+@media (max-width: 1023.98px) {
+  /* Der Schein ist in Pixeln auf 1760 px Breite gerechnet: sein heller Kern
+     sitzt knapp hinter dem rechten Rand. Auf schmalen Schirmen deckt derselbe
+     Kern die ganze Breite, weisser Text stuende auf fast weissem Grund.
+     Deshalb hier ein mitwachsender Ersatz in Prozent: Lichtquelle rechts
+     ausserhalb, Sektion 2 unten, Sektion 3 oben, damit die Naht wie auf
+     Desktop durchlaeuft. */
+  .lvct-connect-glow {
+    background: radial-gradient(120% 44% at 119% 80%,
+      rgba(176, 232, 255, 0.95) 0%,
+      rgba(0, 168, 255, 0.55) 26%,
+      rgba(0, 118, 196, 0.18) 52%,
+      rgba(0, 90, 150, 0) 78%);
+  }
+  .lvct-formsec-glow {
+    background: radial-gradient(120% 30% at 119% 13%,
+      rgba(176, 232, 255, 0.9) 0%,
+      rgba(0, 168, 255, 0.5) 26%,
+      rgba(0, 118, 196, 0.16) 52%,
+      rgba(0, 90, 150, 0) 78%);
+  }
+  /* WICHTIG: die beiden Pseudoelemente aus dem @supports-Block tragen das
+     Ueberblenden an der Naht y 2735 und sind in PIXELN auf 1760 px gerechnet.
+     Auf schmalen Schirmen deckt ihr heller Kern die ganze Breite und
+     ueberstrahlt den mitwachsenden Ersatz oben. Deshalb ab hier aus; die
+     Naht liegt unterhalb 1024 px ohnehin in einem einfarbigen Bereich. */
+  .lvct-formsec-glow::before,
+  .lvct-formsec-glow::after { display: none; }
+
+  /* Befund U2: .lvct-band2-glow behaelt unterhalb 1024 px die Desktop-
+     Geometrie in Prozent. Sein Kern sitzt dann so, dass das Band schon in
+     seiner ERSTEN Zeile hell ist, waehrend der Ersatzschein der Formular-
+     sektion dort laengst ausgelaufen ist. Ergebnis war eine harte Kante von
+     bis zu 250 von 255. Der Schein blendet jetzt oben ueber 130 px ein. */
+  .lvct-band2-glow {
+    -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0) 0%, #000 130px, #000 100%);
+            mask-image: linear-gradient(180deg, rgba(0,0,0,0) 0%, #000 130px, #000 100%);
+  }
+
+  .lvct-cards { grid-template-columns: minmax(0, 1fr); margin-top: 48px; }
+  .lvct-card { min-height: 0; }
+  .lvct-connect { padding: 64px 0 48px; }
+  .lvct-formsec { padding: 48px 0 0; }
+  .lvct-formsec .lvct-panel { margin-top: 48px; padding: 28px; }
+  .lvct-formsec .lvct-label { width: 160px; padding-left: 20px; }
+  .lvct-btn--card { width: 100%; max-width: 320px; height: 48px; }
+  .lvct-send-ico { width: 200px; }
+
+  .lvct-qgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .lvct-quick { padding: 84px 0 72px; }
+  .lvct-quick-lbl { margin-top: 44px; }
+  .lvct-final-body { padding: 56px 24px 60px; }
+  .lvct-final-card { margin-inline: 0; border-radius: 34px; padding: 8px; }
+  .lvct-final-inner { border-radius: 27px; }
+  .lvct-final-act { margin-top: 34px; }
+}
+
+/* ---------- Tablet hochkant und schmaler ---------- */
+@media (max-width: 899.98px) {
+  /* Ohne Mobil-Referenz: die Scheine sind in Originalstaerke breiter als
+     ein Handy-Fenster und wuerden die ganze Flaeche blau faerben. */
+  .lvct-band2-glow { opacity: 0.72; }
+  /* Die Platte ist 1240 x 547. Auf einem hoeheren, schmaleren Feld
+     schneidet "cover" die Pfeile mitten durch; deshalb uebernehmen ab
+     hier die CSS-Verlaeufe der Karte. */
+  .lvct-final-plate,
+  .lvf-page.lvf-page img.lvct-final-plate { display: none; }
+}
+
+/* ---------- Handy ---------- */
+@media (max-width: 767.98px) {
+  .lvct-connect-glow { opacity: 0.72; }
+  /* Sektion 3 traegt ihren hellen Kern oben, genau hinter Ueberschrift und
+     Fliesstext. Zusammen mit den ab 1024 px abgeschalteten Pseudoelementen
+     ergibt 0,6 dort einen Grund um (95,120,128) und damit Kontrast 5:1 fuer
+     weissen Text (bei 0,72 mit Pseudoelementen waren es 2,5:1). */
+  .lvct-formsec-glow { opacity: 0.6; }
+
+  .lvct-hero { padding-bottom: 64px; }
+  .lvct-hero .lvct-hero-sub,
+  .lvct-connect .lvct-sectionsub,
+  .lvct-formsec .lvct-sectionsub { font-size: 16px; line-height: 22px; }
+  .lvct-hero-actions { gap: 10px; }
+  .lvct-btn--hero { height: 48px; }
+  .lvct-btn--hero.lvct-btn--primary,
+  .lvct-btn--hero.lvct-btn--ghost { width: 100%; max-width: 320px; }
+  .lvct-btn--hero.lvct-btn--primary { justify-content: center; padding: 0 16px; }
+
+  .lvct-card { padding: 28px 20px 28px; }
+  .lvct-card-icobox { width: 52px; height: 52px; border-radius: 14px; }
+  .lvct-card .lvct-card-icobox img { width: 30px; height: 30px; }
+  .lvct-card .lvct-card-text { line-height: 22px; }
+  .lvct-card-foot { gap: 14px; }
+  .lvct-card .lvct-card-wm { width: 300px; left: auto; right: -60px; top: -20px; }
+
+  .lvct-formsec .lvct-field {
+    display: block;
+    min-height: 0;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.045);
+  }
+  .lvct-formsec .lvct-field--msg { min-height: 0; }
+  .lvct-formsec .lvct-label { display: block; width: auto; padding-left: 2px; margin-bottom: 8px; }
+  .lvct-formsec .lvct-field--msg .lvct-label { padding-top: 0; }
+  .lvct-formsec .lvct-panel .lvct-input { height: 52px; line-height: 52px; padding: 0 16px; font-size: 15px; }
+  .lvct-formsec .lvct-panel .lvct-textarea { height: 132px; line-height: 22px; padding: 14px 16px; }
+
+  .lvct-formsec .lvct-panel .lvct-send {
+    height: 60px;
+    padding: 6px 6px 6px 20px;
+    margin-top: 20px;
+  }
+  .lvct-send-label { font-size: 18px; }
+  .lvct-send-ico { width: 68px; height: 48px; }
+  /* R3-contact-A2: der Desktop-Pfeil ist 37 px in einem 56 px hohen Kasten
+     (66 %). Auf dem Handy ist der Kasten 48 px hoch; 30 px halten dasselbe
+     Verhaeltnis, 37 px wuerden ihn fast ausfuellen. */
+  .lvct-send-ico svg { width: 30px; height: 30px; }
+
+  .lvct-eyebrow--wide { padding-inline: 24px; }
+}
+
+/* ---------- Knoepfe und Karten einspaltig ---------- */
+@media (max-width: 679.98px) {
+  .lvct-band2-glow { opacity: 0.58; }
+  .lvct-qgrid { grid-template-columns: minmax(0, 1fr); }
+  .lvct-qcard { min-height: 0; padding: 26px 18px 28px; }
+  .lvct-quick { padding: 64px 0 56px; }
+  .lvct-quick-sub { font-size: 15px; line-height: 22px; }
+  .lvct-quick-lbl { margin-top: 34px; font-size: 15px; }
+  .lvct-final { padding-bottom: 56px; }
+  .lvct-final-body { padding: 40px 18px 44px; }
+  .lvct-final-act { flex-direction: column; gap: 12px; }
+  .lvct-cbtn { width: 100%; min-width: 0; max-width: 320px; height: 50px; }
+  .lvct-cbtn--pri { justify-content: center; padding: 0 16px; }
+  .lvct-faqbtn,
+  a.lvct-faqbtn { width: 100%; min-width: 0; max-width: 320px; height: 50px; }
+}
+
+/* ---------- sehr schmale Geraete ---------- */
+@media (max-width: 479.98px) {
+  .lvct-hero { padding-top: 140px; }
+  .lvct-eyebrow { font-size: 13px; }
+  /* Die Pillen stehen auf "nowrap"; hier reicht die Zeile sonst nicht mehr. */
+  .lvct-eyebrow--plain { padding-inline: 16px; }
+  .lvct-pill { padding-inline: 18px; font-size: 14px; }
+  .lvct-cbtn { font-size: 16px; }
+  .lvct-faqbtn,
+  a.lvct-faqbtn { font-size: 16px; padding-inline: 16px; }
+}
+
+/* =====================================================================
+   Uebergaenge zu den Theme-Vorlagen
+   Beide Regeln greifen bewusst ausserhalb des lvct-Praefixes. Sie liegen im
+   Stilblock dieser Seite und werden deshalb nur auf /contact/ geladen.
+   ===================================================================== */
+
+/* Befund U3: der Zeichengrund erbt das Weiss aus dem reset.css von
+   hello-elementor (body { background-color: #fff }). Der dunkle Grund kommt
+   erst von .lvf-page, einem Kasten INNERHALB des Body. Unter der Fusszeile
+   und beim Ueberziehen stand deshalb eine reinweisse Flaeche (Stufe 234). */
+html,
+body { background: #05060f; }
+
+/* Befund U1: der blaue Wash im Kopf des Footer-Scheins ragt zwar 109 px nach
+   oben ueber die Fusszeile hinaus, liegt aber auf z-index -1 und wird von
+   jedem Kastenhintergrund darueber verdeckt (.lvf-page und hier zusaetzlich
+   .lvct-band2). Er kann deshalb nie ueberblenden und schaltet sich an y 4252
+   schlagartig ein: Stufe max 158, Mittel 66 gegen 66/9 in der Referenz, die
+   dort Schwarz zeigt. Ohne die Wash-Ebene faellt die mittlere Stufe auf 18
+   und die erste Fusszeilenzeile auf (5,14,28) statt (2,90,139).
+   Die uebrigen fuenf Verlaufsebenen sind unveraendert aus lvlup-theme.css
+   uebernommen, filter und inset bleiben ohnehin stehen. */
+#footer.lvf-s11::before {
+  background:
+    radial-gradient(62% 56% at 16% 60%, rgba(0, 150, 235, 0.5) 0%, rgba(0, 150, 235, 0) 70%),
+    radial-gradient(62% 56% at 86% 40%, rgba(0, 150, 235, 0.42) 0%, rgba(0, 150, 235, 0) 70%),
+    radial-gradient(180px 950px at 15.3% 100%, rgba(245, 251, 255, 1) 0%, rgba(140, 215, 252, 0.98) 24%, rgba(25, 170, 240, 0.9) 50%, rgba(2, 135, 205, 0.6) 76%, rgba(2, 120, 190, 0) 100%),
+    radial-gradient(180px 950px at 84.7% 100%, rgba(245, 251, 255, 1) 0%, rgba(140, 215, 252, 0.98) 24%, rgba(25, 170, 240, 0.9) 50%, rgba(2, 135, 205, 0.6) 76%, rgba(2, 120, 190, 0) 100%),
+    radial-gradient(150% 420px at 50% 98%, rgba(55, 145, 195, 0.92) 0%, rgba(38, 120, 170, 0.6) 45%, rgba(14, 78, 120, 0.25) 74%, rgba(14, 78, 120, 0) 96%);
+}
+
+/* ---------- Bewegung reduzieren ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .lvct-btn,
+  a.lvct-btn,
+  .lvct-formsec .lvct-panel .lvct-send,
+  .lvct-faqbtn,
+  a.lvct-faqbtn,
+  .lvct-cbtn { transition: none; }
+}
+
+@media (min-width: 1024px) {
+  .lvct-card-icobox {
+    background:
+      linear-gradient(#010101, #010101) padding-box,
+      linear-gradient(180deg, rgba(210, 240, 250, 0.13) 0%, rgba(210, 240, 250, 0.03) 100%) border-box;
+  }
+
+  .lvct-final { padding-bottom: 31px; }
+}
+
+/* =========================================================================
+   NAHT ZUM THEME-FUSS   (12.08.2026)
+
+   IST vorher: an der Sektionsunterkante y=4203 brachen die beiden seitlichen
+   Scheine in EINER Bildzeile ab. Sprung ueber 20 Spaltenbloecke 7,1 bei
+   einem Soll von 0,1. Am schlimmsten aussen: Block 18 (x1584-1672) fiel von
+   (4,59,90) auf (0,12,18), Block 19 von (5,94,146) auf (2,59,93), Block 1
+   von (0,32,50) auf (0,0,0). Bei 1024px waren es 11,6.
+
+   URSACHE: .lvct-band2 traegt "overflow: clip" und endet genau an der Naht,
+   .lvct-band2-glow liegt mit "inset: 0" darin. Die Scheine hoeren also
+   exakt an der Kante auf. Ueber der Naht stimmt alles: das Band y4180-4203
+   liegt bei 1,42 gegen das Vollbild.
+
+   SOLL: der Entwurf laesst beide Scheine durch den Fussbereich weiterlaufen,
+   der Sprung im Soll ist 0,1.
+
+   WARUM EIN EIGENER TRAEGER: ein Element, das im Stapel unter dem Fuss
+   liegt, bleibt unsichtbar. Der Fuss-Container ist positioniert und seine
+   .lvf-page traegt einen deckenden schwarzen Grund, malt also nach dem
+   Seiteninhalt. Der Traeger steht deshalb neben .lvct-page und traegt
+   z-index 1. Der Fuss selbst wird nicht angefasst, "pointer-events: none"
+   laesst alle Links darunter anklickbar.
+
+   MASSE: das Band reicht von der Naht bis zur Oberkante der Fusskarte, also
+   48px. Dieser Abstand ist bei 1024, 1200, 1440 und 1760px identisch
+   gemessen. Weiter unten wird nichts ergaenzt: der freie Rand links liegt
+   dort schon richtig (Band y4251-4400, Block 0: live (2,85,132) gegen
+   Entwurf (2,84,132)).
+
+   FARBSTOPPS IN PROZENT, nicht in Pixeln: .lvct-band2-glow ist selbst in
+   Prozent definiert und schrumpft mit dem Fenster. Gegenprobe bei 1024px,
+   x=44 (das sind 4,3%): gemessen (0,54,85); dasselbe Profil liefert bei
+   1760px an 4,3% (also x=76) ebenfalls (0,54,85). Bei x=88 (8,6%) gemessen
+   (0,26,40) gegen (0,26,41). Damit gilt ein Satz fuer alle Breiten.
+
+   ERGEBNIS bei 1760px gegen contact-aus-vollbild.png:
+     Naht-Sprung        7,1 -> 1,5   (Soll 0,1)
+     Band y4207-4251    6,1 -> 0,8   (groesster Block 26,3 -> 3,0)
+     Band y4180-4203    1,4 unveraendert
+   Sprung bei 1024px 11,6 -> 1,5. Seitenhoehe unveraendert 5121px.
+
+   NICHT nachgebaut: das Band y4251-4400 liegt bei 21,4. Das ist der
+   Verlauf der Fuss-Leiste selbst (Bloecke 5 bis 7 und 13 bis 18) und
+   gehoert zur Fuss-Vorlage, nicht zu dieser Seite.
+   ========================================================================= */
+
+.lvct-fussnaht {
+  position: relative;
+  height: 0;
+  pointer-events: none;
+}
+
+.lvct-fussnaht > .lvct-fussnaht-band { display: none; }
+
+@media (min-width: 1024px) {
+  .lvct-fussnaht > .lvct-fussnaht-band {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 48px;
+    z-index: 1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(90deg,
+        rgb(2, 94, 147) 0%,
+        rgb(2, 75, 116) 2.5%,
+        rgb(3, 54, 84) 5%,
+        rgb(2, 36, 57) 7.5%,
+        rgb(2, 24, 37) 10%,
+        rgb(1, 16, 24) 12.5%,
+        rgb(1, 11, 17) 15%,
+        rgb(0, 7, 11) 17.5%,
+        rgb(0, 4, 7) 20%,
+        rgba(1, 2, 4, 0.6) 22.5%,
+        rgba(0, 1, 2, 0) 25%),
+      linear-gradient(270deg,
+        rgb(3, 110, 172) 0%,
+        rgb(4, 95, 147) 2.5%,
+        rgb(4, 76, 117) 5%,
+        rgb(4, 58, 89) 7.5%,
+        rgb(3, 41, 62) 10%,
+        rgb(2, 28, 43) 12.5%,
+        rgb(2, 20, 30) 15%,
+        rgb(1, 15, 23) 17.5%,
+        rgb(1, 11, 18) 20%,
+        rgb(1, 8, 14) 22.5%,
+        rgb(1, 5, 8) 27.5%,
+        rgba(0, 3, 5, 0) 31%);
+    /* Die letzten 8px blenden aus, damit an der Oberkante der Fusskarte
+       keine zweite Kante entsteht. */
+    -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 40px, rgba(0, 0, 0, 0) 48px);
+            mask-image: linear-gradient(to bottom, #000 0, #000 40px, rgba(0, 0, 0, 0) 48px);
+  }
+}

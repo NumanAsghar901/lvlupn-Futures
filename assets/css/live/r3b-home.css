@@ -1,0 +1,381 @@
+/* ==========================================================================
+   r3b-home.css  -  Runde 3, ABNAHME der Startseite "/" (Post 7895)
+
+   Diese Datei entsteht bei der unabhaengigen Abnahme und enthaelt nur die
+   Restfixes, die beim Gegenlesen von r3-home.css uebrig blieben. r3-home.css
+   selbst wird NICHT geaendert (dort arbeitet ein anderer Agent); das Plugin
+   lvlup-fixes laedt alphabetisch, "r3b-home.css" also nach "r3-home.css".
+   Kaans Dateien (lvlup-theme.css, lvlup-home.css, Plugin lvlup-home-v2) und
+   die fixes-*.css von gestern bleiben unangetastet.
+
+   Sicherung des Vorzustands:
+     runde3/home/backups/plugin-fixes-abnahme-20260810-182029/r3-home.css
+     runde3/home/backups/20260810-182029_post-7895-elementor-data.json
+
+   Messgrundlage: eigener Referenz-Verbund
+     shots/abnahme-home-ref-1760.png   (Desktop, 1760 x 11225)
+     shots/abnahme-home-mobref-512.png (Mobil, 512 x 11287, Frame 440)
+   gegen eigene Renders
+     shots/abnahme-home-desktop-1760.png, shots/abnahme-home-mob390.png,
+     shots/abnahme-home-mob440.png
+   Vollstaendige Messreihen: runde3/home/ABNAHME.md
+
+   SEITENBINDUNG wie in r3-home.css: jeder Selektor beginnt mit
+   body.page-id-7895, damit auf /rules/ (Post 8048, gleiche .lvf-s10-Klassen)
+   nichts mitwirkt.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   R3B-home-01: "Payout Protector"-Panel im Add-Ons-Band (s04) viel zu dunkel
+
+   BEFUND (Desktop, Panel .lvf-s04-addon, live x807..1485 / y3288..3366;
+   Referenz um 7 px versetzt). Gemessen 5x5-gemittelt, RGB:
+
+     x        815        920       1000       1120       1170
+     y3296  SOLL 108,205,236  200,236,251  245,251,255  248,252,254  243,251,253
+            IST   15,103,151   18,104,152   21,105,152   24,107,153   25,107,153
+     y3312  SOLL 103,203,234  197,235,250  244,251,254  248,252,255  242,249,254
+            IST   43,125,168   51,128,170   60,132,172   69,136,173   70,136,173
+     y3350  SOLL  88,196,232  189,233,249  242,250,253  247,252,255  240,249,255
+            IST  110,178,209  129,187,213  152,197,218  175,206,222  177,207,222
+
+   Das Soll ist also ein WAAGERECHTER Verlauf (cyan links -> weiss ab rund
+   31 % Panelbreite), live liegt ein SENKRECHTER Verlauf vor (dunkelblau oben
+   -> hell unten). Am staerksten weicht die Panel-Oberkante ab: RGB-Summe
+   -471 von 765.
+
+   URSACHE: Kaan setzt auf .lvf-s04-addon (lvlup-home.css Z. 2051 ff.) nur eine
+   fast durchsichtige Fuellung und `backdrop-filter: blur(116px)`. Der Backdrop
+   wird also aus dem Bandverlauf darunter gewonnen; bei 116 px Radius auf einem
+   nur 76 px hohen Element dominiert die Randbehandlung des Blurs und erzeugt
+   den senkrechten Verlauf. Gegengeprueft mit einem zweiten, unabhaengigen
+   Renderweg (CDP-Screenshot am gescrollten Viewport statt --screenshot):
+   dieselben Werte, also kein Aufnahme-Artefakt.
+
+   LOESUNG: Backdrop-Filter aus, Panelgrund als expliziter waagerechter
+   Verlauf aus den Soll-Werten. Stops = gemessene Referenzpunkte
+   (rel = (x - 807) / 678):
+     rel 0.004 96,194,227 | 0.043 125,211,239 | 0.081 146,218,243
+     rel 0.119 170,227,246 | 0.158 195,234,250 | 0.196 217,243,253
+     rel 0.235 233,247,254 | 0.273 242,250,254 | 0.311 248,252,255
+     rel 0.35+ 249,253,255 (flach; ab rel 0.568 verdeckt der schwarze Wertekasten)
+   Kaans Rahmenverlauf (border-box) bleibt unveraendert erhalten.
+   Nur Desktop: mobil liegt das Band im Soll (Bandmittel live 120..182 gegen
+   Referenz 45..171 ueber dieselben Zeilen), dort wird nichts angefasst.
+   ========================================================================== */
+
+@media (min-width: 768px) {
+
+  body.page-id-7895 .lvf-s04 .lvf-s04-addons .lvf-s04-addon {
+    -webkit-backdrop-filter: none;
+            backdrop-filter: none;
+    background:
+      linear-gradient(90deg,
+        #5ec1e3 0%,
+        #7dd3ef 4.3%,
+        #92daf3 8.1%,
+        #aae3f6 11.9%,
+        #c3eafa 15.8%,
+        #d9f3fd 19.6%,
+        #e9f7fe 23.5%,
+        #f2fafe 27.3%,
+        #f8fcff 31.1%,
+        #f9fdff 40%,
+        #f9fdff 100%) padding-box,
+      linear-gradient(180deg, #005a8d 0%, rgba(0, 91, 143, 0) 100%) border-box;
+  }
+
+}
+
+
+/* ==========================================================================
+   R3B-home-02: CTA-Karte (s10) - fleckige dunkle Wolke statt glattem Verlauf
+
+   BEFUND. Rasterpunkte relativ zur Karte (live x260..1500 / y9636..10181,
+   Referenz um 74 px tiefer), Blaukanal, 5x5-gemittelt:
+
+     rely 0.06  relx  0.02  0.10  0.22  0.36  0.50  0.64  0.78  0.90  0.98
+                SOLL   156    52     2     5    33    99   201   236   243
+                IST    150    54    39    37    38    39   151   222   242
+     rely 0.50  SOLL   152    58    14    14    20    23    50   143   212
+                IST    134    45    52    62    72    63    54    69   195
+     rely 0.94  SOLL   240   206   198   111    78   108   195   191   234
+                IST    193   157   235    96   103   103   236   149   192
+
+   Das Soll ist ein glatter Verlauf: dunkle Mitte (relx 0.22..0.50 im oberen
+   Drittel praktisch schwarz, RGB 2,2,2), kraeftige Leuchtkanten links und
+   rechts, und die Karte wird nach UNTEN hin insgesamt heller (linke Spalte
+   B 156 oben -> 240 unten). Live steht statt dessen eine ovale Abdunklung
+   ueber Kaans Glow-Stapel: relx 0.22..0.64 ist oben 30..37 zu HELL, in der
+   Mitte 40..52 zu hell, die Zone relx 0.64..0.78 dagegen 50..59 zu DUNKEL,
+   und die untere linke Ecke fehlt fast ganz (SOLL 74,201,240 / IST 31,133,193).
+   Der Rand dieser Abdunklung ist als Wolke sichtbar
+   (vergleich/abnahme-cta-3fach.png: Referenz | Stand vor r3-home.css | jetzt).
+
+   LOESUNG: Die Ebene wird deckend gemacht und beschreibt den Kartengrund
+   vollstaendig - dieselbe Vorgehensweise, die r3-home.css bei den
+   Plattformkarten (R3-home-04) schon anwendet. Damit entfaellt die
+   Ueberlagerung mit Kaans Glow-Stapel, die die Wolkenkante erzeugt hat.
+   Die Deko-Pfeile liegen in .lvf-s10-deco, also NACH .lvf-s10-glow im
+   Dokument, und bleiben unberuehrt sichtbar.
+   ========================================================================== */
+
+@media (min-width: 768px) {
+
+  body.page-id-7895 .lvf-s10 .lvf-s10-card > .lvf-s10-glow.lvf-s10-glow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background-color: #01060b;
+    background-image:
+      /* Durchgang 2. Durchgang 1 war an den Oberkanten zu dunkel (linke Spalte
+         82 statt SOLL 156, relx 0.78 oben 64 statt 201), weil die Randsaeulen
+         als Radials mit zu kleinem Radius angesetzt waren. Die Referenz hat
+         dort senkrecht nahezu KONSTANTE Randspalten - deshalb jetzt lineare
+         Verlaeufe fuer die Saeulen und Radials nur fuer die vier Ecken.
+
+         untere linke Ecke (SOLL rely 0.94: relx 0.02 -> 240, 0.10 -> 206,
+         0.22 -> 198) */
+      radial-gradient(58% 52% at -6% 104%,
+        rgba(170, 232, 253, 0.98) 0%,
+        rgba(96, 205, 247, 0.90) 26%,
+        rgba(24, 140, 205, 0.52) 52%,
+        rgba(5, 70, 115, 0.18) 76%,
+        rgba(2, 40, 70, 0) 96%),
+      /* untere rechte Ecke (SOLL rely 0.94: relx 0.98 -> 234, 0.90 -> 191) */
+      radial-gradient(48% 50% at 106% 104%,
+        rgba(150, 224, 252, 0.94) 0%,
+        rgba(70, 192, 243, 0.84) 28%,
+        rgba(16, 124, 190, 0.42) 56%,
+        rgba(3, 58, 96, 0.12) 80%,
+        rgba(2, 40, 70, 0) 96%),
+      /* obere rechte Bluete, reicht bis relx 0.64 (SOLL rely 0.06: 0.98 -> 243,
+         0.90 -> 236, 0.78 -> 201, 0.64 -> 99, 0.50 -> 33) */
+      radial-gradient(46% 62% at 102% -4%,
+        rgba(160, 228, 252, 0.99) 9%,
+        rgba(120, 215, 250, 0.94) 26%,
+        rgba(44, 172, 236, 0.80) 52%,
+        rgba(10, 104, 165, 0.37) 83%,
+        rgba(3, 52, 88, 0.10) 100%,
+        rgba(2, 40, 70, 0) 116%),
+      /* linke Randspalte, senkrecht konstant
+         (SOLL relx 0.02 -> 152, 0.10 -> 50, 0.22 -> 8) */
+      linear-gradient(90deg,
+        rgba(35, 155, 225, 0.74) 0px,
+        rgba(32, 150, 220, 0.66) 25px,
+        rgba(22, 120, 185, 0.34) 70px,
+        rgba(18, 112, 176, 0.19) 124px,
+        rgba(8, 70, 118, 0.05) 200px,
+        rgba(2, 40, 70, 0) 300px),
+      /* rechte Randspalte, senkrecht konstant
+         (SOLL relx 0.98 -> 212, 0.90 -> 143, 0.78 -> 50, 0.64 -> 23) */
+      linear-gradient(270deg,
+        rgba(40, 165, 232, 0.88) 0px,
+        rgba(38, 160, 228, 0.84) 25px,
+        rgba(26, 132, 200, 0.55) 124px,
+        rgba(12, 86, 140, 0.15) 273px,
+        rgba(4, 50, 84, 0.03) 400px,
+        rgba(2, 40, 70, 0) 520px),
+      /* Aufhellung der Unterkante ueber die Kartenmitte
+         (SOLL rely 0.94: relx 0.36 -> 111, 0.50 -> 78, 0.64 -> 108).
+         Durchgang 4/5: nach dem Abschalten von Kaans ::after-Band fehlte hier
+         dessen Beitrag, die Unterkante fiel auf 42..52 statt 81..138. Radius
+         und Deckkraft angehoben, Mittelpunkt wieder naeher an die Karte; der Doppelhoecker (aussen heller als in der
+         Mitte) kommt aus den beiden Eckbluenten, deshalb bleibt diese Ebene
+         in der Mitte bewusst schwaecher. */
+      radial-gradient(78% 42% at 50% 110%,
+        rgba(36, 152, 216, 0.80) 0%,
+        rgba(22, 116, 178, 0.46) 40%,
+        rgba(8, 64, 104, 0.18) 68%,
+        rgba(2, 40, 70, 0) 92%),
+      /* Grundton: oben Mitte praktisch schwarz (SOLL 2,2,2) */
+      linear-gradient(180deg,
+        #01050a 0%,
+        #01070d 48%,
+        #01101a 80%,
+        #021a29 100%);
+  }
+
+  /* Durchgang 3. Nach Durchgang 2 blieb die Kartenmitte 30..45 zu hell
+     (rely 0.50, relx 0.36..0.64: SOLL 14..23, gemessen 55..66), obwohl die
+     Ebene oben deckend ist. Ursache gefunden: Kaan legt mit
+     `.lvf-s10-glow::after` (lvlup-home.css Z. 6374 ff.) ein zusaetzliches
+     helles Mittelband UEBER den Glow - ::after zeichnet nach ::before.
+     Da die Ebene oben den Kartengrund jetzt vollstaendig beschreibt
+     (einschliesslich der Aufhellung der Unterkante), wird dieses Band hier
+     abgeschaltet. Kaans Datei bleibt unveraendert. */
+  body.page-id-7895 .lvf-s10 .lvf-s10-card > .lvf-s10-glow.lvf-s10-glow::after {
+    background: none;
+  }
+
+}
+
+
+/* ==========================================================================
+   R3B-home-03: Hero-Randschein fehlt MOBIL fast vollstaendig
+
+   BEFUND (Frame 440, Werte im 512er Schnipselraster auf CSS-px umgerechnet,
+   Blaukanal, linke Bildhaelfte; rechts spiegelbildlich gleich):
+
+     x (CSS)      4    20    40    60    90   120   160   200
+     y170  SOLL 251   240   220   192   148   102    66    52
+           IST   90    76    60    46    29    17    10     7
+     y220  SOLL 229   207   177   147    75    19    10     7
+           IST   69    58    45    33    13     3     2     1
+     y340  SOLL  96    75    57    46    26     -     -     -
+           IST   12    10     7     5     3     -     -     -
+     y420  SOLL  34    28    23    28    13     -     -     -
+           IST    4     3     2     1     1     -     -     -
+     y820  SOLL 121    88    66    46    21     -     -     -
+           IST   10     7     4     3     -     -     -     -
+
+   Der Schein ist also mobil rund um den ganzen Hero zwischen zwei- und
+   zehnfach zu schwach.
+
+   URSACHE (nachgerechnet an der Live-Geometrie, 390 px): .lvf-s02-glow ist
+   `width: 170%` und zentriert, liegt also bei x -136 .. 527 in einem 390 px
+   breiten Bild. Der linke Bildrand entspricht damit 136/663 = 20.6 % des
+   Elements, der rechte 79.4 %. Kaans Mobil-Blobs sitzen aber bei 4 % und 96 %
+   des Elements (lvlup-home.css Z. 177 ff.), also bei Bild-x -110 und +501 -
+   weit AUSSERHALB des Bildes. Sichtbar ist nur ihr Auslauf. Auf dem Desktop
+   faellt das nicht auf, weil dort andere Werte gelten.
+
+   LOESUNG: gleiche Bauart wie Kaan (drei Blobpaare oben / Mitte / unten,
+   Rand-Vignette), aber auf die Bildraender gesetzt und auf die Soll-Werte
+   gebracht. Kaans Regel bleibt in seiner Datei unveraendert; hier steht nur
+   der Override.
+   ========================================================================== */
+
+@media (max-width: 767px) {
+
+  body.page-id-7895 .lvf-s02 .lvf-s02-glow {
+    background:
+      /* Durchgang 2. Durchgang 1 war am Bildrand zu dunkel (y170: 179 statt
+         251), lief waagerecht zu flach aus (x120: 111 statt 102 bei nur 179
+         am Rand) und hatte auf halber Hoehe eine zusaetzliche Beule
+         (y420: 82 statt 34). Deshalb jetzt nur noch ZWEI Zonen - oben und
+         unten - mit aus dem Soll zurueckgerechneten Radien:
+           oben  Mitte Seiten-y 155, senkrechter Radius 300 px
+                 (SOLL 251/229/178/96/34 bei y 170/220/280/340/420)
+           unten Mitte Seiten-y 980, senkrechter Radius 420 px
+                 (SOLL 32/65/121 bei y 620/720/820)
+         waagerechter Radius 215 px = 29 % der Elementbreite (Durchgang 3:
+         mit 35 % lief der Schein zu flach aus, x120 kam auf 139 statt 102).
+         Elementbreite 170 %, Bildrand also bei 20.6 % / 79.4 %. */
+      radial-gradient(29% 17.6% at 20.6% 15%,
+        rgba(236, 250, 255, 1) 0%,
+        rgba(186, 234, 254, 0.95) 18%,
+        rgba(96, 205, 250, 0.78) 38%,
+        rgba(0, 162, 255, 0.44) 60%,
+        rgba(0, 150, 235, 0.16) 82%,
+        rgba(0, 145, 228, 0) 100%),
+      radial-gradient(29% 17.6% at 79.4% 15%,
+        rgba(236, 250, 255, 1) 0%,
+        rgba(186, 234, 254, 0.95) 18%,
+        rgba(96, 205, 250, 0.78) 38%,
+        rgba(0, 162, 255, 0.44) 60%,
+        rgba(0, 150, 235, 0.16) 82%,
+        rgba(0, 145, 228, 0) 100%),
+      radial-gradient(27% 24.7% at 20.6% 63.5%,
+        rgba(0, 168, 255, 0.86) 0%,
+        rgba(0, 160, 246, 0.62) 32%,
+        rgba(0, 150, 232, 0.34) 62%,
+        rgba(0, 145, 226, 0.12) 86%,
+        rgba(0, 140, 220, 0) 100%),
+      radial-gradient(27% 24.7% at 79.4% 63.5%,
+        rgba(0, 168, 255, 0.86) 0%,
+        rgba(0, 160, 246, 0.62) 32%,
+        rgba(0, 150, 232, 0.34) 62%,
+        rgba(0, 145, 226, 0.12) 86%,
+        rgba(0, 140, 220, 0) 100%),
+      /* Kaans Bogen ueber der Sektionsoberkante bleibt erhalten */
+      radial-gradient(70% 14% at 50% 3%,
+        rgba(0, 162, 255, 1) 0%,
+        rgba(0, 162, 255, 0) 78%);
+  }
+
+}
+
+
+/* ==========================================================================
+   R3B-home-04: Testimonial-Sektion (s07) mobil ohne blauen Grund
+
+   BEFUND (512er Raster, Zeilen 7760..8160, Referenz um 99 px versetzt), RGB:
+
+     x=8 (linker Bildrand)      x=252 (Spalte zwischen den Karten)
+     y7760 SOLL 11,115,168      SOLL  4, 70,104
+           IST   8, 42, 66      IST   7, 20, 34
+     y7860 SOLL 67,181,216      SOLL  9, 77,116
+           IST   7, 37, 60      IST   6, 19, 34
+     y7960 SOLL 169,211,235     SOLL  3, 59, 89
+           IST   7, 34, 55      IST   6, 17, 32
+     y8160 SOLL 73,179,218      SOLL  2, 43, 67
+           IST   5, 26, 43      IST   6, 16, 29
+
+   Im Soll liegt hinter den Testimonial-Karten ein deutlicher blauer Grund,
+   live ist er nahezu schwarz. Kaan hat die Desktop-Wash mobil ausdruecklich
+   abgeschwaecht (lvlup-home.css Z. 4721 ff., Kommentar "mobil gab es keinen
+   Hintergrund-Befund"); der neue Mobil-Schnipsel 7 widerspricht dem.
+
+   LOESUNG: Mobil-Wash auf die Soll-Werte anheben. Desktop bleibt unberuehrt.
+   ========================================================================== */
+
+@media (max-width: 767px) {
+
+  body.page-id-7895 .lvf-s07 .lvf-s07-glow {
+    background:
+      /* Durchgang 2: Durchgang 1 kam am Bildrand nur auf B 98..135 statt
+         168..235 und fiel nach unten zu schnell ab. Deckkraft angehoben,
+         senkrechte Ausdehnung auf die volle Sektionshoehe gezogen. */
+      radial-gradient(62% 100% at 0% 50%,
+        rgba(70, 190, 246, 0.92) 0%,
+        rgba(24, 128, 186, 0.60) 34%,
+        rgba(9, 74, 116, 0.26) 64%,
+        rgba(4, 40, 65, 0) 100%),
+      radial-gradient(62% 100% at 100% 50%,
+        rgba(70, 190, 246, 0.92) 0%,
+        rgba(24, 128, 186, 0.60) 34%,
+        rgba(9, 74, 116, 0.26) 64%,
+        rgba(4, 40, 65, 0) 100%),
+      radial-gradient(92% 96% at 50% 50%,
+        rgba(12, 92, 140, 0.72) 0%,
+        rgba(8, 60, 96, 0.36) 54%,
+        rgba(4, 30, 50, 0) 100%);
+  }
+
+}
+
+
+/* ==========================================================================
+   R3B-home-05: Deko-Pfeile der CTA-Karte stehen zu hart auf dem Grund
+
+   BEFUND. Nicht die Groesse (dazu hat r3-home.css nach eigenem Drei-Fach-
+   Vergleich bewusst nichts geaendert), sondern die Deckkraft. Gemessen wird
+   der Kontrast des Pfeils gegen den Grund unmittelbar daneben, gleiche Zeile,
+   Blaukanal:
+
+     REFERENZ  y10113: im Pfeil (11,114,172) / daneben (4,53,82)  -> 90
+     LIVE      y10039: im Pfeil  (4,134,208) / daneben (6,48,74)  -> 134
+
+   Im Soll sind die Pfeile also durchscheinend und gehen im hellen
+   Kartengrund fast unter; live sind sie deckend und treten hervor.
+
+   RECHNUNG: Kaan setzt `.lvf-s10-arrow { opacity: 0.85 }` (lvlup-home.css
+   Z. 6314 ff.). Aus 208 = 0.85 * C + 0.15 * 74 folgt fuer die Vollfarbe
+   C = 232. Fuer den Soll-Kontrast 90 (Pfeilwert 74 + 90 = 164) ergibt sich
+   0.57. Gegenprobe an der zweiten Messstelle (Grund 146): 0.57 ergibt 195,
+   Referenz dort 181.
+   Nur Desktop - mobil zeigt die Karte andere Pfeilgrafiken
+   (.lvf-s10-arrowhead / .lvf-s10-arrow3d), die hier nicht angefasst werden.
+   ========================================================================== */
+
+@media (min-width: 768px) {
+
+  body.page-id-7895 .lvf-s10 .lvf-s10-deco .lvf-s10-arrow {
+    opacity: 0.57;
+  }
+
+}

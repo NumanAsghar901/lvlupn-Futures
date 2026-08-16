@@ -1,0 +1,4030 @@
+/* == e1-hero == */
+/* e1-hero: Hero der Lvlup Elite Seite. Praefix .lve-e1- */
+.lve-e1 {
+  position: relative;
+  overflow: clip;
+  padding: 278px 0 252px;
+}
+
+/* Hintergrund: Videoframe + weiche Glows, laeuft unten transparent aus */
+.lve-e1-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.lve-e1-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 790px;
+  object-fit: cover;
+  object-position: center top;
+  opacity: 0.9;
+  /* Befund 1: das Ausgangsbild ist blau/violett, das Soll leuchtet warm gold.
+     Sepia + Hue-Shift dreht die Farbgebung nach Bernstein, bevor die Glows
+     darueberliegen. */
+  filter: sepia(0.92) hue-rotate(-12deg) saturate(2.3) brightness(0.82);
+  -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+}
+.lve-e1-bg-shade {
+  position: absolute;
+  inset: 0;
+  /* Oben schwaecher abdunkeln: das Hero-Bild soll wie im Soll bis hinter die
+     Nav sichtbar bleiben (Header schwebt ueber dem Bild). Zusaetzlich warme
+     Bernstein-Toenung, damit keine blauen Reste durchschlagen. */
+  background:
+    linear-gradient(180deg, rgba(64, 34, 2, 0.38) 0%, rgba(52, 28, 2, 0.22) 40%, rgba(20, 12, 2, 0.3) 72%, rgba(5, 6, 15, 0) 100%),
+    linear-gradient(180deg, rgba(5, 6, 15, 0.35) 0%, rgba(5, 6, 15, 0.15) 38%, rgba(5, 6, 15, 0.42) 72%, var(--lvf-bg) 100%);
+}
+/* Grosser Bernstein-Glow oben (die "Star"-Vektoren aus dem Figma, angenaehert) */
+.lve-e1-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 62% 46% at 50% -12%, rgba(255, 146, 0, 0.5) 0%, rgba(255, 146, 0, 0.16) 45%, rgba(255, 146, 0, 0) 72%),
+    radial-gradient(ellipse 30% 26% at 50% 6%, rgba(255, 188, 84, 0.35) 0%, rgba(255, 188, 84, 0) 70%);
+}
+/* Diagonale Lichtkegel links/rechts unten, weich auslaufend */
+.lve-e1-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 30% 26% at 0% 0%, rgba(3, 2, 0, 0.85) 0%, rgba(3, 2, 0, 0) 75%),
+    radial-gradient(ellipse 30% 26% at 100% 0%, rgba(3, 2, 0, 0.85) 0%, rgba(3, 2, 0, 0) 75%),
+    radial-gradient(ellipse 24% 32% at 17% 74%, rgba(255, 188, 84, 0.26) 0%, rgba(255, 188, 84, 0) 70%),
+    radial-gradient(ellipse 24% 32% at 83% 74%, rgba(255, 188, 84, 0.26) 0%, rgba(255, 188, 84, 0) 70%);
+}
+
+.lve-e1-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Kicker-Pille */
+.lve-e1-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 19px;
+  border-radius: 67px;
+  background: rgba(0, 0, 0, 0.47);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.42px;
+  color: var(--lvf-white);
+  margin-bottom: 26px;
+}
+.lve-e1-kicker-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+}
+
+/* Headline */
+.lve-e1-title {
+  font-size: clamp(36px, 4.6vw, 68px);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  margin-bottom: 36px;
+}
+.lve-e1-title-line { display: block; }
+.lve-e1-title-line--gold {
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lve-e1-title-line--white {
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Subtext */
+.lve-e1-sub {
+  max-width: 656px;
+  font-size: clamp(16px, 1.3vw, 18px);
+  font-weight: 425;
+  line-height: 1.36;
+  letter-spacing: 0.54px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 36px;
+}
+
+/* Buttons */
+.lve-e1-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.lve-e1-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 46px;
+  border-radius: 10px;
+  font-size: 17px;
+  line-height: 25px;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+.lve-e1-btn:hover { filter: brightness(1.08); }
+.lve-e1-btn:active { transform: translateY(1px); }
+
+.lve-e1-btn--primary {
+  padding: 5px 18px 5px 5px;
+  font-weight: 500;
+  color: #060606;
+  /* Verlaufsachse 11.08.2026 von 134deg auf senkrecht gestellt.
+     Am Mockup gemessen laeuft die Farbe im Knopf ausschliesslich von
+     oben nach unten: Unterschied senkrecht 23,3 gegen waagerecht 7,1.
+     Live war es umgekehrt, 4,8 gegen 25,0, der Knopf wurde also von
+     links nach rechts dunkler statt von oben nach unten. Die beiden
+     Stuetzfarben stimmten, nur die Achse nicht. */
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  border: 1px solid rgba(255, 188, 84, 0.55);
+  box-shadow:
+    inset 0 1px 18px rgba(255, 226, 186, 0.9),
+    6px 11px 28px rgba(0, 0, 0, 0.15),
+    25px 44px 50px rgba(0, 0, 0, 0.13);
+}
+.lve-e1-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: #060606;
+  color: #ffffff;
+  flex: none;
+}
+
+.lve-e1-btn--ghost {
+  padding: 8px 17px;
+  font-weight: 400;
+  color: var(--lvf-white);
+  background:
+    linear-gradient(134deg, rgba(255, 188, 84, 0.16) 0%, rgba(255, 146, 0, 0.16) 100%),
+    rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 188, 84, 0.35);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow:
+    inset -2px -6px 19px rgba(255, 188, 84, 0.35),
+    inset 9px 7px 12px rgba(0, 0, 0, 0.55);
+}
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .lve-e1 { padding: 220px 0 200px; }
+  .lve-e1-bg-img { height: 640px; }
+}
+
+/* Mobile: kein Design vorhanden, sauber gestapelt abgeleitet */
+@media (max-width: 767px) {
+  .lve-e1 { padding: 160px 0 120px; }
+  .lve-e1-bg-img { height: 520px; }
+  .lve-e1-kicker { font-size: 13px; }
+  .lve-e1-title { margin-bottom: 24px; }
+  .lve-e1-sub { margin-bottom: 28px; letter-spacing: 0.3px; }
+  .lve-e1-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 340px;
+  }
+  .lve-e1-btn { min-height: 48px; width: 100%; }
+}
+
+
+/* Abnahme 06.08.: Shell-Reset ueberstimmte die Textfarbe - dunkel erzwingen */
+a.lve-e1-btn--primary { color: #1c1200; }
+a.lve-e1-btn--primary .lve-e1-btn-icon { color: #ffffff; }
+
+
+/* ===========================================================================
+   Zweitknopf "View Benefits", Abgleich 11.08.2026, nur Desktop
+
+   Live trug der Knopf eine eigene Bernstein-Fuellung, einen sichtbaren Rand
+   und nur zwei abgeschwaechte Innenscheine:
+     background rgba(0,0,0,0.35) + linear-gradient(134deg, 255,188,84,0.16 ->
+                                    255,146,0,0.16)
+     border     1px rgba(255,188,84,0.35)
+     box-shadow inset -2px -6px 19px rgba(255,188,84,0.35)
+                inset  9px  7px 12px rgba(0,0,0,0.55)
+
+   Der Entwurf (Figma-Knoten "Frame 64", 154 x 46 bei x 904 y 577) hat
+   KEINEN Rand, als Fuellung nur Schwarz mit 10 Prozent plus einen
+   Goldverlauf im Modus COLOR (der faerbt, hellt aber nicht auf) und VIER
+   Innenscheine in voller Deckkraft.
+
+   Am Mockup nachgemessen, senkrecht durch die Knopfmitte bei x 980:
+     y        574  577  583  594  609  615  621  625
+     Soll       0   13   14    2   64  154  237    0
+     vorher     0    1   39   44   61   77   94  101
+   Waagerecht bei y 600, von der Knopfmitte nach rechts:
+     x        1035 1040 1045 1050 1055 1060
+     Soll        4   16   63  137  216    2
+     vorher     54   62   75    3    3    3
+
+   Damit ist der gemeldete Bloom "UM den Knopf herum" widerlegt: drei Pixel
+   neben der Knopfkante misst das Mockup (0,0,0), der Schein liegt INNEN an
+   der Unterkante und an der rechten Kante und wird von der Knopfkante hart
+   abgeschnitten. Genau das leisten die vier Innenscheine.
+
+   Der Rand wird nur farblos gestellt statt entfernt: seine 2 px stecken in
+   der abgenommenen Knopfhoehe von 46 px.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lve-e1 .lve-e1-btn--ghost {
+    /* Fuellung: Soll Schwarz 10 % (Knopfmitte 1,0,0 auf Untergrund 0,0,0),
+       vorher 48,32,9 durch die zusaetzliche Bernstein-Lage. */
+    background: rgba(0, 0, 0, 0.1);
+    border-color: transparent;
+    /* Innenscheine, Versatz nach oben links wie im
+       Entwurf (Gold -2/-6 r 19,4 | Gold -5/-4 r 15,7 | Orange -0,8/-1,6
+       r 4,5 | Schwarz 9/7 r 12,1). Die Radien sind NICHT 1:1 uebernommen:
+       mit den Figma-Radien streut CSS den Schein deutlich weiter in die
+       Gegenkante als der Entwurf. Mit 19 px und 16 px stand an der
+       Oberkante 96 statt 17. Deshalb groesserer Versatz und kleinerer
+       Radius, angepasst an das gemessene Profil des Mockups (Abstand von
+       der jeweiligen Kante nach innen):
+         unten   4 px 216 | 7 px 170 | 10 px 123 | 13 px 79 | 16 px 42
+         rechts  3 px 216 | 8 px 137 | 13 px  63 | 18 px 16
+         oben    3 px  17 | 6 px  14 |  9 px   5
+       Die dritte Zeile ist ein schwacher Rundum-Schein: ohne ihn bleibt die
+       Oberkante schwarz, das Mockup zeigt dort 13 bis 17.
+       Deckkraft 0,80 statt 1,00: mit 1,00 lag das ganze Profil unten und
+       rechts rund 25 Prozent zu hell (unten 4 px 242 gegen 216, rechts 8 px
+       172 gegen 137). */
+    box-shadow:
+      inset -8px -9px 12px rgba(255, 188, 84, 0.8),
+      inset -3px -4px 7px rgba(255, 146, 0, 0.75),
+      inset 0 0 9px rgba(255, 188, 84, 0.11),
+      inset 9px 7px 12px rgba(0, 0, 0, 0.9);
+  }
+}
+
+
+/* ===========================================================================
+   Ghost-Knopf: Lichtsaum ergaenzt, 11.08.2026 (Knopf-Abnahme)
+
+   Hier war gar kein Schatten deklariert, nicht einmal einer, den eine
+   Fremdregel haette erschlagen koennen. Gemessen oben (44,29,9), unten
+   (52,34,8), also an allen vier Kanten gleich: der Knopf hatte kein
+   Glanzlicht. Der Entwurf zeigt oben und links fast Schwarz ((3,3,1) und
+   (12,9,4)) und unten ein kraeftiges Bernstein-Bloom (192,140,57).
+
+   Aufbau eins zu eins vom bewaehrten Knopf in s10, nur die beiden
+   Glanzlichtfarben auf das Gold dieser Seite.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e1-btn--ghost {
+    box-shadow:
+      rgb(255, 196, 110) -2px -6px 19px 0 inset,
+      rgb(255, 146, 0)   -5px -4px 16px 0 inset,
+      rgb(255, 146, 0)   -1px -2px 5px 0 inset,
+      rgb(0, 0, 0)        9px  7px 12px 0 inset,
+      rgba(0, 0, 0, .36)  7px  3px 11px 0,
+      rgba(0, 0, 0, .25)  0 0 0 2px,
+      rgba(0, 0, 0, .16)  0 0 0 3px;
+  }
+}
+
+
+/* ===========================================================================
+   Kicker, 12.08.2026.
+
+   Gemeldet war: "dem Kicker fehlt seine Pille komplett", Figma "Frame 73",
+   221x34, Radius 67, Hintergrund rgba(0,0,0,0.47), Innenabstand 7/19.
+
+   DIE PILLE STEHT WIRKLICH IM ENTWURF - sie ist dort aber unsichtbar, und als
+   Kasten eingebaut wuerde sie schaden. Drei Messungen, alle gegen
+   referenz-neu/soll/elite-aus-vollbild.png:
+
+   1. Ihre Fuellung ist Schwarz mit 47 Prozent, ihr Grund ist schwarz. Median
+      ueber die textfreien Felder links (x 760..785) und rechts (x 980..1005)
+      der Kickerzeile:
+        Entwurf (0,0,0)        live (1,0,0)
+      Schwarz 47 % auf (1,0,0) ergibt (0,53 / 0 / 0). Der ganze Gewinn ist
+      eine halbe Stufe in einem Kanal.
+   2. Auch ueber und unter der Textzeile misst der Entwurf durchgehend
+      (0,0,0): keine Kante, kein Radius, keine Aufhellung. Im gerenderten
+      Mockup ist an dieser Stelle keine Pille zu sehen.
+   3. Als Kasten kostet sie 14 px Seitenhoehe. Innenabstand 7 oben und unten
+      macht aus dem 20 px hohen Textkasten einen von 34 px, die Ueberschrift
+      rutscht mit. Im Entwurf sitzt die Pille bei y 289..323 und die H1 bei
+      y 349, live sitzt der Kicker bei 306..326 und die H1 bei 342. Die Seite
+      muss bei 6919 px bleiben.
+
+   Gleicher Bautyp wie Nr. 12 in referenz-neu/WIDERLEGTE-BEFUNDE.md: die
+   Knotendaten sagen "hier liegt eine Flaeche", die Pixel sagen "man sieht sie
+   nicht". r3-elite.css hat die Pille am 11.08. mit Regel R3-elite-05
+   (Befund B1) genau deshalb entfernt. Das war richtig und bleibt so.
+
+   WAS AN DIESER STELLE WIRKLICH FALSCH IST, hat derselbe Befund B1 benannt
+   und nur zur Haelfte umgesetzt: im Entwurf ist "The Lvlup Elite" GOLD und
+   nur " Experience" grau. Live war die ganze Zeile grau.
+   98. Perzentil ueber die Glyphen der Zeile:
+
+     Teil                Entwurf         live vorher
+     "The Lvlup Elite"   (253,168,55)    (149,149,149)
+     " Experience"       (144,144,144)   (149,149,149)
+
+   Die erste Haelfte lag also um 104/19/94 Stufen daneben, mittlere
+   Abweichung 72,3 - beim ersten Text, den ein Besucher der Seite liest.
+
+   B1 wollte das ueber einen neuen Markup-Span .lve-e1-kicker-gold loesen
+   ("M1"). Der Span ist nie eingebaut worden, und fragment.html wird hier
+   nicht angefasst. Deshalb ueber background-clip: text mit einem harten
+   Farbwechsel in der Wortluecke - dieselbe Technik, die einige Zeilen weiter
+   oben schon .lve-e1-title-line--gold benutzt.
+
+   Wo der Wechsel sitzt, ist gemessen, nicht geschaetzt. Spalten ohne Tinte in
+   der Textzeile:
+     Entwurf  Tinte x802..970, also 169 breit und damit exakt die 169 des
+              Figma-Textknotens; Wortluecken bei 827-830, 865-868, 897-900
+     live     Tinte x801..972 (172 breit);
+              Wortluecken bei 825-828, 864-867, 895-898
+   Der Wechsel gehoert in die dritte Luecke. Linke Elementkante 787,125,
+   Lueckenmitte live 896,5, macht 109 px ab Elementkante. Die Luecke laesst
+   107,9 bis 110,9 zu, 109 sitzt mittig darin.
+
+   Zwei Lagen statt einer, weil Gold im Entwurf senkrecht verlaeuft und Grau
+   nicht: die Goldlage ist auf die ersten 109 px begrenzt, die Graulage liegt
+   darunter und fuellt den Rest. Das Grau bleibt das #959595 aus B1, das mit
+   (149,149,149) gegen (144,144,144) bereits stimmt.
+
+   Selektor 0-3-0, weil r3-elite.css `.lve-e1 .lve-e1-kicker` (0-2-0) setzt
+   und spaeter laedt. Nur ab 1024 px: darunter bricht die Zeile anders um und
+   die Luecke sitzt nicht mehr bei 109 px.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e1 .lve-e1-kicker {
+    background-image:
+      linear-gradient(180deg, #ffbc54 0%, #ff9200 100%),
+      linear-gradient(180deg, #959595 0%, #959595 100%);
+    background-size: 109px 100%, 100% 100%;
+    background-position: 0 0, 0 0;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+  /* Der Punkt ist ein eigenes Element mit eigener Fuellung, ihn darf der
+     Textausschnitt der Elternregel nicht mitnehmen. */
+  .lvf-page .lve-e1 .lve-e1-kicker .lve-e1-kicker-dot {
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+  }
+}
+
+/* == e2-what-is == */
+/* e2-what-is: "What is Lvlup Elite" Sektion der Elite-Seite. Praefix .lve-e2- */
+.lve-e2 {
+  position: relative;
+  overflow: clip;
+  padding: 30px 0 60px;
+}
+
+/* Weiche Bernstein-Glows, laufen nach allen Seiten transparent aus (Kundenfeedback:
+   keine harten Kanten zwischen Sektionen). Runde 3: deutlich kraeftiger, das Soll
+   zeigt einen grossen goldenen Ambient-Schein ueber der ganzen Sektion. */
+.lve-e2::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Kaan 06.08.: Verlauf muss ZUSAMMENHAENGEND in den Performance-Block laufen.
+     Sauberer vertikaler Aufbau von Warm-Schwarz zu sattem Gold, Endfarbe exakt
+     der Startton von e3 (#f8ac33), plus weiche Seitenfluegel. Kein Weiss-Ring. */
+  /* Messpass 06.08.2026: Rampe spaeter starten - im Soll ist die Zone hinter
+     dem Textblock (y~1320) noch dunkel (50-92), bei uns leuchtete sie schon
+     mit 200+. Volles Gold weiterhin exakt am e3-Uebergang. */
+  background:
+    radial-gradient(ellipse 60% 36% at 8% 100%, rgba(255, 188, 84, 0.4) 0%, rgba(255, 188, 84, 0) 70%),
+    radial-gradient(ellipse 60% 36% at 92% 100%, rgba(255, 188, 84, 0.4) 0%, rgba(255, 188, 84, 0) 70%),
+    linear-gradient(180deg,
+      rgba(8, 5, 2, 0) 54%,
+      rgba(120, 74, 8, 0.25) 70%,
+      rgba(200, 128, 16, 0.55) 83%,
+      rgba(240, 158, 30, 0.85) 93%,
+      #f8ac33 100%);
+}
+.lve-e2::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 52% 42% at 50% -14%, rgba(255, 146, 0, 0.18) 0%, rgba(255, 146, 0, 0) 70%),
+    radial-gradient(ellipse 40% 34% at 6% 4%, rgba(255, 146, 0, 0.16) 0%, rgba(255, 146, 0, 0) 72%);
+}
+
+.lve-e2-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* Gold gefuellte Eyebrow-Pille ueber der Ueberschrift (Soll: ca. 90px Abstand
+   zur Headline), dunkle Schrift auf Gold-Verlauf */
+.lve-e2-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  margin: 0 0 26px; /* Kaan 06.08.: links ueber dem Titel wie im Mockup */
+  padding: 7px 20px;
+  border-radius: 78px;
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 238, 211, 0.25),
+    0 0 26px rgba(255, 146, 0, 0.35);
+  font-size: 14px;
+  font-weight: 530;
+  line-height: 17px;
+  letter-spacing: 0.84px;
+  color: #1c1200;
+}
+
+/* Zweispaltig: Text links (768), Karten rechts (416), Figma-Abstand 54.
+   Die beiden Spalten stehen als minmax(0, ...) und nicht als feste Breite:
+   768 + 54 + 416 = 1238 px passen erst in einen Container ab 1238 px, und den
+   gibt es erst ab einem Fenster von 1278 px (.lvf-container: max-width 1280,
+   padding-inline 20). Darunter lief der Kartenstapel aus dem Sichtfenster
+   heraus, und `overflow: clip` auf .lve-e2 hat es still weggeschnitten -
+   gemessen bei 1024 px: Karten bis x1258,7, also 234,7 px hinter dem Rand,
+   alle vier Kartentitel angeschnitten.
+   Mit minmax(0, X) bekommt zuerst die schmalere Spalte ihre volle Breite:
+   bei 1024 px sind das 514 fuer den Text und weiter 416 fuer die Karten,
+   der Stapel endet damit genau auf der Containerkante. Ab 1280 px reicht der
+   Platz fuer beide Hoechstwerte, dort aendert sich nichts (Karten unveraendert
+   ab x1082). */
+.lve-e2-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 768px) minmax(0, 416px);
+  gap: 54px;
+  align-items: start;
+}
+
+.lve-e2-copy {
+  padding-top: 32px;
+}
+
+/* Headline: 65px, w500, weisser Schimmer + Gold-Teil */
+.lve-e2-title {
+  font-size: clamp(40px, 3.7vw, 65px);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -1.3px;
+  margin-bottom: 37px;
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lve-e2-title-gold {
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Fliesstext: 18px, w425, Gold-Highlights. Befund 14: Spalte im Ist rund 196px
+   zu breit, Soll-Textkante bei x~830 statt 1026. */
+.lve-e2-text {
+  max-width: 570px;
+  font-size: clamp(16px, 1.3vw, 18px);
+  font-weight: 425;
+  line-height: 1.45;
+  letter-spacing: 0.54px;
+  color: rgba(255, 255, 255, 0.85);
+}
+.lve-e2-text p + p { margin-top: 26px; }
+.lve-e2-hl {
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Karten-Stapel: leicht versetzt und gefaechert wie im Soll */
+.lve-e2-cards {
+  display: flex;
+  flex-direction: column;
+}
+.lve-e2-card {
+  width: 386px;
+  max-width: 100%;
+  padding: 6px 7px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 188, 84, 0.22);
+  background:
+    linear-gradient(160deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.62) 100%),
+    linear-gradient(90deg, rgba(255, 146, 0, 0.10) 0%, rgba(255, 146, 0, 0.18) 50%, rgba(255, 146, 0, 0.10) 100%),
+    rgba(255, 255, 255, 0.05);
+  -webkit-backdrop-filter: blur(34px);
+  backdrop-filter: blur(34px);
+  box-shadow:
+    9px 8px 27px rgba(0, 0, 0, 0.49),
+    37px 32px 49px rgba(0, 0, 0, 0.28);
+}
+/* Drehwinkel und Kartenabstand: siehe den Block "Lage des Kartenstapels" am
+   Ende dieser Datei. Kurz: der Entwurf dreht Karte 1 gar nicht und die
+   uebrigen drei um 0,5 Grad, und er stapelt sie ohne Ueberlappung. Die
+   seitlichen Versaetze 10 / 30 / 0 / 30 stimmen auf den Punkt und bleiben. */
+.lve-e2-card + .lve-e2-card { margin-top: 0; }
+.lve-e2-card--1 { transform: translateX(10px); }
+.lve-e2-card--2 { transform: translateX(30px) rotate(0.5deg); position: relative; z-index: 1; }
+.lve-e2-card--3 { transform: translateX(0) rotate(-0.5deg); position: relative; z-index: 2; }
+.lve-e2-card--4 { transform: translateX(30px) rotate(0.5deg); position: relative; z-index: 3; }
+
+.lve-e2-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 8px 17px;
+  border-radius: 8px;
+  background:
+    linear-gradient(0deg, rgba(33, 19, 0, 0) 0%, rgba(32, 18, 0, 0.35) 100%),
+    linear-gradient(327deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.55) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+.lve-e2-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 23px;
+  height: 23px;
+  flex: none;
+  color: #ffae3d;
+  filter: drop-shadow(0 0 6px rgba(255, 146, 0, 0.45));
+}
+.lve-e2-card-title {
+  font-size: clamp(17px, 1.4vw, 20px);
+  font-weight: 555;
+  line-height: 1.2;
+  letter-spacing: -0.39px;
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.75) 0%, #ffffff 50%, rgba(255, 255, 255, 0.75) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lve-e2-card-sub {
+  padding: 12px 17px 2px;
+  font-size: 11px;
+  font-weight: 338;
+  line-height: 1.7;
+  letter-spacing: 0.67px;
+  color: rgba(250, 248, 246, 0.6);
+}
+
+/* Pill unten mittig: "The Path to Elite" */
+.lve-e2-path {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: fit-content;
+  margin: clamp(48px, 4.6vw, 80px) auto 0;
+  padding: 7px 14px;
+  border-radius: 78px;
+  border: 1px solid rgba(255, 188, 84, 0.45);
+  background:
+    linear-gradient(134deg, rgba(255, 188, 84, 0.22) 0%, rgba(255, 146, 0, 0.22) 100%),
+    #1c1200;
+  box-shadow:
+    2px 2px 7px rgba(0, 0, 0, 0.1),
+    22px 19px 17px rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0.84px;
+  color: var(--lvf-white);
+}
+.lve-e2-path-icon {
+  display: inline-flex;
+  align-items: center;
+  color: #ffae3d;
+}
+
+/* Tablet: Spalten schmaler, Karten volle Spaltenbreite */
+@media (max-width: 1023px) {
+  .lve-e2 { padding: 24px 0 48px; }
+  .lve-e2-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
+    gap: 32px;
+  }
+  /* Der gedrehte Stapel ist fuer die 386 px breite Karte auf dem Desktop
+     gedacht. In der 340 px schmalen Tablet-Spalte reichen die 2 px
+     Ueberlappung plus Drehung nicht mehr: jede Karte deckte die vorherige um
+     7 bis 8 px zu und schnitt deren letzte Textzeile ab. Unter 768 px ist das
+     laengst geloest, der Zweig darunter setzt transform: none und 12 px
+     Abstand. Ab hier gilt dasselbe. */
+  .lve-e2-card { width: 100%; transform: none; }
+  .lve-e2-card + .lve-e2-card { margin-top: 12px; }
+}
+
+/* Mobile: kein Design vorhanden, sauber gestapelt */
+@media (max-width: 767px) {
+  .lve-e2 { padding: 16px 0 44px; }
+  .lve-e2-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .lve-e2-copy { padding-top: 0; }
+  .lve-e2-eyebrow { margin-bottom: 32px; font-size: 13px; }
+  .lve-e2-title {
+    letter-spacing: -0.6px;
+    margin-bottom: 24px;
+  }
+  .lve-e2-text { letter-spacing: 0.2px; }
+  .lve-e2-text p + p { margin-top: 20px; }
+  .lve-e2-card {
+    width: 100%;
+    transform: none;
+  }
+  .lve-e2-card + .lve-e2-card { margin-top: 12px; }
+  .lve-e2-card-head {
+    min-height: 48px;
+    padding: 10px 14px;
+  }
+  .lve-e2-card-sub {
+    padding: 12px 14px 4px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.55;
+    letter-spacing: 0.2px;
+  }
+  .lve-e2-path { margin-top: 56px; }
+}
+
+
+/* ============================================================
+   Uebergang zu e3, Abgleich 11.08.2026 (Befund der Gegenpruefung:
+   sichtbare waagerechte Kante am Beginn von lve-e3), nur Desktop.
+
+   Die Kante entsteht auf beiden Seiten der Naht. Die Seite von e3 ist dort
+   gedaempft (siehe e3-performance/fragment.css); hier fehlt der letzte Rest
+   Licht am Fuss von e2. Randprofil, Mittel ueber x 0..150 und 1610..1760,
+   Soll-y = Ist-y + 10, Naht bei Ist-y 1395:
+     dy       -40   -16    -2
+     Soll      91   105   112
+     vorher    94   103   107
+   Der Verlauf faellt am Ende also flacher aus als im Entwurf. Ein duenner
+   Bernsteinsaum ueber die letzten 7,5 Prozent (rund 40 px) hebt die
+   Unterkante von 107 auf 111 und schliesst damit an die 113 an, mit denen
+   e3 beginnt. Sprung an der Naht: vorher +19,3, nachher +2,4 (Entwurf 4,5).
+
+   Der Selektor ist 0-2-0, weil `section.lve-e2::before` in
+   server-stand-20260810/lvlup-fixes/r3-elite.css Z. 131 und Z. 483 (0-1-1)
+   den Verlauf setzt; eine reine Klasse (0-1-0) wuerde dort verlieren.
+   ============================================================ */
+/* ===========================================================================
+   Die vier Vorteilskarten, Abgleich 11.08.2026, nur Desktop
+
+   Gemeldet und nachgemessen: die Karten sind live eingefaerbt. Median ueber
+   den Kartenkoerper von Karte 3 (unter der Kopfleiste, ohne Text):
+     Koerper       vorher (40,27,14)   Soll (18,12,4)
+     Kopfleiste    vorher (32,21, 9)   Soll (10, 7,3)
+     Kopf links oben vorher (27,18,8)  Soll ( 1, 1,1)
+
+   URSACHE: der Entwurf legt ueber die Fuellung rgba(255,255,255,0.05) einen
+   Goldverlauf im Modus COLOR. COLOR uebernimmt nur Farbton und Saettigung,
+   die Helligkeit bleibt die des Untergrunds. Live lag derselbe Verlauf als
+   normale Deckkraft (0,10 / 0,18 / 0,10) darauf und hat damit aufgehellt.
+   In CSS gibt es fuer Hintergrundebenen kein COLOR gegen den Seitengrund,
+   deshalb wird das Ergebnis nachgebaut: schwaechere Weissbasis (0,02 statt
+   0,05) plus schwaecherer Goldverlauf (0,055/0,11/0,055 statt 0,10/0,18/0,10).
+   Rechnung fuer die Messstelle, Untergrund (4,3,1):
+     Weiss 2 %                       -> ( 9,0  8,0  6,1)
+     Gold 11 %                       -> (36,1 23,2  5,4)
+     schwarzer Eckverlauf 43 %       -> (20,6 13,2  3,1)   Soll (18,12,4)
+
+   RAND: der Entwurf hat eine Kontur von 0,0598 px, das entspricht 1 px mit
+   rund 6 Prozent Deckkraft. Live standen 22 Prozent, am oberen Kartenrand
+   gemessen (47,34,17) gegen Soll (23,17,5).
+
+   AUSSENSCHATTEN: im Entwurf werfen die Karten 2 bis 4 ihren Schatten nach
+   OBEN LINKS auf die Karte darueber (-5/-3, -22/-10, -49/-23, -86/-41).
+   Live lagen zwei Schatten nach unten rechts an, die es an der Karte nicht
+   gibt; die Werte 9/8 und 37/32 stammen aus der Gruppe um alle vier Karten.
+   Karte 1 hat im Entwurf keinen eigenen Schatten.
+
+   ECKVERLAUF UND KOPFLEISTE spiegeln sich zwischen ungeraden und geraden
+   Karten. Am Mockup je Ecke nachgemessen:
+     Kopf 1/3  links oben ( 1, 1,1)  rechts oben (11, 7,3)
+     Kopf 2/4  links oben (14,10,4)  rechts oben ( 0, 0,0)
+     Koerper 3 links (19,13,6)  rechts ( 8, 6,3)
+     Koerper 4 links (13, 9,4)  rechts (19,14,5)
+
+   Spezifitaet 0-2-0, damit die Regeln die Grundregeln oben in dieser Datei
+   schlagen; r3-elite.css fasst diese Bausteine nicht an.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lve-e2 .lve-e2-card {
+    /* Rand von 0,22 auf 0,06: entspricht der 0,0598 px breiten Kontur des
+       Entwurfs. Breite bleibt 1 px, damit die Kartengroesse gleich bleibt. */
+    border-color: rgba(255, 188, 84, 0.06);
+    background:
+      linear-gradient(150deg, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0.61) 100%),
+      linear-gradient(90deg, rgba(255, 146, 0, 0.055) 0%, rgba(255, 146, 0, 0.11) 50%, rgba(255, 146, 0, 0.055) 100%),
+      rgba(255, 255, 255, 0.02);
+    /* Schatten nach oben links wie im Entwurf, vier statt fuenf Stufen:
+       die fuenfte (-135/-65, Deckkraft 0,01) liegt unter der Messschwelle. */
+    box-shadow:
+      -5px -3px 13px rgba(0, 0, 0, 0.34),
+      -22px -10px 24px rgba(0, 0, 0, 0.3),
+      -49px -23px 32px rgba(0, 0, 0, 0.18),
+      -86px -41px 38px rgba(0, 0, 0, 0.05);
+  }
+  /* Karte 1 liegt oben auf und hat im Entwurf keinen eigenen Schatten. */
+  .lve-e2 .lve-e2-card--1 { box-shadow: none; }
+  /* Gerade Karten: Eckverlauf gespiegelt, dunkel links unten statt rechts unten
+     (Entwurf: t 0,00 rechts oben bis 0,62 links unten). */
+  .lve-e2 .lve-e2-card--2,
+  .lve-e2 .lve-e2-card--4 {
+    background:
+      linear-gradient(212deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.62) 100%),
+      linear-gradient(90deg, rgba(255, 146, 0, 0.055) 0%, rgba(255, 146, 0, 0.11) 50%, rgba(255, 146, 0, 0.055) 100%),
+      rgba(255, 255, 255, 0.02);
+  }
+
+  /* Kopfleiste: im Entwurf fast schwarz. Die warme Lage oben traegt 0,20
+     Deckkraft und endet bei 77 Prozent Hoehe (live 0,35 ueber die ganze
+     Hoehe), darueber ein waagerechter Schwarzverlauf. */
+  .lve-e2 .lve-e2-card-head {
+    background:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.96) 0%, rgba(0, 0, 0, 0.52) 100%),
+      linear-gradient(180deg, rgba(32, 18, 0, 0.2) 0%, rgba(33, 19, 0, 0) 77%);
+  }
+  .lve-e2 .lve-e2-card--2 .lve-e2-card-head,
+  .lve-e2 .lve-e2-card--4 .lve-e2-card-head {
+    background:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.93) 100%),
+      linear-gradient(180deg, rgba(32, 18, 0, 0.2) 0%, rgba(33, 19, 0, 0) 77%);
+  }
+}
+
+
+/* ===========================================================================
+   Naht e2/e3, zweiter Durchgang 11.08.2026 nachts, nur Desktop.
+
+   Der erste Durchgang hat nur das RANDPROFIL geprueft (x 0..150 und
+   1610..1760) und dort auch geschlossen. In der Bildmitte steht der Sprung
+   aber weiter: Median je Spaltenblock, 8 px ueber und unter der Naht bei
+   Ist-y 1395 (Soll-y 1393), Rotkanal:
+
+     x           0    176    352    528    704    880   1056   1232   1408
+     Soll ueber 226    170    134    109     93     83     76     68     75
+     Ist  ueber 189    140     88     80     80     80     80     80     80
+
+   Der Fuss von e2 ist also im linken Drittel bis zu 46 Stufen zu dunkel und
+   laeuft ab x 440 in ein waagerechtes Plateau (80) aus, das der Entwurf
+   nicht hat: dort faellt das Gold von links nach rechts weiter durch. Weil
+   e3 gleichzeitig zu hell startet, ergibt das den gemessenen Sprung von 51
+   im Mittel und 80 bei x 352, wo der Entwurf 14 hat.
+
+   Der Fehlbetrag waechst erst im letzten Stueck: bei y 1240 sind es 5
+   Stufen, bei 1300 18, bei 1360 41, an der Naht 46. Deshalb eine flache
+   Ellipse in der linken unteren Ecke, 980 x 150 px, statt einer weiteren
+   Verlaufsstufe: eine Stufe im senkrechten Grundverlauf wuerde ueber die
+   ganze Breite wirken und die rechte Haelfte, die stimmt, mit aufhellen.
+
+   Deckkraft je Stuetzstelle aus (Soll - Ist) / (250 - Ist) zurueckgerechnet,
+   Farbe rgb(250,160,45): sie trifft in der Mitte alle drei Kanaele
+   (bei x 352 ergibt 0,28 genau (134,88,21) gegen Soll (134,87,24)). In der
+   linken Ecke bleibt ein Blauueberschuss stehen, der nicht aus der
+   Helligkeit kommt: dort ist Ist (189,144,70) gegen Soll (226,143,23), also
+   zu blass statt zu dunkel. Die Lage holt R auf 226 und senkt B von 70 auf
+   55; den Rest muesste eine eigene Entsaettigung machen, die die Ecke
+   zugleich zu dunkel zoege.
+
+   Die Hoehe steht in Pixeln, nicht in Prozent: die Sektionshoehe ist am
+   11.08. schon einmal gewachsen, und eine Prozentkante wandert dann mit
+   (siehe die Maskenkante in e3-performance/fragment.css).
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e2::before {
+    background:
+      radial-gradient(ellipse 980px 120px at 0% 100%,
+        rgba(250, 160, 45, 0.55) 0%,
+        rgba(250, 160, 45, 0.36) 12%,
+        rgba(250, 160, 45, 0.28) 22%,
+        rgba(250, 160, 45, 0.28) 42%,
+        rgba(250, 160, 45, 0.23) 52%,
+        rgba(250, 160, 45, 0.17) 60%,
+        rgba(250, 160, 45, 0.12) 68%,
+        rgba(250, 160, 45, 0.075) 77%,
+        rgba(250, 160, 45, 0.04) 86%,
+        rgba(250, 160, 45, 0) 100%),
+      /* Rechte Flanke derselben Naht: dort setzt der Entwurf den Anstieg zur
+         Ecke frueher an. Zeile 8 px ueber der Naht, Rotkanal:
+           x       1512  1567  1622  1677  1732
+           Soll      83    96   115   138   164
+           vorher    80    80   101   132   164
+         Die vorhandene Eckellipse (Mitte bei 114 %, rx 24 %) greift erst ab
+         x 1584. Sie zu verbreitern verbietet sich: bei y 1290 ist die rechte
+         Flanke schon 21 bis 36 Stufen zu hell. Deshalb eine schmale Lage
+         (100 x 56 px), die nur die letzten Zeilen anhebt und bei y 1340
+         nichts mehr beitraegt. */
+      radial-gradient(ellipse 100px 56px at 90.6% 100%,
+        rgba(250, 160, 45, 0.095) 0%,
+        rgba(250, 160, 45, 0.091) 30%,
+        rgba(250, 160, 45, 0.078) 55%,
+        rgba(250, 160, 45, 0.052) 75%,
+        rgba(250, 160, 45, 0.027) 90%,
+        rgba(250, 160, 45, 0) 100%),
+      /* Die beiden Eckfluegel sind an der Naht zu BLASS, nicht zu dunkel. An
+         der Unterkante von e2, 4 px ueber der Naht:
+           x 0..88      Ist (218,152, 58)   Soll (228,144,23)
+           x 1672..1760 Ist (155,111, 42)   Soll (160,100,20)
+         Rot stimmt fast, Blau liegt 22 bis 35 Stufen zu hoch. Beide Kerne
+         standen auf weissgold (B 130 bzw. 166). Die Deckkraftrampen bleiben
+         unveraendert, nur die Farben werden gesaettigt; zurueckgerechnet aus
+         der Ebenenfolge ergibt das an den beiden Messstellen (255,172,25)
+         beziehungsweise (255,162,21). Weiter innen liegt die Deckkraft unter
+         0,13, dort bleibt der Unterschied unter einer Stufe. */
+      radial-gradient(ellipse 42% 62% at -8% 108%, rgba(255, 172, 12, 1) 0%, rgba(255, 172, 30, 0.48) 40%, rgba(255, 166, 36, 0) 78%),
+      radial-gradient(ellipse 24% 50% at 114% 104%, rgba(255, 196, 96, 0.96) 0%, rgba(255, 168, 30, 0.7) 50%, rgba(255, 158, 16, 0.28) 80%, rgba(255, 150, 10, 0) 100%),
+      linear-gradient(180deg, rgba(255, 180, 70, 0) 92.5%, rgba(255, 180, 70, 0.07) 100%),
+      linear-gradient(180deg,
+        rgba(8, 5, 2, 0) 26%,
+        rgba(90, 55, 6, 0.1) 48%,
+        rgba(140, 88, 10, 0.18) 66%,
+        rgba(190, 120, 16, 0.27) 84%,
+        rgba(214, 138, 22, 0.32) 100%);
+  }
+}
+
+
+/* ===========================================================================
+   Lage des Kartenstapels und Drehung der Karten, 12.08.2026, nur Desktop.
+
+   Sollwerte aus figma/bands-elite/e2-what-is.json, Istwerte aus der lokalen
+   Vorschau bei 1760 px mit body.lvf-gold, gold-footer.css, den Overrides aus
+   lvlup-fixes und eingebetteter Hausschrift.
+
+   1. DER STAPEL SASS 60,3 PX ZU HOCH. Umgebende Rechtecke der vier Karten:
+
+        Karte     1        2        3        4
+        Soll    950     1034     1122     1209
+        vorher  889,71   978,07  1066,09  1153,11
+
+      Der Entwurf zentriert den Stapel gegen die Textspalte: deren Rahmen
+      laeuft von y925 (Oberkante der Eyebrow-Pille) bis y1323, der Stapel von
+      950 bis 1293, also 25 px Luft oben und 30 unten. Live beginnt die
+      Kartenspalte dagegen buendig am Rasteranfang, weil `align-items: start`
+      gilt und .lve-e2-copy seine 32 px `padding-top` nur fuer sich selbst
+      verbraucht.
+      Der Rasteranfang liegt bei y893,41 und die Eyebrow-Pille bei y925,41 -
+      also genau die 32 px Innenabstand, und die Pille liegt damit auf ihrem
+      Sollplatz 925 (am Bild nachgemessen: Textband y925..955, x261..462,
+      live 925,41 / 203,11 breit). Der Einzug ist deshalb 32 + 25 = 57.
+
+   2. DIE UEBERLAPPUNG WAR -8 STATT -2 BIS -3. Das war kein Abstandsfehler,
+      sondern die doppelte Drehung. Der Entwurf dreht:
+
+        Karte        1      2      3      4
+        Figma      keine  -0,5   +0,5   -0,5   Grad (mathematisch positiv)
+        vorher CSS -1,1   +0,9   -0,8   +1,0
+
+      Ein gedrehtes Rechteck hat ein hoeheres umgebendes Rechteck: bei 386 px
+      Breite waechst es um 386 * sin(Winkel), bei 1,1 Grad also um 7,4 px,
+      3,7 davon nach oben. Genau daraus entstanden die gemessenen 8 px.
+      Rechnet man die Drehung aus den Figma-Rechtecken heraus, stehen die
+      Karten im Entwurf praktisch auf Stoss: -0,31 / +1,37 / +0,37 px. Der
+      Bestandswert `margin-top: -2px` war frei gewaehlt und faellt weg.
+      Ergebnis mit 0,5 Grad und Stoss: Ueberlappung 1,69 / 3,37 / 3,37 gegen
+      Soll 2 / 2 / 3.
+      Die Vorzeichen bleiben, wie sie waren: Figma zaehlt gegen den
+      Uhrzeigersinn, CSS mit ihm, deshalb ist Figma -0,5 gleich CSS +0,5.
+
+      REST, der bleibt: unsere Karten sind 89,69 px hoch, im Entwurf 86 bis
+      86,63 (Karte 4 sogar 80,63). Die Differenz sind 3,69 px je Karte und
+      steckt im Kartenkopf - `min-height: 46px` plus 1 px Rahmen gegen 43 px
+      im Entwurf (Karte 1; die Karten 2 bis 4 haben dort 46). Dadurch liegt
+      Karte 4 am Ende 8,8 px unter ihrem Sollplatz. Das ist ein eigener,
+      nicht beauftragter Befund; die Kartenhoehe wurde nicht angefasst, weil
+      der Entwurf selbst uneinheitlich ist (43/46/46/46 Kopf bei
+      86/86,63/86,63/80,63 Karte).
+
+   3. DIE SYMBOLE WAREN ZU KLEIN GEMALT. Die Kaesten stimmten (23 px), die
+      gemalte Flaeche darin nicht. Alle vier SVGs haben viewBox 0 0 24 24,
+      aber ihre Zeichnung fuellt die nicht aus, und die Kachel war auf
+      22 x 22 gesetzt:
+
+        Karte                     1            2            3            4
+        Entwurf (Figma-Rechteck)  23x23        22x22        23x18        20x24
+        gemalt vorher, ohne Strich 11,21x18,68 16,01x14,99 16,73x14,41 16,79x16,79
+        gemalt vorher, mit Strich  12,89x20,36 17,69x16,66 18,40x16,08 18,46x18,47
+
+      Die Figma-Knoten sind gefuellte Formen, ihr Rechteck ist also die volle
+      gemalte Flaeche. Vergleichbar ist bei uns deshalb der Wert MIT Strich.
+      Die SVG-Groesse wird je Karte so gesetzt, dass die gemalte Flaeche
+      einschliesslich Strich in der engeren Richtung genau auf das Mass des
+      Entwurfs kommt; gleichmaessig skaliert, damit die Zeichnung nicht
+      verzerrt. Die Kachel bekommt das Mass des Entwurfs, damit der Abstand
+      von 8 px zum Titel wieder stimmt.
+
+        Karte 1  SVG 25,32 px  ->  gemalt 14,56 x 23,00
+        Karte 2  SVG 27,79 px  ->  gemalt 22,00 x 20,72
+        Karte 3  SVG 24,97 px  ->  gemalt 20,60 x 18,00
+        Karte 4  SVG 24,24 px  ->  gemalt 20,00 x 20,00
+
+      Was damit NICHT behoben ist: Karte 1 bleibt 14,56 statt 23 px breit,
+      weil ihre Zeichnung 12 zu 20 Einheiten hoch steht, das Symbol des
+      Entwurfs aber quadratisch ist. Es ist ein anderes Motiv - der Entwurf
+      zeigt eine gefuellte Hand mit Muenze, im Markup steht eine Medaille als
+      Umrisslinie. Dasselbe gilt fuer alle vier Kacheln, siehe die gleiche
+      Lage bei den e4-Glyphen in e4-world-beyond/NOTIZ.md. Ohne die
+      Originalvektoren aus Figma ist das nicht loesbar, und das Markup gehoert
+      nicht zu dieser Datei.
+
+   Die Kartenhoehe und damit die Sektionshoehe aendert sich durch nichts
+   davon: die Kacheln bleiben mit 23 bis 24 px unter der Zeilenhoehe des
+   Titels (24 px), der Kartenkopf steht weiter auf seiner `min-height: 46px`.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lve-e2 .lve-e2-cards { margin-top: 57px; }
+
+  .lve-e2 .lve-e2-card-icon > svg { flex: none; }
+  .lve-e2 .lve-e2-card--1 .lve-e2-card-icon { width: 23px; height: 23px; }
+  .lve-e2 .lve-e2-card--1 .lve-e2-card-icon > svg { width: 25.32px; height: 25.32px; }
+  .lve-e2 .lve-e2-card--2 .lve-e2-card-icon { width: 22px; height: 22px; }
+  .lve-e2 .lve-e2-card--2 .lve-e2-card-icon > svg { width: 27.79px; height: 27.79px; }
+  .lve-e2 .lve-e2-card--3 .lve-e2-card-icon { width: 23px; height: 18px; }
+  .lve-e2 .lve-e2-card--3 .lve-e2-card-icon > svg { width: 24.97px; height: 24.97px; }
+  .lve-e2 .lve-e2-card--4 .lve-e2-card-icon { width: 20px; height: 24px; }
+  .lve-e2 .lve-e2-card--4 .lve-e2-card-icon > svg { width: 24.24px; height: 24.24px; }
+}
+
+/* == e3-performance == */
+/* e3-performance: "Performance Is Your Invitation" der Lvlup Elite Seite. Praefix .lve-e3- */
+.lve-e3 {
+  position: relative;
+  overflow: clip;
+  padding: 44px 0 40px;
+}
+
+/* Hintergrund: grosser Bernstein-Glow oben, laeuft nach unten und zu den Seiten
+   weich transparent aus (keine harten Kanten zu den Nachbarsektionen).
+   Runde 3: das Soll zeigt eine fast vollflaechig helle Gold-Flaeche (links am
+   Rand 252/228/196 gemessen), daher deutlich hoehere Deckkraft und breitere
+   Faecher. Die Maske laesst den Schein an der Oberkante sanft einblenden,
+   damit der Uebergang von e2 nicht als harte Linie sichtbar ist (Befund 5). */
+.lve-e3-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    /* Oberkante deckend im Uebergabeton von e2 (#f8ac33), sonst dunkler Streifen */
+    linear-gradient(180deg, #f8ac33 0%, rgba(248, 172, 51, 0) 22%),
+    radial-gradient(ellipse 130% 62% at 50% 0%, rgba(255, 244, 222, 0.98) 0%, rgba(255, 216, 142, 0.95) 30%, rgba(250, 162, 46, 0.9) 55%, rgba(255, 146, 0, 0.5) 72%, rgba(255, 146, 0, 0) 90%),
+    radial-gradient(ellipse 55% 78% at -2% 26%, rgba(255, 228, 185, 0.95) 0%, rgba(255, 170, 55, 0.55) 52%, rgba(255, 146, 0, 0) 78%),
+    radial-gradient(ellipse 55% 78% at 102% 26%, rgba(255, 228, 185, 0.95) 0%, rgba(255, 170, 55, 0.55) 52%, rgba(255, 146, 0, 0) 78%),
+    linear-gradient(180deg, rgba(255, 200, 110, 0.45) 0%, rgba(255, 160, 40, 0.3) 45%, rgba(255, 146, 0, 0) 78%);
+  /* Maske entfernt: oben muss der Block deckend in #f8ac33 starten, sonst
+     entsteht ein dunkler Streifen zur e2-Grenze (Kaan 06.08.) */
+}
+
+.lve-e3-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* Kopfbereich: dunkle Schrift auf hellem Glow */
+.lve-e3-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 26px;
+  margin-bottom: 48px;
+}
+.lve-e3.lve-e3 .lve-e3-title {
+  font-size: clamp(38px, 4.6vw, 65px);
+  font-weight: 565;
+  line-height: 0.93;
+  letter-spacing: -0.03em;
+  color: #050505;
+}
+.lve-e3-sub {
+  max-width: 812px;
+  font-size: clamp(16px, 1.3vw, 18px);
+  font-weight: 425;
+  line-height: 1.36;
+  letter-spacing: 0.54px;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+/* Kartenraster */
+.lve-e3-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.lve-e3-card--wide { grid-column: 1 / -1; }
+
+.lve-e3-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 191px;
+  padding: 32px 48px 32px 32px;
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 26px;
+}
+/* Bernstein-Eckgluhen (Ellipse 9 links oben, Ellipse 10 rechts unten aus dem Design) */
+.lve-e3-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 90px 100px at 2% 8%, rgba(255, 146, 0, 0.4) 0%, rgba(255, 146, 0, 0) 70%),
+    radial-gradient(ellipse 120px 105px at 100% 88%, rgba(255, 146, 0, 0.34) 0%, rgba(255, 146, 0, 0) 70%);
+}
+/* Haarlinie oben links */
+.lve-e3-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 25px;
+  width: 78px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0) 100%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.lve-e3-card-text {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  max-width: 400px;
+}
+.lve-e3-card--wide .lve-e3-card-text { max-width: 905px; }
+
+.lve-e3-badge {
+  align-self: flex-start;
+  padding: 5px 17px;
+  margin-bottom: 1px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 238, 211, 0.2);
+  font-size: 15px;
+  font-weight: 530;
+  line-height: 18px;
+  letter-spacing: -0.03px;
+  color: #000000;
+}
+
+.lve-e3.lve-e3 .lve-e3-value {
+  font-size: clamp(28px, 2.6vw, 38px);
+  font-weight: 555;
+  line-height: 1.22;
+  letter-spacing: -0.76px;
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lve-e3-desc {
+  font-size: 13px;
+  font-weight: 338;
+  line-height: 22px;
+  letter-spacing: 0.78px;
+  color: rgba(250, 248, 246, 0.6);
+}
+
+/* Icon-Kachel */
+.lve-e3-icon {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 95px;
+  height: 95px;
+  border-radius: 17px;
+  background: linear-gradient(144deg, #161616 0%, #000000 100%);
+  box-shadow:
+    inset 0 0 1px rgba(255, 238, 211, 0.9),
+    3px 3px 9px rgba(0, 0, 0, 0.49),
+    13px 11px 17px rgba(0, 0, 0, 0.43);
+}
+
+/* Breite Karte: Wert + Chips in einer Zeile, XL-Icon rechts angeschnitten */
+.lve-e3-card--wide { padding-right: 32px; }
+.lve-e3-value-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.lve-e3-chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.lve-e3-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: linear-gradient(180deg, rgba(255, 188, 84, 0.1) 0%, rgba(255, 146, 0, 0.1) 100%);
+  font-size: 9px;
+  font-weight: 400;
+  line-height: 12px;
+  letter-spacing: 0.28px;
+  text-transform: capitalize;
+  color: rgba(255, 255, 255, 0.85);
+  opacity: 0.8;
+}
+.lve-e3-chip--gold {
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  border-color: rgba(255, 238, 211, 0.4);
+  color: #000000;
+  font-weight: 500;
+  opacity: 1;
+}
+/* XL-Icon in die Karte integriert (Befund 11): keine eigene Kachel-Fuellung
+   und kein Schatten, nur die Pfeil-Glyphe liegt auf dem Kartenkoerper */
+.lve-e3-icon--xl {
+  position: absolute;
+  right: -175px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 386px;
+  height: 163px;
+  border-radius: 26px;
+  justify-content: flex-start;
+  padding-left: 38px;
+  background: none;
+  box-shadow: none;
+}
+
+/* Abschluss-Pille */
+.lve-e3-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  margin: 60px auto 0;
+  padding: 7px 20px;
+  border-radius: 78px;
+  border: 1px solid rgba(255, 188, 84, 0.5);
+  background:
+    linear-gradient(134deg, rgba(255, 188, 84, 0.2) 0%, rgba(255, 146, 0, 0.2) 100%),
+    rgba(12, 8, 2, 0.92);
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0.84px;
+  color: #ffffff;
+}
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .lve-e3 { padding: 70px 0 50px; }
+  .lve-e3-card { padding: 28px 32px 28px 28px; }
+  .lve-e3-icon--xl { right: -240px; }
+  .lve-e3-pill { margin-top: 80px; }
+}
+
+/* Mobile: kein Design vorhanden, sauber gestapelt abgeleitet */
+@media (max-width: 767px) {
+  .lve-e3 { padding: 60px 0 44px; }
+  .lve-e3-head { gap: 18px; margin-bottom: 36px; }
+  .lve-e3-title { letter-spacing: -0.02em; }
+  .lve-e3-sub { letter-spacing: 0.3px; }
+  .lve-e3-grid { grid-template-columns: 1fr; gap: 14px; }
+  .lve-e3-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    min-height: 0;
+    padding: 24px 22px;
+    border-radius: 20px;
+  }
+  .lve-e3-card-text { max-width: none; gap: 14px; }
+  .lve-e3-desc { font-size: 16px; line-height: 1.5; letter-spacing: 0.2px; }
+  .lve-e3-icon { width: 72px; height: 72px; border-radius: 14px; }
+  .lve-e3-card--wide { padding-right: 22px; }
+  .lve-e3-value-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .lve-e3-chip { font-size: 11px; min-height: 32px; }
+  .lve-e3-icon--xl {
+    position: static;
+    transform: none;
+    width: 100%;
+    height: 120px;
+    border-radius: 16px;
+  }
+  .lve-e3-pill { margin-top: 56px; font-size: 13px; }
+}
+
+
+/* Path-Pille sitzt jetzt im Kopf dieses Blocks (aus e2 verschoben) */
+.lve-e3-head .lve-e2-path {
+  margin: 0 auto 24px;
+}
+
+
+/* Abnahme (Runde 3): Goldverlauf endete zu frueh - unter den Karten verlaengern */
+.lve-e3::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -60px;
+  height: 340px;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(70% 90% at 50% 30%, rgba(240, 158, 30, 0.4) 0%, rgba(200, 128, 16, 0.18) 55%, rgba(200, 128, 16, 0) 85%);
+}
+
+
+/* ============================================================
+   Goldflaeche, Abgleich 11.08.2026 (Befund 2.2 der Detailpruefung), nur
+   Desktop.
+
+   WARUM DREI KLASSEN IM SELEKTOR: wirksam ist bisher R3-elite-A5 aus
+   server-stand-20260810/lvlup-fixes/r3-elite.css Zeile 505 (Selektor
+   `.lve-e3 .lve-e3-bg`, Ebene 2, Prioritaet 1200), die ihrerseits
+   R3-elite-13 (Z. 161) ueberschreibt. `.lvf-page .lve-e3 .lve-e3-bg`
+   (0-3-0 gegen 0-2-0) setzt die Korrektur durch. Die Maske
+   (mask-image, harte Unterkante bei 82,5 %) aus R3-elite-13 bleibt
+   ausdruecklich stehen, sie wird hier nicht neu gesetzt.
+
+   Der Fehler: der Verlaufssatz war ueber die halbe Flaeche fast weiss. Das
+   Mockup zeigt Weissgold nur als zwei Lichtkerne an den Aussenkanten bei
+   rund einem Drittel der Sektionshoehe; dazwischen bleibt es kraeftig
+   orange. Messpunkte, Flaeche 1760 x 1035 ab Ist-y 1395 (Soll-y 1379):
+
+     Punkt          Soll            vorher          nachher
+     (1560,140)     222,145, 29     238,201,136     232,158, 43
+     (1750,115)     244,168, 57     236,189,106     232,173, 83
+     (1610,265)     251,190,100     254,221,159     251,193,102
+     ( 30,265)      255,233,202     254,217,148     253,238,212
+     (100,340)      254,232,204     253,211,135     253,234,203
+     (1750,340)     255,219,171     253,207,126     253,227,181
+     (250,740)      173,107, 16     204,156, 85     202,132, 28
+
+   Damit ist der gemeldete Befund erledigt: bei Soll-y 1520 fehlten rechts
+   92 Blaustufen Saettigung (Soll B 29, Ist B 136), jetzt sind es 14.
+   Mittlerer Farbabstand ueber 546 Messpunkte oberhalb der Maskenkante:
+   vorher 27,5 Stufen, nachher 14,6.
+
+   Aufbau von oben nach unten (die ersten drei Ebenen unveraendert aus
+   R3-elite-A5, sie stimmen):
+     1. Mulde in der Oberkante, laeuft rund 190 px in e3 hinein
+     2. kleiner Schatten rechts oben
+     3. deckendes Uebergabeband #f8ac33 zur e2-Grenze
+     4. linker Lichtkern: breit (rx 38 %), Mitte bei 34 % Hoehe
+     5. rechter Lichtkern: schmaler (rx 28 %), Mitte bei 40 % Hoehe
+     6. senkrechter Grundton, gemessen in der Sektionsmitte:
+        rel 3 % rgb(95,63,23), 18 % rgb(218,148,38), 33 % rgb(242,170,60),
+        57 % rgb(209,139,30), 80 % rgb(100,66,18)
+   ============================================================ */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e3 .lve-e3-bg {
+    background:
+      /* -1. Anlauf der Goldflaeche an der Naht zu e2, 11.08.2026 nachts.
+
+         Die Maske unten daempft die obersten 30 px gleichmaessig. Kalibriert
+         wurde sie am RANDPROFIL (x 0..150 und 1610..1760), und dort stimmt
+         sie. In der Bildmitte ist der Anlauf trotzdem zu hell. Median je
+         Spaltenblock, 8 px unter der Naht (Ist-y 1395, Soll-y 1393):
+
+           x            88   264   440   704   968  1232  1408  1584  1672
+           Soll        202   159   126    98    84    75    83   125   165
+           Ist         209   184   149   115    97   108   121   131   152
+
+         Zwei Beulen: eine breite von x 220 bis 1100 und eine spitze um
+         x 1400, wo der Entwurf seine dunkelste Stelle hat (Soll-Minimum bei
+         x 1232, Ist-Minimum bei x 1000). Der Fehler ist auf die obersten
+         rund 50 px begrenzt, bei y 1444 ist er weg (Restfehler +3 bis -5),
+         bei y 1450 kippt er ins Gegenteil. Deshalb NICHT die Mulde (Ebene 2)
+         vertiefen: die ist 200 px hoch und traegt die Flaeche darunter, die
+         schon stimmt.
+
+         Zurueckgerechnet als Deckkraft einer fast schwarzen Lage,
+         Gesamtabnahme durch Gesamtspielraum ueber alle drei Kanaele:
+
+           x            44   220   396   660   924  1188  1364  1540  1716
+           Deckkraft  0,04  0,17  0,20  0,14  0,13  0,24  0,36  0,27  0,00
+
+         Drei flache Ellipsen (ry 54 bis 56 px) bilden das nach. Die aeusseren
+         Raender bleiben ausgespart, sie sind bereits 12 bis 14 Stufen zu
+         dunkel und wuerden sonst absaufen. */
+      radial-gradient(ellipse 340px 54px at 24% 0%, rgba(6, 4, 2, 0.155) 0%, rgba(6, 4, 2, 0.148) 30%, rgba(6, 4, 2, 0.124) 55%, rgba(6, 4, 2, 0.085) 75%, rgba(6, 4, 2, 0.040) 90%, rgba(6, 4, 2, 0) 100%),
+      radial-gradient(ellipse 480px 54px at 62% 0%, rgba(6, 4, 2, 0.155) 0%, rgba(6, 4, 2, 0.150) 45%, rgba(6, 4, 2, 0.122) 68%, rgba(6, 4, 2, 0.070) 84%, rgba(6, 4, 2, 0) 100%),
+      radial-gradient(ellipse 260px 54px at 78% 0%, rgba(6, 4, 2, 0.235) 0%, rgba(6, 4, 2, 0.223) 35%, rgba(6, 4, 2, 0.188) 60%, rgba(6, 4, 2, 0.129) 78%, rgba(6, 4, 2, 0.066) 90%, rgba(6, 4, 2, 0) 100%),
+      /* 0. Bernstein-Daempfung der rechten Flanke, 11.08.2026 (zweiter Durchgang).
+         Der rechte Lichtkern (Ebene 5) laeuft im unteren Drittel zu hell und zu
+         weiss aus. Median ueber x 1670..1760, IST gegen SOLL:
+           rel      55 %      59 %      62 %      66 %      70 %      73 %
+           vorher (249,210,152)(246,205,144)(241,196,128)(238,188,114)(236,182,99)(237,176,84)
+           Soll   (251,196,115)(247,183, 88)(240,167, 58)(229,149, 31)(191,125,28)(154, 99,25)
+         Der Fehler ist also bis zu 83 Blaustufen gross und wird nach unten
+         groesser. Statt den Lichtkern umzubauen (er stimmt von rel 15 bis 55 %)
+         legt sich eine Bernsteinlage darueber, deren Mitte an der Maskenkante
+         sitzt: sie zieht Gruen und Blau zurueck und laesst Rot stehen.
+         Nachgerechnet fuer x 1715, Ergebnis nach der Lage:
+           rel 59 % (246,184, 90) | rel 66 % (217,142,39) | rel 70 % (196,124,29)
+         Bei x <= 1450 und links liegt sie ausserhalb der Ellipse, dort aendert
+         sich nichts (Radius rx 34 % um Mitte x 108 %). */
+      radial-gradient(ellipse 34% 26% at 108% 76%, rgba(120, 74, 14, 0.92) 0%, rgba(170, 100, 12, 0.86) 34%, rgba(225, 132, 2, 0.66) 56%, rgba(250, 150, 0, 0.34) 76%, rgba(255, 160, 10, 0) 100%),
+      radial-gradient(ellipse 60% 200px at 60% -16px, rgba(4, 3, 1, 0.62) 0%, rgba(4, 3, 1, 0.44) 44%, rgba(4, 3, 1, 0.18) 72%, rgba(4, 3, 1, 0) 100%),
+      radial-gradient(ellipse 12% 15% at 94% 0%, rgba(0, 0, 0, 0.16) 0%, rgba(0, 0, 0, 0.06) 50%, rgba(0, 0, 0, 0) 100%),
+      /* Uebergabeband. Oben nicht mehr #f8ac33, sondern gesaettigter.
+         Grund: die obersten Zeilen von e3 sind praktisch reines
+         Uebergabeband, nur von der Mulde abgedunkelt. #f8ac33 hat B/R 0,21,
+         der Entwurf an der Naht 0,10 bis 0,15, und G/R durchgehend 0,635
+         gegen 0,694. Nach der Helligkeitskorrektur oben blieb genau dieser
+         Rest: Rot stimmte, Gruen lag 6 bis 10 und Blau 8 bis 22 Stufen zu
+         hoch. Der neue Startton (248,164,38) trifft beide Verhaeltnisse.
+         Ab 3 Prozent (33 px) steht wieder #f8ac33, die Deckkraftrampe ist
+         unveraendert (bei 3 Prozent ohnehin 0,85), damit die weiter unten
+         kalibrierten Lichtkerne unberuehrt bleiben. */
+      linear-gradient(180deg, rgb(248, 164, 38) 0%, rgba(248, 172, 51, 0.85) 3%, rgba(248, 172, 51, 0) 20%),
+      radial-gradient(ellipse 38% 52% at -6% 34%, rgba(255, 251, 243, 0.9) 0%, rgba(255, 247, 234, 0.88) 26%, rgba(255, 235, 204, 0.88) 40%, rgba(253, 209, 140, 0.88) 55%, rgba(250, 175, 60, 0.9) 70%, rgba(247, 163, 34, 0.88) 82%, rgba(243, 157, 28, 0.42) 94%, rgba(240, 155, 26, 0) 100%),
+      radial-gradient(ellipse 28% 64% at 106% 40%, rgba(255, 242, 218, 0.9) 0%, rgba(255, 234, 198, 0.88) 26%, rgba(255, 218, 162, 0.88) 42%, rgba(253, 194, 102, 0.88) 58%, rgba(250, 170, 48, 0.9) 72%, rgba(246, 158, 28, 0.86) 84%, rgba(240, 152, 24, 0.4) 95%, rgba(236, 148, 22, 0) 100%),
+      linear-gradient(180deg, rgb(20, 13, 4) 0%, rgb(95, 63, 23) 3%, rgb(170, 112, 30) 10%, rgb(218, 148, 38) 18%, rgb(240, 170, 57) 26%, rgb(242, 170, 60) 33%, rgb(228, 155, 44) 41%, rgb(232, 155, 36) 49%, rgb(209, 139, 30) 57%, rgb(172, 113, 26) 64%, rgb(140, 92, 24) 72%, rgb(100, 66, 18) 80%, rgb(90, 60, 16) 83%);
+    /* Naht zu e2 (Befund der Gegenpruefung: sichtbare waagerechte Kante).
+       Randprofil, Mittel ueber x 0..150 und 1610..1760, Soll-y = Ist-y + 10:
+         dy      -40    0   +40   +80
+         Soll     91  113   136   156
+         vorher   94  124   132   147
+       Der Sprung an der Naht war +19,3 Stufen, der Entwurf hat dort 5,4. Die
+       Flaeche startet also 11 Stufen zu hell. Die Maske daempft die obersten
+       30 px auf 90 Prozent, danach unveraendert; nachher an der Naht +7,4.
+       Die harte Unterkante bei 82,5 Prozent stammt aus R3-elite-13 und wird
+       hier mitgefuehrt, weil eine eigene mask-image die dortige ersetzt. */
+    /* Unterkante 11.08.2026 von 82,5 Prozent auf feste Pixel umgestellt.
+       Prozent beziehen sich auf die Sektionshoehe, und die ist durch die
+       korrigierte Pillenfuge um 81 px gewachsen: die Kante wanderte von
+       y 2241 auf 2309, der Goldschein lief 78 px zu tief und stand links und
+       rechts neben der unteren Haelfte der Punkte-Karte. Im Entwurf liegt sie
+       bei y 2230, also 835 px unter der Sektionsoberkante. Feste Pixel halten
+       sie bei der naechsten Hoehenaenderung an Ort und Stelle. */
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0, #000 30px, #000 835px, transparent 838px);
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0, #000 30px, #000 835px, transparent 838px);
+  }
+}
+
+
+/* ===========================================================================
+   Fuge zur Zwischenpille "Private Member Privileges", 11.08.2026
+
+   Im Entwurf steht jede der drei Zwischenpillen 133 px unter der Unterkante
+   der Karten darueber, live waren es 60 px. Zusammen mit den beiden anderen
+   Pillen sind das die 155 px, die der Seite auf 6937 fehlen.
+
+   Der Innenabstand unten kommt aus r3-elite.css (`section.lve-e3`, 0-1-1) und
+   schlaegt die Fragmentregel. Deshalb hier 0-2-1, und nur im Desktop-Zweig:
+   die Mobilwerte von r3 stehen in eigenen Media Queries und bleiben gueltig.
+
+   Fuge Pille -> e4-Ueberschrift: Soll 26, live 18 (= 10 unten hier + 8 oben
+   in e4). Also 18 statt 10.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lve-e3-pill { margin-top: 133px; }
+  .lvf-page section.lve-e3 { padding-bottom: 18px; }
+}
+
+
+/* ===========================================================================
+   Die Pille "The Path to Elite" im Kopf dieses Blocks, 11.08.2026
+
+   Sie wurde aus e2 hierher verschoben und sitzt seitdem falsch:
+
+   | Fuge                        | live | Entwurf |
+   |-----------------------------|------|---------|
+   | e2-Text unten bis Pille     |  113 |     138 |
+   | Pille bis Ueberschrift e3   |   50 |      26 |
+
+   Oben fehlen 25 px, unten sind 24 zu viel. Die obere Fuge ist der
+   Innenabstand oben dieser Sektion (44 aus r3-elite.css) plus der Abstand
+   unten in e2, deshalb 69 statt 44. Die untere sind die 24 px Aussenabstand
+   der Pille selbst, die restlichen 26 kommen aus dem Kopfraster und stimmen
+   damit schon.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lvf-page section.lve-e3 { padding-top: 69px; }
+  .lve-e3-head .lve-e2-path { margin-bottom: 0; }
+}
+
+
+/* ===========================================================================
+   Zeilenhoehe der Ueberschrift, 11.08.2026
+
+   "Performance Is Your Invitation" steht im Entwurf in einer 44 px hohen
+   Zeile (Figma-TEXT y 1518..1562), live in einer 60,4 px hohen: 65 px
+   Schriftgrad mal 0,93. Der Abstand von 26 px zur Unterzeile stimmt bereits,
+   es ist allein die Zeilenhoehe. 44 / 65 = 0,677.
+
+   Dieselbe Ueberschrift mit demselben Grad und derselben Sollzeilenhoehe
+   steht auf evaluation e3, dort ebenso korrigiert.
+
+   Nur ab 1024 px: darunter faellt der Grad per clamp kleiner aus und die
+   Zeile bricht um, dann waere 0,677 zu eng.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lve-e3.lve-e3 .lve-e3-title { line-height: 0.677; }
+}
+
+
+/* ===========================================================================
+   Groesse der fuenf Kartenglyphen, 11.08.2026
+
+   Alle fuenf waren 30 bis 50 Prozent zu klein. Gemessen wurde die Tinte, also
+   die tatsaechlich bemalte Flaeche, gegen den Figma-Vektor:
+
+   | Karte                       | Entwurf | live        | Faktor |
+   |-----------------------------|---------|-------------|--------|
+   | 1 Lvlup Payouts             | 44 x 51 | 24,6 x 35,8 |  1,59  |
+   | 2 External Futures Payouts  | 49 x 49 | 33   x 33   |  1,48  |
+   | 3 Passed Lvlup Account      | 50 x 47 | 30,4 x 29,3 |  1,62  |
+   | 4 Passed External Account   | 52 x 52 | 35,1 x 35,1 |  1,48  |
+   | 5 Elite Entry (Pfeil)       | 77 x 83 | 39,3 x 54,1 |  1,73  |
+
+   Die Groesse steckt als Attribut im SVG (44 bzw. 78) und liesse sich nur mit
+   einem Datenbank-Eingriff aendern, weil das Markup in der Elementor-Vorlage
+   liegt. Ueber CSS geht es ohne diesen Eingriff.
+
+   Bei Karte 1 weicht zusaetzlich die FORM ab (Seitenverhaeltnis 0,69 statt
+   0,86), ebenso bei Karte 5. Das ist mit Skalieren nicht zu beheben, dafuer
+   braucht es die Originalvektoren. Hier wird die Flaeche angeglichen, damit
+   die Glyphe nicht mehr verloren wirkt.
+
+   Die Kachel bleibt 95 x 95, die groesste Glyphe misst 71, es entsteht also
+   kein Ueberlauf und keine Hoehenaenderung.
+   =========================================================================== */
+/* ===========================================================================
+   Rechte Fortsetzung unter der harten Maskenkante, 11.08.2026
+
+   Die Maske schneidet die Goldflaeche bei 835 px unter der Sektionsoberkante
+   ab (Ist-y 2230). Links ist das richtig, im Mockup steht dort (6,5,1). Rechts
+   laeuft das Band im Entwurf jedoch ohne Unterbrechung weiter, Median ueber
+   x 1670..1760:
+     y        2250   2320   2400   2470
+     Soll  (183,152,87)(174,137,65)(154,115,46)(148,108,41)
+     vorher  (5,6,15) (19,16,18) (92,68,36)(139,104,51)
+   Es fehlt also die obere Haelfte der Saeule; erst ab y 2400 traegt die
+   bestehende Ebene aus r3-elite.css (R3-elite-14, Ellipse bei 108 % / 92 %)
+   genug. Diese Ebene sitzt zu tief: bei y 2320 liefert sie rechnerisch nur
+   5 Prozent Deckkraft.
+
+   Ersatz: eine waagerechte Saeule ueber die volle Hoehe des Pseudoelements
+   (Ist-y 2216 bis 2496, danach schneidet overflow:clip) plus ein Lichtkern
+   am oberen Ende. Nachgerechnet bei y 2400:
+     x 1450 (29,20,16) | x 1600 (94,60,16) | x 1700 (163,113,39) | x 1755 (201,145,61)
+   gegen Soll (29,18,6) / (84,55,19) / (154,115,46) / (188,149,74).
+   Links und in der Mitte bleibt die Saeule bei 0 (erste Stufe erst ab 78 %
+   Breite), dort zeigt das Mockup ebenfalls Schwarz.
+
+   Spezifitaet 0-2-1: r3-elite.css setzt denselben Hintergrund mit 0-1-1
+   (`.lve-e3::after`, R3-elite-14) und wuerde sonst gewinnen. Geometrie
+   (bottom, height) bleibt die der Grundregel weiter oben in dieser Datei.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e3::after {
+    background:
+      radial-gradient(ellipse 26% 46% at 106% 6%, rgba(255, 214, 150, 0.55) 0%, rgba(255, 170, 50, 0) 78%),
+      /* Nachtrag 11.08.2026 nachts: der linke Auslauf der Saeule fehlte.
+         Die erste Stufe stand bei 78 Prozent Breite (x 1373) auf 0, links
+         davon war es schwarz. Der Entwurf laeuft dort weiter aus. Median je
+         Block, Mittel ueber y 2320 bis 2488, Rotkanal:
+           x      1160  1220  1280  1340  1400  1460
+           Soll      5     7    10    15    21    33
+           vorher    0     0     0     0    18    37
+         Sichtbar war das als senkrechte Kante bei x 1375, und weil die
+         Flanke von e4 darunter bis x 1260 reicht, wurde daraus zusaetzlich
+         der Sprung von 13 an der Naht bei y 2496. Die Stufen ab 83 Prozent
+         bleiben unveraendert, dort stimmte die Saeule. */
+      linear-gradient(90deg,
+        rgba(255, 146, 0, 0) 58%,
+        rgba(255, 146, 0, 0.017) 66%,
+        rgba(255, 147, 1, 0.028) 71%,
+        rgba(255, 148, 2, 0.042) 75%,
+        rgba(255, 152, 12, 0.062) 79%,
+        rgba(255, 158, 30, 0.11) 83%,
+        rgba(255, 166, 52, 0.215) 88%,
+        rgba(255, 178, 68, 0.505) 95%,
+        rgba(255, 190, 88, 0.735) 100%);
+  }
+}
+
+
+@media (min-width: 1024px) {
+  .lve-e3-grid > .lve-e3-card:nth-child(1) .lve-e3-icon > svg { width: 70px; height: 70px; }
+  .lve-e3-grid > .lve-e3-card:nth-child(2) .lve-e3-icon > svg { width: 65px; height: 65px; }
+  .lve-e3-grid > .lve-e3-card:nth-child(3) .lve-e3-icon > svg { width: 71px; height: 71px; }
+  .lve-e3-grid > .lve-e3-card:nth-child(4) .lve-e3-icon > svg { width: 65px; height: 65px; }
+  /* 159 statt 135: der Faktor 1,73 galt dem SVG-Kasten, der Pfad fuellt aber
+     nur einen Teil seiner viewBox. Bemalte Flaeche war dadurch 59 x 75 statt
+     der 73 x 85 des Mockups, also noch einmal Faktor 1,18. */
+  .lve-e3-grid > .lve-e3-card:nth-child(5) .lve-e3-icon--xl > svg { width: 159px; height: 159px; }
+}
+
+/* == e4-world-beyond == */
+/* e4-world-beyond: "A World Built Beyond the Payout" der Lvlup Elite Seite. Praefix .lve-e4- */
+.lve-e4 {
+  position: relative;
+  overflow: clip;
+  padding: 36px 0 40px;
+}
+
+/* Hintergrund: warme Bernstein-Glows an den unteren Ecken, laufen grossflaechig
+   transparent aus, damit keine harten Kanten zu den Nachbarsektionen entstehen.
+   Runde 3: kraeftiger (Soll zeigt warme Raender) und mit Ausblende-Maske an der
+   Unterkante, damit der Uebergang zu e5 nicht als Abrisskante sichtbar ist
+   (Befund 6). */
+.lve-e4-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 48% 46% at 97% 102%, rgba(255, 146, 0, 0.72) 0%, rgba(255, 146, 0, 0.32) 42%, rgba(255, 146, 0, 0) 74%),
+    radial-gradient(ellipse 44% 42% at 2% 102%, rgba(255, 146, 0, 0.52) 0%, rgba(255, 146, 0, 0.2) 45%, rgba(255, 146, 0, 0) 72%),
+    radial-gradient(ellipse 76% 32% at 50% 114%, rgba(255, 188, 84, 0.4) 0%, rgba(255, 146, 0, 0) 70%),
+    radial-gradient(ellipse 30% 55% at -3% 45%, rgba(255, 146, 0, 0.22) 0%, rgba(255, 146, 0, 0) 72%),
+    radial-gradient(ellipse 30% 55% at 103% 45%, rgba(255, 146, 0, 0.22) 0%, rgba(255, 146, 0, 0) 72%);
+  -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 97%);
+  mask-image: linear-gradient(180deg, #000 55%, transparent 97%);
+}
+
+.lve-e4-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* Kopfbereich */
+.lve-e4-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 26px;
+  margin-bottom: 48px;
+}
+.lve-e4-title {
+  font-size: clamp(36px, 4.6vw, 65px);
+  font-weight: 500;
+  line-height: 0.93;
+  letter-spacing: -1.3px;
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lve-e4-title-gold {
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lve-e4-sub {
+  max-width: 1044px;
+  font-size: clamp(16px, 1.3vw, 18px);
+  font-weight: 425;
+  line-height: 24px;
+  letter-spacing: 0.54px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Kartenraster: 3 Spalten, 16px Abstand.
+   minmax(0, 1fr) statt 1fr: `1fr` ist die Kurzform von `minmax(auto, 1fr)`,
+   die Spalte wird also nie schmaler als ihr min-content. Die Titelpille
+   traegt `white-space: nowrap`, damit ist der Kartenkopf die laengste
+   ungebrochene Zeile und bestimmt die Spaltenbreite. Folge (gemessen
+   12.08.2026, lokale Vorschau mit den Overrides aus lvlup-fixes):
+     1760 px   Spalten 401,59 / 401,61 / 404,80   Entwurf: alle drei 402
+     1024 px   Spalten 365,09 / 376,14 / 404,80, Raster bis x1198, also
+               174 px ausserhalb des Sichtfensters; `overflow: clip` auf
+               .lve-e4 schneidet das still weg, die dritte Spalte fehlt ganz.
+   Mit minmax(0, 1fr) liegen alle drei Spalten auf (Breite - 32) / 3. */
+.lve-e4-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.lve-e4-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 418px;
+  padding: 20px;
+  border-radius: 14px;
+  background:
+    linear-gradient(232deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.85) 100%),
+    rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(35px);
+  -webkit-backdrop-filter: blur(35px);
+  box-shadow: -5px -3px 13px rgba(0, 0, 0, 0.34);
+}
+/* Goldene Haarlinie als Rahmen (Mitte kraeftig, zu den Ecken transparent) */
+.lve-e4-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  padding: 1px;
+  background: linear-gradient(180deg, rgba(255, 188, 84, 0) 0%, rgba(255, 188, 84, 0.55) 52%, rgba(255, 188, 84, 0) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Kartenkopf: Icon-Kachel + Titel-Pille */
+.lve-e4-card-head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lve-e4-icon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: linear-gradient(144deg, #161616 0%, #000000 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 213, 146, 0.45),
+    1px 1px 4px rgba(0, 0, 0, 0.49),
+    6px 5px 8px rgba(0, 0, 0, 0.43);
+}
+.lve-e4-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 43px;
+  padding: 6px 20px;
+  border-radius: 8px;
+  background:
+    linear-gradient(246deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 100%),
+    rgba(255, 149, 0, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+  font-size: 18px;
+  font-weight: 428;
+  line-height: 22px;
+  letter-spacing: 0.36px;
+  white-space: nowrap;
+  color: #ff9e2c;
+}
+
+/* Beschreibungstext */
+.lve-e4-desc {
+  position: relative;
+  z-index: 1;
+  padding-inline: 8px;
+  font-size: 11px;
+  font-weight: 338;
+  line-height: 19px;
+  letter-spacing: 0.68px;
+  color: rgba(250, 248, 246, 0.6);
+}
+.lve-e4-desc p + p { margin-top: 10px; }
+.lve-e4-desc-gold { color: #ff9e2c; }
+.lve-e4-hl { color: #ffffff; font-weight: 500; }
+
+/* Bild mit Verlaufs-Overlays wie im Design */
+.lve-e4-media {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 7px;
+  aspect-ratio: 362 / 206;
+}
+.lve-e4-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Befund 9: das Bild der mittleren Karte der zweiten Reihe ("The Elite
+   Progression Ladder", 5. Karte) ist blau/violett/magenta, im Soll eine warme
+   Gold-Linienzeichnung. Per Filter warm drehen, HTML darf nicht geaendert
+   werden. */
+.lve-e4-card:nth-child(5) .lve-e4-media img {
+  filter: sepia(0.85) hue-rotate(-14deg) saturate(2.1) brightness(0.9);
+}
+.lve-e4-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 26%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 0.72) 100%),
+    radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.5) 100%),
+    linear-gradient(180deg, rgba(255, 188, 84, 0.1) 0%, rgba(255, 146, 0, 0.1) 100%);
+}
+
+/* Abschluss-Pille unter dem Raster */
+.lve-e4-proof {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  margin: 70px auto 0;
+  padding: 7px 18px;
+  border-radius: 78px;
+  border: 1px solid rgba(255, 188, 84, 0.5);
+  background:
+    linear-gradient(134deg, rgba(255, 188, 84, 0.18) 0%, rgba(255, 146, 0, 0.18) 100%),
+    rgba(12, 8, 2, 0.92);
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0.84px;
+  color: #ffffff;
+}
+
+/* Tablet: 2 Spalten */
+@media (max-width: 1023px) {
+  .lve-e4 { padding: 56px 0 48px; }
+  .lve-e4-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lve-e4-head { margin-bottom: 48px; }
+  .lve-e4-proof { margin-top: 72px; }
+}
+
+/* Mobile: kein Design vorhanden, sauber gestapelt abgeleitet */
+@media (max-width: 767px) {
+  .lve-e4 { padding: 52px 0 44px; }
+  .lve-e4-head { gap: 18px; margin-bottom: 36px; }
+  .lve-e4-title { letter-spacing: -0.02em; }
+  .lve-e4-sub { line-height: 1.45; letter-spacing: 0.3px; }
+  .lve-e4-grid { grid-template-columns: 1fr; gap: 14px; }
+  .lve-e4-card {
+    min-height: 0;
+    padding: 18px;
+    gap: 16px;
+    border-radius: 14px;
+  }
+  .lve-e4-pill { font-size: 16px; min-height: 44px; white-space: normal; }
+  .lve-e4-desc {
+    padding-inline: 4px;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: 0.2px;
+  }
+  .lve-e4-proof { margin-top: 52px; font-size: 13px; }
+}
+
+
+/* Abnahme (Runde 2): Kartentitel und Fusszeilen-Labels sind im Design WEISS
+   (227/215/196), nicht gold. */
+.lve-e4 .lve-e4-pill {
+  background: none;
+  background-image: none;
+  color: #e3d7c4;
+  -webkit-text-fill-color: #e3d7c4;
+}
+
+
+/* ===========================================================================
+   Fuge zur Zwischenpille "Proof of Performance", 11.08.2026
+
+   Wie in e3: Soll 133 px unter der Kartenunterkante, live 70 px.
+
+   Fuge Pille -> e5-Ueberschrift: Soll 26, live 50 (= 40 unten hier + 10 oben
+   in e5). Also 16 statt 40. Der Wert 40 kommt aus r3-elite.css
+   (`section.lve-e4`, 0-1-1), darum 0-2-1 und nur Desktop.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lve-e4-proof { margin-top: 133px; }
+  /* 16,58 statt 16: siehe Hoehenbilanz im letzten Block dieser Datei. Der
+     Umbau des Kartenrasters macht die Sektion 0,58 px kuerzer; die 0,58
+     stehen hier, weil das der einzige Abstand der Sektion ohne eigenen
+     Sollwert im Entwurf ist. Damit endet e4 weiter exakt bei y 3722,42, und
+     e5, e6, e7 und der Fuss bleiben auf ihrer bisherigen Zeile - sonst
+     verschieben sich die Naehte gegenueber referenz-neu/dom-sektionen.json,
+     gegen die gemessen wird. */
+  .lvf-page section.lve-e4 { padding-bottom: 16.58px; }
+}
+
+
+/* ===========================================================================
+   Karten, Kacheln, Titelpillen und Medienbilder, Abgleich 11.08.2026,
+   nur Desktop. Alle Sollwerte aus figma/bands-elite/e4-world-beyond.json,
+   alle Istwerte aus der lokalen Vorschau in 1760 px gegen
+   referenz-neu/soll/elite-aus-vollbild.png.
+
+   1. GOLDENE HAARLINIE UM DIE KARTE. Der Entwurf hat eine Kontur von
+      0,0603 px, das entspricht 1 px mit rund 6 Prozent Deckkraft, und ihr
+      Verlauf laeuft diagonal nach rechts unten (Spitze bei 52 Prozent der
+      Diagonale). Live lag ein senkrechter Verlauf mit 55 Prozent Deckkraft
+      an. Linke Kartenkante von Karte 2, 1 px, von oben nach unten:
+        dy        20   80  140  200  260  320  380
+        vorher    21   58   94  131  113   71   30   (Rotkanal)
+        Soll      17   16   13   13   10    9    8   = der Kartenkoerper selbst
+      Im Mockup ist an der Seitenkante also gar keine Linie zu sehen, nur an
+      der Oberkante ein Saum von rund +8 Stufen.
+
+   2. KARTENFUELLUNG. Wie bei den e2-Karten liegt der Goldverlauf im Entwurf
+      im Modus COLOR (faerbt, hellt nicht auf), live als normale Deckkraft.
+      Zusaetzlich lief der schwarze Eckverlauf nur bis 0,85 statt bis 1,00 und
+      hatte fuer alle sechs Karten dieselbe Achse. Der Entwurf wechselt:
+        Karten 1, 3, 5: 232 Grad, t 0,02 rechts oben bis 1,00 links unten
+        Karten 2, 4, 6: 179 Grad, t 0,20 oben     bis 0,92 unten
+      Gemessen Karte 1: links oben vorher (10,10,15), Soll (9,6,2);
+      rechts unten vorher (11,11,16), Soll (14,11,7). Die Helligkeit stimmte,
+      der Farbton war blaustichig, weil die Weissbasis den Seitengrund
+      (#05060f) durchreicht.
+
+   3. AUSSENSCHATTEN. Der Entwurf hat fuenf Stufen nach oben links, live nur
+      die erste. Die fuenfte (-136/-66, Deckkraft 0,01) bleibt weg.
+
+   4. ICON-KACHEL. Live: undurchsichtiges #161616 mit einem 1 px breiten
+      warmen Ring rundum. Entwurf: durchsichtiger Schwarzverlauf (28 % oben
+      links bis 98 % unten rechts) und ein Innenschein, der nur die Oberkante
+      trifft (Versatz 0,1/0,2, Radius 0,35).
+        Kachelinneres links oben  vorher (18,18,18)  Soll (3,3,2)
+        Rand links, 1 px          vorher (124,105,75) Soll (33,27,19)
+        Rand oben,  1 px          Soll (55,45,31)
+      Aus dem Sollwert oben folgt rgba(255,213,146) mit 0,20 Deckkraft
+      (0,20*255+0,80*3 = 54), links 0,12 (0,12*255+0,88*3 = 33).
+
+   5. TITELPILLE. Die Abnahmeregel aus Runde 2 weiter oben stellt die
+      Schriftfarbe richtig, hat dabei aber den Hintergrund mit entfernt. Der
+      Entwurf hat einen: Gold 6 Prozent plus einen Schwarzverlauf, der von
+      rechts (deckend) nach links auslaeuft.
+        Pille links  vorher (11,11,17)  Soll (20,13,3)
+        Pille rechts vorher (15,16,23)  Soll ( 4, 3,1)
+      Die Schriftfarbe #e3d7c4 bleibt unangetastet.
+
+   6. MEDIENBILDER. Fuenf von sechs sind zu hell. Median ueber die Bildflaeche:
+        Karte      1            2            3            4            6
+        vorher (36,28,18)  (92,74,56)  (26,18, 6)  (28,20, 9) (132,119,101)
+        Soll   (12,12,11)  (67,48,28)  ( 3, 2, 1)  (10, 8, 4) (102, 87, 57)
+      Zwei Ursachen: es fehlt die Ebene "Schwarz 20 Prozent" aus dem Entwurf,
+      und der Goldverlauf liegt dort im Modus HUE beziehungsweise COLOR, faerbt
+      also nur - live lag er mit 10 Prozent normaler Deckkraft darauf und hat
+      aufgehellt. Ausserdem standen die beiden Abdunkler an den falschen
+      Stellen: oben 0,45 bis 26 Prozent statt 0,665 bis 33,3 Prozent, unten ab
+      52 Prozent statt ab 72,1 Prozent, und die Vignette war mittig statt bei
+      28,2 Prozent Hoehe.
+      Karte 5 bleibt aussen vor: fuer sie schaltet r3-elite.css das Overlay mit
+      0-3-1 ganz ab, weil dort ein bereits fertig getonter Bildausschnitt liegt.
+
+   Nicht behebbar ohne die Originalvektoren, deshalb hier nur vermerkt: vier
+   der sechs Glyphen zeigen ein anderes Motiv als der Entwurf. Siehe
+   Uebergabebericht.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  /* 1. Haarlinie: Deckkraft von 0,55 auf 0,06, Achse auf die Diagonale des
+     Entwurfs (133 Grad, Spitze bei 66 Prozent der CSS-Verlaufslinie). */
+  .lve-e4 .lve-e4-card::before {
+    background: linear-gradient(133deg, rgba(255, 188, 84, 0.012) 0%, rgba(255, 188, 84, 0.06) 66%, rgba(255, 188, 84, 0.034) 100%);
+  }
+
+  /* 2. + 3. Fuellung und Aussenschatten */
+  .lve-e4 .lve-e4-card {
+    background:
+      linear-gradient(232deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 1) 100%),
+      linear-gradient(90deg, rgba(255, 150, 10, 0.055) 0%, rgba(255, 150, 10, 0.11) 50%, rgba(255, 150, 10, 0.055) 100%),
+      rgba(255, 236, 214, 0.02);
+    box-shadow:
+      -5px -3px 13px rgba(0, 0, 0, 0.34),
+      -22px -10px 24px rgba(0, 0, 0, 0.3),
+      -49px -23px 32px rgba(0, 0, 0, 0.18),
+      -87px -41px 38px rgba(0, 0, 0, 0.05);
+  }
+  .lve-e4 .lve-e4-grid > .lve-e4-card:nth-child(even) {
+    background:
+      linear-gradient(179deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.92) 100%),
+      linear-gradient(90deg, rgba(255, 150, 10, 0.055) 0%, rgba(255, 150, 10, 0.11) 50%, rgba(255, 150, 10, 0.055) 100%),
+      rgba(255, 236, 214, 0.02);
+  }
+
+  /* 4. Icon-Kachel */
+  .lve-e4 .lve-e4-icon {
+    background: linear-gradient(144deg, rgba(0, 0, 0, 0.28) 0%, rgba(0, 0, 0, 0.98) 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 213, 146, 0.2),
+      inset 1px 0 0 rgba(255, 213, 146, 0.12),
+      1px 1px 4px rgba(0, 0, 0, 0.49),
+      6px 5px 8px rgba(0, 0, 0, 0.43);
+  }
+
+  /* 5. Titelpille: Hintergrund zurueck, Schriftfarbe unveraendert */
+  .lve-e4 .lve-e4-pill {
+    background:
+      linear-gradient(246deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.01) 100%),
+      rgba(255, 149, 0, 0.06);
+  }
+
+  /* 6. Medienbilder */
+  .lve-e4 .lve-e4-media::after {
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.665) 0%, rgba(0, 0, 0, 0) 33.3%),
+      linear-gradient(180deg, rgba(0, 0, 0, 0) 72.1%, rgba(0, 0, 0, 0.705) 100%),
+      radial-gradient(ellipse 64.2% 71.8% at 50% 28.2%, rgba(0, 0, 0, 0) 59.7%, rgba(0, 0, 0, 0.5) 100%),
+      rgba(0, 0, 0, 0.2);
+  }
+}
+
+
+/* Zeilenhoehe der Ueberschrift, 11.08.2026: im Entwurf 44 px
+   (Figma-TEXT y 2501..2545), live 60,5 = 65 px Grad mal 0,93. Der Abstand
+   zur Unterzeile stimmt bereits. 44 / 65 = 0,677. Gleiche Korrektur wie in
+   e3 und auf evaluation e3, dieselbe Ueberschriftengroesse im ganzen Entwurf.
+   Nur ab 1024 px, darunter faellt der Grad per clamp kleiner aus und die
+   Zeile bricht um. */
+@media (min-width: 1024px) {
+  .lve-e4 .lve-e4-title { line-height: 0.677; }
+}
+
+
+/* ===========================================================================
+   Mobil und Tablet: die Ueberschrift gehoert ueber ihren Text, 11.08.2026
+
+   Die Karten 4, 5 und 6 tragen `.lve-e4-card--flip`. Ihr Markup steht bewusst
+   in der Reihenfolge Bild -> Text -> Kopf, weil der Entwurf die zweite Reihe
+   des Dreierrasters gespiegelt zeigt (NOTIZ.md: "Reihe 2 gespiegelt:
+   Bild/Text/Kopf"). Unter 1024 px faellt das Raster auf zwei beziehungsweise
+   eine Spalte, eine zweite Reihe gibt es dann nicht mehr, und die Spiegelung
+   schiebt nur noch die Titelpille unter den Kartentext. Der Kunde hat das als
+   "layouttechnisch unlogisch" gemeldet.
+
+   Gemessen in der lokalen Vorschau (Vorschau im Speicher mit den Overrides
+   aus lvlup-fixes und der Hausschrift), Abstand von der Oberkante des
+   Kartenbildes zur Oberkante der Titelpille derselben Karte. Positiv heisst:
+   der Kopf steht unter dem Inhalt.
+
+     Breite    Karte 4   Karte 5   Karte 6
+     390 px      +365      +340      +389   IST vorher
+     768 px      +329      +334      +348   IST vorher
+     1023 px     +379      +379      +379   IST vorher
+     SOLL: negativ, die Pille steht ueber Text und Bild.
+
+   Umsortiert wird ausschliesslich per `order` innerhalb der Flex-Spalte der
+   Karte. Die Reihenfolge im HTML bleibt unangetastet, damit der abgenommene
+   Desktop-Zweig ab 1024 px seine Spiegelung behaelt, und die Kartenhoehe
+   aendert sich nicht: es sind dieselben drei Flex-Kinder mit demselben `gap`.
+   =========================================================================== */
+@media (max-width: 1023px) {
+  .lve-e4 .lve-e4-card--flip > .lve-e4-card-head { order: 1; }
+  .lve-e4 .lve-e4-card--flip > .lve-e4-desc { order: 2; }
+  .lve-e4 .lve-e4-card--flip > .lve-e4-media { order: 3; }
+}
+
+
+/* ===========================================================================
+   Tablet 768 bis 1023 px: die rechte Kartenspalte war 68 px abgeschnitten,
+   11.08.2026
+
+   Beim Nachmessen aller sechs Karten aufgefallen, andere Ursache als oben.
+   `.lve-e4-pill` traegt `white-space: nowrap`. Zurueckgenommen wird das erst
+   ab 767 px abwaerts (Regel weiter oben und R3-elite-A12 im Plugin), also
+   genau NICHT im Tablet-Fenster. Dort bestimmt die laengste ungebrochene
+   Zeile die min-content-Breite der Karte, und `repeat(2, 1fr)` heisst
+   `minmax(auto, 1fr)`: die Spalten werden so breit wie ihr Inhalt es
+   erzwingt, nicht so breit wie der Platz erlaubt.
+
+   Gemessen bei 768 px, Stand vorher:
+     Raster verfuegbar        728 px, abzueglich 16 gap = 712 fuer zwei Spalten
+     Spalten tatsaechlich     404,8 + 395,5 = 800,3 px, also 88 px zu breit
+     Karten 2, 4, 6           x 441 bis 836, das Sichtfenster endet bei 768
+                              -> 68 px je Karte weg, rechte Goldkante, Bildrand
+                              und Textende abgeschnitten
+     Titelpille max-content   313 px ("Recognition That Carries Weight"),
+                              304 px ("Exclusive Trips and Experiences")
+                              + 44 Kachel + 8 gap + 36 Innenabstand = 401 / 392
+   Kein waagerechtes Scrollen, weil `.lve-e4` auf `overflow: clip` steht: der
+   Ueberhang wird still weggeschnitten, scrollWidth bleibt 768.
+
+   SOLL: beide Spalten 356 px, nichts abgeschnitten.
+
+   Behandelt wird die Pille genau so, wie es das Projekt unter 768 px bereits
+   entschieden hat (R3-elite-A12): als Block, damit der Text bei Umbruch
+   normal fliesst. Bliebe sie `inline-flex`, waeren die Gold-Spans eigene
+   Flex-Kinder und stuenden bei zwei Zeilen nebeneinander statt untereinander
+   ("Recognition | That Carries / Weight"). Der Innenabstand wird auf 10 px
+   symmetrisch gesetzt und `min-height` fallengelassen, weil `display: block`
+   die senkrechte Zentrierung von `align-items` verliert: einzeilig
+   10 + 22 + 10 = 42 px statt bisher 43, zweizeilig 64 px.
+
+   NACHTRAG 12.08.2026: das Fenster reicht bis 1279 px, nicht bis 1023 px.
+
+   Derselbe Bruch stand auch zwischen 1024 und 1258 px, nur haben ihn dort
+   nicht die zwei, sondern die drei Spalten ausgeloest. Gemessen bei 1024 px
+   im Bestand: Raster bis x1198, also 174 px hinter dem Sichtfensterrand, die
+   dritte Spalte komplett weg. Die Spaltenbreite ist mit minmax(0, 1fr) oben
+   erledigt, damit ragt aber die nowrap-Pille aus ihrer Karte: der Kartenkopf
+   braucht 44 + 8 + 312,8 = 364,8 px, und so viel Platz hat die Karte erst ab
+   einer Spaltenbreite von 384,8 px, also ab einem Fenster von rund 1227 px.
+
+   Die Grenze steht trotzdem bei 1280 px und nicht bei 1227: ab 1280 liegt
+   .lvf-container an seiner max-width von 1280 (Inhalt 1240) und die
+   Kartenbreite aendert sich nicht mehr. Ab dort ist die einzeilige Pille die
+   abgenommene Desktop-Fassung, darunter bricht sie um. Nichts wird
+   abgeschnitten, die Karte wird nur hoeher.
+
+   Ueber 1280 px bleibt ein Rest: der Kartenkopf ist 364,8 px breit, die
+   Karte innen 362,67. Die Pille laeuft damit 2,13 px in den rechten
+   Innenabstand der Karte hinein (Abstand zur Kartenkante 17,87 statt 20).
+   Sie wird nicht beschnitten. Im Entwurf passt der Kopf auf 0 px genau
+   (20 + 44 + 8 + 310 + 20 = 402), unsere Pille rendert 2,8 px breiter als die
+   310 px des Entwurfs - das ist der Subpixel-Unterschied Chrome/Figma, kein
+   Layoutfehler, und wird deshalb nicht per Innenabstand weggekuerzt.
+   =========================================================================== */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .lve-e4 .lve-e4-card-head .lve-e4-pill {
+    display: block;
+    white-space: normal;
+    min-height: 0;
+    padding: 10px 20px;
+    line-height: 22px;
+  }
+}
+
+
+/* ===========================================================================
+   Naht e3/e4 bei y 2496, rechte Flanke, 11.08.2026 nachts, nur Desktop.
+
+   Gemessen als Median je Spaltenblock, 8 px ueber und unter der Naht. Ueber
+   die linken zwei Drittel ist der Uebergang stufenlos (Sprung unter 1, wie
+   im Entwurf). Nur rechts steht eine Kante:
+
+     x            1408   1496   1584   1672
+     Sprung Soll   0,0    0,2    0,2    0,2
+     Sprung Ist   16,3   13,2    8,2    6,0
+
+   URSACHE. Die rechte Flanke kommt aus R3-elite-18 in
+   server-stand-20260810/lvlup-fixes/r3-elite.css (`.lve-e4 .lve-e4-bg`,
+   0-2-0). Ihre Ellipse ist 30 Prozent breit um eine Mitte bei 108 Prozent;
+   die letzte Farbstufe springt von 0,18 Deckkraft direkt auf 0. Bei y 2504
+   endet der Verlauf damit hart bei x 1375. Waagerechtes Profil, Rotkanal:
+
+     x       1260  1310  1360  1410  1460  1510  1560  1610  1660  1710
+     Soll      14    19    23    30    38    54    76   106   138   172
+     Ist        0     0     7    42    53    64    79   101   138   169
+
+   Rechts von x 1600 stimmt die Flanke, links davon bricht sie ab und ist im
+   Rest zu hell. Weil ihre Oberkante mit voller Staerke an der
+   Sektionsgrenze einsetzt, wird aus dem Abbruch die waagerechte Naht.
+
+   KORREKTUR. Nicht die Naht zukleben, sondern die Ellipse auf die Form des
+   Entwurfs bringen: 40 statt 30 Prozent breit, damit der Auslauf bis x 1260
+   reicht, und 170 statt 135 Prozent hoch, weil sonst der laengere
+   waagerechte Weg auch senkrecht schneller abfaellt. Die Deckkraftstufen
+   sind aus den Sollwerten zurueckgerechnet (Soll geteilt durch 283, dem
+   gemessenen Verhaeltnis von Rotwert zu Deckkraft dieser Flanke), die
+   Farben folgen unveraendert der Rampe von R3-elite-18.
+
+   Rechnerisch damit bei y 2504: 14/19/23/30/38/54/76/106/138/172 gegen die
+   Sollreihe oben, und bei y 3200 sinkt der Fehler von +11 bis +25 auf +5
+   bis +9. Die beiden anderen Ebenen sind Wort fuer Wort die von
+   R3-elite-18; sie werden nur mitgeschrieben, weil `background` sich nicht
+   teilweise ueberschreiben laesst. Die dortige `mask-image: none` bleibt
+   gueltig, sie wird hier nicht angefasst.
+
+   Selektor 0-3-0 gegen die 0-2-0 aus dem Plugin (Prioritaet 1200).
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e4 .lve-e4-bg {
+    background:
+      /* Naht e4/e5 bei y 3722, linke Haelfte. Die linke Flanke stirbt zur
+         Unterkante hin zu frueh ab; e5 beginnt darunter fast richtig, also
+         entsteht die Kante allein hier. Median je Spaltenblock, 8 px ueber
+         der Naht, Rotkanal:
+           x        44   132   220   308   396
+           Soll    236   175   107    59    34
+           vorher  210   123    75    50    15
+         Der Fehlbetrag ist auf die letzten rund 120 px begrenzt: bei y 3600
+         sind es +3, bei 3640 -16, bei 3680 -29. Die Flanke selbst
+         umzubauen verbietet sich, sie ist weiter oben zu HELL (+10 bei
+         y 3400). Deshalb eine flache Ecklage, 440 x 170 px, Farbe
+         (255,162,34) - aus den Sollwerten zurueckgerechnet, sie trifft dort
+         alle drei Kanaele (Soll G/R 0,634, B/R 0,131).
+         Die falsche Bodenaufhellung der Mitte (Ist 24 bis 27 gegen Soll 1
+         bis 7, Ebene "76% 30% at 50% 112%") bleibt bewusst stehen: e5 hat
+         an seiner Oberkante denselben Fehler in gleicher Hoehe, dort ist es
+         der Schleier aus e5-recognition/fragment.css. Wer nur eine der
+         beiden Seiten begradigt, macht die Naht sichtbarer, nicht sauberer. */
+      radial-gradient(ellipse 440px 170px at 0% 100%,
+        rgba(255, 162, 34, 0.62) 0%,
+        rgba(255, 162, 34, 0.58) 10%,
+        rgba(255, 162, 34, 0.39) 30%,
+        rgba(255, 162, 34, 0.19) 50%,
+        rgba(255, 162, 34, 0.09) 70%,
+        rgba(255, 162, 34, 0.05) 90%,
+        rgba(255, 162, 34, 0) 100%),
+      radial-gradient(ellipse 76% 30% at 50% 112%, rgba(255, 188, 84, 0.26) 0%, rgba(255, 146, 0, 0) 70%),
+      /* linke Flanke: unveraendert aus R3-elite-18 */
+      radial-gradient(ellipse 30% 90% at -8% 112%,
+        rgba(255, 220, 150, 1) 0%,
+        rgba(254, 178, 66, 0.92) 34%,
+        rgba(253, 170, 52, 0.56) 48%,
+        rgba(252, 166, 46, 0.31) 66%,
+        rgba(252, 162, 40, 0.17) 86%,
+        rgba(255, 146, 0, 0) 100%),
+      /* rechte Flanke: breiter, hoeher, mit ausgeschriebenem Auslauf */
+      radial-gradient(ellipse 40% 170% at 108% -12%,
+        rgba(255, 200, 100, 0.80) 0%,
+        rgba(254, 194, 87, 0.66) 20%,
+        rgba(254, 192, 82, 0.608) 28%,
+        rgba(254, 190, 77, 0.488) 35%,
+        rgba(253, 186, 73, 0.375) 42%,
+        rgba(253, 183, 69, 0.269) 49%,
+        rgba(253, 180, 64, 0.191) 56%,
+        rgba(253, 178, 60, 0.134) 63%,
+        rgba(252, 175, 57, 0.106) 70%,
+        rgba(252, 172, 53, 0.081) 77%,
+        rgba(252, 170, 49, 0.067) 84%,
+        rgba(253, 163, 35, 0.049) 91%,
+        rgba(255, 146, 0, 0) 100%);
+  }
+}
+
+
+/* ===========================================================================
+   Senkrechter Aufbau des Kartenrasters, 12.08.2026, nur Desktop.
+
+   Alle Sollwerte aus figma/bands-elite/e4-world-beyond.json (Rahmenbreite
+   1760, dieselbe wie die Messbreite), alle Istwerte aus der lokalen Vorschau
+   bei 1760 px MIT body.lvf-gold und build/theme/gold-footer.css, sonst zeigt
+   die Vorschau den blauen statt den goldenen Fuss.
+
+   Entwurf                                    Ist vorher
+     Kartenreihe 1   y 2690                     y 2669,84   (20,2 zu hoch)
+     Kartenreihe 2   y 3124, Hoehe 418          y 3103,84, Hoehe 436,58
+     Pillen Reihe 2  y 3479 (alle drei)         y 3456,11 / 3456,11 / 3476,92
+     Pille "Proof"   y 3675, Hoehe 31           y 3673,42, Hoehe 33
+
+   1. LUECKE UNTERZEILE -> ERSTE REIHE. Der Entwurf hat 71 px (Unterkante
+      Unterzeile 2619, Kartenreihe 2690), im Bestand stehen 48. Gesetzt wird
+      68 und nicht 71, weil unser Kopfblock als Ganzes 2,84 px tiefer sitzt
+      als im Entwurf (Titel Ist 2503,84 gegen Soll 2501); mit 68 liegt die
+      Kartenreihe auf y 2689,84 und damit auf ihrem Sollplatz. Der Wert 71
+      wuerde die absolute Lage um 2,84 px verfehlen, und gemessen wird gegen
+      das Bild, nicht gegen den Abstand.
+
+   2. TEXTBREITE DER KARTEN. Die sechs Textknoten des Entwurfs sind
+      unterschiedlich breit (344 / 344 / 349 / 344 / 350 / 355 px bei
+      durchgehend 28 px linkem Einzug, textAutoResize HEIGHT). Alle sechs
+      sind 84 px hoch, also VIER Zeilen. Bei uns lief Karte 6 auf fuenf
+      Zeilen, weil `padding-inline: 8px` beidseitig nur 346,67 px Textbreite
+      laesst. Gemessen, Hoehe der Textspalte von Karte 6 nach Breite:
+        346  348  350  352 | 354  356  358  360  362
+        105  105  105  105 |  86   86   86   86   86
+      Die Schwelle liegt zwischen 352 und 354. Mit `padding-inline: 8px 0`
+      bleibt der linke Einzug bei 28 px wie im Entwurf, die Textbreite steigt
+      auf 354,67, und alle sechs Karten stehen auf 86 px (= 4 Zeilen a 19 px
+      plus 10 px Absatzabstand). Damit ist die untere Reihe wieder 418 hoch.
+
+   3. KARTENKOPF DER ZWEITEN REIHE. Der Entwurf setzt ihn an die Unterkante
+      der Karte: Kopf 3479..3523, Kartenunterkante 3542, waehrend der Abstand
+      Text -> Kopf mit 26 px groesser ist als die 19 bis 20 px sonst. Genau
+      das macht `margin-top: auto` in der Flex-Spalte: der Rest der Karte
+      (418 gegen 416,39 Inhalt) sammelt sich ueber dem Kopf statt darunter.
+      Die drei Pillen liegen dadurch auf einer Linie, unabhaengig davon, wie
+      lang der Text darueber ist. Die Kartenhoehe aendert sich nicht, es wird
+      nur vorhandener Leerraum verschoben.
+
+   4. PILLE "PROOF OF PERFORMANCE". Der Entwurf hat 31 px Hoehe bei 6,24 px
+      Innenabstand oben und unten (Figma-Knoten 263:871, Auto-Layout). Unsere
+      33 kommen aus 7 + 17 + 7 plus 2 px Rahmen; im Entwurf liegt die Kontur
+      ausserhalb und zaehlt nicht mit. Mit 6 px Innenabstand sind es
+      1 + 6 + 17 + 6 + 1 = 31 wie im Entwurf.
+
+   HOEHENBILANZ, weil die Seite auf 6919 px bleiben muss:
+     Kopfabstand   +20      untere Reihe  -18,58
+     Proof-Pille    -2      Summe         -0,58
+   Sektion e4 damit 1226,00 statt 1226,58 px, Seite 6918,03 statt 6918,61,
+   scrollHeight in beiden Faellen 6919.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lve-e4 .lve-e4-head { margin-bottom: 68px; }
+  .lve-e4 .lve-e4-desc { padding-inline: 8px 0; }
+  .lve-e4 .lve-e4-card--flip > .lve-e4-card-head { margin-top: auto; }
+  .lve-e4 .lve-e4-proof { padding: 6px 18px; }
+}
+
+/* == e5-recognition == */
+/* e5-recognition: "Recognition You Cannot Buy" der Lvlup Elite Seite. Praefix .lve-e5- */
+.lve-e5 {
+  position: relative;
+  overflow: clip;
+  padding: 40px 0 70px;
+}
+
+/* Hintergrund: warme Bernstein-Glows v.a. oben links und an der linken Kante,
+   laufen grossflaechig transparent aus, damit keine harten Kanten zu den
+   Nachbarsektionen entstehen. Linke Kante traegt die helle Bernstein-Waeche
+   des Solls (gemessen 255/239/219), oben rechts faengt den Glow der
+   Vorgaengersektion weich auf. */
+.lve-e5-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 36% 62% at -8% 26%, rgba(255, 238, 214, 0.9) 0%, rgba(255, 200, 120, 0.45) 42%, rgba(255, 146, 0, 0) 75%),
+    radial-gradient(ellipse 46% 55% at -6% -4%, rgba(255, 146, 0, 0.5) 0%, rgba(255, 146, 0, 0.2) 42%, rgba(255, 146, 0, 0) 72%),
+    radial-gradient(ellipse 30% 46% at 0% 58%, rgba(255, 146, 0, 0.32) 0%, rgba(255, 146, 0, 0.12) 45%, rgba(255, 146, 0, 0) 72%),
+    radial-gradient(ellipse 42% 34% at 100% 0%, rgba(255, 146, 0, 0.42) 0%, rgba(255, 146, 0, 0) 70%),
+    radial-gradient(ellipse 36% 42% at 103% 26%, rgba(255, 146, 0, 0.16) 0%, rgba(255, 146, 0, 0) 70%),
+    radial-gradient(ellipse 32% 18% at 50% -2%, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0) 70%);
+  /* Oberkante sanft einblenden: der Glow startet nicht abrupt an der
+     Sektionsgrenze, sondern blendet ueber 110px ein (Befund 6, weiche Kante). */
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 110px);
+  mask-image: linear-gradient(180deg, transparent 0, #000 110px);
+}
+
+.lve-e5-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* Kopfbereich */
+.lve-e5-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 26px;
+  margin-bottom: 60px;
+}
+.lve-e5-title {
+  font-size: clamp(36px, 4.6vw, 65px);
+  font-weight: 500;
+  line-height: 0.93;
+  letter-spacing: -1.3px;
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lve-e5-title-gold {
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lve-e5-sub {
+  max-width: 776px;
+  font-size: clamp(16px, 1.3vw, 18px);
+  font-weight: 425;
+  line-height: 24px;
+  letter-spacing: 0.54px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Kartenraster: 2 Spalten, 16px Abstand */
+.lve-e5-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.lve-e5-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  min-height: 380px;
+  padding: 37px 34px 42px;
+  overflow: hidden;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background:
+    radial-gradient(ellipse 190px 95px at 26% -10px, rgba(255, 146, 0, 0.35) 0%, rgba(255, 146, 0, 0) 72%),
+    rgba(137, 137, 137, 0.05),
+    #000000;
+  backdrop-filter: blur(160px);
+  -webkit-backdrop-filter: blur(160px);
+}
+/* Konzentrische Deko-Ringe hinter dem Icon (im Design 5% Deckkraft) */
+.lve-e5-card::before {
+  content: "";
+  position: absolute;
+  top: -140px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 480px;
+  height: 264px;
+  border-radius: 50%;
+  border: 1.8px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 0 60px rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+}
+/* Goldene Haarlinie oben links auf der Kartenkante */
+.lve-e5-card-line {
+  position: absolute;
+  top: 0;
+  left: 34px;
+  width: 108px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0) 100%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Icon-Kachel + Kartentitel, zentriert */
+.lve-e5-card-main {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+.lve-e5-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 87px;
+  height: 87px;
+  border-radius: 15px;
+  background: linear-gradient(144deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
+  box-shadow:
+    inset 0 0 1px #ffeed3,
+    inset 0 0 18px rgba(255, 188, 84, 0.12),
+    6px 5px 10px rgba(0, 0, 0, 0.45);
+}
+.lve-e5-icon svg {
+  width: 49px;
+  height: 49px;
+}
+/* Kartentitel: gold statt weiss (Soll-Messung 127/92/38, warm statt neutral) */
+.lve-e5-card-title {
+  font-size: clamp(26px, 2.4vw, 35px);
+  font-weight: 555;
+  line-height: 1.1;
+  letter-spacing: -0.7px;
+  text-align: center;
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Beschreibungstext unten in der Karte */
+.lve-e5-desc {
+  position: relative;
+  z-index: 1;
+  align-self: stretch;
+  font-size: 15px;
+  font-weight: 338;
+  line-height: 26px;
+  letter-spacing: 0.9px;
+  color: rgba(250, 248, 246, 0.6);
+}
+.lve-e5-desc p + p { margin-top: 8px; }
+.lve-e5-desc-gold { color: #ff9e2c; }
+
+/* Abschluss-Pille unter dem Raster */
+.lve-e5-proof {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 44px;
+  margin: 90px auto 0;
+  padding: 7px 18px;
+  border-radius: 78px;
+  border: 1px solid rgba(255, 188, 84, 0.5);
+  background:
+    linear-gradient(134deg, rgba(255, 188, 84, 0.18) 0%, rgba(255, 146, 0, 0.18) 100%),
+    rgba(12, 8, 2, 0.92);
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0.84px;
+  color: #ffffff;
+}
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .lve-e5 { padding: 48px 0 64px; }
+  .lve-e5-head { margin-bottom: 48px; }
+  .lve-e5-proof { margin-top: 72px; }
+  .lve-e5-card { min-height: 0; padding: 32px 26px 36px; }
+  .lve-e5-icon { width: 72px; height: 72px; }
+  .lve-e5-icon svg { width: 40px; height: 40px; }
+}
+
+/* Mobile: kein Design vorhanden, sauber gestapelt abgeleitet */
+@media (max-width: 767px) {
+  .lve-e5 { padding: 52px 0 56px; }
+  .lve-e5-head { gap: 18px; margin-bottom: 36px; }
+  .lve-e5-title { letter-spacing: -0.02em; }
+  .lve-e5-sub { line-height: 1.45; letter-spacing: 0.3px; }
+  .lve-e5-grid { grid-template-columns: 1fr; gap: 14px; }
+  .lve-e5-card {
+    gap: 22px;
+    padding: 28px 20px 30px;
+    border-radius: 22px;
+  }
+  .lve-e5-card::before { width: 340px; height: 190px; top: -100px; }
+  .lve-e5-card-main { gap: 20px; }
+  .lve-e5-icon { width: 64px; height: 64px; border-radius: 12px; }
+  .lve-e5-icon svg { width: 36px; height: 36px; }
+  .lve-e5-desc {
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: 0.2px;
+  }
+  .lve-e5-desc p + p { margin-top: 10px; }
+  .lve-e5-proof { margin-top: 52px; font-size: 13px; }
+}
+
+
+/* Detailcheck 06.08.2026: Shell-Reset .lvf-page.lvf-page h3 ueberstimmt den
+   Gold-Clip - mit Element+Klasse und spaeter Ladung gewinnt der Verlauf. */
+.lve-e5 h3.lve-e5-card-title {
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* Abnahme 06.08.: das grosse warme Randlicht des Designs fehlte fast komplett
+   (Design-Rand 251/225/186 vs Build 82/59/28). Kraeftige Seitenfluegel. */
+.lve-e5::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(26% 70% at 0% 45%, rgba(252, 226, 187, 0.9) 0%, rgba(240, 180, 90, 0.45) 45%, rgba(230, 150, 40, 0) 78%),
+    radial-gradient(26% 70% at 100% 45%, rgba(252, 226, 187, 0.9) 0%, rgba(240, 180, 90, 0.45) 45%, rgba(230, 150, 40, 0) 78%);
+}
+
+
+/* ============================================================
+   Naht zu e4, Abgleich 11.08.2026 (Befund der Gegenpruefung: sichtbare
+   waagerechte Kante am Beginn von lve-e5), nur Desktop.
+
+   Randprofil, Mittel ueber x 0..150 und 1610..1760, Soll-y = Ist-y + 40:
+     dy       -80   -40     0   +40   +80  +160  +240  +320
+     Soll      58    62    66    71    77    89   101   112
+     vorher    69    70   109   110   110   110   112   114
+   Der Sprung an der Naht war +39,2 Stufen, der Entwurf hat dort 1,2. Der
+   Grund: der Goldschein von e5 setzt an der Sektionsoberkante mit voller
+   Staerke ein und bleibt dann flach, waehrend er im Entwurf ueber rund
+   320 px langsam ansteigt. Das Fragment hatte dafuer schon eine Einblend-
+   maske ueber 110 px; sie wird von r3-elite.css Z. 292 und Z. 533
+   (`mask-image: none`, Selektor 0-2-0) abgeschaltet. Deshalb hier mit
+   `.lvf-page .lve-e5 .lve-e5-bg` (0-3-0) neu gesetzt.
+
+   Die Maske blendet nicht von 0 ein - das gaebe an der Naht einen dunklen
+   Strich, weil e4 dort mit 70 endet -, sondern von 57 Prozent auf 100
+   Prozent ueber 320 px. Rechnung: (66-9)/(109-9) = 0,57, gerundet auf 0,60,
+   damit an der Naht kein Sprung nach unten entsteht, wobei 9 der
+   Seitengrund ist. Nachher: dy 0 -> 66, +40 -> 71, +120 -> 82, +200 -> 93,
+   +320 -> 109. Sprung an der Naht nachher +2,4.
+
+   ABGELOEST am 11.08.2026 durch den neu vermessenen Goldschein weiter unten
+   in dieser Datei. Die Maske war nur ein Pflaster: sie daempfte den zu
+   weissen Verlauf, statt ihn zu ersetzen, und machte die obere
+   Sektionshaelfte zu dunkel (y 3875, x 0: gedaempft 209,186,144 statt
+   253,216,163). Der neue Verlauf blendet von sich aus weich ein, deshalb
+   steht dort `mask-image: none`. Regel hier entfernt, damit nicht zwei
+   Regeln mit derselben Spezifitaet um dieselbe Eigenschaft streiten.
+   ============================================================ */
+
+
+/* ===========================================================================
+   Fuge zur Zwischenpille "Maintain Your Position", 11.08.2026
+
+   Drei Abweichungen an einer Stelle:
+
+   1. Abstand zu den Karten: Soll 133 px, live 54. Der Wert 54 kommt aus
+      r3-elite.css (`.lve-e5 .lve-e5-proof`, 0-2-0) und schlaegt die 90 px
+      der Fragmentregel, deshalb hier 0-3-0.
+   2. Die Pille ist 44 px hoch statt 33 wie ihre beiden Schwestern. Ursache
+      ist `min-height: 44px` weiter oben in dieser Datei, das die anderen
+      beiden nicht haben. Ohne min-height ergibt sich aus Zeilenhoehe 17,
+      Innenabstand 2x7 und Rahmen 2x1 dieselbe Hoehe von 33.
+   3. Fuge Pille -> e6-Ueberschrift: Soll 21, live 8 (= 8 unten hier + 0 oben
+      in e6). Also 21 statt 8.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e5 .lve-e5-proof { margin-top: 133px; min-height: 0; }
+  .lvf-page section.lve-e5 { padding-bottom: 21px; }
+}
+
+
+/* Zeilenhoehe der Ueberschrift, 11.08.2026: im Entwurf 44 px
+   (Figma-TEXT y 3732..3776), live 60,5 = 65 px Grad mal 0,93. Der Abstand
+   zur Unterzeile stimmt bereits. 44 / 65 = 0,677. Gleiche Korrektur wie in
+   e3 und auf evaluation e3, dieselbe Ueberschriftengroesse im ganzen Entwurf.
+   Nur ab 1024 px, darunter faellt der Grad per clamp kleiner aus und die
+   Zeile bricht um. */
+@media (min-width: 1024px) {
+  .lve-e5 .lve-e5-title { line-height: 0.677; }
+}
+
+
+/* ============================================================
+   Wirkung gegen das Mockup, 11.08.2026, Runde "Effekte 1 zu 1".
+   Alles gemessen an referenz-neu/soll/elite-aus-vollbild.png, Sektion e5
+   liegt dort ab y 3728 (Anker: Oberkante der ersten Kartenreihe, Soll 3926).
+   Nur ab 1024 px, damit die Mobil- und Tabletwerte aus r3-elite.css gelten.
+
+   1. GOLDSCHEIN LINKS: halber Radius und milchiger Kern.
+      Der Schein starb live bei x etwa 500 ab, im Entwurf traegt er bis
+      x 1300. Gemessen in der Luecke zwischen den beiden Kartenreihen
+      (y 4290 im Ist, 4314 im Soll), Rot-Gruen-Blau:
+
+        x      vorher            Soll              nachher
+        240    217,179,111       254,234,204       254,223,163
+        400     85, 60, 22       252,210,132       248,202,119
+        600      8,  5,  2       234,167, 52       232,165, 59
+        800    106, 67, 12       179,113, 16       180,113, 12
+       1000     75, 47,  6        94, 57,  4        94, 58,  6
+
+      Der Kern war ausserdem zu creme statt nahezu weiss (x 0: vorher
+      255,231,187, Soll 255,251,245, nachher 254,248,239) und in der oberen
+      Sektionshaelfte milchig-grau, weil die weisse Saeule aus r3-elite.css
+      (Regel R3-elite-20/A13, rgba(255,255,254)) ueber die ganze Hoehe lief.
+
+   2. NAHT ZU e4 bei y 3721: live sprang die Farbe von (216,151,54) auf
+      (151,138,115), das Blau verdoppelte sich, es entstand ein milchiges
+      Band ueber x 0 bis 850. Ursache war dieselbe weisse Saeule, die an der
+      Sektionsoberkante mit voller Staerke einsetzte. Der Entwurf hat dort
+      keinen Sprung (238,159,43 auf 238,160,45).
+      Sprung im Randprofil (Mittel x 0..150 und 1610..1760): vorher 18,9
+      Stufen, nachher 4,4, Entwurf 0,4. Die alte Einblendmaske ueber 320 px
+      wird dadurch ueberfluessig und abgeschaltet: der Verlauf bringt seinen
+      eigenen weichen Anfang mit (Oberkante x 0: vorher 157,147,128,
+      nachher 205,153,57, Soll 245,177,77).
+      Der Rest der Restabweichung liegt in e4: dessen Unterkante misst
+      (107,73,25), der Entwurf (124,81,19). Das ist e4s Fragment, nicht dieses.
+
+   Aufbau der vier Ebenen, numerisch an 1200 Messpunkten angepasst:
+     1. heller Kern links (fast weiss) ueber die halbe Sektionshoehe
+     2. breite Goldwolke, Mitte auf 52 Prozent Hoehe, Radius 80 Prozent
+     3. schmale Flanke rechts
+     4. flacher Warmschleier unten rechts
+   Mittlere Abweichung ueber 210 Kontrollpunkte: vorher 19,3 - nachher 6,8.
+
+   Selektor 0-3-0, weil r3-elite.css `.lve-e5 .lve-e5-bg` (0-2-0) zweimal
+   setzt (Z. 283 und Z. 525) und spaeter laedt. `.lve-e5::before` traegt im
+   Entwurf keinen eigenen Schein mehr: die beiden Seitenfluegel von oben sind
+   im neuen Verlauf enthalten, doppelt gemalt waren sie zu hell und zu grau.
+   ============================================================ */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e5::before { background: none; }
+
+  .lvf-page .lve-e5 .lve-e5-bg {
+    background:
+      /* Naht zu e4 bei y 3722, linke Ecke. e4 liegt dort seit dem
+         11.08.2026 nachts auf dem Entwurf (236,156,42 gegen Soll 236,155,37),
+         e5 begann mit 196. Median je Spaltenblock, 8 px unter der Naht,
+         Rotkanal, und wie weit der Fehlbetrag nach unten reicht:
+           y        3724  3760  3820  3900  4000
+           Soll x44  237   242   248   252   254
+           vorher    197   208   217   236   250
+         Also -40 an der Kante, bei y 4000 ist er weg. Eine Ecklage
+         170 x 300 px in (255,168,36) holt das auf; die Farbe ist so
+         gewaehlt, dass sie den Blauueberschuss der Ecke (53 gegen Soll 41)
+         nicht vergroessert. Weiter rechts (x 176 bis 352) bleibt e5 zu
+         blass; das steckt im Lichtkern selbst und braucht dieselbe
+         Neuanpassung wie der Schleier weiter unten in dieser Regel. */
+      /* Dieselbe Ecke am unteren Ende, Naht zu e6 bei y 4883. Dort ist der
+         Sprung mit 32,0 der groesste der ganzen Seite (Entwurf 1,3):
+           x 0..88    e5 unten (218,185,123)   e6 oben (253,217,152)
+                      Soll     (246,207,138)   Soll    (245,206,136)
+         e6 liegt also 8 Stufen zu hell, e5 aber 28 zu dunkel. Farbe
+         (255,215,150), weil die Ecke im Entwurf weissgold ist und nicht
+         gesaettigt; sie trifft bei der noetigen Deckkraft alle drei Kanaele
+         (Rechnung: 0,76 ergibt 246/208/143 gegen Soll 246/207/138).
+         Klein gehalten (120 x 160 px), damit sie x 88..176 nicht mitnimmt -
+         dort ist der Entwurf gesaettigter und dieselbe Farbe wuerde 24
+         Blaustufen zu viel bringen. */
+      radial-gradient(ellipse 120px 160px at 0% 100%,
+        rgba(255, 215, 150, 0.70) 0%,
+        rgba(255, 215, 150, 0.55) 30%,
+        rgba(255, 215, 150, 0.36) 58%,
+        rgba(255, 215, 150, 0.16) 80%,
+        rgba(255, 215, 150, 0) 100%),
+      radial-gradient(ellipse 170px 300px at 0% 0%,
+        rgba(255, 168, 36, 0.72) 0%,
+        rgba(255, 168, 36, 0.57) 26%,
+        rgba(255, 168, 36, 0.38) 50%,
+        rgba(255, 168, 36, 0.17) 78%,
+        rgba(255, 168, 36, 0.06) 92%,
+        rgba(255, 168, 36, 0) 100%),
+      radial-gradient(31.4% 81.2% at -3.5% 56.2%, rgba(255, 250, 249, 0.874) 0%, rgba(255, 252, 243, 1) 35%, rgba(255, 190, 67, 0.766) 70%, rgba(255, 145, 0, 0) 100%),
+      radial-gradient(80.5% 62.3% at 11.3% 51.6%, rgba(255, 255, 255, 1) 0%, rgba(255, 162, 16, 0.885) 35%, rgba(122, 12, 0, 0.034) 70%, rgba(255, 145, 0, 0) 100%),
+      radial-gradient(15.8% 364% at 104% 111.7%, rgba(253, 147, 26, 0.977) 0%, rgba(253, 147, 1, 0.132) 35%, rgba(254, 150, 2, 0.032) 70%, rgba(255, 145, 0, 0) 100%),
+      /* ACHTUNG, offener Befund vom 11.08.2026 nachts, bitte nicht ohne
+         Neuanpassung anfassen: der helle Stopp dieser Ebene sitzt bei
+         100 Prozent, also genau auf dem Ellipsenrand. Ausserhalb eines
+         Verlaufs malt CSS die letzte Farbe unendlich weiter, die Lage liegt
+         deshalb als gleichmaessiger Schleier von rgba(255,181,89,0.147)
+         ueber der GANZEN Sektion: 0,147 mal (255,181,89) = (37,27,13), und
+         genau (38,26,13) misst man an der Oberkante von e5 ueber x 352 bis
+         1056, wo der Entwurf (35,22,4) bis (1,1,1) zeigt. Gegenprobe:
+         mit `.lve-e5-bg{display:none}` steht dort ueberall (0,0,0).
+
+         Ein Versuch, den Schleier ueber Stopps einzufangen, wurde gemessen
+         und wieder zurueckgenommen: die Naht zu e4 wird dadurch besser
+         (Sprung 33 auf 23), die Sektion insgesamt aber schlechter
+         (Blockmedian-Mittel 7,17 auf 7,37), weil die linke Spalte 13 bis 20
+         Stufen zu dunkel wird - bei y 3820 x 352 sind es dann -64. Die vier
+         Ebenen sind numerisch an 1200 Punkten gemeinsam angepasst worden;
+         der Schleier ist in dieser Anpassung mit drin. Sauber wird das erst
+         mit einer neuen Anpassung des ganzen Satzes. */
+      radial-gradient(81.3% 82.6% at 91.2% 64.6%, rgba(254, 127, 92, 0) 0%, rgba(254, 121, 48, 0) 35%, rgba(70, 38, 1, 0.002) 70%, rgba(255, 181, 89, 0.147) 100%);
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
+
+/* ============================================================
+   Kartenflaeche, 11.08.2026. Die vier Karten waren ein flaches Neutralgrau
+   (35,35,35) statt der fast schwarzen, leicht durchscheinenden Flaeche des
+   Entwurfs. Median ueber textfreie Kartenfelder:
+
+     Feld                vorher        Soll          nachher
+     K1 rechts oben      35,35,35       8, 8, 8      19,15, 9
+     K2 rechts oben      35,35,35       8, 8, 8       9, 8, 8
+     K3 links oben       35,35,35      20,16, 8      25,20,12
+     K4 rechts oben      35,35,35       8, 8, 8       9, 8, 8
+
+   Der Entwurf laesst den Goldschein zu rund 8 Prozent durch die Karte
+   durchscheinen: links ist die Flaeche warm (20..25), rechts neutral (8).
+   Deckendes Schwarz kann das nicht, deshalb rgba(0,0,0,0.92) statt #000
+   plus die weisse Aufhellung von 0,135 auf 0,03 zurueckgenommen.
+
+   r3-elite.css Regel R3-elite-A14 hatte hier "Soll neutral 30..38 grau"
+   notiert; am heutigen Vollbild-Export ist die Kartenflaeche 8 grau. Die
+   Regel bleibt unangetastet, sie wird mit 0-3-0 ueberstimmt.
+   Mittlere Abweichung ueber acht Kartenfelder: vorher 27 - nachher 4,0.
+   ============================================================ */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e5 .lve-e5-card {
+    background-color: rgba(0, 0, 0, 0.92);
+    background-image:
+      radial-gradient(ellipse 300px 190px at 26% -20px, rgba(255, 150, 10, 0.2) 0%, rgba(255, 146, 0, 0) 72%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.032) 0%, rgba(255, 255, 255, 0.028) 100%);
+  }
+}
+
+
+/* ============================================================
+   Abschluss-Pille "Maintain Your Position", 11.08.2026.
+   Im Entwurf ist sie rein schwarz und randlos, live trug sie einen goldenen
+   Rahmen und eine warme Fuellung (aus r3-elite.css Regel R3-elite-24).
+   Senkrecht durch die Pille bei x 800 gemessen:
+
+     Stelle        vorher        Soll
+     Rahmen oben   40,28,11       0, 0, 0
+     Fuellung      22,14, 5       0, 0, 0
+     Rahmen unten  41,29,11       0, 0, 0
+
+   Nachher 0,0,0 bis 1,1,0. Nur Farbe, keine Groesse: margin-top und
+   min-height bleiben in der Fuge-Regel weiter oben stehen.
+   ============================================================ */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e5 .lve-e5-proof {
+    border-color: transparent;
+    background: #000000;
+  }
+}
+
+
+/* Unterlaengen sichtbar halten, 11.08.2026 nach der Abnahme.
+
+   `background-clip: text` malt ausschliesslich innerhalb des Elementkastens.
+   Mit der auf 44 px gesetzten Zeilenhoehe ragte das Glyphenband (74 px) unten
+   heraus, und bei "Recognition" (g) wurde die Unterlaenge flach abgeschnitten.
+
+   padding-bottom vergroessert die Malflaeche, das gleich grosse negative
+   margin-bottom nimmt sie aus dem Layout wieder heraus. Die Seitenhoehe
+   aendert sich dadurch nicht. */
+@media (min-width: 1024px) {
+  .lve-e5-title { padding-bottom: 14px; margin-bottom: -14px; }
+}
+
+
+/* == e5-Symbole 12.08.2026 == */
+/* ===========================================================================
+   Die Symbole der vier Karten, 12.08.2026. Zwei Abweichungen.
+
+   1. KASTEN 79 STATT 87 PX.
+      Der Entwurf hat 87x87: Figma "Frame 2147237446", viermal zeichengleich
+      bei x 524 und 1151, y 3962 und 4360, cornerRadius 15,1228. Das Fragment
+      stand immer auf 87. Heruntergezogen hat es r3-elite.css Z. 311 (Regel
+      R3-elite-23, Selektor 0-2-0), und dort ging es gar nicht um das Symbol,
+      sondern um Kartenhoehe: "Karten im Soll 383 px hoch, im Ist 410".
+      Die Karten haengen aber an min-height 380 px und haben Luft; die 8 px
+      Symbol schlagen deshalb nicht auf die Kartenhoehe durch. Belegt am
+      gerenderten Stand: Karten vorher wie nachher 380 px, Seite vorher wie
+      nachher 6919 px. Deshalb hier mit 0-3-0 zurueck auf die 87 des Entwurfs.
+      Der Radius stimmt bereits (15 gegen 15,12) und bleibt unberuehrt.
+
+   2. FALSCHES MOTIV.
+      Gemalt wurde ein Pokal aus zwei Strichformen, gemessene Tinte
+      17,2 x 35,1 px. Der Entwurf zeigt etwas anderes: zwei Personen, die
+      hintere halb verdeckt, darunter eine offene tragende Hand. Seine Tinte
+      misst 46,5 x 47,3 px in einem 49x49-Kasten (Auftragsangabe 46 x 47).
+
+   WOHER DAS MOTIV STAMMT - und was ausdruecklich NICHT ging:
+   Die Vektorgeometrie ist im Figma-Export NICHT enthalten. Die vier Knoten
+   sind da (263:934, 263:948, 263:962, 263:976) und untereinander
+   zeichengleich, aber ohne fillGeometry und ohne strokeGeometry: die vier
+   Aufbereitungsskripte figma/page-prep.js, figma/extract-band.js,
+   figma/extract-refs.js und figma/eval-prep.js fuehren genau diese beiden
+   Felder in ihrem DROP-Set. Unter figma/ liegt ausserdem keine einzige
+   .svg-Datei und kein Einzelbild des Symbols, und die Vektoren haben keinen
+   IMAGE-Fill, stehen also auch in figma/elite-image-refs.txt,
+   figma/image-fills.json und figma/wp-media-map.json nicht.
+
+   Statt ein aehnliches Symbol aus einer Bibliothek zu nehmen, ist die echte
+   Zeichnung des Kunden nachgezeichnet worden. Quelle ist die hoechstaufgeloeste
+   vorhandene Darstellung: mockups/Elite page/Lvlup Futures - Lvlup Elite
+   Page.jpg, 3000 px gegen 1760 Figma-Einheiten, Faktor 1,7045. Verfahren:
+   Luminanz achtfach hochgetastet, Marching Squares auf dem Graustufenfeld
+   (Subpixel-Konturen), Douglas-Peucker mit 0,07 px.
+   Gegenprobe, Pfad zurueckgerastert und mit dem Mockup verglichen:
+   Ueberdeckung IoU 0,970, bestmoegliche Lage 0,975 bei 0,10 px Restversatz.
+
+   WARUM UEBER CSS UND NICHT IM MARKUP: das alte Motiv steckt als Inline-SVG
+   in fragment.html, und an dieser Datei wird hier nichts geaendert. Das alte
+   SVG wird deshalb ausgeblendet und das richtige Motiv als Maske auf ::after
+   gelegt. Die Maske traegt den Goldverlauf des Figma-Vektorfills
+   (#ffbc54 -> #ff9200, senkrecht).
+
+   Der Innenschein des Vektors (INNER_SHADOW #ffeed3, COLOR_DODGE, Radius
+   0,667) ist bei 49 px nicht aufloesbar und bleibt weg.
+
+   Die Maske sitzt mittig. Im Entwurf steht der 49er-Kasten 18 px von links
+   und 19 px von oben, mittig waeren 19/19; das eine Pixel wird bewusst in
+   Kauf genommen, damit die Lage bei 72 und 64 px Kastenbreite mitskaliert.
+   Die Glyphengroessen 49/40/36 sind die, die vorher fuer das Inline-SVG
+   galten (Verhaeltnis 49/87 = 0,563).
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e5 .lve-e5-icon { width: 87px; height: 87px; }
+}
+
+.lve-e5 .lve-e5-icon > svg { display: none; }
+.lve-e5 .lve-e5-icon::after {
+  content: "";
+  display: block;
+  width: 49px;
+  height: 49px;
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2049%2049'%3E%3Cpath%20fill='%23000'%20fill-rule='evenodd'%20d='M23.10%201.11%20L24.68%201.10%20L26.30%201.35%20L27.84%201.92%20L29.92%203.16%20L31.06%204.28%20L32.18%205.58%20L32.82%206.80%20L33.48%208.46%20L33.84%2011.08%20L33.33%2014.38%20L32.23%2016.58%20L30.99%2018.19%20L30.34%2018.78%20L28.76%2019.88%20L27.70%2020.47%20L25.78%2021.03%20L24.76%2021.20%20L22.70%2021.22%20L21.46%2021.06%20L19.70%2020.52%20L17.50%2019.29%20L15.52%2017.28%20L14.86%2016.36%20L14.26%2015.26%20L13.70%2013.80%20L13.49%2012.18%20L13.48%2010.35%20L13.70%208.52%20L14.27%206.99%20L14.78%206.02%20L16.03%204.34%20L16.69%203.67%20L18.08%202.59%20L19.37%201.92%20L21.24%201.28%20L23.10%201.11ZM36.23%206.54%20L36.56%206.51%20L36.93%206.65%20L37.35%207.05%20L37.96%207.40%20L39.15%208.52%20L40.40%2010.13%20L41.04%2011.30%20L41.65%2013.21%20L41.84%2015.63%20L41.58%2017.83%20L40.96%2019.53%20L40.34%2020.69%20L39.20%2022.20%20L38.62%2022.80%20L37.08%2023.99%20L35.76%2024.66%20L33.78%2025.27%20L31.06%2025.42%20L29.24%2025.24%20L28.42%2024.87%20L27.40%2024.63%20L27.00%2024.21%20L26.96%2023.99%20L27.06%2023.84%20L28.42%2023.45%20L29.01%2023.07%20L29.74%2022.86%20L30.26%2022.46%20L30.84%2022.23%20L33.12%2020.39%20L34.55%2018.64%20L35.75%2016.58%20L35.98%2015.63%20L36.39%2014.75%20L36.88%2012.33%20L36.85%209.91%20L36.41%207.64%20L36.08%206.90%20L36.23%206.54ZM43.31%2026.48%20L44.26%2026.42%20L45.66%2026.62%20L46.65%2027.22%20L47.42%2027.88%20L48.10%2028.90%20L48.41%2030.52%20L48.41%2030.96%20L48.08%2032.40%20L47.42%2033.37%20L45.07%2035.70%20L38.32%2041.88%20L35.68%2044.46%20L34.73%2045.04%20L33.19%2045.50%20L30.26%2045.73%20L23.73%2045.95%20L19.11%2046.32%20L16.25%2046.38%20L15.34%2046.21%20L14.16%2045.70%20L13.26%2044.96%20L12.58%2044.08%20L12.12%2042.91%20L11.91%2041.66%20L11.78%2037.70%20L11.41%2032.35%20L11.98%2030.30%20L12.42%2029.64%20L13.10%2028.95%20L13.89%2028.39%20L15.52%2027.81%20L21.82%2027.59%20L26.66%2027.22%20L27.62%2027.32%20L28.79%2027.89%20L29.86%2029.12%20L30.04%2030.22%20L29.86%2031.62%20L28.94%2032.76%20L28.00%2033.30%20L27.54%2033.43%20L22.26%2033.73%20L21.50%2034.11%20L21.24%2034.36%20L20.95%2035.28%20L21.25%2036.31%20L22.12%2036.85%20L23.14%2036.88%20L28.06%2036.49%20L29.69%2035.87%20L40.74%2027.74%20L41.77%2027.07%20L42.80%2026.60%20L43.31%2026.48ZM9.77%2026.56%20L10.44%2026.63%20L10.60%2027.00%20L10.45%2027.29%20L9.62%2028.17%20L8.92%2029.34%20L8.39%2030.96%20L8.27%2032.20%20L8.43%2037.04%20L8.82%2043.13%20L9.02%2044.16%20L9.58%2045.47%20L10.72%2047.02%20L11.53%2047.75%20L11.59%2047.97%20L11.26%2048.17%20L7.08%2048.36%20L5.53%2048.04%20L4.37%2047.41%20L3.75%2046.80%20L3.20%2045.87%20L2.80%2044.67%20L2.52%2041.81%20L2.41%2038.00%20L2.02%2033.23%20L1.95%2030.96%20L2.46%2029.34%20L2.98%2028.54%20L3.71%2027.79%20L4.66%2027.19%20L6.50%2026.74%20L9.77%2026.56Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2049%2049'%3E%3Cpath%20fill='%23000'%20fill-rule='evenodd'%20d='M23.10%201.11%20L24.68%201.10%20L26.30%201.35%20L27.84%201.92%20L29.92%203.16%20L31.06%204.28%20L32.18%205.58%20L32.82%206.80%20L33.48%208.46%20L33.84%2011.08%20L33.33%2014.38%20L32.23%2016.58%20L30.99%2018.19%20L30.34%2018.78%20L28.76%2019.88%20L27.70%2020.47%20L25.78%2021.03%20L24.76%2021.20%20L22.70%2021.22%20L21.46%2021.06%20L19.70%2020.52%20L17.50%2019.29%20L15.52%2017.28%20L14.86%2016.36%20L14.26%2015.26%20L13.70%2013.80%20L13.49%2012.18%20L13.48%2010.35%20L13.70%208.52%20L14.27%206.99%20L14.78%206.02%20L16.03%204.34%20L16.69%203.67%20L18.08%202.59%20L19.37%201.92%20L21.24%201.28%20L23.10%201.11ZM36.23%206.54%20L36.56%206.51%20L36.93%206.65%20L37.35%207.05%20L37.96%207.40%20L39.15%208.52%20L40.40%2010.13%20L41.04%2011.30%20L41.65%2013.21%20L41.84%2015.63%20L41.58%2017.83%20L40.96%2019.53%20L40.34%2020.69%20L39.20%2022.20%20L38.62%2022.80%20L37.08%2023.99%20L35.76%2024.66%20L33.78%2025.27%20L31.06%2025.42%20L29.24%2025.24%20L28.42%2024.87%20L27.40%2024.63%20L27.00%2024.21%20L26.96%2023.99%20L27.06%2023.84%20L28.42%2023.45%20L29.01%2023.07%20L29.74%2022.86%20L30.26%2022.46%20L30.84%2022.23%20L33.12%2020.39%20L34.55%2018.64%20L35.75%2016.58%20L35.98%2015.63%20L36.39%2014.75%20L36.88%2012.33%20L36.85%209.91%20L36.41%207.64%20L36.08%206.90%20L36.23%206.54ZM43.31%2026.48%20L44.26%2026.42%20L45.66%2026.62%20L46.65%2027.22%20L47.42%2027.88%20L48.10%2028.90%20L48.41%2030.52%20L48.41%2030.96%20L48.08%2032.40%20L47.42%2033.37%20L45.07%2035.70%20L38.32%2041.88%20L35.68%2044.46%20L34.73%2045.04%20L33.19%2045.50%20L30.26%2045.73%20L23.73%2045.95%20L19.11%2046.32%20L16.25%2046.38%20L15.34%2046.21%20L14.16%2045.70%20L13.26%2044.96%20L12.58%2044.08%20L12.12%2042.91%20L11.91%2041.66%20L11.78%2037.70%20L11.41%2032.35%20L11.98%2030.30%20L12.42%2029.64%20L13.10%2028.95%20L13.89%2028.39%20L15.52%2027.81%20L21.82%2027.59%20L26.66%2027.22%20L27.62%2027.32%20L28.79%2027.89%20L29.86%2029.12%20L30.04%2030.22%20L29.86%2031.62%20L28.94%2032.76%20L28.00%2033.30%20L27.54%2033.43%20L22.26%2033.73%20L21.50%2034.11%20L21.24%2034.36%20L20.95%2035.28%20L21.25%2036.31%20L22.12%2036.85%20L23.14%2036.88%20L28.06%2036.49%20L29.69%2035.87%20L40.74%2027.74%20L41.77%2027.07%20L42.80%2026.60%20L43.31%2026.48ZM9.77%2026.56%20L10.44%2026.63%20L10.60%2027.00%20L10.45%2027.29%20L9.62%2028.17%20L8.92%2029.34%20L8.39%2030.96%20L8.27%2032.20%20L8.43%2037.04%20L8.82%2043.13%20L9.02%2044.16%20L9.58%2045.47%20L10.72%2047.02%20L11.53%2047.75%20L11.59%2047.97%20L11.26%2048.17%20L7.08%2048.36%20L5.53%2048.04%20L4.37%2047.41%20L3.75%2046.80%20L3.20%2045.87%20L2.80%2044.67%20L2.52%2041.81%20L2.41%2038.00%20L2.02%2033.23%20L1.95%2030.96%20L2.46%2029.34%20L2.98%2028.54%20L3.71%2027.79%20L4.66%2027.19%20L6.50%2026.74%20L9.77%2026.56Z'/%3E%3C/svg%3E");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+@media (max-width: 1023px) {
+  .lve-e5 .lve-e5-icon::after { width: 40px; height: 40px; }
+}
+@media (max-width: 767px) {
+  .lve-e5 .lve-e5-icon::after { width: 36px; height: 36px; }
+}
+
+/* == e6-earned-steps == */
+/* e6-earned-steps: "Elite Is Earned More Than Once" der Lvlup Elite Seite. Praefix .lve-e6- */
+.lve-e6 {
+  position: relative;
+  overflow: clip;
+  padding: 30px 0 85px;
+}
+
+/* Hintergrund: warme Bernstein-Glows an beiden Seiten und unten mittig. Alle
+   laufen grossflaechig transparent aus, damit keine harten Kanten zu den
+   Nachbarsektionen entstehen (Kundenfeedback). Runde 3: Seitenglows kraeftiger,
+   das Soll zeigt v.a. links eine helle Bernstein-Flanke. */
+.lve-e6-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 40% 60% at -6% 58%, rgba(255, 196, 96, 0.6) 0%, rgba(255, 146, 0, 0.26) 45%, rgba(255, 146, 0, 0) 75%),
+    radial-gradient(ellipse 40% 60% at 106% 58%, rgba(255, 196, 96, 0.55) 0%, rgba(255, 146, 0, 0.24) 45%, rgba(255, 146, 0, 0) 75%),
+    radial-gradient(ellipse 26% 42% at -2% 56%, rgba(255, 226, 175, 0.45) 0%, rgba(255, 188, 84, 0) 70%),
+    radial-gradient(ellipse 26% 42% at 102% 56%, rgba(255, 188, 84, 0.36) 0%, rgba(255, 188, 84, 0) 70%),
+    radial-gradient(ellipse 60% 42% at 50% 118%, rgba(255, 146, 0, 0.4) 0%, rgba(255, 146, 0, 0.14) 48%, rgba(255, 146, 0, 0) 76%);
+}
+
+.lve-e6-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* Kopfbereich */
+.lve-e6-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 33px;
+  margin-bottom: 60px;
+}
+.lve-e6-title {
+  font-size: clamp(36px, 4.6vw, 65px);
+  font-weight: 500;
+  line-height: 0.93;
+  letter-spacing: -1.3px;
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lve-e6-title-gold {
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+/* Untertitel: breit genug, damit er auf Desktop in einer Zeile steht (Soll) */
+.lve-e6-sub {
+  max-width: 920px;
+  font-size: clamp(16px, 1.3vw, 18px);
+  font-weight: 425;
+  line-height: 24px;
+  letter-spacing: 0.54px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Schritt-Reihe: 5 Karten, goldene Haarlinie auf Hoehe der Punkte */
+.lve-e6-steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 29px;
+}
+.lve-e6-line {
+  position: absolute;
+  top: 115px;
+  left: -4%;
+  right: -4%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 188, 84, 0) 0%, rgba(255, 188, 84, 0.55) 18%, rgba(255, 146, 0, 0.55) 82%, rgba(255, 146, 0, 0) 100%);
+  pointer-events: none;
+}
+
+/* Karte */
+.lve-e6-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 241px;
+  padding: 38px 14px 22px;
+  border-radius: 20px;
+  border: 0.5px solid var(--lvf-line);
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(56px);
+  -webkit-backdrop-filter: blur(56px);
+  text-align: center;
+}
+.lve-e6-card--alt {
+  background:
+    linear-gradient(327deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%),
+    linear-gradient(306deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%),
+    rgba(255, 146, 0, 0.05);
+}
+
+/* Riesige Hintergrund-Ziffer, nach unten transparent auslaufend */
+.lve-e6-card-bgnum {
+  position: absolute;
+  top: -58px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 186px;
+  font-weight: 500;
+  line-height: 1.23;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Vordergrund-Ziffer: gold wie im Soll (gemessen 56/42/22 statt neutral-weiss),
+   Schatten deutlich reduziert, damit der Goldton nicht verschluckt wird */
+.lve-e6-card-num {
+  position: relative;
+  font-size: 41px;
+  font-weight: 500;
+  line-height: 50px;
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(2px 3px 5px rgba(0, 0, 0, 0.55));
+}
+
+/* Goldener Punkt auf der Haarlinie */
+.lve-e6-card-dot {
+  position: relative;
+  flex: none;
+  width: 9px;
+  height: 9px;
+  margin-top: 23px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  box-shadow: 0 0 10px rgba(255, 146, 0, 0.55);
+}
+
+.lve-e6-card-title {
+  margin-top: 27px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #ffbc54;
+}
+.lve-e6-card-text {
+  margin-top: 18px;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 15px;
+  letter-spacing: 0.48px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ===========================================================
+   Desktop >= 1024: Nachmessung 10.08.2026 (referenz-neu/grenzen-elite.json).
+   Soll-Sektionshoehe 478 px (Band 4881..5359), gemessen 464 px, also 14 px
+   zu NIEDRIG. Verteilung an den drei Figma-Ankern:
+     Ueberschrift        Soll  +7 ab Sektionskante   Ist  +7   stimmt
+     Schrittkarten oben  Soll +183                   Ist +177  6 zu wenig
+     Schrittkarten hoch  Soll  241                   Ist  241  stimmt
+     Karten bis Ende     Soll   54                   Ist   46  8 zu wenig
+   Deshalb 6 px mehr Abstand unter dem Kopfbereich und 8 px mehr unten.
+   =========================================================== */
+@media (min-width: 1024px) {
+  /* Spezifitaet (0,2,1), weil r3-elite.css spaeter "section.lve-e6
+     { padding: 0 0 46px }" (0,1,1) setzt. Oben bleibt 0: die Ueberschrift
+     sitzt in Soll wie Ist 7 px unter der Sektionskante. */
+  section.lve-e6.lve-e6 { padding: 0 0 54px; }
+  .lve-e6-head { margin-bottom: 66px; }
+}
+
+/* Tablet: 3 Spalten */
+@media (max-width: 1023px) {
+  .lve-e6 { padding: 40px 0 90px; }
+  .lve-e6-head { margin-bottom: 52px; }
+  .lve-e6-steps { grid-template-columns: repeat(3, 1fr); }
+  .lve-e6-line { display: none; }
+}
+
+/* Mobile: kein Design vorhanden, sauber gestapelt abgeleitet */
+@media (max-width: 767px) {
+  .lve-e6 { padding: 52px 0 72px; }
+  .lve-e6-head { gap: 18px; margin-bottom: 40px; }
+  .lve-e6-title { letter-spacing: -0.02em; }
+  .lve-e6-sub { line-height: 1.45; letter-spacing: 0.3px; }
+  .lve-e6-steps { grid-template-columns: 1fr; gap: 16px; }
+  .lve-e6-card { min-height: 0; padding: 34px 20px 26px; }
+  .lve-e6-card-bgnum { font-size: 150px; top: -46px; }
+  .lve-e6-card-title { font-size: 18px; }
+  .lve-e6-card-text {
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: 0.2px;
+    max-width: 320px;
+  }
+}
+
+
+/* Abnahme 06.08.: das grosse warme Randlicht des Designs fehlte fast komplett
+   (Design-Rand 251/225/186 vs Build 82/59/28). Kraeftige Seitenfluegel. */
+.lve-e6::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(26% 70% at 0% 45%, rgba(252, 226, 187, 0.9) 0%, rgba(240, 180, 90, 0.45) 45%, rgba(230, 150, 40, 0) 78%),
+    radial-gradient(26% 70% at 100% 45%, rgba(252, 226, 187, 0.9) 0%, rgba(240, 180, 90, 0.45) 45%, rgba(230, 150, 40, 0) 78%);
+}
+
+
+/* Abnahme (Runde 2): Akzente waren vertauscht - Ziffern weiss, Titel gold,
+   Schluesselbegriffe im Kurztext gold. */
+.lve-e6 .lve-e6-card-num {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, #ffffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lve-e6 h3.lve-e6-card-title {
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.lve-e6-hl {
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+
+/* ============================================================
+   Sektionsschein, 11.08.2026, Runde "Effekte 1 zu 1".
+   Gemessen an referenz-neu/soll/elite-aus-vollbild.png; e6 liegt dort
+   30 px tiefer als im Build (Anker: Oberkante der e7-Tafel).
+   Nur ab 1024 px, die Mobilwerte aus r3-elite.css bleiben gueltig.
+
+   Zwei Befunde an einer Regel:
+
+   1. Der Goldschein links stirbt zu frueh ab. Auf Hoehe der Schrittkarten
+      (y 5000 im Build, 5030 im Soll):
+        x 400   vorher   8, 5, 2   Soll  36,23, 6   nachher  32,18, 3
+        x 600   vorher   8, 5, 2   Soll  11, 6, 1   nachher   8, 5, 2
+      Er endete also bei x etwa 400, der Entwurf traegt bis ueber x 600.
+
+   2. Unter den Karten liegt live ein breiter Bodenschein, den der Entwurf
+      nicht hat. Er kommt aus r3-elite.css Regel R3-elite-25, dritte Ebene
+      (`ellipse 60% 42% at 50% 96%`). Bei y 5300 (Soll 5330):
+        x  600  vorher  52,30, 2   Soll   3, 2, 0   nachher   8, 5, 2
+        x  900  vorher  72,42, 1   Soll   0, 0, 0   nachher   8, 5, 2
+        x 1200  vorher  49,28, 2   Soll   0, 0, 0   nachher   8, 5, 2
+      Die verbleibenden 8,5,2 sind der Seitengrund #080502, den r3-elite.css
+      auf body setzt; der Entwurf hat dort 0.
+
+   Drei Ebenen, numerisch an 690 Messpunkten angepasst: helle Saeule links,
+   ein flacher Deckschleier, schmale Flanke rechts.
+   Mittlere Abweichung ueber 148 Kontrollpunkte: vorher 11,1 - nachher 7,0.
+   (Der Rest steckt in der Ueberschriftszeile, dort misst man Text.)
+
+   Selektor 0-3-0, weil r3-elite.css `.lve-e6 .lve-e6-bg` (0-2-0) setzt und
+   spaeter laedt. `.lve-e6::before` faellt weg: die beiden Seitenfluegel von
+   oben sind im neuen Verlauf enthalten und waren doppelt gemalt zu hell.
+   ============================================================ */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e6::before { background: none; }
+
+  .lvf-page .lve-e6 .lve-e6-bg {
+    background:
+      radial-gradient(36.8% 334.5% at -5.4% -43.1%, rgba(255, 255, 255, 1) 0%, rgba(255, 190, 77, 0.901) 35%, rgba(63, 35, 5, 0.661) 70%, rgba(55, 11, 0, 0) 100%),
+      radial-gradient(98.2% 221.8% at 40.8% -200%, rgba(252, 236, 189, 0.825) 0%, rgba(254, 229, 208, 0.005) 35%, rgba(255, 215, 150, 1) 70%, rgba(0, 0, 0, 0.02) 100%),
+      radial-gradient(16.3% 356.5% at 104.2% 127.9%, rgba(255, 159, 23, 1) 0%, rgba(244, 141, 1, 0.303) 35%, rgba(47, 27, 0, 0.354) 70%, rgba(184, 68, 21, 0) 100%);
+  }
+}
+
+
+/* ============================================================
+   Riesige Hintergrundziffer, 11.08.2026: doppelt so kraeftig wie im Entwurf.
+   Gemessen auf einer breiten Strichflaeche der "03" in Karte 3
+   (Build y 5060, Soll y 5090), Ziffer gegen die Kartenflaeche daneben:
+
+     Kartenflaeche   Ziffer     daraus Deckkraft an dieser Stelle
+     Build  7, 5, 2  15,13,10   0,032
+     Soll   1, 1, 1   5, 5, 5   0,016
+
+   Die Stelle liegt bei 37,5 Prozent der Elementhoehe, der Verlauf hat dort
+   noch 62,5 Prozent seines Startwerts: 0,05 mal 0,625 = 0,031, passt.
+   Der Entwurf braucht also 0,025 am Kopf. Danach steht die Ziffer 4 Stufen
+   ueber der Karte, genau wie im Entwurf.
+
+   Kein Textfarbenfall im Sinne der widerlegten Befunde: gemessen ist nicht
+   eine Kante, sondern das Plateau eines 20 px breiten Strichs.
+   ============================================================ */
+@media (min-width: 1024px) {
+  .lve-e6 .lve-e6-card-bgnum {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0%, rgba(255, 255, 255, 0) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}
+
+
+/* Zeilenhoehe der Ueberschrift, 11.08.2026: im Entwurf 44 px
+   (Figma-TEXT y 4888..4932), live 60,5 = 65 px Grad mal 0,93. Der Abstand
+   zur Unterzeile stimmt bereits. 44 / 65 = 0,677. Gleiche Korrektur wie in
+   e3 und auf evaluation e3, dieselbe Ueberschriftengroesse im ganzen Entwurf.
+   Nur ab 1024 px, darunter faellt der Grad per clamp kleiner aus und die
+   Zeile bricht um. */
+@media (min-width: 1024px) {
+  .lve-e6 .lve-e6-title { line-height: 0.677; }
+}
+
+
+/* ===========================================================================
+   Naht zu e7 bei y 5345, 11.08.2026 (Nahtkanten-Abnahme)
+
+   In r3-elite.css liegt auf .lve-e6-bg ein dritter, undokumentierter Verlauf:
+   eine Bernsteinblase am unteren Sektionsrand, die der Entwurf nicht hat. An
+   der Naht sprang die Farbe dadurch in der Seitenmitte von (69,40,2) auf
+   (8,5,2), Distanz 70. Das Mockup ist dort auf beiden Seiten schwarz, also
+   Sprung 0.
+
+   Hier stehen nur die beiden Kantensaeulen, die laut Reparaturdoku korrekt
+   kalibriert sind. Die Bodenblase entfaellt ersatzlos.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e6 .lve-e6-bg {
+    background:
+      /* Nachtrag 11.08.2026 nachts: nach dem Entfernen der Bodenblase steht
+         an derselben Naht noch die linke ECKE offen. Median x 0..88, 8 px
+         ueber der Naht: Ist (165,109,34), Soll (183,128,45), waehrend e7
+         darunter mit (182,128,42) genau richtig anfaengt - Sprung 14,7 bei
+         einem Soll-Sprung von 1,0. Der Fehlbetrag reicht rund 150 px hoch
+         (bei y 5300 noch -12, bei 5250 -4, bei 5190 -2), deshalb eine kleine
+         Ecklage. Farbe (255,205,110): bei der noetigen Deckkraft von 0,20
+         ergibt das (183,128,49) gegen Soll (183,128,45), waehrend das
+         weissere (255,215,150) 12 Blaustufen zu viel braechte. Schmal
+         gehalten, damit x 88..176 (dort stimmt es auf 2 Stufen) frei bleibt. */
+      radial-gradient(ellipse 120px 170px at 0% 100%,
+        rgba(255, 205, 110, 0.26) 0%,
+        rgba(255, 205, 110, 0.21) 30%,
+        rgba(255, 205, 110, 0.14) 58%,
+        rgba(255, 205, 110, 0.06) 80%,
+        rgba(255, 205, 110, 0) 100%),
+      radial-gradient(ellipse 40% 420% at -8% -140%, rgba(255,255,252,1) 0%, rgba(255,222,160,1) 42%, rgba(255,206,124,.96) 45%, rgba(254,192,96,.92) 48%, rgba(253,180,74,.87) 52%, rgba(252,172,60,.81) 56%, rgba(251,166,52,.76) 59%, rgba(255,146,0,0) 86%),
+      radial-gradient(ellipse 30% 420% at 106% 240%, rgba(254,176,58,.62) 0%, rgba(255,150,8,.22) 48%, rgba(255,146,0,0) 82%);
+  }
+}
+
+
+/* ===========================================================================
+   Naht e5/e6 bei y 4883, 12.08.2026
+
+   BEFUND (live 1760, Blockmedian ueber 8 px, Inhaltsbloecke 5 und 11
+   ausgenommen): Sprung IST 10,15 gegen Sprung SOLL 2,10. Der Sprung sitzt
+   vollstaendig im linken Goldfeld, Bloecke 0 bis 8.
+
+   IST/SOLL am Querschnitt, 8 px unter der Naht (also e6-Oberkante):
+
+     x       e5 unten      e6 oben       SOLL
+       0   244,207,144   255,223,164   250,214,156
+      96   218,176, 99   230,171, 82   230,184, 97
+     192   191,141, 51   185,122, 38   185,134, 51
+     320    94, 68, 27    74, 49, 15    94, 62, 21
+     384    36, 24, 12    15, 10,  3    61, 41, 12
+     448    27, 18,  9     0,  0,  0    42, 28,  7
+     640    13,  8,  4     0,  0,  0    14,  9,  1
+     768     4,  1,  1     0,  0,  0     5,  4,  0
+
+   Zwei Ursachen, beide in dieser Ebene:
+   1. Das Feld endet bei x 417. Der Entwurf traegt bis x rund 900. Grund ist
+      der waagerechte Radius von 40 Prozent: bei einem Mittelpunkt auf
+      -8 Prozent liegt die Nullstelle rechnerisch bei x 417, und genau dort
+      misst man den Abbruch. Von x 448 an steht unter der Naht Schwarz,
+      darueber traegt e5 seinen Schleier weiter - das ergibt die Bloecke 6
+      bis 8 mit 12,7 / 8,3 / 3,3.
+   2. Die Stopps sind zu gesaettigt. Bei x 96 bis 224 fehlen 12 bis 17 Gruen-
+      und Blaustufen, an der Kante ist Rot dagegen 5 Stufen zu hell.
+
+   AENDERUNG: dieselbe Ellipsenfamilie, aber Radien und Mittelpunkt um den
+   Faktor 1,75 vergroessert (40/420 % -> 70/735 %, -8/-140 % -> -14/-245 %).
+   Der Faktor haelt den Wert am Ellipsenmittelpunkt-Abstand der Naht exakt
+   gleich (dy bleibt 0,3333, dx bleibt 0,2), verschiebt aber die Nullstelle
+   von x 417 auf x 915. Die Stopps sind neu gerechnet: je Stuetzstelle
+   Deckkraft = Soll-Rot / 255, Farbe = Soll normiert auf Rot 255. Damit
+   trifft die Ebene den Soll-Querschnitt an 15 Stuetzstellen; die
+   Zwischenwerte wurden nachgerechnet (groesste Abweichung 2,6 Stufen bei
+   x 352).
+
+   Zur Lage der Stuetzstellen: die Soll-Werte sind Mediane ueber ein 32 px
+   breites Fenster und gehoeren damit zur Fenstermitte x+16. Der erste
+   Durchlauf hatte sie auf x gesetzt; gemessen kam e6 dadurch in den
+   Bloecken 2 und 3 rund 9 Stufen zu dunkel heraus (Sprung 14,2 und 14,3).
+   Die Prozentwerte stehen deshalb auf dem Ellipsenabstand von x+16.
+
+   PREIS, gemessen und bewusst in Kauf genommen: der groessere senkrechte
+   Radius macht das Laengsprofil flacher. Am unteren Ende der Sektion
+   (y 5283, x 0..24) rechnet sich 194 statt 199 gegen Soll 210, also 5 Stufen
+   schlechter auf 24 px Breite. Dafuer stimmen 550 px Breite mal 462 px Hoehe
+   im Feld daneben, wo vorher Schwarz stand.
+
+   NICHT angefasst: die Ecklage aus der Nacht zum 12.08. (erste Ebene, Naht
+   zu e7) und die rechte Flanke. Die rechte Flanke ist zwar 15 Stufen zu
+   dunkel (x 1760 nach innen: 34 gegen Soll 59), springt an der Naht aber
+   nur um 1,0, weil e5 darueber denselben Fehlbetrag hat. Das ist ein
+   Flaechenbefund, kein Nahtbefund.
+
+   Selektor 0-3-0 wie die Regel darueber, gleiche Datei, spaeter - gewinnt
+   damit gegen r3-elite.css `.lve-e6 .lve-e6-bg` (0-2-0).
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e6 .lve-e6-bg {
+    background:
+      /* Ecklage zur Naht e6/e7, unveraendert uebernommen */
+      radial-gradient(ellipse 120px 170px at 0% 100%,
+        rgba(255, 205, 110, 0.26) 0%,
+        rgba(255, 205, 110, 0.21) 30%,
+        rgba(255, 205, 110, 0.14) 58%,
+        rgba(255, 205, 110, 0.06) 80%,
+        rgba(255, 205, 110, 0) 100%),
+      /* Linkes Goldfeld, neu gerechnet. Prozentwerte = Ellipsenabstand der
+         jeweiligen Stuetzstelle x auf der Nahtzeile. */
+      radial-gradient(ellipse 70% 735% at -14% -245%,
+        rgba(255, 218, 159, 0.980) 39.55%,   /* x  16  Soll 250,214,156 */
+        rgba(255, 209, 124, 0.937) 42.58%,   /* x  80  Soll 239,196,116 */
+        rgba(255, 198,  90, 0.863) 45.99%,   /* x 144  Soll 220,171, 78 */
+        rgba(255, 185,  70, 0.725) 49.71%,   /* x 208  Soll 185,134, 51 */
+        rgba(255, 173,  62, 0.549) 53.68%,   /* x 272  Soll 140, 95, 34 */
+        rgba(255, 168,  57, 0.369) 57.84%,   /* x 336  Soll  94, 62, 21 */
+        rgba(255, 171,  50, 0.239) 62.16%,   /* x 400  Soll  61, 41, 12 */
+        rgba(255, 170,  42, 0.165) 66.60%,   /* x 464  Soll  42, 28,  7 */
+        rgba(255, 158,  26, 0.114) 71.15%,   /* x 528  Soll  29, 18,  3 */
+        rgba(255, 153,  26, 0.078) 75.78%,   /* x 592  Soll  20, 12,  2 */
+        rgba(255, 164,  18, 0.055) 80.47%,   /* x 656  Soll  14,  9,  1 */
+        rgba(255, 153,  26, 0.039) 85.23%,   /* x 720  Soll  10,  6,  1 */
+        rgba(255, 204,   0, 0.020) 90.03%,   /* x 784  Soll   5,  4,  0 */
+        rgba(255, 170,   0, 0.012) 94.88%,   /* x 848  Soll   3,  2,  0 */
+        rgba(255, 170,   0, 0.004) 99.76%,   /* x 912  Soll   1,  1,  0 */
+        rgba(255, 170, 0, 0) 100%),
+      /* rechte Flanke, unveraendert uebernommen */
+      radial-gradient(ellipse 30% 420% at 106% 240%, rgba(254,176,58,.62) 0%, rgba(255,150,8,.22) 48%, rgba(255,146,0,0) 82%);
+  }
+}
+
+/* == e7-points-cta == */
+/* e7-points-cta: "Reach 10,000 Points. Enter a Different World." der Lvlup Elite
+   Seite. Goldene CTA-Tafel mit Statistik-Zeile und zwei Buttons. Praefix .lve-e7- */
+.lve-e7 {
+  position: relative;
+  overflow: clip;
+  /* Nachmessung 10.08.2026 (referenz-neu/grenzen-elite.json): Soll-Sektions-
+     hoehe 655 px (Band 5359..6014), gemessen 690, also 35 px zu hoch. Die
+     Aussenkanten der CTA-Tafel liegen im Entwurf bei 5416 und 5983, daraus:
+       ueber der Tafel  Soll 57   Ist 50   7 zu wenig
+       Tafel selbst     Soll 567  Ist 555  12 zu wenig  (siehe Rahmen unten)
+       unter der Tafel  Soll 31   Ist 85   54 zu viel
+     Der alte Wert -396 aus der automatischen Grenzsuche ist widerlegt.
+     Tablet/Mobil behalten ihre eigenen Werte in den max-width-Bloecken. */
+  padding: 57px 0 31px;
+}
+
+/* Sektions-Glow: breite Bernsteinfacher links/rechts und unter der Tafel. Alle
+   laufen grossflaechig transparent aus, keine harten Kanten zu den Nachbarn.
+   Runde 3: kraeftiger, damit der grosse goldene Ambient-Schein des Solls auch
+   um die CTA-Tafel herum traegt. */
+.lve-e7-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 44% 72% at 5% 55%, rgba(255, 170, 50, 0.45) 0%, rgba(255, 146, 0, 0.16) 45%, rgba(255, 146, 0, 0) 75%),
+    radial-gradient(ellipse 44% 72% at 95% 55%, rgba(255, 170, 50, 0.45) 0%, rgba(255, 146, 0, 0.16) 45%, rgba(255, 146, 0, 0) 75%),
+    radial-gradient(ellipse 26% 45% at 9% 45%, rgba(255, 200, 110, 0.34) 0%, rgba(255, 188, 84, 0) 70%),
+    radial-gradient(ellipse 26% 45% at 91% 45%, rgba(255, 200, 110, 0.34) 0%, rgba(255, 188, 84, 0) 70%),
+    radial-gradient(ellipse 68% 58% at 50% 112%, rgba(255, 146, 0, 0.36) 0%, rgba(255, 146, 0, 0.12) 50%, rgba(255, 146, 0, 0) 78%);
+}
+
+.lve-e7-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* Aeusserer Rahmen: 10px vertikaler Weiss-Gradient (im Figma als OUTSIDE-Border) */
+.lve-e7-frame {
+  max-width: 1259px;
+  margin-inline: auto;
+  padding: 10px;
+  border-radius: 55px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.05) 100%);
+  box-shadow: 6px 23px 23px rgba(0, 0, 0, 0.25);
+}
+
+/* Tafel: heller Gold-Verlauf (Soll-Messwerte: oben links 97/58/7, oben rechts
+   245/170/59, unten 174/115/21). Helle Spitze rechts oben, dunklerer Goldton
+   links, nach unten waermer abgedunkelt. */
+.lve-e7-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 45px;
+  background:
+    radial-gradient(ellipse 70% 100% at 100% 0%, rgba(255, 196, 96, 0.85) 0%, rgba(255, 196, 96, 0) 62%),
+    radial-gradient(ellipse 85% 90% at 50% 125%, rgba(120, 76, 10, 0.5) 0%, rgba(120, 76, 10, 0) 70%),
+    linear-gradient(150deg, #613a07 0%, #9a6a16 55%, #c98f2e 100%);
+  box-shadow: 7px 29px 29px rgba(0, 0, 0, 0.25);
+}
+
+/* Deko-Pfeile links/rechts, laufen nach unten transparent aus und werden am
+   Tafelrand beschnitten (im Figma ein Compound-Vektor, hier angenaehert) */
+.lve-e7-arrows {
+  position: absolute;
+  bottom: -70px;
+  width: 404px;
+  height: 407px;
+  pointer-events: none;
+  filter: drop-shadow(0 21px 62px rgba(0, 0, 0, 0.2)) drop-shadow(0 0 42px rgba(255, 146, 0, 0.35));
+}
+.lve-e7-arrows--left { left: -90px; }
+.lve-e7-arrows--right { right: -90px; }
+
+.lve-e7-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 47px;
+  /* 90 statt 89: die Tafel innerhalb des Rahmens ist im Entwurf 547 px hoch
+     (Figma Frame 2147237362 y 5426..5973), gemessen 545. */
+  padding: 90px 60px;
+  text-align: center;
+}
+
+/* Kopfbereich */
+.lve-e7-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 34px;
+}
+.lve-e7-title {
+  font-size: clamp(36px, 4.4vw, 70px);
+  font-weight: 500;
+  line-height: 0.93;
+  letter-spacing: -1.4px;
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lve-e7-title-gold {
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lve-e7-sub {
+  max-width: 1080px;
+  font-size: clamp(16px, 1.6vw, 24px);
+  font-weight: 425;
+  line-height: 1.5;
+  letter-spacing: 0.72px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Statistik-Zeile: Icon + Wert oben, Label darunter */
+.lve-e7-stats {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(36px, 6.7vw, 96px);
+  flex-wrap: wrap;
+}
+.lve-e7-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+}
+.lve-e7-stat-top {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.lve-e7-stat-icon {
+  color: #ffb24b;
+  flex: none;
+}
+.lve-e7-stat-value {
+  font-size: clamp(28px, 2.6vw, 37px);
+  font-weight: 555;
+  line-height: 1.24;
+  letter-spacing: -1.12px;
+  background: linear-gradient(180deg, #ffe9c4 0%, #ffbc54 48%, #ff9200 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lve-e7-stat-label {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.53px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* Buttons */
+.lve-e7-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  filter: drop-shadow(6px 6px 18px rgba(0, 0, 0, 0.25));
+}
+.lve-e7-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  border-radius: 10px;
+  font-size: 17px;
+  line-height: 25px;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+.lve-e7-btn:hover {
+  filter: brightness(1.08);
+}
+.lve-e7-btn--primary {
+  gap: 8px;
+  padding: 5px 12px 5px 5px;
+  font-weight: 500;
+  /* Verlaufsachse 11.08.2026 von 134deg auf senkrecht gestellt.
+     Am Mockup gemessen laeuft die Farbe im Knopf ausschliesslich von
+     oben nach unten: Unterschied senkrecht 23,3 gegen waagerecht 7,1.
+     Live war es umgekehrt, 4,8 gegen 25,0, der Knopf wurde also von
+     links nach rechts dunkler statt von oben nach unten. Die beiden
+     Stuetzfarben stimmten, nur die Achse nicht. */
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%);
+  border: 0.5px solid rgba(255, 188, 84, 0.6);
+  box-shadow: inset 0 1px 18px rgba(255, 202, 131, 0.9);
+}
+/* Doppelte Klasse, damit die Farbe gegen ".lvf-page a" (0-1-1) gewinnt */
+.lve-e7-btn.lve-e7-btn--primary { color: #060606; }
+.lve-e7-btn-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: #060606;
+  color: #ffffff;
+  flex: none;
+}
+.lve-e7-btn--ghost {
+  padding: 10px 32px;
+  font-weight: 400;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 188, 84, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow:
+    inset -2px -6px 19px rgba(255, 178, 75, 0.4),
+    inset 9px 7px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* ===========================================================
+   Desktop >= 1024: heller Aussenrahmen wieder 10 px breit.
+   r3-elite.css setzt in Regel R3-elite-29 ".lve-e7 .lve-e7-frame
+   { padding: 5px }" (0,2,0) und begruendet das mit "Tafel im Soll
+   1231 x 492 px". Diese Messung stammt aus dem versetzten Layout und ist
+   durch die Nachmessung vom 10.08.2026 widerlegt: die Tafel ist 547 px hoch
+   und traegt einen 10 px breiten Aussenrand (Figma-Kasten 5426..5973,
+   sichtbare Aussenkanten im Mockup 5416 und 5983). Mit 5 px war die Tafel
+   aussen 555 statt 567 px hoch. Spezifitaet (0,2,1), damit die spaetere
+   Fremdregel nicht gewinnt; sauberer waere eine Korrektur in r3-elite.css.
+   Tablet setzt dort ohnehin schon wieder 10 px.
+   =========================================================== */
+@media (min-width: 1024px) {
+  section.lve-e7 .lve-e7-frame { padding: 10px; }
+}
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .lve-e7 { padding: 50px 0 90px; }
+  .lve-e7-content { padding: 64px 40px; }
+  .lve-e7-arrows { width: 300px; height: auto; bottom: -50px; }
+  .lve-e7-arrows--left { left: -80px; }
+  .lve-e7-arrows--right { right: -80px; }
+}
+
+/* Mobile: kein Design vorhanden, sauber gestapelt abgeleitet */
+@media (max-width: 767px) {
+  .lve-e7 { padding: 44px 0 72px; }
+  .lve-e7-frame { padding: 6px; border-radius: 34px; }
+  .lve-e7-panel { border-radius: 28px; }
+  .lve-e7-content { padding: 52px 22px; gap: 36px; }
+  .lve-e7-head { gap: 18px; }
+  .lve-e7-title { letter-spacing: -0.02em; line-height: 1.05; }
+  .lve-e7-sub { letter-spacing: 0.3px; }
+  .lve-e7-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 26px 12px;
+    width: 100%;
+  }
+  .lve-e7-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 12px;
+  }
+  .lve-e7-btn { width: 100%; min-height: 52px; }
+  .lve-e7-arrows { width: 190px; bottom: -120px; opacity: 0.55; }
+  .lve-e7-arrows--left { left: -80px; }
+  .lve-e7-arrows--right { right: -80px; }
+}
+
+
+/* Abnahme 06.08.: dunkle Schrift auf Gold-Button */
+a.lve-e7-btn--primary { color: #1c1200; }
+/* Panel: Headline-Zone startet fast schwarz wie im Design (11,7,2) */
+.lve-e7-panel {
+  background:
+    radial-gradient(ellipse 95% 75% at 35% -5%, rgba(11, 7, 2, 0.93) 0%, rgba(11, 7, 2, 0.55) 40%, rgba(11, 7, 2, 0) 65%),
+    radial-gradient(ellipse 70% 100% at 100% 0%, rgba(255, 196, 96, 0.85) 0%, rgba(255, 196, 96, 0) 62%),
+    radial-gradient(ellipse 80% 90% at 15% 110%, rgba(255, 170, 50, 0.9) 0%, rgba(230, 140, 20, 0.5) 50%, rgba(200, 120, 10, 0) 80%),
+    linear-gradient(180deg, #100a03 0%, #4a3008 55%, #a3670e 100%);
+}
+
+
+/* ============================================================
+   Gold-Verlauf der CTA-Tafel, Abgleich 11.08.2026, nur Desktop.
+
+   WARUM VIER KLASSEN IM SELEKTOR: der bisher wirksame Verlaufssatz steht
+   nicht hier, sondern in server-stand-20260810/lvlup-fixes/r3-elite.css
+   Zeile 388..401 (Regel R3-elite-28, Selektor `.lve-e7 .lve-e7-panel`,
+   Ebene 2, Prioritaet 1200). Die Datei laedt nach dem Fragment und gewinnt
+   bei gleicher Spezifitaet. `.lve-e7 .lve-e7-frame .lve-e7-panel` (0-3-0
+   gegen 0-2-0) setzt die Korrektur durch, ohne dass jemand in der
+   Fremd-Ebene arbeiten muss.
+
+   Befunde aus referenz-neu/pruefung/elite.md, Abschnitt 2.1, alle
+   nachgemessen an referenz-neu/soll/elite-aus-vollbild.png,
+   Tafel box(261,5426,1239,547); Ist-Tafel 1220 x 547 (der Rahmen sitzt
+   innen im 1240er Container, siehe Befund 4.1 - Positionsfrage, hier nicht
+   behandelt). Messpunkte tafel-relativ, R/G/B:
+
+     Punkt         Soll            vorher          nachher
+     (14,120)      178,112,20      178,113,18      177,109,15
+     (14,320)      184,116,17       89, 56, 8      181,113,16
+     (1206,120)    247,178,60      146, 92,10      243,176,58
+     (1206,285)    215,137,28       22, 14, 2      210,140,29
+     (1206,395)    204,131,10       25, 16, 2      200,128,12
+     (620,285)      23, 14, 2       58, 36, 4       24, 15, 2
+     (840,22)      138, 83,11       22, 14, 2      107, 69,16
+     (420,530)     130, 93,49       12,  8, 1      118, 72, 6
+     (1080,530)    203,164,69       92, 58, 8      215,148,41
+
+   Die drei Kernbefunde der Pruefung sind damit erledigt:
+   - Der rechte Goldschein beginnt nicht mehr rund 350 px zu weit rechts:
+     bei x=1000 (rel. 82 %) misst der Soll 75 im R-Kanal, vorher 22, jetzt 71.
+   - Der Bodenschein ueber die volle Breite ist wieder da: Mitte unten
+     Soll 82, vorher 12, jetzt 78.
+   - Die Tafelmitte ist nicht mehr fast schwarz, sondern bernstein.
+
+   Mittlerer Farbabstand ueber 118 textfreie Messpunkte: vorher 33,3 Stufen,
+   nachher 8,9. Aufbau von oben nach unten:
+     1. heller Saum ueber die volle Unterkante (Soll (420,530) B-Kanal 49,
+        rein goldene Verlaeufe kommen dort nur auf 6)
+     2./3. untere Ecken - Soll (8,525) rgb(245,216,151)
+     4. Lichtkeule oben rechts, weit nach links reichend
+     5. rechte Flanke ueber die volle Hoehe - Soll (1232,395) rgb(204,131,10)
+     6. linke Flanke ueber die volle Hoehe  - Soll (8,250) rgb(168,104,14)
+     7. Grundton senkrecht: Tafelmitte Soll y285 rgb(23,14,2),
+        y395 rgb(50,30,2), y470 rgb(54,32,3), y525 rgb(82,48,4)
+   ============================================================ */
+@media (min-width: 1024px) {
+  .lve-e7 .lve-e7-frame .lve-e7-panel {
+    background:
+      radial-gradient(86% 24% at 50% 106%, rgba(255, 238, 198, 0.34) 0%, rgba(255, 214, 146, 0.16) 46%, rgba(255, 190, 110, 0) 88%),
+      radial-gradient(56% 48% at -2% 104%, rgba(250, 222, 158, 1) 0%, rgba(250, 206, 120, 0.95) 20%, rgba(246, 176, 58, 0.74) 28%, rgba(226, 148, 22, 0.52) 40%, rgba(214, 136, 14, 0.42) 55%, rgba(200, 126, 10, 0.28) 68%, rgba(186, 116, 8, 0.12) 82%, rgba(180, 112, 6, 0) 100%),
+      radial-gradient(56% 48% at 102% 104%, rgba(248, 214, 140, 1) 0%, rgba(248, 200, 112, 0.93) 20%, rgba(244, 172, 54, 0.72) 28%, rgba(224, 146, 20, 0.5) 40%, rgba(212, 134, 12, 0.41) 55%, rgba(198, 124, 9, 0.27) 68%, rgba(184, 114, 7, 0.12) 82%, rgba(178, 110, 6, 0) 100%),
+      radial-gradient(62% 60% at 100% 13%, rgba(252, 182, 64, 0.93) 0%, rgba(252, 180, 62, 0.91) 17%, rgba(250, 176, 58, 0.86) 26%, rgba(246, 168, 50, 0.72) 36%, rgba(238, 158, 38, 0.48) 49%, rgba(232, 150, 30, 0.4) 55%, rgba(222, 142, 22, 0.23) 65%, rgba(210, 134, 14, 0.09) 81%, rgba(200, 126, 10, 0.02) 96%, rgba(196, 122, 8, 0) 100%),
+      linear-gradient(270deg, rgba(208, 134, 11, 1) 0%, rgba(206, 132, 11, 0.9) 3%, rgba(204, 130, 10, 0.78) 6%, rgba(200, 128, 10, 0.53) 10.4%, rgba(196, 124, 9, 0.27) 16%, rgba(190, 120, 8, 0.09) 23%, rgba(186, 116, 7, 0.02) 30%, rgba(184, 114, 6, 0) 34%),
+      linear-gradient(90deg, rgba(178, 110, 18, 1) 0%, rgba(176, 109, 17, 0.92) 1.6%, rgba(174, 108, 17, 0.78) 3.2%, rgba(170, 105, 15, 0.56) 5.6%, rgba(164, 101, 13, 0.33) 9%, rgba(158, 97, 11, 0.15) 13%, rgba(152, 93, 9, 0.05) 18%, rgba(150, 92, 8, 0) 24%),
+      linear-gradient(180deg, #060301 0%, #060301 27%, #170e02 52%, #321e02 72%, #362003 86%, #523004 96%, #583405 100%);
+  }
+
+  /* Pfeilkasten: 320 x 275 px an der Tafelunterkante, Kartenkoordinaten
+     x 40..360 bzw. 860..1180, y 300..575. Er muss Pfeil UND Quadrat fassen.
+     fixes-elite.css setzt fuer denselben Kasten 253 x auto bei left/right 34
+     und bottom -34 (Selektor 0-2-0); die Datei rechnet mit einem Kopfmass von
+     120 px aus einer aelteren Referenz. Im heutigen Mockup misst der Kopf
+     110 px, die Spitze liegt 229 px ueber der Tafelunterkante. Ohne diese
+     Regel wird der neue Pfeil auf 253 px gestaucht und sitzt zu hoch.
+     Der Weichzeichner entfaellt: im Mockup hat der Pfeil eine harte Kante
+     mit hellem Saum. */
+  .lve-e7 .lve-e7-panel .lve-e7-arrows {
+    width: 320px;
+    height: 275px;
+    bottom: -28px;
+    filter: none;
+    overflow: visible;
+  }
+  .lve-e7 .lve-e7-panel .lve-e7-arrows--left { left: 40px; right: auto; }
+  .lve-e7 .lve-e7-panel .lve-e7-arrows--right { right: 40px; left: auto; }
+  .lve-e7 .lve-e7-panel .lve-e7-arrows > svg { width: 320px; height: 275px; }
+}
+
+
+/* ============================================================
+   Sektions-Ambient neben der Tafel, 11.08.2026, Runde "Effekte 1 zu 1".
+   Ersetzt die alte Nahtmaske: die daempfte nur die obersten 60 px, waehrend
+   die eigentliche Abweichung ueber die ganze Sektionshoehe lag. Beide Flanken
+   waren zu breit und liefen ins Graue statt ins Goldene.
+   Gemessen an referenz-neu/soll/elite-aus-vollbild.png, Soll-y = Ist-y + 30:
+
+     Stelle          vorher        Soll          nachher
+     y5340  x 120    138, 84, 10   127, 86, 33   123, 85, 31
+     y5340  x1620     43, 29,  9    23, 13,  2    26, 15,  2
+     y5340  x1755     78, 53, 15    97, 56,  2    85, 49,  2
+     y5700  x 160     95, 61, 14    67, 44, 15    77, 49, 10
+     y5700  x1620     63, 42, 13    31, 19,  2    42, 24,  2
+     y5700  x1720     96, 64, 18    91, 54,  2   101, 59,  2
+
+   Auffaellig ist der Blaukanal: live 9..18, im Entwurf 2. Die alten Flanken
+   liefen ueber Weiss aus, der Entwurf bleibt bis zum Rand goldgesaettigt.
+   Mittlere Abweichung ueber 181 Kontrollpunkte: vorher 11,8 - nachher 3,8.
+   Die Naht zu e6 bleibt dabei sauber: Sprung im Randprofil vorher 0,8,
+   nachher 0,3, Entwurf 0,1. Deshalb keine Maske mehr.
+
+   Drei Ebenen, numerisch an 700 Messpunkten angepasst. Selektor 0-3-0, weil
+   server-stand-20260810/lvlup-fixes/r3-elite.css `.lve-e7 .lve-e7-bg`
+   (0-2-0) in Z. 372 und Z. 560 setzt und spaeter laedt.
+   ============================================================ */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e7 .lve-e7-bg {
+    background:
+      radial-gradient(28% 99.5% at -0.2% 2.7%, rgba(210, 149, 49, 1) 0%, rgba(224, 153, 62, 0.373) 35%, rgba(255, 162, 28, 0.051) 70%, rgba(255, 150, 20, 0) 100%),
+      radial-gradient(51.1% 127.2% at -35.7% 83.6%, rgba(241, 129, 128, 0.282) 0%, rgba(206, 184, 183, 0.904) 35%, rgba(219, 133, 16, 0.724) 70%, rgba(200, 120, 10, 0) 100%),
+      radial-gradient(22.7% 229.1% at 109.6% 100.7%, rgba(207, 136, 35, 0.156) 0%, rgba(196, 114, 3, 0.836) 35%, rgba(195, 112, 1, 0.264) 70%, rgba(190, 110, 0, 0) 100%);
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
+
+/* ============================================================
+   Deko-Pfeile: Deckkraft und Sitz, 11.08.2026.
+
+   GROESSE, gegengeprueft (WIDERLEGTE-BEFUNDE Nr. 5 meldete "zu klein,
+   Kopf 114 statt 154"). Am heutigen Build stimmt die Groesse:
+   Kopfspitze bis rechte Kopfecke, tafelrelativ gemessen
+     Build   Spitze (118,308)  Ecke (151,413)   Laenge 110
+     Entwurf Spitze (124,320)  Ecke (167,417)   Laenge 106
+   Das sind 4 Prozent, also innerhalb der Messunsicherheit. Der Kasten
+   bleibt bei 320 x 275 px. Der alte Befund galt der Serverdatei
+   fixes-elite.css (253 px), die diese Datei seit dem 11.08. ueberstimmt.
+
+   SITZ: der Entwurf setzt den Pfeil 6 px weiter rechts und 12 px tiefer.
+   left 40 -> 46, bottom -28 -> -36.
+
+   DECKKRAFT: r3-elite.css Regel R3-elite-30 setzt `opacity: 0.5`. Am
+   Entwurf gegengerechnet ist der Pfeil deutlich dichter. An drei Punkten
+   der Kopfflaeche der Beitrag ueber dem Tafelgrund gemessen und mit einem
+   Render bei opacity 1 verglichen: 0,79 / 0,78 / 0,75 im Rot- und
+   0,86 / 0,84 / 0,80 im Gruenkanal. Also 0,8.
+   Mittlere Abweichung im Pfeilbereich: vorher 17,1 - nachher 12,6.
+   Der Rest ist Form, nicht Farbe: der Entwurfspfeil steht rund 5 Grad
+   steiler, und die Begleitform ist im Entwurf ein voll sichtbares gedrehtes
+   Quadrat, waehrend der Farbverlauf im SVG sie ab y 190 ausblendet
+   (gemessen Entwurf 217,128,8 gegen Build 130,79,5). Beides steckt im
+   Markup, nicht im Stylesheet.
+   ============================================================ */
+@media (min-width: 1024px) {
+  .lve-e7 .lve-e7-panel .lve-e7-arrows { opacity: 0.8; bottom: -36px; }
+  .lve-e7 .lve-e7-panel .lve-e7-arrows--left { left: 46px; }
+  .lve-e7 .lve-e7-panel .lve-e7-arrows--right { right: 46px; }
+}
+
+
+/* ============================================================
+   Knopffuellungen und Innenscheine, 11.08.2026.
+   Alle Werte senkrecht bzw. waagerecht durch die Knoepfe gemessen,
+   Soll-y = Ist-y + 32 (Anker: Oberkante des Knopfes).
+
+   1. GOLDKNOPF "Choose Your Evaluation"
+      Die beiden Stuetzfarben #ffbc54 / #ff9200 treffen die Mitte, aber
+      nicht die Enden: der Entwurf ist oben deutlich heller und unten ein
+      gesaettigtes Gelb ohne Blauanteil. Textfreie Spalte zwischen Chip und
+      Beschriftung:
+
+        Zeile   vorher          Soll            nachher
+        + 2     255,192,101     252,213,115     255,216,120
+        + 8     255,186, 82     254,193, 81     255,193, 81
+        +16     255,174, 58     254,175, 55     255,173, 52
+        +32     255,161, 31     255,160, 26     255,164, 22
+        +42     255,166, 46     255,177,  9     255,181,  8
+        +44     255,168, 52     253,184,  6     255,188,  4
+
+      Der Innenschein `inset 0 1px 18px rgba(255,202,131,.9)` hellte dafuer
+      die ganze Flaeche cremig auf und wird durch den Verlauf ersetzt. Der
+      Entwurf hat stattdessen einen SEITLICHEN Saum: 2 px vor der rechten
+      Kante misst er 254,216,106 gegen 255,193,82 in der Flaeche, also
+      +23 Gruen und +24 Blau ueber rund 11 px. Das machen die beiden
+      waagerechten Verlaeufe.
+      Mittlere Abweichung: senkrecht 1,4 - rechte Kante 2,4.
+
+   2. CHIP mit dem Pfeilsymbol
+      Live reines Schwarz (6,6,6), im Entwurf ein dunkles Weinrot, oben
+      heller als unten, mit warmem Saum an der linken Kante:
+        Zeile +8,  x 690..710   vorher 6,6,6   Soll 47..49, 9..10, 7
+        Zeile +38, x 690..710   vorher 6,6,6   Soll 27, 9, 7
+        Zeile +8,  linke Kante  vorher 6,6,6   Soll 65..91, 12..18, 7..10
+      Nachher: mittlere Abweichung 2,9 ueber acht Messpunkte.
+
+   3. GEISTERKNOPF "View the Rules"
+      Der Entwurf hat keinen sichtbaren Rahmen, sondern einen kraeftigen
+      warmen Innenschein von unten und rechts sowie einen dunklen von oben
+      und links. Live war beides zu schwach, dafuer lag oben eine goldene
+      Haarlinie, die der Entwurf nicht hat.
+      Senkrecht, textfreie Spalte, Abstand von der Unterkante:
+
+        Zeile   vorher       Soll         nachher
+        + 1      43,28, 9     12, 8, 4     20,13, 3   (oben, dunkel)
+        +28      45,29, 7     54,35, 7     52,35, 9
+        +34      62,41,12    103,70,23    106,73,27
+        +38      76,50,16    151,104,39   157,109,44
+        +45     123,87,35    220,153,65   219,153,65
+
+      Waagerecht 2 px vor der rechten Kante: vorher 90,60,19, Soll
+      227,158,65, nachher 211,147,61.
+      Blur und Versatz sind aus dem gemessenen Abfall zurueckgerechnet
+      (Sigma 6,4 px unten, 5,8 px rechts, 5,1 px oben). `border: 0` statt
+      einer durchsichtigen Kante, weil der Innenschein am Rahmenring
+      abgeschnitten wuerde und dort ein dunkler 1-px-Strich stehenbliebe.
+      Die Knopfbreite sinkt dadurch um 2 px auf 169; der Entwurf hat 168.
+      Mittlere Abweichung: senkrecht 3,7 - rechte Kante 6,1 - linke 3,4.
+
+   Selektoren 0-3-0 ueber `.lve-e7-actions`, damit spaeter geladene
+   Fremdregeln auf 0-2-0 nicht gewinnen.
+   ============================================================ */
+@media (min-width: 1024px) {
+  .lve-e7 .lve-e7-actions .lve-e7-btn--primary {
+    background:
+      linear-gradient(90deg, rgba(255, 244, 130, 0.58) 0, rgba(255, 244, 130, 0) 14px),
+      linear-gradient(270deg, rgba(255, 244, 130, 0.58) 0, rgba(255, 244, 130, 0) 14px),
+      linear-gradient(180deg, #ffde82 0%, #ffc151 17%, #ffad34 39%, #ffa728 52%, #ffa01a 70%, #ffaa0d 87%, #ffbd03 100%);
+    box-shadow: none;
+  }
+
+  .lve-e7 .lve-e7-actions .lve-e7-btn-chip {
+    background:
+      linear-gradient(90deg, rgba(90, 16, 8, 0.45) 0, rgba(90, 16, 8, 0) 6px),
+      linear-gradient(180deg, #300a07 0%, #1b0907 100%);
+    box-shadow: none;
+  }
+
+  .lve-e7 .lve-e7-actions .lve-e7-btn--ghost {
+    background: rgba(0, 0, 0, 0.33);
+    border: 0;
+    box-shadow:
+      inset -9px -9px 13px rgba(255, 178, 77, 0.95),
+      inset 7px 7px 10px rgba(0, 0, 0, 0.8);
+  }
+}
+
+
+/* ===========================================================================
+   Ghost-Knopf: Lichtsaum ergaenzt, 11.08.2026 (Knopf-Abnahme)
+
+   Hier war gar kein Schatten deklariert, nicht einmal einer, den eine
+   Fremdregel haette erschlagen koennen. Gemessen oben (44,29,9), unten
+   (52,34,8), also an allen vier Kanten gleich: der Knopf hatte kein
+   Glanzlicht. Der Entwurf zeigt oben und links fast Schwarz ((3,3,1) und
+   (12,9,4)) und unten ein kraeftiges Bernstein-Bloom (192,140,57).
+
+   Aufbau eins zu eins vom bewaehrten Knopf in s10, nur die beiden
+   Glanzlichtfarben auf das Gold dieser Seite.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e7-btn--ghost {
+    box-shadow:
+      rgb(255, 196, 110) -2px -6px 19px 0 inset,
+      rgb(255, 146, 0)   -5px -4px 16px 0 inset,
+      rgb(255, 146, 0)   -1px -2px 5px 0 inset,
+      rgb(0, 0, 0)        9px  7px 12px 0 inset,
+      rgba(0, 0, 0, .36)  7px  3px 11px 0,
+      rgba(0, 0, 0, .25)  0 0 0 2px,
+      rgba(0, 0, 0, .16)  0 0 0 3px;
+  }
+}
+
+
+/* ===========================================================================
+   Naht zum Fuss bei y 6001, 11.08.2026 (Nahtkanten-Abnahme)
+
+   Dieselbe Ursache wie in e6: eine Bernsteinblase am unteren Sektionsrand aus
+   r3-elite.css, die der Entwurf nicht hat. Gemessen in der Mitte (51,30,2)
+   gegen (8,5,2), Distanz 50, an der Spitze bei x 150 sogar 67. Soll-Sprung
+   ueberall 0 bis 1. Die beiden Kantensaeulen bleiben.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e7 .lve-e7-bg {
+    background:
+      radial-gradient(ellipse 31% 600% at -8% -220%, rgba(255,246,228,1) 0%, rgba(252,179,62,.74) 49%, rgba(251,168,44,.67) 53%, rgba(250,158,28,.61) 56%, rgba(250,150,14,.58) 58%, rgba(255,146,0,0) 84%),
+      radial-gradient(ellipse 30% 600% at 106% 320%, rgba(255,194,96,.72) 0%, rgba(254,172,48,.42) 46%, rgba(255,146,0,0) 84%);
+  }
+}
+
+
+/* ===========================================================================
+   Naht e6/e7 bei y 5345: das Randfeld fehlt in e7, 12.08.2026
+
+   ANLASS: e6 hat sein linkes Goldfeld an diesem Tag auf die Entwurfsbreite
+   gebracht (vorher endete es bei x 417, der Entwurf traegt bis x rund 900).
+   Damit trat zutage, dass e7 an derselben Stelle GAR KEIN Feld hat: seine
+   linke Saeule bricht bei x rund 230 ab. Die Naht ist dadurch von 2,19 auf
+   6,43 gestiegen, obwohl beide Seiten naeher am Entwurf liegen als vorher.
+
+   Querschnitt an der Naht, Median ueber 64 px, Rotkanal:
+
+     x        e6 unten   e7 oben   SOLL
+     192         74         43       66
+     256         54          0       40
+     320         39          0       25
+     384         29          0       17
+     448         21          0       11
+     576         11          0        3
+
+   e7 fehlen also 30 bis 54 Stufen ueber ein 700 px breites Band. Vorher fiel
+   das nicht auf, weil e6 dort ebenfalls Schwarz zeigte - beide waren gleich
+   falsch.
+
+   AENDERUNG: eine zusaetzliche Ebene auf `.lve-e7-bg::before`, die genau
+   diesen Fehlbetrag traegt. Waagerecht ein linear-gradient mit den oben
+   gemessenen Stuetzstellen (0 bis x 160, dann der Zuschlag, ab x 832 wieder
+   0), rechts eine kleine Zulage um x 1450. Senkrecht eine Maske, die die
+   Ebene bis y 5950 auslaufen laesst.
+
+   WARUM DIE MASKE, obwohl der Entwurf das Feld bis zur Fusszeile durchzieht:
+   die Fusszeile hat dort keine Rinne (bei y 6001 misst man ueber x 176..528
+   im Fuss (1,1,0) gegen Soll (37,23,4)). Ein bis unten durchgezogenes Feld
+   wuerde die Naht e7/Fuss von 5,10 auf 5,58 verschlechtern - gerechnet
+   blockweise gegen die Fussrinne. Mit der Maske bleibt die Naht zum Fuss
+   unveraendert, und e7 kommt in seiner oberen Haelfte trotzdem naeher an den
+   Entwurf: vorher ueberall 0 im Fernfeld, jetzt oben entwurfsnah und unten
+   wie bisher. Schlechter wird dadurch keine Stelle.
+
+   Der Restfehler im Fernfeld der unteren e7-Haelfte bleibt damit offen und
+   ist ein FUSSZEILEN-Befund, nicht e7: die Rinne muesste im Fuss ueber
+   500 px Breite laufen statt ueber 112.
+   =========================================================================== */
+
+
+/* ===========================================================================
+   Rechte Saeule von e7 auf die Nahtzeile zum Fuss, 12.08.2026
+
+   BEFUND an der Naht y 6001, Blockmedian, Bloecke 17/18/19 von innen nach
+   aussen:
+
+     Block   e7 oben       Fuss unten     SOLL
+       17   (34,23, 6)   ( 11, 7, 1)   ( 21,13,1)
+       18   (73,49,14)   ( 49,33, 7)   ( 51,30,2)
+       19   (105,71,20)  (155,91, 6)   (110,64,2)
+
+   In den Bloecken 17 und 18 zeigen Entwurf und Fusszeile in dieselbe
+   Richtung: e7 ist dort 13 beziehungsweise 22 Stufen zu hell. Die Korrektur
+   verbessert also Naht UND Flaeche. Block 19 bleibt offen, dort ist die
+   Fusszeile mit 155 gegen Soll 110 zu hell - das ist die Fusszeile.
+   Zusaetzlich ist der Blaukanal durchgehend zu hoch (20/14/6 gegen Soll
+   2/2/1), die Saeule war zu wenig gesaettigt.
+
+   Farbe (255,148,5) ist der Soll-Ton auf Rot 255 normiert, Deckkraft je
+   Stuetzstelle = Soll-Rot / 255, Prozentwerte sind die Ellipsenabstaende der
+   Blockmitten auf der Nahtzeile.
+
+   WARUM ERST AB 1500 px: die Fusszeile ist fluid und wird nach unten hin
+   hoeher (1024 px Breite -> 1242 px hoch, 1440 -> 970, 1600 -> 931,
+   1760 -> 918). Ihre Seitenrinne hat 960 px senkrechten Radius und erreicht
+   die Fussoberkante deshalb erst ab rund 1470 px Breite. Darunter ist der
+   Fuss an der Naht deutlich heller (bei 1024: Block 18 (77,52,11) statt
+   (49,33,7)), und dieselbe Absenkung verschlechtert dort: gemessen bei
+   1024 px waere die Naht von 3,72 auf 4,96 gestiegen. Unterhalb von 1500 px
+   bleibt deshalb die alte Saeule stehen.
+   =========================================================================== */
+@media (min-width: 1500px) {
+  .lvf-page .lve-e7 .lve-e7-bg {
+    background:
+      radial-gradient(ellipse 31% 600% at -8% -220%, rgba(255,246,228,1) 0%, rgba(252,179,62,.74) 49%, rgba(251,168,44,.67) 53%, rgba(250,158,28,.61) 56%, rgba(250,150,14,.58) 58%, rgba(255,146,0,0) 84%),
+      radial-gradient(ellipse 30% 600% at 106% 320%,
+        rgba(255, 148, 5, 0.550) 0%,
+        rgba(255, 148, 5, 0.471) 41.77%,   /* x 1760  Soll 120 (Kante) */
+        rgba(255, 148, 5, 0.431) 46.34%,   /* x 1716  Soll 110 */
+        rgba(255, 148, 5, 0.200) 58.05%,   /* x 1628  Soll  51 */
+        rgba(255, 148, 5, 0.082) 71.74%,   /* x 1540  Soll  21 */
+        rgba(255, 148, 5, 0.035) 86.49%,   /* x 1452  Soll   9 */
+        rgba(255, 148, 5, 0) 100%);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Rechte Kante derselben Ebene, erst ab 1500 px.
+
+   Am rechten Rand fehlen e7 an der Naht zu e6 nur wenige Stufen (Bloecke 17
+   bis 19 oben: 7 / 40 / 66 gegen e6 unten 19 / 42 / 64). Der Zuschlag ist
+   deshalb klein.
+
+   WARUM ERST AB 1500 px, gemessen und nicht geschaetzt: bei 1024 px liegt die
+   CTA-Tafel mit x 20..1004 fast randbuendig, und die Deko-Pfeile mit ihrem
+   42-px-Schein reichen ueber die rechte Randspalte. Jede Zulage dort trifft
+   auf einen ganz anderen Untergrund als bei 1760 px. Gemessen bei 1024 px:
+   die Fussnaht stieg von 3,72 auf 6,68. Oberhalb von 1500 px ist die Tafel
+   1259 px breit und die Randspalte frei.
+   --------------------------------------------------------------------------- */
+@media (min-width: 1024px) {
+  .lvf-page .lve-e7 .lve-e7-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg,
+      rgba(255, 189, 115, 0)     9.09%,   /* x  160  kein Zuschlag */
+      rgba(255, 189, 115, 0.122) 10.91%,  /* x  192  +31 */
+      rgba(255, 170,  47, 0.212) 14.55%,  /* x  256  +54 */
+      rgba(255, 170,  39, 0.153) 18.18%,  /* x  320  +39 */
+      rgba(255, 158,  26, 0.114) 21.82%,  /* x  384  +29 */
+      rgba(255, 158,  24, 0.082) 25.45%,  /* x  448  +21 */
+      rgba(255, 170,  17, 0.059) 29.09%,  /* x  512  +15 */
+      rgba(255, 162,  23, 0.043) 32.73%,  /* x  576  +11 */
+      rgba(255, 182,   0, 0.027) 36.36%,  /* x  640   +7 */
+      rgba(255, 191,   0, 0.016) 40.00%,  /* x  704   +4 */
+      rgba(255, 128,   0, 0.008) 43.64%,  /* x  768   +2 */
+      rgba(255, 128,   0, 0)     47.27%); /* x  832    0, Mitte bleibt frei */
+    /* Senkrechte Auslaufmaske, Begruendung im Kopfkommentar */
+    -webkit-mask-image: linear-gradient(180deg,
+      #000 0%, rgba(0, 0, 0, 0.72) 30%, rgba(0, 0, 0, 0.34) 60%,
+      rgba(0, 0, 0, 0.08) 84%, rgba(0, 0, 0, 0) 94%);
+    mask-image: linear-gradient(180deg,
+      #000 0%, rgba(0, 0, 0, 0.72) 30%, rgba(0, 0, 0, 0.34) 60%,
+      rgba(0, 0, 0, 0.08) 84%, rgba(0, 0, 0, 0) 94%);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Rechte Kante derselben Ebene, erst ab 1500 px.
+
+   Am rechten Rand fehlen e7 an der Naht zu e6 nur wenige Stufen (Bloecke 17
+   bis 19 oben 7 / 40 / 66 gegen e6 unten 19 / 42 / 64), der Zuschlag ist
+   entsprechend klein. Er gilt erst ab 1500 px, weil die CTA-Tafel bei
+   1024 px mit x 20..1004 fast randbuendig liegt und die Deko-Pfeile dort mit
+   ihrem 42-px-Schein in dieselbe Randspalte reichen; der Untergrund ist also
+   ein voellig anderer als bei 1760 px.
+   --------------------------------------------------------------------------- */
+@media (min-width: 1500px) {
+  .lvf-page .lve-e7 .lve-e7-bg::before {
+    background: linear-gradient(90deg,
+      rgba(255, 189, 115, 0)     9.09%,
+      rgba(255, 189, 115, 0.122) 10.91%,
+      rgba(255, 170,  47, 0.212) 14.55%,
+      rgba(255, 170,  39, 0.153) 18.18%,
+      rgba(255, 158,  26, 0.114) 21.82%,
+      rgba(255, 158,  24, 0.082) 25.45%,
+      rgba(255, 170,  17, 0.059) 29.09%,
+      rgba(255, 162,  23, 0.043) 32.73%,
+      rgba(255, 182,   0, 0.027) 36.36%,
+      rgba(255, 191,   0, 0.016) 40.00%,
+      rgba(255, 128,   0, 0.008) 43.64%,
+      rgba(255, 128,   0, 0)     47.27%,
+      rgba(255, 155,  20, 0)     82.00%,
+      rgba(255, 155,  20, 0.008) 85.00%,  /* Block 17   +2 */
+      rgba(255, 155,  20, 0.024) 87.50%,  /* Block 17   +6 */
+      rgba(255, 155,  20, 0.047) 90.00%,  /* Block 18  +12 */
+      rgba(255, 155,  20, 0.067) 92.50%,  /* Block 18  +17 */
+      rgba(255, 155,  20, 0.071) 95.00%,  /* Block 19  +18 */
+      rgba(255, 155,  20, 0.071) 100%);
+  }
+}

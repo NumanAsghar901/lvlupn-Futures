@@ -1,0 +1,1908 @@
+/* =========================================================================
+   About-Seite (lvlup.tivaosagencytempdomains.de/about)
+   Zusammenbau aus fragment-1 (y 0-3642) und fragment-2 (y 3641-4796).
+   Referenz: _referenz/about-1760.png, 1760 x 5779. Alle Masse 1:1 bei 1760px.
+   Praefix: lvab-. Header und Footer liefert das Theme.
+   ========================================================================= */
+
+/* Der fixe Header liegt ueber der Seite; der Hero traegt oben 222px Polster,
+   sein Hintergrund beginnt bei y=0 und laeuft dahinter durch (Vertrag).
+   "overflow: clip" (nicht nur overflow-x): mehrere Glows sind breiter als der
+   Viewport UND der Schein der Kontaktsektion reicht ueber die Seitenunterkante
+   hinaus. Ohne den senkrechten Schnitt wuchs das Dokument live um 1809px
+   leeren Raum unter dem Footer. */
+.lvab-page { overflow: clip; }
+
+/* Das Werkzeug-Plugin gibt jeder Seite ohne Body-Klasse "lvlup-home-v2"
+   250px padding-top mit (sofort.css, Regel 1). Der Body ist weiss, darum
+   stand live ein 250px hoher weisser Balken ueber dem Hero, waehrend die
+   Referenz den Glow bei y=0 beginnen laesst. Diese Seite bringt ihren
+   Abstand selbst mit (222px im Hero), deshalb wird das Polster hier
+   zurueckgenommen - nur fuer den Container, der DIESE Seite enthaelt. */
+body:not(.lvlup-home-v2):not(.elementor-editor-active)
+  [data-elementor-type="wp-page"]:has(.lvab-page) { padding-top: 0; }
+
+.lvab-hero,
+.lvab-purpose,
+.lvab-lower,
+.lvab-contact {
+  --lvab-shell: 1240px;
+  --lvab-blue: #00a2ff;
+  /* R3-A5: Rampe war 20%..88%. Am neuen Schnipsel im Glyphenkern gemessen
+     ("Clear Purpose" y822-864, "Conversation" y3807-3849, "HRB 23184"
+     y1935-1953): #8cd5ff wird bei ~21% erreicht, #12a9ff bereits bei ~81%,
+     nicht erst bei 88%. Unten war der Text dadurch 13-17 Punkte zu hell. */
+  --lvab-grad-text: linear-gradient(180deg, #8cd5ff 21%, #12a9ff 81%);
+  /* R3-A2: war 0,80. Die neuen Schnipsel zeigen den weissen Teil aller drei
+     H2 am Zeilenanfang bei 178/179/178 von 255 = 0,70 (vorher 204 = 0,80). */
+  --lvab-grad-dim: linear-gradient(90deg, rgba(255, 255, 255, 0.70) 0%, #ffffff 100%);
+  font-family: var(--lvf-font-display);
+}
+
+.lvab-shell {
+  width: 100%;
+  max-width: calc(var(--lvab-shell) + 40px);
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+/* ---------- Verlaufstext. Element + Klasse, damit der Heading-Reset
+   ".lvf-page.lvf-page h1 { color: inherit }" nicht dazwischenfunkt.
+   Der Verlauf sitzt auf dem SPAN, nie auf der Ueberschrift selbst. ---------- */
+.lvab-h1 .lvab-grad-dim,
+.lvab-h2 .lvab-grad-dim {
+  background-image: var(--lvab-grad-dim);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lvab-h1 .lvab-grad-blue,
+.lvab-h2 .lvab-grad-blue,
+.lvab-value-title .lvab-grad-blue,
+.lvab-fact-value.lvab-grad-blue {
+  background-image: var(--lvab-grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+/* Der blaue Teil der grossen Ueberschriften ist im Entwurf fetter als der
+   weisse. Mit echter Clash Grotesk gemessen: weisser Teil deckt sich bei
+   Gewicht 500, der blaue ist 4,3 bis 4,9% breiter -> 600. */
+.lvab-h1 .lvab-grad-blue,
+.lvab-h2 .lvab-grad-blue { font-weight: 600; }
+/* Hero-Zeile 1 laeuft von grau ueber weiss (Zeilenmitte) zurueck nach grau.
+   R3-A1: Der Verlaufskasten war der ganze 1240px-Block, der Text ist aber nur
+   783px breit (x488-1271). Dadurch traf 0,86 an den Textenden 232 statt der
+   gemessenen 180 von 255. Jetzt schrumpft der Kasten auf den Text
+   (`width: fit-content`), damit stehen die Enden wie im Entwurf auf 0,70 -
+   unabhaengig von der Fensterbreite. */
+.lvab-h1 .lvab-grad-dim {
+  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.70) 0%, #ffffff 50%, rgba(255, 255, 255, 0.70) 100%);
+}
+
+/* =========================================================================
+   1) HERO   Referenz y 0 - 673
+   ========================================================================= */
+
+.lvab-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  min-height: 674px;
+  padding: 223px 0 118px;
+  background: #000000;
+  text-align: center;
+}
+
+.lvab-hero-art {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 0;
+  width: 100%;
+  min-width: 1760px;
+  height: 674px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.lvab-hero-art > span { position: absolute; display: block; }
+
+/* breiter, schwacher Deckenschein ueber die ganze Breite */
+.lvab-hero-fill {
+  top: 20px;
+  left: 0;
+  right: 0;
+  height: 250px;
+  background: radial-gradient(58% 100% at 50% 42%, rgba(0, 162, 255, 0.075) 0%, rgba(0, 162, 255, 0.035) 55%, transparent 100%);
+}
+
+/* zwei schraege Lichtbaender, Scheitel bei y=165 links / rechts gespiegelt.
+   R3-B1: Die Baender waren 1450/1530px lang und liefen dadurch bis in die
+   Bildmitte. Der neue Schnipsel zeigt sie deutlich kuerzer: der linke Grat
+   faellt von 51 (x=240) auf 26 (x=480) und 14 (x=600), live stand dort noch
+   41/31. Gemessen ueber die Gratlinie und den Querschnitt bei x=100..400;
+   Rest-RMS im Band y122-275 links 15,3 -> 10,5, rechts 11,8 -> 7,8, Mitte
+   13,4 -> 7,4. Die beiden Seiten sind im Entwurf nicht spiegelgleich, darum
+   je eigene Groesse und Staerke. */
+.lvab-hero-beam {
+  top: 104px;
+  width: 800px;
+  height: 116px;
+}
+.lvab-hero-beam-l {
+  left: -170px;
+  width: 800px;
+  height: 116px;
+  background: radial-gradient(closest-side, rgba(0, 162, 255, 0.4) 0%, rgba(0, 162, 255, 0.35) 26%, rgba(0, 162, 255, 0.2) 52%, rgba(0, 162, 255, 0.07) 76%, transparent 100%);
+  transform: rotate(13deg);
+}
+.lvab-hero-beam-r {
+  right: -90px;
+  width: 700px;
+  height: 100px;
+  background: radial-gradient(closest-side, rgba(0, 162, 255, 0.37) 0%, rgba(0, 162, 255, 0.324) 26%, rgba(0, 162, 255, 0.185) 52%, rgba(0, 162, 255, 0.065) 76%, transparent 100%);
+  transform: rotate(-13deg);
+}
+
+/* Lvlup-Pfeilmotiv, extrem dunkel (im Original rgb(2,2,2) auf Schwarz) */
+.lvab-hero-arrow {
+  top: 295px;
+  width: 420px;
+  height: 379px;
+  background: rgba(255, 255, 255, 0.013);
+  clip-path: polygon(
+    130px 0, 409px 0, 409px 203px, 399px 226px, 381px 240px, 360px 245px,
+    276px 182px, 128px 379px, 22px 379px, 207px 130px, 130px 57px
+  );
+}
+.lvab-hero-arrow-l { left: 0; }
+.lvab-hero-arrow-r { right: 0; transform: scaleX(-1); }
+
+/* Bodenschein, unten hart von der Sektion beschnitten */
+.lvab-hero-bglow { border-radius: 50%; left: 50%; }
+.lvab-hero-bglow-a {
+  bottom: -174px;
+  margin-left: -230px;
+  width: 643px;
+  height: 311px;
+  background: radial-gradient(closest-side, rgba(0, 162, 255, 0.521) 0%, rgba(0, 162, 255, 0.203) 38%, rgba(0, 162, 255, 0.026) 66%, rgba(0, 162, 255, 0.026) 86%, transparent 100%);
+}
+.lvab-hero-bglow-b {
+  bottom: -110px;
+  margin-left: 140px;
+  width: 488px;
+  height: 195px;
+  background: radial-gradient(closest-side, rgba(0, 162, 255, 0.397) 0%, rgba(0, 162, 255, 0.268) 42%, rgba(0, 162, 255, 0.074) 70%, transparent 100%);
+}
+/* R3-B2: Der neue Schnipsel zeigt in der letzten Zeile des Hero (y=672) einen
+   breiten flachen Saum von x=275 bis x=825 mit Werten 10-29; live stand dort
+   0. Dieser dritte, sehr weiche Schein traegt ihn nach. */
+.lvab-hero-bglow-c {
+  bottom: -100px;
+  margin-left: -930px;
+  width: 1200px;
+  height: 130px;
+  background: radial-gradient(closest-side, rgba(0, 162, 255, 0.27) 0%, rgba(0, 162, 255, 0.146) 50%, rgba(0, 162, 255, 0.042) 78%, transparent 100%);
+}
+/* R3-ABNAHME-1: Im Schnipsel liegt an der rechten Herokante ein weisslich
+   blauer Dunst, der von y=280 (Wert 4) bis zur Hero-Unterkante (Wert 21)
+   ansteigt und nach links bis x=1520 ausklingt; live stand dort 0 (nur das
+   Pfeilmotiv mit 3). Farbe pipettiert: (11,21,30) bei x=1755/y=660, also
+   R:G:B = 0,37 : 0,70 : 1,0 -> rgb(94,178,255), nicht das reine Cyan der
+   uebrigen Hero-Scheine (dort R=2 bei B=92). Geometrie/Staerke gefittet:
+   RMS im Feld x1450-1760 y276-674 von 5,37 auf 2,11, Hero-Boden 5,23 -> 4,10. */
+.lvab-hero-rglow {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  right: -260px;
+  bottom: -420px;
+  width: 460px;
+  height: 900px;
+  background: radial-gradient(closest-side, rgba(94, 178, 255, 0.11) 0%, rgba(94, 178, 255, 0.062) 42%, rgba(94, 178, 255, 0.024) 72%, rgba(94, 178, 255, 0) 100%);
+}
+
+.lvab-hero-inner { position: relative; z-index: 1; }
+
+.lvab-hero-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  height: 20px;
+  font-size: 14.2px;
+  line-height: 20px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.66);
+}
+.lvab-hero-dot {
+  width: 6px;
+  height: 6px;
+  margin-right: 9px;
+  border-radius: 50%;
+  background: var(--lvf-grad-blue);
+  flex: none;
+}
+.lvab-hero-eyebrow-hl {
+  margin-right: 4px;
+  background-image: var(--lvab-grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 500;
+}
+
+.lvab-h1 {
+  margin-top: 27px;
+  font-size: 68.15px;
+  line-height: 63px;
+  font-weight: 500;
+  letter-spacing: 0;
+  overflow-wrap: break-word;
+}
+/* R3-A1: fit-content, damit der Verlaufskasten dem Text entspricht (siehe
+   Kommentar bei .lvab-h1 .lvab-grad-dim). Zentriert bleibt es ueber die
+   automatischen Seitenraender; bricht der Text schmal um, ist fit-content
+   wieder die volle verfuegbare Breite - also kein Verhalten schlechter als
+   vorher. */
+.lvab-h1 > span { display: block; width: fit-content; margin-inline: auto; }
+
+.lvab-hero-sub {
+  max-width: 700px;
+  margin: 27px auto 0;
+  font-size: 19.4px;
+  line-height: 24px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.92);
+  overflow-wrap: break-word;
+}
+
+.lvab-hero-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  margin-top: 37px;
+}
+
+a.lvab-btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 209px;
+  height: 46px;
+  padding: 5px 22px 5px 5px;
+  border-radius: 11px;
+  background: var(--lvf-grad-blue);
+  box-shadow:
+    inset 0 2px 12px rgba(200, 238, 255, 0.85),
+    inset 0 -6px 14px rgba(0, 212, 255, 0.72),
+    0 0 0 1px rgba(0, 162, 255, 0.07),
+    6px 3px 11px rgba(0, 0, 0, 0.36);
+  color: #04070c;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: filter 0.15s ease;
+}
+a.lvab-btn-primary:hover { filter: brightness(1.07); }
+a.lvab-btn-primary:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
+
+.lvab-btn-ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 8px;
+  background: #05060b;
+  color: #ffffff;
+}
+.lvab-btn-ico svg { display: block; }
+
+a.lvab-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  height: 46px;
+  padding-inline: 22px;
+  border-radius: 11px;
+  background: #05070c;
+  /* NICHT SPIEGELN. Patch A1 vom 11.08.2026 wollte die beiden seitlich
+     versetzten Schein-Lagen tauschen (offsetX +3px/-7px statt -3px/+7px). Am
+     Bild gegengemessen ist das falsch: der Entwurf hat die helle Seite
+     RECHTS, und die hatte der Knopf schon. Spaltenmedian ueber die volle
+     Knopfhoehe, zehn Bloecke, Block 1 links bis Block 10 rechts, gemessen bei
+     1760 px gegen about-aus-vollbild.png:
+       Soll         Block 1 ( 3,10,14)   Block 10 (10,74,108)
+       gespiegelt   Block 1 (13,43,62)   Block 10 ( 6,29, 43)   Mittel 8,50
+       ungespiegelt Block 1 ( 6,29,44)   Block 10 (13,43, 63)   Mittel 5,98
+     Richtig war nicht das Spiegeln, sondern die blaue Lage enger und
+     kraeftiger zu setzen: -6px statt -3px Versatz, 8px statt 9px Weichzeichner,
+     rgba(60,180,250,.95) statt rgba(82,184,241,.6).
+       jetzt        Block 1 ( 5,27,41)   Block 10 (19,73,105)   Mittel 3,50
+     Damit trifft die rechte Kante den Entwurf auf 4,7 genau (vorher 26,7).
+     Offen bleibt Block 1: der untere Schein hellt die linke Ecke auf
+     (27 statt 10 im Gruenkanal). Mehr Schwarz auf der linken Seite bringt
+     nur noch 0,1 und wurde deshalb nicht genommen. */
+  box-shadow:
+    inset 0 -7px 11px rgba(22, 170, 255, 0.95),
+    inset -6px -4px 8px rgba(60, 180, 250, 0.95),
+    inset 7px 6px 10px #000000,
+    6px 3px 10px rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 400;
+  white-space: nowrap;
+  transition: filter 0.15s ease;
+}
+a.lvab-btn-ghost:hover { filter: brightness(1.15); }
+a.lvab-btn-ghost:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
+
+/* =========================================================================
+   Wiederkehrende Bausteine der Inhaltssektionen
+   ========================================================================= */
+
+.lvab-tag {
+  display: block;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-inline: auto;
+  height: 33px;
+  padding: 0 22px;
+  border: 1px solid transparent;
+  border-radius: 17px;
+  background:
+    linear-gradient(rgba(0, 162, 255, 0.07), rgba(0, 162, 255, 0.07)) padding-box,
+    linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0) 100%) border-box;
+  font-size: 15.8px;
+  line-height: 31px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.95);
+  white-space: nowrap;
+}
+/* C10 gilt auch fuer die linke Pille: die Referenz laesst die Oberkante zu
+   beiden Enden auslaufen (y763: 5 / 10 / 16 / 16 / 9 / 6) und zeigt die
+   Seitenkanten gar nicht, live stand dort ueberall 14 bis 15. Nur die
+   Fuellung und die Spitze des Verlaufs unterscheiden sich von .lvab-tag. */
+.lvab-tag-left {
+  margin-inline: 0;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.006), rgba(255, 255, 255, 0.006)) padding-box,
+    linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.062) 50%,
+      rgba(255, 255, 255, 0) 100%) border-box;
+}
+
+.lvab-h2 {
+  font-size: 62.3px;
+  line-height: 62px;
+  font-weight: 500;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+.lvab-h2-left { text-align: left; }
+
+.lvab-lead {
+  max-width: 820px;
+  margin-inline: auto;
+  font-size: 19.5px;
+  line-height: 24px;
+  font-weight: 400;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+  overflow-wrap: break-word;
+}
+
+/* =========================================================================
+   2) CREATED WITH A CLEAR PURPOSE   Referenz y 674 - 1405
+   ========================================================================= */
+
+.lvab-purpose {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding: 90px 0 71px;
+  background: #000000;
+  scroll-margin-top: 150px;
+}
+
+.lvab-purpose-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.lvab-purpose-art > span { position: absolute; display: block; border-radius: 50%; }
+
+/* Lichtkante am unteren Rand: links der helle Kern, in der Mitte ein flaches
+   Band, rechts eine zweite Kuppe. Unten hart bei y=1405 beschnitten (im
+   Original ebenso: y=1405 hell, y=1408 schwarz).
+   Geometrie und Farben beim Zusammenbau gegen alle drei Kanaele neu gefittet
+   (vorher nur Blaukanal, daher zu dunkel und ohne Weissanteil): Restfehler
+   auf dem freien Hintergrund y 1150-1405 RMS 7,6 statt 51,5 pro Kanal. */
+/* R3-ABNAHME-2: Ueber der Lichtkante liegt im Schnipsel ein sehr flacher
+   Dunst, der die ganze Breite ueberzieht. Zeilenmittel der Differenz
+   live-Schnipsel (Raender x0-250 und x1520-1760, also ohne Text): y=980 -2,5;
+   y=1020 -3,7; y=1060 -5,0; y=1100 -5,6; y=1140 -5,3; ab y=1220 wieder 0.
+   Drei Ellipsen koennen diesen Ausläufer nicht tragen, ohne die gut
+   getroffene Unterkante zu verschieben - deshalb eine vierte, sehr weite und
+   sehr schwache Ellipse. Gemessen: RMS x0-220/y860-1160 von 5,30 auf 2,55,
+   rechts von 3,80 auf 1,99, Unterkante y1300-1406 nur 12,27 -> 12,51. */
+.lvab-purpose-haze {
+  left: 50%;
+  bottom: 20px;
+  margin-left: -1800px;
+  width: 3600px;
+  height: 560px;
+  background: radial-gradient(closest-side,
+    rgba(46, 172, 255, 0.045) 0%,
+    rgba(46, 172, 255, 0.0324) 40%,
+    rgba(46, 172, 255, 0.0153) 70%,
+    rgba(46, 172, 255, 0) 100%);
+}
+.lvab-purpose-glow-l {
+  left: -841px;
+  bottom: -367px;
+  width: 1613px;
+  height: 702px;
+  background: radial-gradient(closest-side,
+    rgba(94, 196, 255, 1) 0%,
+    rgba(43, 178, 255, 0.711) 28%,
+    rgba(0, 162, 255, 0.325) 52%,
+    rgba(0, 162, 255, 0.136) 76%,
+    rgba(0, 162, 255, 0) 100%);
+}
+.lvab-purpose-glow-c {
+  left: 50%;
+  bottom: -261px;
+  width: 5483px;
+  height: 510px;
+  margin-left: -2826px;
+  background: radial-gradient(closest-side,
+    rgba(72, 182, 255, 0.472) 0%,
+    rgba(72, 182, 255, 0.269) 18%,
+    rgba(74, 183, 255, 0.175) 35%,
+    rgba(60, 178, 255, 0.125) 51%,
+    rgba(50, 174, 255, 0.092) 67%,
+    rgba(46, 172, 255, 0.051) 84%,
+    rgba(0, 162, 255, 0) 100%);
+}
+.lvab-purpose-glow-r {
+  right: -629px;
+  bottom: -283px;
+  width: 1232px;
+  height: 565px;
+  background: radial-gradient(closest-side,
+    rgba(56, 182, 255, 0.802) 0%,
+    rgba(56, 182, 255, 0.328) 30%,
+    rgba(0, 162, 255, 0.115) 54%,
+    rgba(0, 162, 255, 0.045) 78%,
+    rgba(0, 162, 255, 0) 100%);
+}
+
+.lvab-purpose-inner { position: relative; z-index: 1; }
+
+.lvab-purpose .lvab-h2 { margin-top: 16px; }
+
+.lvab-purpose-copy {
+max-width: 960px; /* Reduced from 1190px to match Figma's narrower, more focused text column */
+margin-top: 24px; /* Tightened slightly to match the denser vertical rhythm */
+font-size: 18px;  /* Dropped from 21.6px to fix the "oversized" WP body text */
+line-height: 26px;/* Maintains a comfortable ~1.44 reading ratio for the new 18px size */
+font-weight: 400;
+letter-spacing: -0.01em; /* Added tight tracking to eliminate the wide WP spacing */
+color: rgba(255, 255, 255, 0.92);
+}
+.lvab-purpose-copy p { overflow-wrap: break-word; }
+.lvab-purpose-copy p + p { margin-top: 26px; }
+
+/* --- die vier Wertekarten --- */
+.lvab-values {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 55px;
+}
+.lvab-value {
+  display: flex;
+  flex-direction: column;
+  min-height: 92px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+.lvab-value-head {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 40px;
+  padding-inline: 19px;
+  background: rgba(0, 0, 0, 0.86);
+  border-radius: 15px 15px 12px 12px;
+}
+.lvab-value-ico { width: 24px; height: 24px; flex: none; }
+.lvab-value-title {
+  font-size: 16.4px;
+  line-height: 24px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.lvab-value-title-w { color: #ffffff; }
+.lvab-value-text {
+  padding: 5px 30px 10px 20px;
+  font-size: 12.25px;
+  line-height: 17.5px;
+  font-weight: 400;
+  color: rgba(214, 238, 255, 0.48);
+  overflow-wrap: break-word;
+}
+
+/* =========================================================================
+   Rahmen fuer Sektion 3 + 4. Die beiden grossen Glows laufen ueber die
+   Sektionsgrenze hinweg, darum liegen sie in diesem gemeinsamen Rahmen.
+   "overflow: clip" (nicht nur overflow-x) ist beim Zusammenbau dazugekommen:
+   ohne den senkrechten Schnitt malen die Glows nach OBEN in die Sektion
+   "Clear Purpose" (das Original hat dort bei y=1406 eine harte Kante) und
+   nach UNTEN in die Kontaktsektion, deren Schein Fragment 2 eigenstaendig
+   modelliert - beides wuerde sich addieren.
+   ========================================================================= */
+
+.lvab-lower {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background: #000000;
+}
+.lvab-lower-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.lvab-lower-art > span { position: absolute; display: block; border-radius: 50%; }
+
+/* riesiger Schein von rechts: harter, fast weisser Kern bei Referenz
+   (1830|1500) plus langer Hof nach unten. Zwei Ellipsen, weil eine allein
+   entweder oben zu flach oder unten zu kurz ausfaellt. Farben beim
+   Zusammenbau gegen alle drei Kanaele nachgefittet (Restfehler auf dem
+   freien Hintergrund y 1406-3300 RMS 17,1 statt 37,9 pro Kanal). */
+.lvab-lower-glow-r {
+  top: -526px;
+  right: -850px;
+  width: 1560px;
+  height: 1240px;
+  background: radial-gradient(closest-side,
+    rgba(255, 255, 255, 0.891) 0%,
+    rgba(135, 211, 255, 0.969) 16%,
+    rgba(93, 196, 255, 0.578) 39%,
+    rgba(159, 220, 255, 0.167) 61%,
+    rgba(255, 255, 255, 0.024) 84%,
+    rgba(0, 162, 255, 0) 100%);
+}
+.lvab-lower-glow-r2 {
+  top: -900px;
+  right: -550px;
+  width: 960px;
+  height: 2953px;
+  background: radial-gradient(closest-side,
+    rgba(255, 255, 255, 0.804) 0%,
+    rgba(62, 185, 255, 0.740) 12%,
+    rgba(59, 184, 255, 0.447) 30%,
+    rgba(40, 176, 255, 0.203) 52%,
+    rgba(12, 166, 255, 0.105) 74%,
+    rgba(32, 174, 255, 0.075) 90%,
+    rgba(0, 162, 255, 0) 100%);
+}
+/* Gegenstueck von links unten. Der sichtbare Teil des linken Scheins ab
+   y=3641 kommt aus der Kontaktsektion (Fragment 2), deshalb endet dieser
+   hier am Sektionsrand. */
+.lvab-lower-glow-l {
+  bottom: -978px;
+  left: -510px;
+  width: 860px;
+  height: 1640px;
+  background: radial-gradient(closest-side, rgba(0, 162, 255, 0.9) 0%, rgba(0, 162, 255, 0.72) 24%, rgba(0, 162, 255, 0.4) 44%, rgba(0, 162, 255, 0.15) 64%, rgba(0, 162, 255, 0.04) 84%, transparent 100%);
+}
+.lvab-lower-glow-l2 {
+  bottom: -1308px;
+  left: -850px;
+  width: 1400px;
+  height: 2800px;
+  background: radial-gradient(closest-side, rgba(0, 162, 255, 0.36) 0%, rgba(0, 162, 255, 0.28) 28%, rgba(0, 162, 255, 0.15) 50%, rgba(0, 162, 255, 0.05) 70%, rgba(0, 162, 255, 0.01) 88%, transparent 100%);
+}
+
+.lvab-found,
+.lvab-team { position: relative; z-index: 1; }
+
+/* =========================================================================
+   3) A REAL COMPANY BEHIND THE BRAND   Referenz y 1406 - 2052
+   ========================================================================= */
+
+.lvab-found { padding: 115px 0 0; }
+.lvab-found .lvab-h2 { margin-top: 16px; }
+.lvab-found .lvab-lead { margin-top: 17px; }
+
+.lvab-facts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 27px;
+  margin-top: 73px;
+}
+.lvab-fact {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+  min-height: 282px;
+  padding: 24px 18px 90px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-top-color: rgba(255, 255, 255, 0.018);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.005);
+  text-align: center;
+}
+.lvab-fact-tint { background: rgba(0, 162, 255, 0.05); }
+
+.lvab-fact-num {
+  position: absolute;
+  top: -36px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 238px;
+  line-height: 240px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.022);
+  pointer-events: none;
+  user-select: none;
+}
+.lvab-fact-label {
+  position: relative;
+  font-size: 15.8px;
+  line-height: 22px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.68);
+  overflow-wrap: break-word;
+}
+.lvab-fact-value {
+  position: relative;
+  margin-top: 5.5px;
+  font-size: 29.2px;
+  line-height: 35px;
+  font-weight: 500;
+  overflow-wrap: break-word;
+}
+.lvab-fact-dot {
+  position: absolute;
+  left: 50%;
+  bottom: 42px;
+  width: 13px;
+  height: 13px;
+  margin-left: -6.5px;
+  border-radius: 50%;
+  background: var(--lvf-grad-blue);
+}
+
+/* =========================================================================
+   4) DIFFERENT EXPERTISE. ONE DIRECTION.   Referenz y 2052 - 3642
+   Die Sektion endet ohne Unterrand an der Kartenunterkante y=3641; die
+   109px Abstand bis zur Pille "Contact Lvlup" bringt die Kontaktsektion mit.
+   ========================================================================= */
+
+.lvab-team { padding: 112px 0 0; }
+.lvab-team .lvab-h2 { margin-top: 16px; }
+.lvab-team .lvab-lead { margin-top: 17px; max-width: 700px; }
+
+.lvab-crew {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12.5px calc(40px / 3);
+  margin-top: 73px;
+}
+
+/* Die Spalte ist glatte 300px breit (gap calc(40px/3)), der 1px-Rahmen wuerde
+   den Inhaltskasten aber auf 298px druecken - dann tastet Chrome jedes Foto neu
+   ab und die Schaerfe faellt auf rund die Haelfte der Quelldatei (gemessen
+   Laplace-Varianz 448 gegen 972 in der Referenz). Die Karte ragt darum je 1px
+   in die Rasterluecke: 302px aussen, 300px innen, Foto also 1:1. Das Raster
+   selbst (Kartenkanten 260/573/887/1200) bleibt unveraendert. */
+.lvab-crew-card {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 302 / 401.5;
+  margin-inline: -1px;
+  padding-top: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.055);
+  border-radius: 16px;
+  background: radial-gradient(120% 70% at 50% 8%, rgba(0, 162, 255, 0.155) 0%, rgba(0, 0, 0, 0.4) 62%, rgba(0, 0, 0, 0.6) 100%);
+}
+.lvab-crew-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 300 / 288;
+  object-fit: cover;
+}
+.lvab-crew-plate {
+  position: absolute;
+  left: 2.67%;
+  right: 2.67%;
+  bottom: 3.02%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  height: 24.2%;
+  padding: 10px 10px 6px;
+  border-radius: 14px;
+  background:
+    radial-gradient(70% 120% at 50% 55%, rgba(0, 162, 255, 0.18) 0%, rgba(0, 0, 0, 0) 72%),
+    #000000;
+  text-align: center;
+}
+.lvab-crew-plate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(170deg,
+    rgba(0, 162, 255, 0.235) 0%,
+    rgba(0, 162, 255, 0.1) 17%,
+    rgba(0, 162, 255, 0) 32%,
+    rgba(0, 162, 255, 0) 74%,
+    rgba(0, 162, 255, 0.045) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.lvab-crew-name {
+  position: relative;
+  font-size: 24.6px;
+  line-height: 28px;
+  font-weight: 600;
+  background-image: linear-gradient(90deg,
+    rgba(255, 255, 255, 0.72) 0%, #ffffff 50%, rgba(255, 255, 255, 0.74) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  overflow-wrap: break-word;
+}
+.lvab-crew-role {
+  position: relative;
+  font-size: 15.4px;
+  line-height: 19px;
+  font-weight: 400;
+  color: #57acdf;
+  overflow-wrap: break-word;
+}
+
+/* =========================================================================
+   5) CONTACT LVLUP   Referenz y 3641 - 4796 (Karte 4002 - 4796)
+   ========================================================================= */
+
+/* "background: #000" ist beim Zusammenbau dazugekommen: ohne den Wert scheint
+   hier die Seitenfarbe --lvf-bg (#05060f) durch, waehrend die drei Sektionen
+   darueber auf reinem Schwarz stehen. Im Render war das an der Naht y=3641 eine
+   waagerechte Kante ueber die volle Breite (Sprung 0,0,0 -> 5,6,15); die
+   Referenz ist dort auf beiden Seiten schwarz. Die Glows liegen auf z-index:-1
+   und werden nach dem eigenen Hintergrund gezeichnet, bleiben also sichtbar. */
+.lvab-contact {
+  position: relative;
+  z-index: 0;
+  padding: 110px 0 0;
+  background: #000000;
+}
+
+/* ---- Hintergrund-Glows -------------------------------------------------
+   Der linke Glow ist im Entwurf ein Kegel: oben ein schmales blaues Band,
+   unten eine breite weisse Flaeche. Eine einzelne Ellipse bildet das nicht
+   ab (oben zu breit), deshalb zwei Lagen (beam gross und weich, core hell
+   darueber). Restfehler auf der sichtbaren Hintergrundflaeche 12,9 pro
+   Kanal (RMS). Beide laufen absichtlich ueber die Sektionsgrenzen hinaus,
+   weil der Glow im Entwurf oberhalb beginnt und unten hinter dem Footer
+   weiterlaeuft; nach oben tragen sie ab y=3641 auch den linken Rand der
+   Team-Sektion (dort ist die Deckung der Ellipsen bei den Karten 0).
+   Horizontal kappt die Seite ueber .lvf-page / .lvab-page { overflow-x: clip }. */
+.lvab-contact .lvab-glow {
+  position: absolute;
+  z-index: -1;
+  display: block;
+  pointer-events: none;
+}
+
+.lvab-contact .lvab-glow--beam {
+  left: -1517px;
+  top: -1317px;
+  width: 1958px;
+  height: 4909px;
+  background: radial-gradient(ellipse closest-side at 50% 50%,
+    #a0e0fd 0%,
+    #78cdfc 55%,
+    #53bdf4 64%,
+    #2091cc 72%,
+    #155072 80%,
+    #0b2635 88%,
+    rgba(3, 16, 24, 0.51) 96%,
+    rgba(2, 10, 16, 0) 100%);
+}
+
+.lvab-contact .lvab-glow--core {
+  left: -677px;
+  top: -120px;
+  width: 1383px;
+  height: 2165px;
+  background: radial-gradient(ellipse closest-side at 50% 50%,
+    #fdfeff 0%,
+    #f7fcff 17%,
+    #e8f6ff 25%,
+    #caeafe 32%,
+    #8fdafa 40%,
+    rgba(93, 209, 255, 0.734) 48%,
+    rgba(60, 196, 255, 0.64) 55%,
+    rgba(39, 181, 255, 0.511) 63%,
+    rgba(21, 170, 255, 0.367) 71%,
+    rgba(17, 169, 255, 0.232) 79%,
+    rgba(12, 166, 255, 0.135) 86%,
+    rgba(21, 159, 255, 0.075) 94%,
+    rgba(21, 159, 255, 0) 100%);
+}
+
+/* R3-B4: Der weisse Schein links ist im Entwurf ein KEGEL - oben schmal
+   (bei y=3960 faellt er von 185 auf 17 zwischen x=0 und x=440), unten breit
+   (bei y=4760 steht er ueber x=0..258 fast unveraendert auf 253..232). Eine
+   einzelne Ellipse trifft entweder das eine oder das andere. Darum ein
+   zweiter, schmaler Kern fuer den oberen Teil; die grosse Ellipse traegt den
+   unteren. Restfehler der Sektion (Streifen links/rechts, Band ueber der
+   Karte, Kartenraender ueber das 0,26-Modell) 12,2 -> 10,4. */
+.lvab-contact .lvab-glow--core2 {
+  left: -445px;
+  top: 19px;
+  width: 766px;
+  height: 891px;
+  background: radial-gradient(ellipse closest-side at 50% 50%,
+    rgba(253, 254, 255, 0.41) 0%,
+    rgba(247, 252, 255, 0.41) 17%,
+    rgba(232, 246, 255, 0.41) 25%,
+    rgba(202, 234, 254, 0.41) 32%,
+    rgba(143, 218, 250, 0.41) 40%,
+    rgba(93, 209, 255, 0.301) 48%,
+    rgba(60, 196, 255, 0.262) 55%,
+    rgba(39, 181, 255, 0.21) 63%,
+    rgba(21, 170, 255, 0.15) 71%,
+    rgba(17, 169, 255, 0.095) 79%,
+    rgba(12, 166, 255, 0.055) 86%,
+    rgba(21, 159, 255, 0.031) 94%,
+    rgba(21, 159, 255, 0) 100%);
+}
+
+/* Ellipse rechts: Mittelpunkt 180px hinter der rechten Kante, y=5000,
+   rx 450, ry 2700. Deutlich schwaecher, rein blau. Restfehler 5,5. */
+.lvab-contact .lvab-glow--right {
+  right: -697px;
+  top: -1607px;
+  width: 1027px;
+  height: 5950px;
+  background: radial-gradient(ellipse closest-side at 50% 50%,
+    rgba(0, 162, 255, 0.837) 0%,
+    rgba(0, 162, 255, 0.564) 35%,
+    rgba(0, 152, 238, 0.146) 66%,
+    rgba(0, 140, 220, 0.046) 84%,
+    rgba(0, 130, 210, 0) 100%);
+}
+
+/* ---- Naht zum Theme-Footer bei y=4796 ----------------------------------
+   Die drei Scheine laufen ueber die Unterkante von .lvab-page hinaus, wo
+   "overflow: clip" sie auf einer einzigen Zeile abschneidet. Zwei Versuche
+   liegen hinter dieser Stelle, beide gemessen:
+
+   1. Scheine per mask-image vorher ausblenden. Das nimmt der Sektion genau
+      das Licht, das der Entwurf unten zeigt: Abweichung im Band y4550-4795
+      stieg von 12 auf 39, waehrend die Naht nur von Stufe 139 auf 125 fiel
+      (Abnahme N1). Schlechter Tausch, deshalb zurueckgenommen - die Scheine
+      laufen wieder ungekuerzt bis zur Kante.
+   2. Statt der Scheine wird jetzt die KANTE behandelt: .lvab-contact::after
+      blendet die letzten 72px auf genau die Farben, mit denen der Footer
+      darunter anfaengt. Gemessen 08.08.2026 am Live-Render:
+      Band y4550-4795 39 -> 13, Naht-Stufe im Mittel 139 -> 76 bei einem
+      Referenzwert von 65 (die Referenz hat an derselben Zeile die
+      Unterkante der Kontaktkarte, also selbst eine Stufe).
+
+   Ganz ohne Stufe wird es erst, wenn der Theme-Footer seinen eigenen
+   Hintergrund oben abgibt (.lvf-s11::before maskieren) - das liegt
+   ausserhalb dieser Datei.
+
+   Farbprofil der Footer-Oberkante: ein flacher Bogen, in der Mitte am
+   hellsten. Die FORM ist bei jeder Fensterbreite gleich, nur die Helligkeit
+   skaliert (gemessen: 1200px 0,97 | 900px 0,83 | 600px 0,75 | 390px 0,66).
+   Darum unten dieselben Stops mit kleinerem Faktor.
+
+   z-index 0 haelt das Band ueber den Scheinen (-1) und unter dem Inhalt (1).
+   Unter der Kontaktkarte wirkt es deshalb nur gedaempft - genau wie im
+   Entwurf, wo die Karte an derselben Zeile ueber hellem Grund endet
+   (Stufe an der Kartenunterkante: Referenz 114, hier 117).
+
+   4. R3-B6: Hoehe 36px -> 8px. Der neue Schnipsel zeigt den weissen Schein
+      bis zur Seitenunterkante durchlaufen (x=3, y=4780: 253/254/255); das
+      36px-Band drueckte ihn dort auf 196/213/222. Gemessen am Nachbau:
+
+        Bandhoehe  Abw. y4750-4796 (Glowspalten)  Stufe x=3  Stufe x=130
+        36px               51,4                      ~5           ~5
+        20px               39,3                      11,7        10,7
+        12px               31,4                      19,3        17,7
+         8px               26,6                      28,7        25,7
+        ganz ohne          12,6                     195,7       181,3
+
+      8px haelt die Kante weiterhin klar unter der Wahrnehmungsschwelle
+      (vor Runde 2 stand sie bei 204) und gibt dem Schein die Helligkeit
+      zurueck, die der Entwurf dort zeigt. Die Stufe in der Bildmitte
+      (x=880, ca. 67) kommt vom eigenen Deckenschein der Footer-Vorlage 67
+      und ist von dieser Seite aus nicht zu beheben - siehe BERICHT.
+
+   3. Hoehe 72px -> 36px (Endkontrolle 09.08.2026). Das Band deckt links den
+      weissen Schein zu, den der Entwurf dort bis zur Kante zeigt: bei 72px
+      liegt die Abweichung in den letzten 72 Zeilen auf den sichtbaren
+      Glowspalten (x0-249, x1510-1759) bei 46,2 von 255, Spitzenwert 238.
+      Gemessen in einem Nachbau, der den Live-Render auf 0,84 von 255 trifft:
+
+        Bandhoehe   Abw. y4725-4796   groesster Zeilensprung   Naht-Stufe
+        72px             46,2                  10                   5
+        36px             29,5                  17                   8
+        24px             24,0                  25                  12
+        ganz ohne        13,2                  43                 204
+
+      36px halbiert die Abweichung nahezu, ohne eine harte Kante zu erzeugen
+      (Referenz hat im selben Band Zeilenspruenge bis 4, eine harte Kante
+      laege ueber 100). Ganz ohne Band bricht der weisse Schein mit Stufe 204
+      auf den dunklen Theme-Footer ab - das ist die Kante, die 08.08. gerade
+      beseitigt wurde. */
+.lvab-contact::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 8px;
+  pointer-events: none;
+  background-image: linear-gradient(90deg,
+    rgb(3, 65, 100) 0%, rgb(3, 77, 119) 10%, rgb(2, 87, 133) 20%,
+    rgb(2, 96, 145) 30%, rgb(2, 101, 156) 40%, rgb(2, 104, 158) 50%,
+    rgb(2, 101, 156) 60%, rgb(2, 97, 148) 70%, rgb(2, 91, 140) 80%,
+    rgb(3, 82, 129) 90%, rgb(3, 72, 112) 100%);
+  -webkit-mask-image: linear-gradient(to bottom,
+    rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.12) 45%, rgba(0, 0, 0, 0.42) 75%, #000 100%);
+          mask-image: linear-gradient(to bottom,
+    rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.12) 45%, rgba(0, 0, 0, 0.42) 75%, #000 100%);
+}
+
+/* ---- Inhaltsbreite: Karte ist 1237px breit, mittig ---------------------- */
+.lvab-contact .lvab-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1277px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+/* ---- Eyebrow-Pille ----------------------------------------------------- */
+.lvab-contact .lvab-eyebrow {
+  display: block;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-inline: auto;
+  height: 33px;
+  padding: 0 24px;
+  border-radius: 999px;
+  background: rgba(0, 162, 255, 0.07);
+  font-size: 15.8px;
+  font-weight: 400;
+  line-height: 33px;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.92);
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* ---- Ueberschrift ------------------------------------------------------
+   Farbverlaeufe liegen auf den SPANs, nicht auf dem h2: der Theme-Reset
+   .lvf-page.lvf-page h2 { color: inherit } wuerde ein color:transparent
+   auf dem h2 selbst schlagen. */
+.lvab-contact h2.lvab-title {
+  margin: 14px 0 0;
+  font-size: 62.3px;
+  font-weight: 500;
+  line-height: 66px;
+  letter-spacing: 0;
+  text-align: center;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+/* R3-A3: war #bfbfbf (191). Der Schnipsel zeigt den Zeilenanfang bei 182 von
+   255, also dieselben 0,70 wie bei allen anderen Ueberschriften. */
+.lvab-contact .lvab-title-w {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.70) 0%, #ffffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* R3-A4: nutzte als einzige blaue Ueberschrift --lvf-grad-blue (0%..100%).
+   Dadurch war "Conversation" unten 55 statt 34 (Referenz) hell. Jetzt
+   derselbe Verlauf wie H1/H2/Faktenwerte. */
+.lvab-contact .lvab-title-b {
+  font-weight: 600;
+  background: var(--lvab-grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lvab-contact .lvab-sub {
+  max-width: 640px;
+  margin: 14px auto 0;
+  font-size: 19.5px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+  color: #ffffff;
+  overflow-wrap: break-word;
+}
+
+/* ---- Formularkarte ----------------------------------------------------- */
+.lvab-contact .lvab-card {
+  margin-top: 75px;
+  padding: 41px 42px 50px;
+  border-radius: 22px;
+  background: rgba(0, 0, 0, 0.74);
+}
+
+.lvab-contact .lvab-form {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+/* ---- Feldzeile: heller Streifen mit Label links, Eingabe rechts --------- */
+.lvab-contact .lvab-frow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 13px 13px 13px 43px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.lvab-contact .lvab-frow--msg { align-items: flex-start; }
+
+.lvab-contact .lvab-flabel {
+  flex: 0 0 auto;
+  width: 147px;
+  padding-right: 12px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0.75px;
+  color: rgba(255, 255, 255, 0.87);
+  overflow-wrap: break-word;
+}
+
+.lvab-contact .lvab-frow--msg .lvab-flabel { padding-top: 20px; }
+
+.lvab-contact .lvab-req {
+  color: #ff0000;
+  padding-left: 2px;
+}
+
+/* ---- Eingabefelder -----------------------------------------------------
+   Doppelte Sektionsklasse, weil der Theme-Reset
+   .lvf-page.lvf-page input/select/textarea Hintergrund, Rahmen, Radius und
+   Schriftgroesse zurueckdreht (Spezifitaet 0-2-1). */
+.lvab-contact.lvab-contact .lvab-input {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  height: 63px;
+  padding: 0 36px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background:
+    linear-gradient(90deg, #010203 0%, #0b1014 100%) padding-box,
+    linear-gradient(180deg, rgba(0, 162, 255, 0.17) 0%, rgba(0, 162, 255, 0.1) 50%, rgba(0, 162, 255, 0.03) 100%) border-box;
+  font-family: var(--lvf-font-display);
+  font-size: 18.3px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #ffffff;
+  transition: box-shadow 0.18s ease;
+}
+
+.lvab-contact.lvab-contact .lvab-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+  opacity: 1;
+}
+
+.lvab-contact.lvab-contact .lvab-input:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 162, 255, 0.55);
+}
+
+.lvab-contact.lvab-contact .lvab-textarea {
+  height: 207px;
+  padding: 20px 36px;
+  line-height: 24px;
+  resize: none;
+}
+
+/* ---- Auswahlfeld -------------------------------------------------------- */
+.lvab-contact .lvab-selwrap {
+  position: relative;
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.lvab-contact.lvab-contact .lvab-select {
+  padding-right: 66px;
+  cursor: pointer;
+}
+
+/* leerer Zustand: "Select here" wird gedimmt dargestellt */
+.lvab-contact.lvab-contact .lvab-select:invalid { color: rgba(255, 255, 255, 0.3); }
+
+.lvab-contact.lvab-contact .lvab-select option { color: #05060f; background: #ffffff; }
+
+.lvab-contact .lvab-caret {
+  position: absolute;
+  top: 50%;
+  right: 34px;
+  width: 16px;
+  height: 10px;
+  margin-top: -5px;
+  pointer-events: none;
+}
+
+/* ---- Absendeknopf ------------------------------------------------------- */
+.lvab-contact.lvab-contact .lvab-submit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  height: 72px;
+  margin-top: 1px;
+  padding: 8px 8px 8px 51px;
+  border: 0;
+  border-radius: 18px;
+  /* R3-C1: Verlauf war zu schmal - Referenz laeuft von ~168 (oben) auf 27
+     (unten), live stand bei 144 -> 57. Restfehler im Knopf 8,3 -> 5,2. */
+  background: linear-gradient(180deg, #9fe3ff 0%, #10adff 100%);
+  box-shadow: inset 0 1px 16px rgba(160, 228, 255, 0.4);
+  cursor: pointer;
+  transition: filter 0.18s ease;
+}
+
+.lvab-contact.lvab-contact .lvab-submit:hover { filter: brightness(1.06); }
+.lvab-contact.lvab-contact .lvab-submit:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
+
+.lvab-contact .lvab-submit-label {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 32px;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.lvab-contact .lvab-submit-ico {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 373px;
+  align-self: stretch;
+  border-radius: 10px;
+  background: #060606;
+}
+
+.lvab-contact .lvab-submit-ico svg { display: block; }
+
+/* ---- Kontaktzeilen unter dem Formular ----------------------------------- */
+.lvab-contact .lvab-ci {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0 116px;
+  margin-top: 39px;
+}
+
+.lvab-contact .lvab-ci-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.lvab-contact .lvab-ci-line {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 21.9px;
+  font-weight: 600;
+  line-height: 30px;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+.lvab-contact .lvab-ci-ico { flex: 0 0 auto; display: block; }
+
+.lvab-contact .lvab-ci-text {
+  background: var(--lvf-grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  overflow-wrap: break-word;
+}
+
+/* Element + Klasse + Sektion, sonst gewinnt .lvf-page a { color: inherit } */
+.lvab-contact a.lvab-ci-line { transition: filter 0.18s ease; }
+.lvab-contact a.lvab-ci-line:hover { filter: brightness(1.12); }
+.lvab-contact a.lvab-ci-line:focus-visible { outline: 2px solid var(--lvf-blue); outline-offset: 4px; border-radius: 4px; }
+
+.lvab-contact .lvab-ci-cap {
+  font-size: 19.8px;
+  font-weight: 400;
+  line-height: 25px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* =========================================================================
+   Bewegung nur, wenn der Nutzer sie zulaesst
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  a.lvab-btn-primary,
+  a.lvab-btn-ghost,
+  .lvab-contact.lvab-contact .lvab-input,
+  .lvab-contact.lvab-contact .lvab-submit,
+  .lvab-contact a.lvab-ci-line { transition: none; }
+}
+
+/* Trefferflaeche auf Touch-Geraeten vergroessern, Optik bleibt gleich */
+@media (pointer: coarse) {
+  .lvab-contact a.lvab-ci-line { padding-block: 11px; margin-block: -11px; }
+}
+
+/* Tablet 768-1023px, 13.08.2026: die Vergroesserung oben reicht bei
+   elementFromPoint (nicht die Box) nur auf 37 statt 48px. Ursache: die
+   Unterzeile ".lvab-ci-cap" ("For General Enquiries") beginnt normal im
+   Textfluss direkt darunter und ueberdeckt beim Treffertest den unteren
+   Teil der vergroesserten, aber unsichtbaren Flaeche - eine spaeter im DOM
+   stehende, nicht positionierte Kachel gewinnt den Treffer sonst automatisch.
+   position:relative hebt den Link in die Vordergrundebene, ohne dass sich am
+   Erscheinungsbild etwas aendert. Nachgemessen per elementFromPoint-Abtastung
+   (nicht die Box): 37 -> 48px bei 768/900/1023px, 767 und 1024px unveraendert. */
+@media (pointer: coarse) and (min-width: 768px) and (max-width: 1023px) {
+  .lvab-contact a.lvab-ci-line { position: relative; z-index: 1; }
+}
+
+/* =========================================================================
+   Schmalere Fenster. Reihenfolge absteigend nach max-width, damit die
+   engeren Stufen die weiteren ueberschreiben.
+   ========================================================================= */
+
+@media (max-width: 1320px) {
+  .lvab-hero { padding-top: 200px; }
+  .lvab-h1 { font-size: clamp(38px, 5.16vw, 68.15px); line-height: 1.0; }
+  .lvab-h2 { font-size: clamp(34px, 4.7vw, 62.3px); line-height: 1.0; }
+  .lvab-fact-num { font-size: clamp(142px, 18vw, 238px); line-height: 1.0; }
+  .lvab-fact-value { font-size: clamp(21px, 2.21vw, 29.2px); line-height: 1.28; }
+  .lvab-crew-name { font-size: clamp(17px, 1.86vw, 24.6px); line-height: 1.2; }
+  .lvab-crew-role { font-size: clamp(11px, 1.17vw, 15.4px); line-height: 1.35; }
+  .lvab-value-title { font-size: clamp(14px, 1.24vw, 16.4px); white-space: normal; }
+  .lvab-tag { font-size: clamp(13px, 1.2vw, 15.8px); }
+  .lvab-lead { font-size: clamp(16px, 1.48vw, 19.5px); }
+  .lvab-hero-sub { font-size: clamp(16px, 1.47vw, 19.4px); }
+  .lvab-purpose-copy { font-size: clamp(17px, 1.64vw, 21.6px); }
+  .lvab-fact-label { font-size: clamp(14px, 1.2vw, 15.8px); }
+  .lvab-values { gap: 12px; }
+  .lvab-facts { gap: 20px; }
+}
+
+@media (max-width: 1199px) {
+  .lvab-contact { padding-top: 88px; }
+  .lvab-contact h2.lvab-title { font-size: 47px; line-height: 53px; }
+  .lvab-contact .lvab-card { margin-top: 52px; padding: 30px 30px 38px; }
+  .lvab-contact .lvab-frow { padding: 12px 12px 12px 28px; }
+  .lvab-contact .lvab-flabel { width: 132px; }
+  .lvab-contact.lvab-contact .lvab-input { height: 58px; padding: 0 24px; }
+  .lvab-contact.lvab-contact .lvab-textarea { height: 180px; padding: 16px 24px; }
+  .lvab-contact.lvab-contact .lvab-select { padding-right: 52px; }
+  .lvab-contact .lvab-caret { right: 22px; }
+  .lvab-contact.lvab-contact .lvab-submit { height: 64px; padding-left: 32px; }
+  .lvab-contact .lvab-submit-label { font-size: 22px; }
+  .lvab-contact .lvab-submit-ico { width: 240px; }
+  .lvab-contact .lvab-ci { gap: 12px 64px; }
+  .lvab-contact .lvab-ci-line { font-size: 18.5px; line-height: 26px; }
+  .lvab-contact .lvab-ci-cap { font-size: 17.8px; line-height: 24px; }
+  .lvab-contact .lvab-sub { font-size: 18px; line-height: 24px; }
+  .lvab-contact.lvab-contact .lvab-input { font-size: 17px; }
+
+  /* Glows proportional verkleinert (Faktor ~0,68) */
+  .lvab-contact .lvab-glow--beam {
+    left: -1130px; top: -845px; width: 1500px; height: 3270px;
+  }
+  .lvab-contact .lvab-glow--core {
+    left: -1020px; top: -28px; width: 1900px; height: 1500px;
+  }
+  .lvab-contact .lvab-glow--right {
+    right: -430px; top: -913px; width: 610px; height: 3670px;
+  }
+
+  /* Footer-Oberkante ist hier dunkler als bei 1760px (Faktor 0,93) */
+  .lvab-contact::after {
+    background-image: linear-gradient(90deg,
+      rgb(3, 60, 93) 0%, rgb(3, 72, 111) 10%, rgb(2, 81, 124) 20%,
+      rgb(2, 89, 135) 30%, rgb(2, 94, 145) 40%, rgb(2, 97, 147) 50%,
+      rgb(2, 94, 145) 60%, rgb(2, 90, 138) 70%, rgb(2, 85, 130) 80%,
+      rgb(3, 76, 120) 90%, rgb(3, 67, 104) 100%);
+  }
+}
+
+@media (max-width: 1024px) {
+  .lvab-hero { min-height: 0; padding: 190px 0 90px; }
+  .lvab-purpose { padding: 72px 0 60px; }
+  .lvab-found { padding-top: 84px; }
+  .lvab-team { padding-top: 84px; }
+  .lvab-purpose-copy { font-size: 18.5px; line-height: 25px; }
+  .lvab-values { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .lvab-facts { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .lvab-fact { min-height: 240px; padding-bottom: 40px; }
+  .lvab-fact-dot { bottom: 34px; }
+  .lvab-crew { grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 52px; }
+  .lvab-value-title { white-space: normal; }
+
+  /* Footer-Oberkante, Faktor 0,82 */
+  .lvab-contact::after {
+    background-image: linear-gradient(90deg,
+      rgb(2, 53, 82) 0%, rgb(2, 63, 98) 10%, rgb(2, 71, 109) 20%,
+      rgb(2, 79, 119) 30%, rgb(2, 83, 128) 40%, rgb(2, 85, 130) 50%,
+      rgb(2, 83, 128) 60%, rgb(2, 80, 121) 70%, rgb(2, 75, 115) 80%,
+      rgb(2, 67, 106) 90%, rgb(2, 59, 92) 100%);
+  }
+}
+
+@media (max-width: 767px) {
+  .lvab-contact { padding-top: 64px; }
+  .lvab-contact .lvab-wrap { padding-inline: 16px; }
+
+  .lvab-contact .lvab-eyebrow { height: 28px; padding: 0 16px; font-size: 13px; line-height: 28px; }
+  .lvab-contact h2.lvab-title { margin-top: 14px; font-size: 32px; line-height: 38px; }
+  .lvab-contact .lvab-sub { margin-top: 12px; font-size: 15px; line-height: 22px; }
+
+  .lvab-contact .lvab-card { margin-top: 32px; padding: 16px 14px 26px; border-radius: 18px; }
+  .lvab-contact .lvab-form { gap: 10px; }
+
+  .lvab-contact .lvab-frow,
+  .lvab-contact .lvab-frow--msg {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 14px;
+    border-radius: 14px;
+  }
+  .lvab-contact .lvab-flabel { width: auto; padding: 0 0 0 4px; font-size: 15px; }
+  .lvab-contact .lvab-frow--msg .lvab-flabel { padding-top: 0; }
+
+  .lvab-contact.lvab-contact .lvab-input { height: 52px; padding: 0 16px; font-size: 15px; }
+  .lvab-contact.lvab-contact .lvab-textarea { height: 150px; padding: 14px 16px; }
+  .lvab-contact.lvab-contact .lvab-select { padding-right: 44px; }
+  .lvab-contact .lvab-caret { right: 16px; }
+
+  .lvab-contact.lvab-contact .lvab-submit {
+    height: 56px;
+    padding: 6px 6px 6px 18px;
+    border-radius: 14px;
+    gap: 10px;
+  }
+  .lvab-contact .lvab-submit-label { font-size: 17px; line-height: 22px; }
+  .lvab-contact .lvab-submit-ico { width: 62px; border-radius: 9px; }
+  .lvab-contact .lvab-submit-ico svg { width: 17px; height: 17px; }
+
+  .lvab-contact .lvab-ci { flex-direction: column; align-items: center; gap: 20px; margin-top: 28px; }
+  .lvab-contact .lvab-ci-line { flex-wrap: wrap; justify-content: center; gap: 7px; font-size: 16px; line-height: 22px; }
+  /* Trefferflaeche des Mailto-Links: 22px Text + 2x11px = 44px. Fragment 2 hat
+     das nur ueber "@media (pointer: coarse)" geloest; auf einem schmalen
+     Fenster ohne Grobzeiger blieben 22px uebrig, also unter den 40px aus dem
+     Vertrag. Die negative Aussenkante haelt die Optik unveraendert. */
+  .lvab-contact a.lvab-ci-line { padding-block: 11px; margin-block: -11px; }
+  .lvab-contact .lvab-ci-ico { width: 18px; height: auto; }
+  .lvab-contact .lvab-ci-cap { font-size: 14px; line-height: 20px; }
+
+  /* Glows proportional verkleinert (Faktor ~0,36). Die Masken sind hier wie
+     am Desktop entfallen; die Naht faengt .lvab-contact::after ab. Mobil ist
+     das der groessere Hebel: die Naht lag bei 390px im Mittel bei Stufe 94
+     (Abnahme N2), weil ueber der Kante reines Schwarz stand. */
+  .lvab-contact .lvab-glow--beam {
+    left: -600px; top: -447px; width: 790px; height: 1730px;
+  }
+  .lvab-contact .lvab-glow--core {
+    left: -540px; top: -15px; width: 1010px; height: 790px;
+  }
+  .lvab-contact .lvab-glow--right {
+    right: -227px; top: -483px; width: 324px; height: 1945px;
+  }
+
+  /* Footer-Oberkante, Faktor 0,75 */
+  .lvab-contact::after {
+    height: 56px;
+    background-image: linear-gradient(90deg,
+      rgb(2, 49, 75) 0%, rgb(2, 58, 89) 10%, rgb(2, 65, 100) 20%,
+      rgb(2, 72, 109) 30%, rgb(2, 76, 117) 40%, rgb(2, 78, 118) 50%,
+      rgb(2, 76, 117) 60%, rgb(2, 73, 111) 70%, rgb(2, 68, 105) 80%,
+      rgb(2, 62, 97) 90%, rgb(2, 54, 84) 100%);
+  }
+}
+
+@media (max-width: 720px) {
+  .lvab-hero { padding: 170px 0 70px; }
+  .lvab-hero-art { min-width: 900px; height: 100%; }
+  .lvab-hero-arrow {
+    top: auto; bottom: 0; width: 260px; height: 235px;
+    clip-path: polygon(
+      80.5px 0, 253px 0, 253px 126px, 247px 140px, 236px 149px, 223px 152px,
+      171px 113px, 79px 235px, 14px 235px, 128px 81px, 80.5px 35px
+    );
+  }
+  .lvab-hero-beam { width: 640px; height: 140px; top: 60px; }
+  .lvab-hero-beam-l { left: -220px; }
+  .lvab-hero-beam-r { right: -220px; }
+  .lvab-hero-sub { font-size: 16.6px; line-height: 23px; }
+  .lvab-hero-cta { flex-direction: column; gap: 12px; }
+  a.lvab-btn-primary,
+  a.lvab-btn-ghost { width: 100%; max-width: 320px; min-width: 0; }
+  a.lvab-btn-primary { justify-content: flex-start; }
+
+  .lvab-purpose { padding: 56px 0 48px; }
+  .lvab-purpose-copy { font-size: 17.6px; line-height: 25px; margin-top: 20px; }
+  .lvab-purpose-copy p + p { margin-top: 20px; }
+  .lvab-values { grid-template-columns: 1fr; gap: 12px; margin-top: 36px; }
+  .lvab-value-head { height: auto; min-height: 44px; padding: 10px 16px; }
+  .lvab-value-text { padding: 10px 16px 14px; font-size: 13px; line-height: 19px; }
+
+  .lvab-found { padding-top: 60px; }
+  .lvab-team { padding-top: 60px; }
+  .lvab-lead { font-size: 17px; line-height: 24px; }
+  .lvab-facts { grid-template-columns: 1fr; gap: 14px; margin-top: 36px; }
+  .lvab-fact { min-height: 0; padding: 30px 18px 56px; }
+  .lvab-fact-num { font-size: 175px; }
+  .lvab-fact-dot { bottom: 24px; }
+
+  .lvab-crew { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 36px; }
+  .lvab-crew-plate { height: 26%; border-radius: 11px; }
+
+  /* Auf schmalen Schirmen ruecken die Glows sonst mitten unter die Schrift.
+     Geometrie wie oben, rund halbiert. */
+  .lvab-lower-glow-r  { top: -263px; right: -425px; width: 780px; height: 620px; }
+  .lvab-lower-glow-r2 { top: -450px; right: -275px; width: 480px; height: 1480px; opacity: 0.8; }
+  .lvab-lower-glow-l  { bottom: -640px; left: -360px; width: 620px; height: 1100px; }
+  .lvab-lower-glow-l2 { bottom: -820px; left: -560px; width: 900px; height: 1800px; opacity: 0.8; }
+  .lvab-purpose-glow-l { left: -304px; bottom: -163px; width: 631px; height: 335px; }
+  .lvab-purpose-glow-r { right: -326px; bottom: -141px; width: 629px; height: 313px; }
+  .lvab-purpose-glow-c { width: 1683px; margin-left: -842px; height: 306px; bottom: -153px; }
+  .lvab-hero-bglow-a { margin-left: -260px; width: 620px; height: 150px; bottom: -78px; }
+  .lvab-hero-bglow-b { margin-left: 60px; width: 380px; height: 120px; bottom: -62px; }
+  /* R3-ABNAHME-2 mobil: gleiche Halbierung wie bei den uebrigen Scheinen,
+     sonst wandert der Dunst auf schmalen Schirmen unter die Schrift.
+     (.lvab-hero-rglow braucht keine Regel: es haengt wie .lvab-hero-beam-r
+     am rechten Rand der 1760px-Kunstflaeche und ist unterhalb von rund
+     1400px Fensterbreite ohnehin herausgeschnitten - gemessen bei 1024 und
+     768px keine Aenderung, bei 1440px nur 1,3 von 255 in der letzten Spalte.) */
+  .lvab-purpose-haze { margin-left: -900px; width: 1800px; height: 280px; bottom: 10px; }
+}
+
+@media (max-width: 420px) {
+  .lvab-hero { padding-top: 156px; }
+  .lvab-h1 { font-size: 32px; line-height: 1.08; }
+  .lvab-h2 { font-size: 30px; line-height: 1.1; }
+  .lvab-tag { font-size: 12px; padding-inline: 16px; white-space: normal; height: auto; min-height: 32px; line-height: 1.35; padding-block: 6px; }
+  .lvab-purpose-copy { font-size: 16px; }
+  .lvab-fact-num { font-size: 153px; }
+  .lvab-crew { grid-template-columns: 1fr; }
+  /* Ohne "width: 100%" faellt die Karte in einer einspaltigen Grid-Spur mit
+     "aspect-ratio" und "max-width" auf 2px zusammen (das Foto haengt mit
+     width:100% an der unbestimmten Breite). Live bei 390px nachgewiesen. */
+  .lvab-crew-card { width: 100%; max-width: 302px; margin-inline: auto; }
+  .lvab-crew-name { font-size: 21px; }
+  .lvab-crew-role { font-size: 14px; }
+
+  /* Footer-Oberkante, Faktor 0,66 (bei 390px gemessen) */
+  .lvab-contact::after {
+    background-image: linear-gradient(90deg,
+      rgb(2, 43, 66) 0%, rgb(2, 51, 79) 10%, rgb(2, 57, 88) 20%,
+      rgb(2, 63, 96) 30%, rgb(2, 67, 103) 40%, rgb(2, 69, 104) 50%,
+      rgb(2, 67, 103) 60%, rgb(2, 64, 98) 70%, rgb(2, 60, 92) 80%,
+      rgb(2, 54, 85) 90%, rgb(2, 48, 74) 100%);
+  }
+}
+
+@media (min-width: 1024px) {
+  .lvab-contact { padding-bottom: 60px; }
+}
+
+/* =========================================================================
+   6) NAHT ZUM THEME-FUSS   (12.08.2026)
+
+   IST vorher: an der Sektionsunterkante y=4857 brach der Schein in EINER
+   Bildzeile ab. Sprung ueber 20 Spaltenbloecke 52,4 bei einem Soll von 1,1;
+   groesste Zeilenaenderung 197,5. Links fiel (233,245,253) auf (2,59,93),
+   in der Mitte (7,86,129) auf (0,8,12). Bei 1200px waren es 78,7, bei
+   1024px 64,6.
+
+   URSACHE: .lvab-page traegt "overflow: clip" auch senkrecht (siehe
+   Kopfabschnitt), sonst waechst das Dokument um 1809px leeren Raum unter
+   dem Fuss. Dieser Schnitt kappt die vier Scheine genau an der Kante.
+   Der Fuss selbst ist in Ordnung. An derselben Stelle zeigen die Entwuerfe
+   von home (2,54,85), rules (2,98,154), contact (2,67,105) und evaluation
+   (2,50,79) ebenfalls Dunkel, nur about hat dort (249,253,255). Das Licht
+   gehoert also zu DIESER Seite und nicht zum Fuss.
+
+   SOLL: der Entwurf laesst den Schein durch den Fussbereich weiterlaufen.
+
+   ZWEI WEGE, DIE GEMESSEN AUSGESCHIEDEN SIND:
+   1. "overflow-clip-margin" am Seitencontainer laesst den Schein zwar
+      durch, treibt die Dokumentbreite aber von 1760 auf 2457px, also einen
+      waagerechten Rollbalken.
+   2. Ein Traeger, der im Stapel unter dem Fuss liegt, bleibt unsichtbar:
+      dessen .lvf-page traegt einen deckenden schwarzen Grund, und der
+      Fuss-Container ist positioniert, malt also nach dem Seiteninhalt.
+
+   LOESUNG: ein eigener Traeger NEBEN .lvab-page, ausserhalb des Schnitts,
+   mit z-index 1. Er liegt damit ueber dem Fuss und traegt zwei Flaechen,
+   die beide nur dort malen, wo der Fuss leer ist:
+     - das Band ueberspannt die Naht von der Unterkante der Kontaktkarte
+       (60px darueber) bis zur Oberkante der Fusskarte (48px darunter).
+       Beide Abstaende sind bei 1024, 1200 und 1760px identisch gemessen.
+     - der Randstreifen fuellt den freien Rand links neben der Fusskarte.
+   Der Fuss wird nicht angefasst, "pointer-events: none" laesst alle Links
+   darunter anklickbar.
+
+   Die Farbstopps stehen in Pixeln ab der linken Kante, weil der Schein
+   links verankert ist, die rechte Lage entsprechend ab rechts. Bei 1200 und
+   1760px ist das Querprofil identisch: (241,249,255) / (226,243,255) /
+   (80,172,210) / (8,63,94) bei x = 0 / 132 / 308 / 484. Unterhalb 1200px
+   verkleinert der Block weiter oben die Scheine auf etwa 0,68, dort gilt
+   deshalb ein eigener Farbsatz.
+
+   ERGEBNIS bei 1760px gegen about-aus-vollbild.png:
+     Naht-Sprung        52,4 ->  0,4   (Soll 1,1)
+     Band y4797-4841    64,3 -> 11,0
+     Band y4841-4857    62,4 ->  1,2
+     Band y4861-4901   105,1 ->  2,8
+     Band y4901-4930    29,6 -> 20,5
+     Band y4930-5300    23,4 -> 15,3
+     Band y5300-5775    17,2 -> 14,4
+   Sprung bei 1200px 78,7 -> 0,0, bei 1024px 64,6 -> 1,0.
+   Seitenhoehe unveraendert 5775px, Dokumentbreite 1760px.
+
+   NICHT nachgebaut: der Entwurf hebt zusaetzlich die Flaechen INNERHALB der
+   Fusskarte um 20 bis 50 Stufen an (z.B. x120 y5057 Entwurf (27,60,81),
+   live (5,5,5)). Dafuer muesste die Fusskarte durchscheinend werden, das
+   liegt im Fuss und damit ausserhalb dieser Datei.
+   ========================================================================= */
+
+.lvab-fussnaht {
+  position: relative;
+  height: 0;
+  pointer-events: none;
+}
+
+.lvab-fussnaht > span { display: none; }
+
+@media (min-width: 1024px) {
+  /* Die 8px-Leiste vom 08.08. hat die Kante nur kaschiert und drueckte den
+     Schein in der letzten Zeile von (233,245,253) auf (169,202,222). Mit dem
+     durchlaufenden Band wird sie nicht mehr gebraucht; das Band y4849-4857
+     faellt dadurch von 62,4 auf 1,2. Unterhalb 1024px bleibt sie. */
+  .lvab-contact::after { content: none; }
+
+  .lvab-fussnaht > span {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .lvab-fussnaht-band {
+    top: -60px;
+    height: 108px;
+    background-image:
+      linear-gradient(90deg,
+        rgb(253, 254, 255) 0,
+        rgb(252, 254, 255) 44px,
+        rgb(247, 252, 255) 132px,
+        rgb(235, 248, 255) 220px,
+        rgb(218, 241, 255) 308px,
+        rgb(193, 232, 254) 396px,
+        rgb(143, 218, 250) 484px,
+        rgb(99, 199, 240) 572px,
+        rgb(65, 177, 224) 660px,
+        rgb(42, 151, 200) 748px,
+        rgb(25, 121, 171) 836px,
+        rgb(15, 93, 138) 924px,
+        rgb(8, 68, 103) 1012px,
+        rgb(5, 48, 73) 1100px,
+        rgb(3, 32, 49) 1188px,
+        rgba(2, 19, 30, 0.6) 1276px,
+        rgba(2, 14, 22, 0) 1364px),
+      linear-gradient(270deg,
+        rgb(3, 84, 131) 0,
+        rgb(3, 82, 128) 44px,
+        rgb(3, 43, 66) 132px,
+        rgb(2, 21, 33) 220px,
+        rgba(1, 15, 23, 0.7) 308px,
+        rgba(2, 14, 22, 0) 396px);
+    -webkit-mask-image: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0) 0%, #000 22%, #000 85%, rgba(0, 0, 0, 0) 100%);
+            mask-image: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0) 0%, #000 22%, #000 85%, rgba(0, 0, 0, 0) 100%);
+  }
+
+  /* Der freie Rand links neben der Fusskarte. Seine Breite ist genau der
+     halbe Ueberhang der auf 1608px begrenzten Karte, mindestens 30px:
+     bei 1024 bis 1600px 30px, bei 1760px 76px, bei 1920px 156px, jeweils
+     am Live-DOM nachgemessen. */
+  .lvab-fussnaht-rand {
+    top: 48px;
+    height: 730px;
+    --lvab-kante: max((100% - 1608px) / 2, 30px);
+    background-image: linear-gradient(to bottom,
+      rgb(250, 253, 255) 0%,
+      rgb(249, 253, 255) 4.4%,
+      rgb(248, 252, 255) 11.2%,
+      rgb(243, 251, 254) 20.8%,
+      rgb(233, 247, 255) 34.5%,
+      rgb(214, 240, 255) 51%,
+      rgb(189, 230, 254) 70%,
+      rgb(146, 219, 253) 89%,
+      rgba(130, 213, 251, 0) 100%);
+    -webkit-mask-image: linear-gradient(90deg,
+      #000 0, #000 calc(var(--lvab-kante) - 14px), rgba(0, 0, 0, 0) var(--lvab-kante));
+            mask-image: linear-gradient(90deg,
+      #000 0, #000 calc(var(--lvab-kante) - 14px), rgba(0, 0, 0, 0) var(--lvab-kante));
+  }
+}
+
+/* Unterhalb 1200px sind die Scheine der Sektion auf etwa 0,68 verkleinert
+   (Block weiter oben). Gemessen bei 1024px unmittelbar ueber der Naht:
+   (127,214,252) / (87,197,245) / (34,121,162) bei x = 0 / 132 / 308 statt
+   (241,249,255) / (226,243,255) / (80,172,210). Das Band folgt diesen
+   Werten, sonst stuende dort ein hellerer Streifen als die Sektion darueber.
+   Den Randstreifen gibt es hier nicht: der Entwurf endet bei 1760px, und
+   der Fussrand ist bei diesen Breiten nur 30px breit. */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .lvab-fussnaht-band {
+    background-image:
+      linear-gradient(90deg,
+        rgb(116, 212, 253) 0,
+        rgb(113, 211, 253) 26px,
+        rgb(98, 206, 252) 77px,
+        rgb(77, 194, 244) 128px,
+        rgb(61, 174, 223) 180px,
+        rgb(47, 150, 197) 231px,
+        rgb(36, 127, 169) 282px,
+        rgb(24, 103, 142) 333px,
+        rgb(17, 84, 120) 384px,
+        rgb(10, 69, 102) 436px,
+        rgb(7, 55, 83) 487px,
+        rgb(4, 42, 64) 538px,
+        rgb(3, 31, 47) 589px,
+        rgb(2, 21, 32) 640px,
+        rgba(2, 15, 23, 0.6) 692px,
+        rgba(1, 7, 11, 0) 743px),
+      linear-gradient(270deg,
+        rgb(0, 62, 98) 0,
+        rgb(0, 59, 93) 24px,
+        rgb(0, 22, 34) 76px,
+        rgba(0, 7, 11, 0.7) 128px,
+        rgba(0, 4, 7, 0) 190px);
+  }
+
+  .lvab-fussnaht-rand { display: none; }
+}
+
+/* =========================================================================
+   7) ANSCHRIFT: HAUSNUMMER UND POSTLEITZAHL   (12.08.2026)
+
+   IST bei 390px: die Faktkarte "Registered Office" bricht nach "18439" um,
+   die erste Zeile lautet "Am Langenwall 1 18439". Das Trennzeichen ist ein
+   normales Leerzeichen U+0020, der Text ist also richtig. Die Wortluecke der
+   Clash Grotesk ist dort aber nur 3,95px breit (0,19em) und steht zwischen
+   zwei Einsen, deshalb liest sich "1 18439" wie "118439". Im Kontaktblock
+   steht dieselbe Zeile bei 390px vollstaendig in einer Zeile.
+
+   SOLL: bei 1760px zeigt der Entwurf beide Stellen zeichengleich; die
+   Faktkarte bricht dort ohnehin nach der Hausnummer um ("Am Langenwall 1" /
+   "18439 Stralsund," / "Germany"). Der Desktop bleibt deshalb unangetastet.
+   Einen Mobil-Entwurf fuer about gibt es nicht, unterhalb 1024px entscheidet
+   also die Lesbarkeit.
+
+   Getrennt wird ueber den Umbruch, nicht ueber ein zweites Leerzeichen: das
+   vorhandene U+0020 zwischen den beiden Spans bleibt das einzige
+   Trennzeichen, damit auf dem Desktop keine doppelte Luecke entsteht.
+   Es handelt sich um eine Impressumsangabe, deshalb keine Kosmetik.
+   ========================================================================= */
+@media (max-width: 1024px) {
+  .lvab-fact-value .lvab-adr-ort,
+  .lvab-ci-text .lvab-adr-ort { display: block; }
+}
+
+/* =========================================================================
+   8) LICHTSCHEIN AN DER FUSSNAHT UND ANSCHRIFT   (12.08.2026)
+   ========================================================================= */
+
+/* --- 8a) Das Band blendete 17px zu frueh ab ------------------------------
+   Die Maske lief ab 85% (y4888) auf 0. Beide Mockup-Bauten halten den Schein
+   bis zur harten Kante bei y4903/4904. 98,6% von 108px sind 106,5px, also
+   y4903; der Rest ist die eine Uebergangszeile, die auch der Entwurf zeigt. */
+@media (min-width: 1024px) {
+  .lvab-fussnaht-band {
+    -webkit-mask-image: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0) 0%, #000 22%, #000 99.35%, rgba(0, 0, 0, 0) 100%);
+            mask-image: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0) 0%, #000 22%, #000 99.35%, rgba(0, 0, 0, 0) 100%);
+  }
+
+  /* Der Randstreifen begann exakt an der Bandunterkante, deshalb blieb links
+     genau eine Bildzeile (y4904) nur teilbelichtet: vorher (11,83,125),
+     Entwurf (249,253,255). Er beginnt jetzt eine Zeile hoeher und behaelt
+     seine Unterkante. */
+  .lvab-fussnaht-rand { top: 47px; height: 731px; }
+}
+
+/* --- 8b) Der Schein unter der Naht --------------------------------------
+   Der Entwurf fuehrt ihn ueber die volle Breite 24px weiter (y4905-4928),
+   senkrecht ohne Verlauf. Traeger ist ::before, damit kein Markup noetig ist
+   und der Randstreifen als spaeteres Geschwister darueber malt.
+
+   Die 24px sind das obere Polster der Fusskarte und an allen drei geprueften
+   Breiten gleich: 1760px y4905-4928, 1200px y4782-4805, 1024px y5388-5411,
+   danach beginnt jeweils das erste helle Fusselement. */
+@media (min-width: 1024px) {
+  .lvab-fussnaht::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 48px;
+    height: 24px;
+    z-index: 1;
+    pointer-events: none;
+    background-image: linear-gradient(90deg,
+      rgb(23, 58, 79) 0,
+      rgb(23, 58, 79) 120px,
+      rgb(20, 57, 80) 200px,
+      rgb(16, 56, 81) 280px,
+      rgb(12, 54, 78) 360px,
+      rgb(8, 49, 74) 440px,
+      rgb(5, 45, 67) 520px,
+      rgb(3, 39, 58) 600px,
+      rgb(1, 32, 50) 680px,
+      rgb(0, 25, 38) 760px,
+      rgb(0, 19, 31) 840px,
+      rgb(0, 15, 22) 920px,
+      rgb(0, 10, 17) 1000px,
+      rgb(0, 7, 10) 1080px,
+      rgb(0, 4, 7) 1160px,
+      rgba(0, 3, 6, 0.8) 1240px,
+      rgba(1, 2, 4, 0.5) 1320px,
+      rgba(1, 2, 4, 0) 1420px);
+  }
+}
+
+/* Unterhalb 1200px sind die Scheine auf etwa 0,68 verkleinert, wie im Block
+   fuer .lvab-fussnaht-band weiter oben. Dieselbe Stauchung der x-Marken,
+   Farben unveraendert: sie gehoeren zum Fuss, nicht zur Sektion, und sind
+   nur bei 1760px messbar. Der Uebergang wird dadurch weicher als bei 1760px,
+   nicht haerter. */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .lvab-fussnaht::before {
+    background-image: linear-gradient(90deg,
+      rgb(23, 58, 79) 0,
+      rgb(23, 58, 79) 82px,
+      rgb(20, 57, 80) 136px,
+      rgb(16, 56, 81) 190px,
+      rgb(12, 54, 78) 245px,
+      rgb(8, 49, 74) 299px,
+      rgb(5, 45, 67) 354px,
+      rgb(3, 39, 58) 408px,
+      rgb(1, 32, 50) 462px,
+      rgb(0, 25, 38) 517px,
+      rgb(0, 19, 31) 571px,
+      rgb(0, 15, 22) 626px,
+      rgb(0, 10, 17) 680px,
+      rgb(0, 7, 10) 734px,
+      rgb(0, 4, 7) 789px,
+      rgba(0, 3, 6, 0.8) 843px,
+      rgba(1, 2, 4, 0.5) 898px,
+      rgba(1, 2, 4, 0) 966px);
+  }
+}
+
+/* --- 8c) Der helle Randstreifen endete bei x70 statt x90 -----------------
+   Der Entwurf haelt ihn voll bis x88 und setzt die Kante bei x92, also 16px
+   in die Fusskarte hinein. Erst ab 1640px wird die Kante rechnerisch breiter
+   als die 30px-Untergrenze; darunter bleibt alles unveraendert. */
+@media (min-width: 1640px) {
+  .lvab-fussnaht-rand {
+    --lvab-kante: calc((100% - 1608px) / 2 + 16px);
+    -webkit-mask-image: linear-gradient(90deg,
+      #000 0, #000 calc(var(--lvab-kante) - 4px), rgba(0, 0, 0, 0) var(--lvab-kante));
+            mask-image: linear-gradient(90deg,
+      #000 0, #000 calc(var(--lvab-kante) - 4px), rgba(0, 0, 0, 0) var(--lvab-kante));
+  }
+}
+
+/* --- 8d) Zweifarbige Anschrift im Kontaktblock ---------------------------
+   Der erzwungene Umbruch aus dem Zusatz vom 12.08. macht die Anschrift ab
+   1024px zweizeilig. Der Verlauf hing am Kasten, lief also EINMAL ueber
+   beide Zeilen: Zeile 1 (97,181,229), Zeile 2 (45,167,236). Mit einer
+   Kachelhoehe von genau einer Zeile traegt jede Zeile den vollen Verlauf und
+   damit denselben Ton wie die einzeilige Fassung bei 1760px (71,176,236)
+   und wie die Mailzeile daneben.
+
+   Der Umbruch selbst bleibt unangetastet: er wird bei 390px gebraucht, und
+   ihn oberhalb 1024px zu loesen kippt bei 768px die Spalten uebereinander
+   (gemessen: Hoehe 6532 -> 6568, Symbol faellt aus der Zeile).
+
+   Die Faktkarte bekommt das NICHT: dort zeigt der Entwurf den Verlauf
+   durchlaufend ueber drei Zeilen (128 / 81 / 32 im Rotkanal). */
+.lvab-contact .lvab-ci-line { --lvab-ci-lh: 30px; }
+
+@media (max-width: 1199px) { .lvab-contact .lvab-ci-line { --lvab-ci-lh: 26px; } }
+@media (max-width: 767px)  { .lvab-contact .lvab-ci-line { --lvab-ci-lh: 22px; } }
+
+.lvab-contact .lvab-ci-text {
+  background-size: 100% var(--lvab-ci-lh);
+  background-repeat: repeat-y;
+}
+
+/* --- 8e) Das Symbol haengt an der ersten Zeile ---------------------------
+   Bei zweizeiliger Anschrift zentrierte align-items:center das Symbol im
+   ganzen Kasten, es sass also in der Zeilenluecke: 13,5px unter Zeile 1 und
+   13,0px ueber Zeile 2. Mit flex-start plus dem halben Zeilenueberschuss
+   sitzt es in Zeile 1; bei einzeiligem Text ist das rechnerisch genau die
+   bisherige Lage, 1760px aendert sich also nicht. */
+.lvab-contact .lvab-ci-line { align-items: flex-start; }
+
+.lvab-contact .lvab-ci-ico {
+  margin-top: calc((var(--lvab-ci-lh) - var(--lvab-ci-ih)) / 2);
+}
+.lvab-contact .lvab-ci-ico[height="17"] { --lvab-ci-ih: 17px; }
+.lvab-contact .lvab-ci-ico[height="20"] { --lvab-ci-ih: 20px; }
+
+@media (max-width: 767px) {
+  /* dort gilt width:18px, height:auto -> 17/21 bzw. 20/23 davon */
+  .lvab-contact .lvab-ci-ico[height="17"] { --lvab-ci-ih: 14.57px; }
+  .lvab-contact .lvab-ci-ico[height="20"] { --lvab-ci-ih: 15.65px; }
+}

@@ -1,0 +1,186 @@
+/* ===================================================================
+   fixes-header.css - Kopfleiste s01
+   Overrides zu lvlup-theme.css. Kaans Datei bleibt unangetastet.
+   Befunde: Kundenmeldung 09.08.2026 (a) Kasten unter der Leiste,
+            (b) Logo senkrecht nicht mittig.
+   Belege der Sammlung: gegencheck/faq-spezial.md B-01 und
+            gegencheck/home-zone1.md Punkt "Logo" (gleiche Ursache,
+            dort als 22 % zu klein und 6 px zu tief protokolliert),
+            gegencheck/querschnitt-glows.md (Kopfzone).
+   =================================================================== */
+
+
+/* -------------------------------------------------------------------
+   A) Der Kasten unter der Kopfleiste
+
+   Ursache, gemessen am 09.08.2026:
+   lvlup-theme.css Z. 333  .lvf-s01-nav    box-shadow: 26px 25px 37px rgba(0,0,0,.25)
+   lvlup-theme.css Z. 170  .lvf-s01-banner box-shadow: 5.8px 23.19px 23.19px rgba(0,0,0,.25)
+   lvlup-theme.css Z. 560  .lvf-s01-bar    (mobil) box-shadow: 26px 25px 37px rgba(0,0,0,.25)
+   lvlup-theme.css Z. 578  .lvf-s01-banner (mobil) box-shadow: 4.1u 16.37u 16.37u rgba(0,0,0,.25)
+
+   Die Leiste ist 1560 x 55 px gross. Ein Schatten mit nur 37 px Weichzeichnung,
+   dazu um 26 px nach rechts und 25 px nach unten versetzt, bildet die Leiste als
+   Rechteck mit sichtbaren Kanten und Ecken ab. Solange die Leiste ueber dem
+   dunklen Hero steht, faellt das nicht auf. Sobald man scrollt und heller Grund
+   darunter liegt, steht der Kasten frei im Bild - das ist der Kundenbefund.
+
+   Messung (Startseite, Scrollstand 8000, Schatten per Differenzbild isoliert):
+   Ist   linke Flanke 10-90 % ueber  42 px, groesste Steigung 0,23 Stufen/px,
+         Unterkante endet bei y = 169, groesste Steigung dort 0,75 Stufen/px.
+   Soll  keine erkennbare Kante.
+
+   Fix: Versatz raus, Weichzeichnung deutlich groesser, Deckkraft leicht
+   angehoben, damit die Tiefenwirkung erhalten bleibt.
+   Nachgemessen mit denselben Werten: linke Flanke 10-90 % ueber 112 px,
+   groesste Steigung 0,07 Stufen/px, Unterkante laeuft bis y = 240 aus.
+   Die Referenzbilder zeigen unter der Leiste keinen Kasten, nur den weichen
+   Randschein; der Schatten wird deshalb weich gefahren statt verstaerkt.
+   ------------------------------------------------------------------- */
+
+.lvf-page .lvf-s01-nav {
+  box-shadow: 0 22px 120px rgba(0, 0, 0, 0.30);
+}
+
+.lvf-page .lvf-s01-banner {
+  box-shadow: 0 14px 80px rgba(0, 0, 0, 0.24);
+}
+
+/* Mobil traegt die Leiste selbst den Schatten (die Nav ist dort ohne Hintergrund).
+   Gleiche Ursache, gleiche Behandlung, nur kleinerer Radius, damit die
+   Zeichenlast auf dem Telefon nicht unnoetig steigt. */
+@media (max-width: 767.98px) {
+  .lvf-page .lvf-s01-bar {
+    box-shadow: 0 14px 56px rgba(0, 0, 0, 0.30);
+  }
+  .lvf-page .lvf-s01-banner {
+    box-shadow: 0 calc(var(--lvf-s01-u, 1px) * 10) calc(var(--lvf-s01-u, 1px) * 44) rgba(0, 0, 0, 0.24);
+  }
+}
+
+
+/* -------------------------------------------------------------------
+   B) Logo senkrecht nicht mittig
+
+   Gemessen im Live-DOM (1760 px, Startseite, 09.08.2026):
+   .lvf-s01-nav       y  67,0 bis 122,0  ->  Mitte y 94,5
+   .lvf-s01-logo-img  y  78,5 bis 110,5  ->  Mitte y 94,5
+
+   Der Bildrahmen sitzt also exakt mittig. Der Versatz steckt in der Bilddatei:
+   lvlup-logo-nav.webp ist 780 x 120 px, die Schrift liegt darin aber nur von
+   y 47 bis y 108. Tintenmitte y 77,5 statt 60, also 17,5 px oder 14,583 % der
+   Bildhoehe zu tief. Auf die Anzeigebreite 208 px umgerechnet: 4,67 px zu tief,
+   Tintenmitte landet bei y 99,2 statt 94,5.
+   (Derselbe Alpha-Rand ist in gegencheck/faq-spezial.md B-01 und
+   gegencheck/home-zone1.md als "6 px zu tief" protokolliert.)
+
+   Korrektur ueber transform in Prozent der Elementhoehe, damit sie bei jeder
+   Anzeigegroesse stimmt: Tablet, Mobil und die 440er-Skalierung inbegriffen.
+   transform veraendert das Layout nicht, die Trefferflaeche des Links bleibt.
+
+   Die Gold-Fassung der Elite-Seite ist eine andere Datei mit anderem Rand:
+   lvlup-logo-nav-gold.webp ist 306 x 48 px, Tinte y 5 bis 35, Tintenmitte 20
+   statt 24, also 8,333 % der Hoehe zu HOCH. Sie braucht das Gegenteil, sonst
+   verschiebt der Fix sie erst recht.
+   ------------------------------------------------------------------- */
+
+.lvf-page .lvf-s01-logo-img {
+  transform: translateY(-14.583%);
+}
+
+body.lvf-gold .lvf-page .lvf-s01-logo-img {
+  transform: translateY(8.333%);
+}
+
+
+/* -------------------------------------------------------------------
+   C) Kasten um den Kopier-Knopf im Angebots-Banner
+
+   Kundenmeldung 09.08.2026 mit Bildschirmfoto: neben dem Code LVLUP25
+   liegt um das Kopier-Icon ein Schatten mit harten Kanten und Ecken.
+
+   Ursache, gemessen am 09.08.2026 (lvlup-theme.css Z. 267 .lvf-s01-copy,
+   Z. 647 dieselbe Regel mobil, Z. 728 die Gold-Fassung der Elite-Seite).
+   Der Knopf ist 23 x 23 px gross und traegt sieben Schattenlagen. Vier
+   davon sind inset und bilden die Optik des Knopfes - die bleiben. Drei
+   liegen aussen und erzeugen den Kasten:
+
+     6.8px 2.91px 10.68px rgba(0,0,0,.36)   nach rechts unten versetzter Klotz
+     0 0 0 1.51px rgba(0,0,0,.25)           Ring ohne Weichzeichnung
+     0 0 0 3.43px rgba(0,0,0,.16)           Ring ohne Weichzeichnung
+
+   Die beiden Ringe haben Weichzeichnung 0. Ein Spread-Schatten ohne
+   Weichzeichnung ist kein Schatten, sondern eine gefuellte Flaeche in der
+   Form des Knopfes - also genau der dunkle Kasten mit Kante und Ecke, den
+   der Kunde sieht. Der dritte Wert schiebt zusaetzlich einen Klotz nach
+   rechts unten heraus. Bei der 85 px breiten Chip-Flaeche daneben faellt
+   dieselbe Konstruktion nicht auf, weil der Chip hell gefuellt ist und der
+   Ring dort als Rand gelesen wird; auf dem kleinen dunklen Knopf steht er frei.
+
+   Messung gegen _referenz/home-1760.png (Banner, 1760 px):
+
+   a) Waagerecht rechts neben dem Knopf, y = 38, Bannergrund 9,0 (live)
+      bzw. 10,0 (Referenz). Abstand vom Knopfrand -> Helligkeitsdefizit:
+        Abstand    1,5px  2,5px  3,5px  4,5px  6,5px  10,5px  20,5px
+        Ist         5,0    5,0    4,0    3,0    2,0     1,0     0,0
+        Referenz    1,7    1,1    1,1    1,1   -0,4    -1,4     0,0
+      Das Ist zeigt eine Stufe: bis rund 3,4 px (Spread der zweiten Lage)
+      liegt das Defizit fest bei 5,0 und faellt danach ab. Genau diese
+      Stufe ist die sichtbare Kante.
+
+   b) Waagerechtes Hintergrundprofil unter dem Knopf, Mittel ueber y 54-59:
+        x-Block        940-949  950-959  960-969  970-979  980-989  1000-1009
+        Referenz         10,24    11,21    10,97    10,65    10,74      10,16
+        Ist               7,63     7,00     7,25     7,73     8,00       9,00
+      In der Referenz ist der Grund unter dem Knopf nicht dunkler als
+      daneben, sondern eine Spur heller (der blaue Rand des Knopfes strahlt
+      leicht ab). Ein weicher Schein waere als flache Mulde sichtbar; es ist
+      keine da. Im Ist dagegen sitzt die Mulde deutlich.
+
+   Ergebnis: die Referenz hat um das Icon ueberhaupt keinen Aussenschatten.
+   Der Fix nimmt deshalb die drei Aussenlagen heraus und laesst die vier
+   inset-Lagen unveraendert stehen. Ein weicher Ersatzschatten wie unter A)
+   waere hier zusaetzlich schaedlich: der Chip steht nur 2,34 px entfernt,
+   und der Knopf ist position:relative, sein Schatten wird also UEBER dem
+   Chip gezeichnet. Jede Weichzeichnung ab etwa 8 px wuerde die rechte
+   Chip-Kante um mehrere Stufen abdunkeln - der Chip soll aber unveraendert
+   bleiben. Wegnehmen trifft hier die Referenz und ist zugleich der Weg,
+   der am Chip garantiert nichts anfasst.
+
+   Der Chip .lvf-s01-code-chip traegt dieselben drei Aussenlagen und wird
+   bewusst NICHT angefasst: der Kunde hat nur das Icon gemeldet, und auf
+   der hellen Flaeche liest sich der Ring als gewollter Rand.
+   ------------------------------------------------------------------- */
+
+.lvf-page .lvf-s01-copy {
+  box-shadow:
+    inset -0.78px -2.34px 9.83px #52b8f1,
+    inset -0.78px -1.56px 4.53px #00a4ff,
+    inset -0.78px -1.56px 4.53px #00a4ff,
+    inset 3.12px 3.12px 3.9px #000000;
+}
+
+/* Mobil rechnet Kaan dieselben inset-Lagen ueber --lvf-s01-u. Die Werte
+   werden unveraendert uebernommen, nur ohne die drei Aussenlagen. */
+@media (max-width: 767.98px) {
+  .lvf-page .lvf-s01-copy {
+    box-shadow:
+      inset calc(var(--lvf-s01-u) * -0.55) calc(var(--lvf-s01-u) * -1.65) calc(var(--lvf-s01-u) * 6.94) #52b8f1,
+      inset calc(var(--lvf-s01-u) * -0.55) calc(var(--lvf-s01-u) * -1.1) calc(var(--lvf-s01-u) * 3.19) #00a4ff,
+      inset calc(var(--lvf-s01-u) * -0.55) calc(var(--lvf-s01-u) * -1.1) calc(var(--lvf-s01-u) * 3.19) #00a4ff,
+      inset calc(var(--lvf-s01-u) * 2.2) calc(var(--lvf-s01-u) * 2.2) calc(var(--lvf-s01-u) * 2.75) #000000;
+  }
+}
+
+/* Die Gold-Fassung der Elite-Seite hat denselben Kasten aus denselben drei
+   Lagen. Kaans Regel body.lvf-gold .lvf-s01-copy waere spezifischer als der
+   Block oben und wuerde ihn wieder ueberschreiben, deshalb hier eigens.
+   Kaans Regel steht bei ihm ausserhalb jeder Media-Query, gilt also auch
+   mobil in px - das bleibt so, nur ohne Aussenlagen. */
+body.lvf-gold .lvf-page .lvf-s01-copy {
+  box-shadow:
+    inset -0.78px -2.34px 9.83px #f1c252,
+    inset -0.78px -1.56px 4.53px #ffa400,
+    inset -0.78px -1.56px 4.53px #ffa400,
+    inset 3.12px 3.12px 3.9px #000000;
+}

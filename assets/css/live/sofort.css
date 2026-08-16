@@ -1,0 +1,13 @@
+/* Sofort-Fixes Lvlup (Stand 06.08.2026). Laedt site-weit ueber das Werkzeug-Plugin.
+   Die frueheren Regeln 2-4 zielten auf die geloeschte Elementor-Startseite (40)
+   und den alten Header-Inhalt der Vorlage 4611 - entfernt beim Umbau auf
+   Code-Header/Footer im Theme Builder. */
+
+/* 1) Fixer Theme-Builder-Header ueberdeckt den Seitenanfang: mindestens 250px
+      Luft vor dem ersten Inhalt (Ansage Kaan). Gilt NUR fuer Seiten, die ihren
+      Abstand nicht selbst mitbringen (Impressum, Datenschutz, Cookies).
+      Die Code-Seiten tragen die Body-Klasse lvlup-home-v2 (setzt das Plugin
+      Lvlup Home V2 Assets) und haben den Abstand in den Sektionen eingebaut. */
+body:not(.elementor-editor-active):not(.lvlup-home-v2) [data-elementor-type="wp-page"] {
+  padding-top: 250px;
+}

@@ -1,0 +1,627 @@
+/* ==========================================================================
+   r3-evaluation.css  --  Runde 3, Angleich von /evaluation/ (Seite 8049)
+   an die neuen Referenz-Schnipsel
+   runde3/referenz/evaluation/{1,2,3,Lvlup Futures - Evaluation Page}.jpg
+   --------------------------------------------------------------------------
+   NUR Overrides. Kaans Dateien (lvlup-theme.css, evaluation.css, Plugin
+   lvlup-home-v2, Vorlagen 4611/67) und die bestehenden fixes-*.css|js
+   bleiben unangetastet. Geladen vom Plugin lvlup-fixes mit Prioritaet 1200,
+   also nach evaluation.css.
+
+   Alle Farbwerte sind am Schnipsel pipettiert (PIL, Fenster 11x11 gemittelt),
+   nicht geschaetzt. Die vollstaendige Messreihe steht in
+   runde3/evaluation/befunde.md.
+
+   Lichtmodell (Seitenkoordinaten bei 1760 px Breite):
+     A  Randsaeule  (0|6300) / (1760|6300),  300 x 2600 px
+     B  Querband    (0|6350) / (1760|6350), 1350 x 1400 px
+     C  Fusslicht   (0|9750) / (1760|9750),  260 x 1500 px
+     D1 e3-Kappe    (0|2150) / (1760|2150),  720 x  380 px
+     D2 e3-Saeule   (0|2150) / (1760|2150),  300 x 1400 px
+   Jede Sektion setzt die Lichter um ihre eigene Oberkante versetzt ein,
+   dadurch gibt es an den Sektionsgrenzen keine Stufe. Sekundaerlichter
+   laufen im Modus screen, damit sie das Grundlicht aufhellen statt es zu
+   ueberdecken.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   R3-evaluation-01: Weiss unterhalb des Seitenendes, Seitengrund zu hell
+   --------------------------------------------------------------------------
+   getComputedStyle(document.body).backgroundColor war rgb(255,255,255);
+   ab y=10316 lief die Flaeche weiss aus. Ausserdem misst die Referenz auf
+   der ganzen dunklen Flaeche rgb(0,0,0) bis rgb(1,1,1) (e2 y=700..1978 an
+   allen drei Messspalten), das Theme setzt #05060f = rgb(5,6,15).
+   Nur fuer diese Seite gesetzt, keine andere Seite ist beruehrt. */
+
+body.page-id-8049 { background-color: #000000; }
+
+
+/* --------------------------------------------------------------------------
+   R3-evaluation-02: Hero-Lichtbogen zu grau, zu breit, 157 px zu lang
+   --------------------------------------------------------------------------
+   Messung SOLL / IST (vor dem Fix) am linken Seitenrand x=11:
+     y=400  (1,101,155) / (26,43,77)
+     y=600  (239,248,255) / (139,177,210)
+     y=690  (212,236,250) / (191,220,239)
+   quer bei y=620: SOLL x=220 (194,225,243), x=440 (33,143,184),
+   x=880 (23,105,153) - am Rand weiss, zur Mitte schnell abfallend.
+   Zusaetzlich bricht der Bogen im SOLL bei CSS y=696 hart auf rgb(0,0,0) ab
+   (ref-y 987 -> 989: 79 -> 12 -> 0). Live lief er bis y=853 aus.
+   Das Element ist ab 1024px 860 px hoch -> Schnittkante 696/860 = 80.9%.
+   Kaans Bildtextur bleibt als unterste Ebene erhalten. */
+
+@media (min-width: 1024px) {
+
+.lvev-e1 .lvev-e1-bg {
+  background-image:
+    radial-gradient(64% 26% at 0% 78%, rgba(248,252,255,1) 0%, rgba(238,248,254,1) 22%, rgba(196,228,246,.96) 36%, rgba(120,190,220,.88) 50%, rgba(46,136,182,.7) 70%, rgba(10,70,110,.32) 88%, rgba(4,40,64,0) 100%),
+    radial-gradient(64% 26% at 100% 78%, rgba(248,252,255,1) 0%, rgba(238,248,254,1) 22%, rgba(196,228,246,.96) 36%, rgba(120,190,220,.88) 50%, rgba(46,136,182,.7) 70%, rgba(10,70,110,.32) 88%, rgba(4,40,64,0) 100%),
+    radial-gradient(26% 58% at 0% 72%, rgba(246,251,255,1) 0%, rgba(238,248,254,1) 16%, rgba(170,224,248,.99) 26%, rgba(40,180,224,.96) 34%, rgba(14,150,200,.94) 44%, rgba(6,104,158,.9) 55%, rgba(2,74,116,.84) 64%, rgba(1,48,76,.62) 78%, rgba(1,26,42,.34) 92%, rgba(0,14,24,0) 100%),
+    radial-gradient(26% 58% at 100% 72%, rgba(246,251,255,1) 0%, rgba(238,248,254,1) 16%, rgba(170,224,248,.99) 26%, rgba(40,180,224,.96) 34%, rgba(14,150,200,.94) 44%, rgba(6,104,158,.9) 55%, rgba(2,74,116,.84) 64%, rgba(1,48,76,.62) 78%, rgba(1,26,42,.34) 92%, rgba(0,14,24,0) 100%),
+    radial-gradient(72% 27% at 50% 84%, rgba(8,112,170,.92) 0%, rgba(2,72,114,.5) 52%, rgba(0,50,80,0) 86%),
+    linear-gradient(180deg, #000 0%, rgba(0,0,0,.66) 30%, rgba(0,0,0,.2) 58%, rgba(0,0,0,0) 80%),
+    radial-gradient(46% 46% at 50% 44%, rgba(0,0,0,.72) 0%, rgba(0,0,0,.34) 55%, rgba(0,0,0,0) 100%),
+    url('https://lvlup.tivaosagencytempdomains.de/wp-content/uploads/2026/08/lvlup-35beef64a9.webp');
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 80.9%, rgba(0,0,0,0) 81%);
+          mask-image: linear-gradient(180deg, #000 0%, #000 80.9%, rgba(0,0,0,0) 81%);
+}
+
+/* Der weiche Zusatzschein darf nicht unter die Schnittkante laufen.
+   Element 900 px hoch, beginnt 120 px ueber der Sektion -> 816/900 = 90.7%. */
+.lvev-e1 .lvev-e1-glow {
+  opacity: .34;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 90.6%, rgba(0,0,0,0) 90.8%);
+          mask-image: linear-gradient(180deg, #000 0%, #000 90.6%, rgba(0,0,0,0) 90.8%);
+}
+
+}  /* Ende min-width 1024px */
+
+
+/* --------------------------------------------------------------------------
+   R3-evaluation-03: Marquee-Band am Hero-Fuss fehlt komplett
+   --------------------------------------------------------------------------
+   Am Schnipsel gemessen: zwei Laufzeilen. Spur A liegt auf dem hellen Bogen
+   (ref-y 972..986 = CSS 684..695), Spur B auf Schwarz (ref-y 1001..1008 =
+   CSS 705..710). Wiederholabstand per Autokorrelation der Spalten 125 ref-px
+   = 88,0 CSS (Nebenmaxima bei 250 und 376 bestaetigen die Periode). Tinte je
+   Kachel 85 ref-px = 60 CSS, Luecke 40 ref-px = 28 CSS. Spur B ist um eine
+   halbe Periode (44 px) versetzt.
+   Markup dazu: Patch am _elementor_data, Block .lvev-r3-marquee. */
+
+.lvev-e1 .lvev-r3-marquee { display: none; }
+
+@media (min-width: 1400px) {
+  .lvev-e1 .lvev-r3-marquee {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 681px;
+    height: 34px;
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .lvev-e1 .lvev-r3-marquee-track {
+    position: absolute;
+    left: 0;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .lvev-e1 .lvev-r3-marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex: 0 0 88px;
+    width: 88px;
+    font-family: var(--lvf-font-display);
+    font-size: 5.3px;
+    line-height: 9px;
+    font-weight: 500;
+    letter-spacing: 0.62px;
+    text-transform: uppercase;
+  }
+
+  /* Logo-Zeichen als Maske, damit es die Farbe der jeweiligen Spur annimmt. */
+  .lvev-e1 .lvev-r3-marquee-item::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 5.8px;
+    height: 8px;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 16'><path d='M2.4 1.6v11.8h5.8' fill='none' stroke='%23fff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/><path d='M6.3 7.8 10.3 2.6' fill='none' stroke='%23fff' stroke-width='1.6' stroke-linecap='round'/><circle cx='10.5' cy='1.9' r='1.1' fill='%23fff'/></svg>") no-repeat center / contain;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 16'><path d='M2.4 1.6v11.8h5.8' fill='none' stroke='%23fff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/><path d='M6.3 7.8 10.3 2.6' fill='none' stroke='%23fff' stroke-width='1.6' stroke-linecap='round'/><circle cx='10.5' cy='1.9' r='1.1' fill='%23fff'/></svg>") no-repeat center / contain;
+  }
+
+  /* Spur A liegt auf dem hellen Bogen -> dunkle Tinte. */
+  .lvev-e1 .lvev-r3-marquee-track--a { top: 2px;  color: rgba(8,24,36,.66); }
+  /* Spur B liegt auf Schwarz -> helle Tinte (SOLL Spitzenwert 53 auf 0). */
+  .lvev-e1 .lvev-r3-marquee-track--b { top: 23px; left: -44px; color: rgba(146,176,196,.4); }
+}
+
+
+/* --------------------------------------------------------------------------
+   R3-evaluation-04: e2 muss schwarz sein
+   --------------------------------------------------------------------------
+   Messung SOLL von CSS y=700 bis y=1978 an drei Spalten (x=11, 880, 1752):
+   ueberall rgb(0,0,0) bzw. rgb(1,1,1). Kein Glow, keine Blaustichigkeit,
+   kein heller Streifen unter den Karten. IST vorher: Rand y=1000 (26,44,66),
+   Fussbereich y=1900 (24,58,84).
+   Die Glas-Rauten bleiben - sie sind im SOLL als sehr dunkle Flaechen
+   erkennbar. */
+
+.lvev-e2 .lvev-e2-glow--l,
+.lvev-e2 .lvev-e2-glow--r { background: none; }
+.lvev-e2::before { display: none; }
+.lvev-e2 .lvev-e2-card-glow { background: none; }
+.lvev-e2 .lvev-e2-card--pop .lvev-e2-card-in::after { background: none; }
+
+/* Der e3-Ring beginnt im SOLL 238 px ueber der Ueberschrift, also noch im
+   schwarzen Fuss von e2 (harte Naht des Figma-Exports bei CSS y=1978). Live
+   wird daraus eine kurze Rampe statt einer harten Kante. Damit die Pille
+   "Build Your Plan" nicht vom hochgezogenen Glow verdeckt wird, kommt e2 in
+   der Malreihenfolge ueber e3. */
+.lvev-e2 { z-index: 1; }
+
+
+/* ==========================================================================
+   Das folgende Lichtmodell ist in Seitenkoordinaten des 1760-px-Rahmens
+   gerechnet (feste px-Mitten). Unterhalb von 1024 px stimmen diese Mitten
+   nicht mehr, deshalb gilt der ganze Block nur ab Desktop-Breite; darunter
+   bleiben Kaans eigene Mobil-Glows unveraendert in Kraft.
+   ========================================================================== */
+
+@media (min-width: 1024px) {
+
+
+/* --------------------------------------------------------------------------
+   R3-evaluation-05: e3 - der grosse Ring-Glow fehlt fast vollstaendig
+   --------------------------------------------------------------------------
+   Horizontalprofil SOLL bei CSS y=2100 gegen IST (vorher):
+     x=0 (253,254,255)/(177,205,221)  x=220 (223,241,253)/(130,168,191)
+     x=440 (20,146,193)/(61,99,127)   x=880 (3,40,63)/(59,63,70)
+   Vertikal SOLL am linken Rand: 1978 (187,198,207), 2100 (253,254,255),
+   2300 (223,243,255), 2500 (8,162,220), 2700 (3,108,165), 3000 (3,68,107),
+   3250 (2,41,64).
+   Der Ring ist oben breit (bei y=2100 bis x=600) und weiter unten schmal
+   (bei y=2500 nur bis x=300) - deshalb zwei Lichter: Kappe D1 und Saeule D2.
+   -------------------------------------------------------------------------- */
+
+.lvev-e3 .lvev-e3-glow {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  transform: none;
+  border-radius: 0;
+  filter: none;
+  opacity: 1;
+  top: -330px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 5%, #000 11.5%, #000 92%, rgba(0,0,0,0) 100%);
+          mask-image: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 5%, #000 11.5%, #000 92%, rgba(0,0,0,0) 100%);
+  background:
+    radial-gradient(720px 380px at 0px 264px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 12%,rgba(232,247,255,1) 22%,rgba(180,228,253,.98) 34%,rgba(90,200,248,.94) 48%,rgba(24,166,228,.9) 60%,rgba(10,140,200,.84) 72%,rgba(6,110,162,.7) 84%,rgba(3,70,108,.4) 94%,rgba(2,40,64,0) 100%),
+    radial-gradient(720px 380px at 100% 264px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 12%,rgba(232,247,255,1) 22%,rgba(180,228,253,.98) 34%,rgba(90,200,248,.94) 48%,rgba(24,166,228,.9) 60%,rgba(10,140,200,.84) 72%,rgba(6,110,162,.7) 84%,rgba(3,70,108,.4) 94%,rgba(2,40,64,0) 100%);
+}
+.lvev-e3 .lvev-e3-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(300px 1400px at 0px 264px, rgba(255,255,255,1) 0%,rgba(214,240,254,1) 14%,rgba(40,186,238,.96) 25%,rgba(4,150,205,.92) 34%,rgba(2,118,178,.88) 44%,rgba(2,92,142,.8) 55%,rgba(2,72,113,.68) 65%,rgba(2,52,82,.52) 76%,rgba(2,34,54,.34) 86%,rgba(1,22,35,.16) 94%,rgba(1,14,24,0) 100%),
+    radial-gradient(300px 1400px at 100% 264px, rgba(255,255,255,1) 0%,rgba(214,240,254,1) 14%,rgba(40,186,238,.96) 25%,rgba(4,150,205,.92) 34%,rgba(2,118,178,.88) 44%,rgba(2,92,142,.8) 55%,rgba(2,72,113,.68) 65%,rgba(2,52,82,.52) 76%,rgba(2,34,54,.34) 86%,rgba(1,22,35,.16) 94%,rgba(1,14,24,0) 100%);
+}
+
+/* --------------------------------------------------------------------------
+   R3-evaluation-06: e4 - Randlicht ist der Auslauf des grossen Lichts, kein
+   eigener Glow
+   --------------------------------------------------------------------------
+   SOLL linker Rand: 3300 (2,36,55), 3600 (2,16,23), 4000 (2,29,45),
+   4500 (18,81,116), 5000 (54,160,212); die Innenspalten x=300/880/1460 sind
+   dabei durchgehend schwarz. IST vorher bei 3300 (35,103,147).
+   -------------------------------------------------------------------------- */
+
+.lvev-e4 .lvev-e4-glow--bottom { background: none; }
+.lvev-e4 .lvev-e4-glow--left {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  transform: none;
+  border-radius: 0;
+  filter: none;
+  opacity: 1;
+  background:
+    radial-gradient(300px 2600px at 0px 2563px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%),
+    radial-gradient(300px 2600px at 100% 2563px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%);
+}
+.lvev-e4 .lvev-e4-glow--right {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  transform: none;
+  border-radius: 0;
+  filter: none;
+  opacity: 1;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(1350px 1400px at 0px 2613px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%),
+    radial-gradient(1350px 1400px at 100% 2613px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%);
+}
+
+/* --------------------------------------------------------------------------
+   R3-evaluation-07: e5 - der helle blaue Rahmen fehlt
+   --------------------------------------------------------------------------
+   SOLL linker Rand: 5100 (70,167,215), 5300 (106,181,220), 5500 (151,206,238),
+   5900 (206,237,255); quer bei y=5400: x=130 (37,143,201), x=200 (11,96,145),
+   x=250 (9,66,99), x=560 (1,2,4). IST vorher bei 5000 (5,6,15).
+   -------------------------------------------------------------------------- */
+
+.lvev-e5 .lvev-e5-glow--bottom { background: none; }
+.lvev-e5 .lvev-e5-glow--left {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  transform: none;
+  border-radius: 0;
+  filter: none;
+  opacity: 1;
+  background:
+    radial-gradient(300px 2600px at 0px 1246px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%),
+    radial-gradient(300px 2600px at 100% 1246px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%);
+}
+.lvev-e5 .lvev-e5-glow--right {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  transform: none;
+  border-radius: 0;
+  filter: none;
+  opacity: 1;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(1350px 1400px at 0px 1296px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%),
+    radial-gradient(1350px 1400px at 100% 1296px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%);
+}
+
+/* --------------------------------------------------------------------------
+   R3-evaluation-08: e6 - der helle Kern sitzt zu tief und ist zu schwach
+   --------------------------------------------------------------------------
+   SOLL linker Rand: 6000 (239,249,255), 6200 (253,254,255), 6400 (252,254,255),
+   6600 (239,249,255), 7000 (142,216,254); quer bei y=6400: x=130 (249,253,255),
+   x=200 (247,252,255), x=560 (202,236,255), x=880 (90,197,251).
+   IST vorher: Hoehepunkt erst bei 6700 und nur (163,203,227) am Rand.
+   -------------------------------------------------------------------------- */
+
+.lvev-e6 .lvev-e6-glow--right,
+.lvev-e6 .lvev-e6-glow--bottom { background: none; }
+.lvev-e6 .lvev-e6-glow--center {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  transform: none;
+  border-radius: 0;
+  filter: none;
+  opacity: 1;
+  background:
+    radial-gradient(300px 2600px at 0px 384px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%),
+    radial-gradient(300px 2600px at 100% 384px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%);
+}
+.lvev-e6 .lvev-e6-glow--left {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  transform: none;
+  border-radius: 0;
+  filter: none;
+  opacity: 1;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(1350px 1400px at 0px 434px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%),
+    radial-gradient(1350px 1400px at 100% 434px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%);
+}
+
+/* --------------------------------------------------------------------------
+   R3-evaluation-09: e7 und e8 - Glow zu diffus, Mitte muss schwarz sein
+   --------------------------------------------------------------------------
+   SOLL e7 linker Rand: 7300 (55,175,232), 7500 (30,132,188), 7900 (12,54,78);
+   dabei x=300 bei 7500 (2,7,11) und x=880 (0,5,8) - die Mitte ist schwarz.
+   IST vorher: x=300 (12,64,97), x=880 (23,37,51).
+   SOLL e8 linker Rand: 8300 (3,44,67), 8500 (3,54,85), 8700 (3,64,100),
+   9000 (3,81,127) - eine Rampe zum Seitenfuss hin (Licht C).
+   -------------------------------------------------------------------------- */
+
+.lvev-e7 .lvev-e7-bg {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  transform: none;
+  border-radius: 0;
+  filter: none;
+  opacity: 1;
+  background:
+    radial-gradient(300px 2600px at 0px -925px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%),
+    radial-gradient(300px 2600px at 100% -925px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%);
+}
+.lvev-e7 .lvev-e7-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(1350px 1400px at 0px -875px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%),
+    radial-gradient(1350px 1400px at 100% -875px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%);
+}
+.lvev-e8 .lvev-e8-bg {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  transform: none;
+  border-radius: 0;
+  filter: none;
+  opacity: 1;
+  background:
+    radial-gradient(300px 2600px at 0px -2164px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%),
+    radial-gradient(300px 2600px at 100% -2164px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%);
+}
+.lvev-e8 .lvev-e8-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(260px 1500px at 0px 1286px, rgba(120,220,252,1) 0%,rgba(30,190,246,.95) 12%,rgba(4,150,214,.88) 26%,rgba(3,113,172,.78) 40%,rgba(3,84,130,.62) 55%,rgba(3,60,94,.44) 70%,rgba(3,44,68,.26) 84%,rgba(2,30,48,0) 100%),
+    radial-gradient(260px 1500px at 100% 1286px, rgba(120,220,252,1) 0%,rgba(30,190,246,.95) 12%,rgba(4,150,214,.88) 26%,rgba(3,113,172,.78) 40%,rgba(3,84,130,.62) 55%,rgba(3,60,94,.44) 70%,rgba(3,44,68,.26) 84%,rgba(2,30,48,0) 100%);
+}
+
+}  /* Ende min-width 1024px */
+
+
+/* --------------------------------------------------------------------------
+   R3-evaluation-15: Kontenuebersicht mobil als Wischband mit Anschnitt
+   --------------------------------------------------------------------------
+   Auftrag des Kunden und Vorlage im Homepage-Mobil-Mockup
+   (runde3/referenz/home-mobile/4.jpg): Die Preiskarten stehen mobil NICHT
+   untereinander, sondern laufen nach rechts weiter und sind wischbar; die
+   naechste Karte ist rechts angeschnitten sichtbar.
+   Am Mockup gemessen (512 px = 390 CSS, Faktor 1,3128): Karte 1 von ref-x 37
+   bis 298 -> CSS 28,2 .. 227,0 (Breite 198,8), Luecke 20 ref = 15,2 CSS,
+   Karte 2 beginnt bei ref-x 318 = CSS 242 und laeuft aus dem Bild.
+   Live hat der Container 20 px Innenabstand; das Band bricht daraus aus,
+   damit es bis an den Bildrand laufen kann. Karten bleiben etwas breiter als
+   im Mockup, weil die Evaluation-Karte eine laengere Merkmalsliste traegt.
+
+   Kaans Regel (evaluation.css:1173) setzt mobil
+   grid-template-columns:minmax(0,1fr) und max-width:460px - beides wird hier
+   aufgehoben. */
+
+@media (max-width: 767px) {
+  .lvev-e2 .lvev-e2-cards {
+    display: flex;
+    grid-template-columns: none;
+    max-width: none;
+    margin-inline: -20px;
+    padding-inline: 20px;
+    padding-block: 6px 12px;
+    gap: 15px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 20px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .lvev-e2 .lvev-e2-cards::-webkit-scrollbar { display: none; }
+
+  .lvev-e2 .lvev-e2-cards .lvev-e2-card {
+    flex: 0 0 264px;
+    width: 264px;
+    min-width: 264px;
+    scroll-snap-align: start;
+  }
+
+  /* Der Anschnitt darf nicht von der Sektion weggeschnitten werden. */
+  .lvev-e2 { overflow: visible; }
+
+  /* Deko-Pfeile mobil an das neue Seitenverhaeltnis (240x520) anpassen. */
+  .lvev-e8 .lvev-e8-arrow { width: 92px; height: 199px; bottom: -22px; }
+  .lvev-e8 .lvev-e8-arrow--l { left: 12px; right: auto; }
+  .lvev-e8 .lvev-e8-arrow--r { right: 12px; left: auto; }
+}
+
+
+/* --------------------------------------------------------------------------
+   R3-evaluation-10: e6 - Pille und Ueberschrift auf hellem Grund
+   --------------------------------------------------------------------------
+   Die Pille "Account Structure" (Klasse .lvev-e5-pill, sie liegt im DOM noch
+   in Sektion e5) steht in der Referenz DUNKEL auf dem hellen Band:
+   Fuellung pipettiert (1,12,18), Schrift hell, Breite 182 x 31 px
+   (ref-y 5787..5818, ref-x 790..972).
+   Live war sie hellblau mit weisser Schrift (background-image
+   linear-gradient(#6ecaff,#0080ca)) und mit 145 px 37 px zu schmal. */
+
+.lvev-e5 a.lvev-e5-pill,
+.lvev-e5 .lvev-e5-pill {
+  background-image: none;
+  background-color: #010c12;
+  border-color: rgba(255,255,255,.12);
+  color: #e6ebee;
+  -webkit-text-fill-color: #e6ebee;
+  min-width: 182px;
+}
+
+
+/* --------------------------------------------------------------------------
+   R3-evaluation-11: Deko-Pfeile der CTA-Karte werden als Bloecke beschnitten
+   --------------------------------------------------------------------------
+   Das SVG traegt viewBox "0 0 404 407" und darin einen Pfad, der die viewBox
+   voll ausfuellt, gedreht um -45 Grad. Die Drehung schiebt vier Ecken aus der
+   viewBox; das SVG-Wurzelelement beschneidet sie (overflow:hidden der
+   UA-Stylesheets). Sichtbar blieb ein Rechteck mit Kerbe.
+   Messung live: Pfeil links [170, 8886, 404x407], Karte [260, 8538,
+   1240x586], Kartenunterkante 9124.
+   Fix: Beschnitt am SVG aufheben; die Karte hat overflow:hidden und
+   uebernimmt den Beschnitt - genau wie im SOLL. Der Pfad selbst wird im
+   Markup-Patch durch eine Form mit runden Ecken ersetzt. */
+
+.lvev-e8 .lvev-e8-arrow { overflow: visible; }
+
+/* Groesse und Sitz nach der Referenz: Pfeilkopf 110 px breit, Spitze
+   240 px ueber der Kartenunterkante, Schaft von der Karte beschnitten.
+   Gemessen am Schnipsel: Spitze CSS (372|8605), Widerhaken x 318..428,
+   Schaft x 340..400, Kartenunterkante 8845. */
+@media (min-width: 768px) {
+  .lvev-e8 .lvev-e8-arrow { width: 118px; height: 256px; bottom: -28px; }
+  .lvev-e8 .lvev-e8-arrow--l { left: 58px; right: auto; }
+  .lvev-e8 .lvev-e8-arrow--r { right: 58px; left: auto; }
+}
+
+
+/* --------------------------------------------------------------------------
+   R3-evaluation-12: Ghost-Buttons ohne Rand und ohne blauen Innenschein
+   --------------------------------------------------------------------------
+   Ursache: frontend.min.css (Elementor) enthaelt ".elementor a{box-shadow:
+   none}" mit Spezifitaet 0-1-1 und schlaegt jede Bauteilregel mit nur einer
+   Klasse (0-1-0). Betroffen: .lvev-e1-btn--ghost, .lvev-e3-continue,
+   .lvev-e4-pill, .lvev-e5-pill, .lvev-e6-btn--primary.
+   Die Deklarationen stammen unveraendert aus evaluation.css, nur die
+   Selektoren sind auf 0-2-1 gehoben. */
+
+.lvev-e1 a.lvev-e1-btn--ghost,
+.lvev-e4 a.lvev-e4-pill,
+.lvev-e5 a.lvev-e5-pill,
+.lvev-e6 a.lvev-e6-btn--primary {
+  box-shadow:
+    0 7px 16px -5px rgba(0,0,0,.35),
+    0 0 9px rgba(0,150,255,.22),
+    inset 0 2px 2px -1px rgba(255,255,255,.12),
+    0 0 0 2px rgba(0,0,0,.17),
+    inset 4px 5px 7px rgba(0,0,0,.85),
+    inset -1px -2px 10px #52b8f1,
+    inset -1px -2px 5px #00a4ff;
+}
+.lvev-e3 a.lvev-e3-continue { box-shadow: inset 0 1px 18px #5bbce8; color: #060606; }
+
+
+/* --------------------------------------------------------------------------
+   R3-evaluation-13: Zahlungs- und Krypto-Marken
+   --------------------------------------------------------------------------
+   Kaans Regel ".lvev-e3-pay-logo, .lvev-e3-pay-coin { filter: grayscale(1)
+   brightness(1.35) }" macht aus den hellen Muenzfuellungen (#f5b300 Bitcoin,
+   #e9e9e9 Ethereum) weisse Scheiben. Die Referenz zeigt alle vier Muenzen als
+   dunkle Scheiben mit hellem Zeichen (gemessen: Scheibe (44,47,52),
+   Zeichen (232,238,244)).
+   Die Mastercard-Marke traegt in der Referenz zusaetzlich die Wortmarke
+   "mastercard" unter den Kreisen; die Marke ist dort 58 x 40 px statt
+   31 x 24 px. Das Markup dazu liegt im _elementor_data-Patch (M4). */
+
+.lvev-e3 .lvev-e3-pay-coin circle { fill: #2c2f36; }
+.lvev-e3 .lvev-e3-pay-coin text,
+.lvev-e3 .lvev-e3-pay-coin path { fill: #e9eef4; }
+.lvev-e3 .lvev-e3-pay-row:first-child .lvev-e3-pay-logo--mc,
+.lvev-e3 .lvev-e3-pay-logo--mc { height: 40px; filter: none; }
+
+/* Kaans Graustufenfilter macht aus #eb001b/#f79e1b einen einzigen hellen
+   Klumpen. Die Referenz zeigt zwei unterscheidbare Scheiben:
+   links (60,70,85), rechts (150,165,180), Wortmarke (215,221,228). */
+.lvev-e3 .lvev-e3-pay-logo--mc circle:first-of-type { fill: #3c4655; opacity: 1; }
+.lvev-e3 .lvev-e3-pay-logo--mc circle + circle { fill: #96a5b4; opacity: .85; }
+.lvev-e3 .lvev-e3-pay-logo--mc text { fill: #d7dde4; }
+
+
+/* --------------------------------------------------------------------------
+   R3-evaluation-14: Fuellung der CTA-Karte in e8
+   --------------------------------------------------------------------------
+   Die Referenz fuellt die Karte unsymmetrisch: oben rechts hell
+   (x=1460 bei 10 % Kartenhoehe (108,195,245)), oben links nur maessig blau
+   ((20,96,138)), Mitte dunkel, unten beide Ecken sehr hell
+   ((118,211,238) links / (109,207,235) rechts).
+   Live war die Fuellung symmetrisch und durchgehend zu flach
+   (x=300 bei 10 % (7,48,75), bei 98 % (30,112,160)). */
+
+.lvev-e8 .lvev-e8-card-bg {
+  background:
+    radial-gradient(56% 52% at 50% 44%, rgba(0,3,7,.94) 0%, rgba(0,3,7,.62) 58%, rgba(0,3,7,0) 100%),
+    radial-gradient(58% 56% at 100% 2%, rgba(178,226,253,.97) 0%, rgba(40,150,220,.5) 44%, rgba(0,120,200,0) 80%),
+    radial-gradient(48% 48% at 0% 2%, rgba(26,112,166,.85) 0%, rgba(0,95,155,.3) 50%, rgba(0,90,150,0) 84%),
+    radial-gradient(60% 44% at 0% 100%, rgba(196,236,253,1) 0%, rgba(20,150,225,.6) 42%, rgba(0,120,200,0) 84%),
+    radial-gradient(60% 44% at 100% 100%, rgba(186,232,253,.98) 0%, rgba(20,150,225,.56) 42%, rgba(0,120,200,0) 84%),
+    linear-gradient(180deg, rgba(3,26,44,1) 0%, rgba(4,40,66,1) 60%, rgba(6,60,96,1) 100%);
+}
+
+/* R3-eval-nachfix: Most-Popular-Position
+   Gemessen im 1760er Render (Soll-Komposit gegen Live, beide frisch):
+   Abzeichen SOLL x 761..848 / y 1148..1165, IST x 728..815 / y 1176..1191 --
+   also 33 px zu weit links und 28 px zu tief. Bezogen auf die Karte:
+   SOLL 30 px Abstand zur rechten Kartenkante, IST 59 px. Der Versatz kommt aus
+   dem Bezugsrahmen (top/right in evaluation.css zaehlen nicht ab der Kartenkante),
+   deshalb hier als Verschiebung statt als neues top/right -- so bleibt Kaans
+   Regel unberuehrt und der Fix wirkt unabhaengig davon, welcher Vorfahr den
+   Bezug stellt. Nur Desktop, gemessen wurde bei 1760 px; die Mobilregel in
+   evaluation.css (max-width: 767px) bleibt unangetastet. */
+@media (min-width: 1024px) {
+  .lvev-e2 .lvev-e2-pop {
+    transform: translate(33px, -28px);
+  }
+}
+
+/* R3-eval-nachfix: Volumetrica-Marke grau statt blau
+   Befund N-12 der Abnahme, unabhaengig nachgemessen: hellste 8 % der
+   Symbolflaeche SOLL (72,73,75) -- neutral grau --, live (10,99,134) -- blau.
+   Die Marke ist ein Hintergrundbild (evaluation.css .lvev-e3-vol), die Farbe
+   steckt in der Bilddatei; entsaettigen ist der einzige Weg, der die Datei
+   nicht anfasst. brightness .88 bringt die Leuchtdichte von rund 83 auf 73. */
+.lvev-e3 .lvev-e3-vol {
+  filter: grayscale(1) brightness(0.88);
+}
+
+/* R3-eval-nachfix: Auswahlpunkte tragen das Lvlup-Zeichen
+   Befund N-12: im Schnipsel steht in jedem AKTIVEN Orb (Link "Change Account
+   Size", gewaehlte Plattform, eingeschaltetes Add-on) das dunkle Lvlup-Zeichen;
+   live ist der Orb eine leere blaue Kugel. Der inaktive Orb bleibt leer, das
+   deckt sich mit dem Schnipsel (Volumetrica-Punkt ist auch dort leer).
+   Zeichen aus dem Schnipsel gerastert (Orb Soll x 616..638, y 2428..2451):
+   senkrechter Balken links, rechter Arm oben breit und nach unten auslaufend.
+   Der Verlauf aus evaluation.css wird unveraendert als zweite Ebene
+   mitgefuehrt, damit der Glanz der Kugel erhalten bleibt. */
+.lvev-e3 .lvev-e3-change .lvev-e3-orb,
+.lvev-e3 .lvev-e3-opt--on .lvev-e3-orb {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2308131c' d='M7.3 6.3h2.2v12.2H7.3z'/%3E%3Cpath fill='%2308131c' d='M16.7 6.3h-3.4L9.6 18.5h2.1z'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 50% 42%, #eaf7ff 0%, #8cd5ff 26%, #00a2ff 55%, rgba(0, 162, 255, 0.25) 78%, rgba(0, 162, 255, 0) 100%);
+  background-repeat: no-repeat, no-repeat;
+  background-position: 50% 50%, 0 0;
+  background-size: 100% 100%, 100% 100%;
+}
+
+/* ===================================================================== */
+/* R3-eval-nachfix2: e6-Symbolfarbe                                      */
+/* Befund EV-29: Im Schnipsel sind die acht Symbole der Sektion e6 blau,  */
+/* live waren sie weiss. Am Schnipsel gemessen (Kernpunkte, Zeilenmittel, */
+/* linear ueber die Glyphenhoehe): R 146 -> 23, G 216 -> 177, B 255       */
+/* durchgehend. Das ist der Themeverlauf --lvf-grad-blue, also            */
+/* #8cd5ff oben nach #12a9ff unten.                                      */
+/* Der Verlauf steht als <linearGradient id="lvev-e6-ig"> im Markup       */
+/* (defs im ersten e6-Symbol). Loest er nicht auf, greift der Vollton.    */
+.lvev-e6 .lvev-e6-icon { color: #4fbfff; }
+.lvev-e6 .lvev-e6-icon svg { fill: url(#lvev-e6-ig) #4fbfff; }

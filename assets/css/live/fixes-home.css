@@ -1,0 +1,129 @@
+/* ============================================================
+   fixes-home.css - Sicht-Fixes fuer die Startseite (Seite "/")
+   ------------------------------------------------------------
+   Overrides ueber lvlup-home.css. Kaans Dateien bleiben unberuehrt;
+   diese Datei wird vom Plugin lvlup-fixes mit Prioritaet 1200 geladen,
+   also nach lvlup-theme (998) und den Seiten-Assets (999).
+
+   Betroffen sind ausschliesslich die vier Preiskarten der Sektion s04
+   ("Choose Your Evaluation", $25k bis $150k). Zwei Kundenbefunde:
+
+   H-1  Kartenlogo (Chip links oben) weicht vom Mockup ab
+   H-2  Deko-Pfeil im Kartenhintergrund ist die falsche Form und
+        wirkt an den Enden hart geschnitten
+
+   Soll-Quelle fuer beide Punkte: Figma-Datei ZbYAlCtcMgQHzQvouKKr6m,
+   Frame "Lvlup Futures - Homepage - Desktop View" (156:182),
+   Karte 1 = 156:277. Referenzbild: neue-seiten/_referenz/home-1760.png.
+   Befundlage vorher: neue-seiten/gegencheck/home-zone1.md und
+   home-final.md; Bauart des Pfeilbefunds analog evaluation-zone2.md A6.
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   H-1  Kartenlogo: falsche Farbgebung und 26 statt 22 px
+
+   Markup (per curl geprueft, kein <img>):
+     <span class="lvf-s04-chip"><svg class="lvf-s04-chip-ico">…</svg></span>
+   Der Chip ist also ein Span mit Inline-SVG. Der Override haengt das
+   Soll-Bild deshalb als background-image an den Span und blendet das
+   Inline-SVG aus; content:url() scheidet aus, weil kein img existiert.
+
+   Gemessen bei 1760 px, Karte 1:
+     IST  x 291..316 / y 2425..2450 = 26 x 26 px, dunkle Kachel
+          (linear-gradient #244a5e -> #16303f) mit blauem Rand und
+          blauer Glyphe (lvlup-home.css Z. 1704-1719).
+     SOLL x 290..310 / y 2423..2443 = 21 x 21 px, helle Blaukachel
+          mit SCHWARZER Lvlup-Marke; Figma-Knoten 156:287 misst
+          21,8 x 21,8 px. Die Farbgebung ist im Ist also invertiert.
+
+   Bild: aus dem Figma-Export von Karte 1 (Knoten 156:277, Scale 3)
+   freigestellt, 66 x 66 px WebP mit Alpha, Mediathek-ID 8108.
+   ------------------------------------------------------------ */
+
+.lvf-s04 .lvf-s04-chip {
+  /* Kachel, Rand und Schein stammen jetzt aus dem Bild selbst */
+  background:
+    url("https://lvlup.tivaosagencytempdomains.de/wp-content/uploads/2026/08/lvf-s04-kartenlogo.webp")
+    no-repeat center / 100% 100%;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Die blaue Inline-Glyphe wuerde sonst ueber der Marke liegen */
+.lvf-s04 .lvf-s04-chip-ico {
+  display: none;
+}
+
+/* Groesse nur oberhalb 767 px anfassen: unterhalb setzt lvlup-home.css
+   Z. 2229 bewusst 15 px (Mobil-Frame), das bleibt unangetastet.
+   .lvf-s04-card-mark behaelt seine Hoehe von 22 px, es verschiebt sich
+   also nichts darunter - der Chip hoert nur auf, aus der Zeile
+   herauszuragen. */
+@media (min-width: 768px) {
+  .lvf-s04 {
+    --s04-chip: 22px;
+  }
+}
+
+
+/* ------------------------------------------------------------
+   H-2  Deko-Pfeil im Kartenhintergrund: falsche Form, harte Enden
+
+   Ursache ist NICHT overflow. Geprueft: .lvf-s04-card-shard sitzt mit
+   top 21px / right 6px und 100 x 111 px vollstaendig innerhalb von
+   .lvf-s04-card-in (288 px breit, ~765 px hoch); der gerenderte Pfeil
+   endet live rund 6 px vor der Kartenkante. Ein overflow:visible auf
+   der Karte wuerde also nichts freilegen, aber den Zweck des dortigen
+   overflow:hidden aushebeln (es beschneidet den ::after-Schein der
+   Pop-Karte und die 10px-Rundung). Deshalb Maske statt overflow.
+
+   Der Schnitt entsteht in der Form selbst: lvlup-home.css Z. 1686
+   beschreibt den Pfeil mit einer von Hand gesetzten clip-path-polygon
+   aus zehn Ecken. Deren Stuetzpunkte liegen auf 0 % und 100 % der
+   eigenen Box, wodurch Pfeilspitze und Fuss mit geraden Kanten
+   abbrechen - und die gezeichnete Figur ist ein doppelt gespitzter
+   Diagonalpfeil, waehrend die Referenz einen Trend-Pfeil mit
+   senkrechtem Schenkel, Fuss und gerundeter Spitze zeigt.
+
+   Soll ist der Figma-Vektor 156:283 ("Vector", 100 x 111 px, exakt an
+   derselben Stelle). Sein Pfad wird hier als SVG-Maske gesetzt; die
+   Maske skaliert ueber mask-size mit --s04-shard mit und gilt damit
+   auch fuer die 71 x 79 px der Mobilfassung. Fuellung weiss, damit die
+   Maske sowohl bei Alpha- als auch bei Luminanz-Auswertung traegt.
+
+   Zusaetzlich die Fuellung an Figma angeglichen: dort weisser
+   Linearverlauf, Deckkraft 0,05, Alpha 1 -> 0 mit Griffen
+   (1,15|0,767) -> (0,328|0,227). Umgerechnet auf die 100 x 111er Box
+   sind das 306 Grad mit Stopps bei 2 % und 72 %. Kaans Fassung endet
+   bei 0,01 statt bei 0 und laeuft deshalb nicht weich aus.
+   ------------------------------------------------------------ */
+
+.lvf-s04 .lvf-s04-card-shard {
+  clip-path: none;
+
+  -webkit-mask: no-repeat center / 100% 100% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 111'%3E%3Cpath fill='%23fff' d='M91.2435 0.665522C92.5899 1.33655 94.285 2.61451 94.5363 4.20159C96.2989 13.8598 98.0728 23.5256 99.8617 33.1763C100.188 34.9028 99.963 36.6332 98.9091 38.0695C97.4503 40.2484 94.525 41.27 92.1023 40.124C88.4833 38.3145 84.8605 36.5125 81.2378 34.7143C69.4319 58.7657 57.5922 82.8057 45.7788 106.853C45.115 108.233 44.3424 109.496 43.9674 111C29.3113 111 14.6552 111 0.00281271 111C-0.000937572 74.6818 -0.000937572 38.3673 0.00281271 2.05281L21.6907 2.05281C21.6907 32.2112 21.6907 62.3696 21.6982 92.528C27.7399 92.528 33.7779 92.5167 39.8196 92.5355C50.1929 71.5792 60.4762 50.5098 70.8307 29.5346C67.1367 27.695 63.4202 25.8629 59.7374 24.0119C56.9884 22.3909 56.4184 18.5758 58.136 15.9784C59.1261 14.3763 60.6525 13.7693 62.2463 12.9475C70.4557 8.76682 78.6838 4.57857 86.8819 0.386557C88.1495 -0.341014 89.9872 0.0774337 91.2435 0.665522Z'/%3E%3C/svg%3E");
+          mask: no-repeat center / 100% 100% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 111'%3E%3Cpath fill='%23fff' d='M91.2435 0.665522C92.5899 1.33655 94.285 2.61451 94.5363 4.20159C96.2989 13.8598 98.0728 23.5256 99.8617 33.1763C100.188 34.9028 99.963 36.6332 98.9091 38.0695C97.4503 40.2484 94.525 41.27 92.1023 40.124C88.4833 38.3145 84.8605 36.5125 81.2378 34.7143C69.4319 58.7657 57.5922 82.8057 45.7788 106.853C45.115 108.233 44.3424 109.496 43.9674 111C29.3113 111 14.6552 111 0.00281271 111C-0.000937572 74.6818 -0.000937572 38.3673 0.00281271 2.05281L21.6907 2.05281C21.6907 32.2112 21.6907 62.3696 21.6982 92.528C27.7399 92.528 33.7779 92.5167 39.8196 92.5355C50.1929 71.5792 60.4762 50.5098 70.8307 29.5346C67.1367 27.695 63.4202 25.8629 59.7374 24.0119C56.9884 22.3909 56.4184 18.5758 58.136 15.9784C59.1261 14.3763 60.6525 13.7693 62.2463 12.9475C70.4557 8.76682 78.6838 4.57857 86.8819 0.386557C88.1495 -0.341014 89.9872 0.0774337 91.2435 0.665522Z'/%3E%3C/svg%3E");
+
+  background: linear-gradient(
+    306deg,
+    rgba(255, 255, 255, 0.05) 2%,
+    rgba(255, 255, 255, 0) 72%
+  );
+}
+/* Partner-Logos: Originalfarben statt Theme-Umfaerbung */
+.lvf-s02-partners img,
+.lvf-s02-partners .lvf-s02-dx-mark img,
+.lvf-s02-partners .lvf-s02-dx-word img,
+.lvf-s02-partners .lvf-s02-vol-mark img,
+.lvf-s02-partners .lvf-s02-partner--hansa {
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  opacity: 1 !important;
+}
+.lvf-s02-partners .lvf-s02-partner,
+.lvf-s02-partners .lvf-s02-dx {
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}

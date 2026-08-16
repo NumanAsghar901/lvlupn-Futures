@@ -1,0 +1,380 @@
+/* ===========================================================================
+ * ELITE FOOTER THEME OVERRIDE - Golden/Black (Post 8046 ONLY)
+ * Scoped to body.page-id-8046 to avoid affecting other pages
+ * =========================================================================== */
+
+/* Base footer background */
+body.page-id-8046 .lvf-s11 {
+  background-color: #000000 !important;
+}
+
+/* Remove any blue ambient glows */
+body.page-id-8046 .lvf-s11::before {
+  background: 
+    radial-gradient(190px 2600px at 15.3% 100%,
+      rgba(255, 250, 236, 1) 0%,
+      rgba(255, 246, 224, 1) 19%,
+      rgba(255, 230, 178, 0.97) 23%,
+      rgba(255, 216, 134, 0.92) 29%,
+      rgba(255, 202, 96, 0.85) 35%,
+      rgba(253, 190, 74, 0.78) 42%,
+      rgba(251, 180, 56, 0.64) 48%,
+      rgba(226, 144, 20, 0.38) 62%,
+      rgba(190, 112, 4, 0) 82%) !important;
+}
+
+body.page-id-8046 .lvf-s11::after {
+  background: none !important;
+  display: none !important;
+}
+
+/* Footer card background - force black */
+body.page-id-8046 .lvf-s11-card {
+  background-color: #000000 !important;
+}
+
+body.page-id-8046 .lvf-s11-cardbg {
+  background: none !important;
+  display: none !important;
+}
+
+/* Override all text colors */
+body.page-id-8046 .lvf-s11,
+body.page-id-8046 .lvf-s11 * {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Tagline */
+body.page-id-8046 .lvf-s11-tagline {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Blue accent text -> Golden */
+body.page-id-8046 .lvf-s11-blau,
+body.page-id-8046 .lvf-s11-info .lvf-s11-blau {
+  color: #ffbc54 !important;
+  font-weight: 600;
+}
+
+/* Links */
+body.page-id-8046 .lvf-s11 a {
+  color: #ffbc54 !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease;
+}
+
+body.page-id-8046 .lvf-s11 a:hover {
+  color: #ff9200 !important;
+}
+
+/* Column headings */
+body.page-id-8046 .lvf-s11-colhead {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+/* Navigation links */
+body.page-id-8046 .lvf-s11-nav a {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+body.page-id-8046 .lvf-s11-nav a:hover {
+  color: #ffbc54 !important;
+}
+
+/* Disabled/placeholder text */
+body.page-id-8046 .lvf-s11-note {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Legal section */
+body.page-id-8046 .lvf-s11-legal p {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+body.page-id-8046 .lvf-s11-legal-head {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Social icons */
+body.page-id-8046 .lvf-s11-social svg {
+  fill: rgba(255, 255, 255, 0.5) !important;
+  transition: fill 0.2s ease;
+}
+
+body.page-id-8046 .lvf-s11-social a:hover svg {
+  fill: #ffbc54 !important;
+}
+
+body.page-id-8046 .lvf-s11-social .lvf-s11-ico-stroke {
+  stroke: rgba(255, 255, 255, 0.5) !important;
+  fill: none !important;
+}
+
+body.page-id-8046 .lvf-s11-social a:hover .lvf-s11-ico-stroke {
+  stroke: #ffbc54 !important;
+}
+
+body.page-id-8046 .lvf-s11-social .lvf-s11-ico-dot {
+  fill: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Borders - golden instead of blue */
+body.page-id-8046 .lvf-s11-strip {
+  border-color: rgba(255, 188, 84, 0.15) !important;
+}
+
+body.page-id-8046 .lvf-s11-main {
+  border-color: rgba(255, 188, 84, 0.15) !important;
+}
+
+body.page-id-8046 .lvf-s11-bottom {
+  border-color: rgba(255, 188, 84, 0.15) !important;
+}
+
+/* Newsletter section */
+body.page-id-8046 .lvf-s11-newsletter {
+  background: linear-gradient(135deg, rgba(255, 188, 84, 0.08) 0%, rgba(255, 146, 0, 0.08) 100%) !important;
+  border: 1px solid rgba(255, 188, 84, 0.25) !important;
+}
+
+body.page-id-8046 .lvf-s11-nl-title {
+  color: #ffffff !important;
+}
+
+body.page-id-8046 .lvf-s11-nl-title-accent {
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+body.page-id-8046 .lvf-s11-nl-sub {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+body.page-id-8046 .lvf-s11-nl-input {
+  background: rgba(0, 0, 0, 0.6) !important;
+  border: 1px solid rgba(255, 188, 84, 0.3) !important;
+  color: #ffffff !important;
+}
+
+body.page-id-8046 .lvf-s11-nl-input::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+body.page-id-8046 .lvf-s11-nl-input:focus {
+  outline: none !important;
+  border-color: #ffbc54 !important;
+  box-shadow: 0 0 0 3px rgba(255, 188, 84, 0.15) !important;
+}
+
+body.page-id-8046 .lvf-s11-nl-submit {
+  background: linear-gradient(180deg, #ffbc54 0%, #ff9200 100%) !important;
+  color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+body.page-id-8046 .lvf-s11-nl-submit:hover {
+  filter: brightness(1.1) !important;
+}
+
+body.page-id-8046 .lvf-s11-nl-discord svg {
+  fill: #ffbc54 !important;
+}
+
+/* Copyright bar */
+body.page-id-8046 .lvf-s11-copy {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+body.page-id-8046 .lvf-s11-legallinks a {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+body.page-id-8046 .lvf-s11-legallinks a:hover {
+  color: #ffbc54 !important;
+}
+
+/* Overscroll background */
+body.page-id-8046,
+html:has(body.page-id-8046) {
+  background-color: #000000 !important;
+}
+
+/* Remove any remaining blue backgrounds */
+body.page-id-8046 .lvf-s11-cardbg::before,
+body.page-id-8046 .lvf-s11-cardbg::after {
+  display: none !important;
+}
+
+/* ==========================================================================
+ * ELITE FOOTER OVERRIDE - Forces Golden Theme (Post 8046)
+ * Bypasses the missing `body.lvf-gold` class by scoping the golden footer
+ * rules directly to the Elite page ID.
+ * ========================================================================== */
+
+body.page-id-8046 .lvf-page {
+  --lvf-bg: #000000;
+  background: var(--lvf-bg);
+}
+
+/* --- Footer Card & Backgrounds --- */
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-cardbg {
+  background:
+    linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0)) padding-box,
+    linear-gradient(90deg, rgba(244, 180, 53, 0) 0%, #f4b435 52%, rgba(238, 169, 49, 0) 100%) border-box !important;
+  box-shadow: 6px 23px 23px rgba(0, 0, 0, 0.25) !important;
+}
+
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-cardbg::after {
+  background:
+    radial-gradient(30% 26% at 72% 34%, rgba(255, 213, 140, 0.07) 0%, rgba(255, 213, 140, 0) 70%),
+    radial-gradient(30% 26% at 8% 68%, rgba(255, 213, 140, 0.06) 0%, rgba(255, 213, 140, 0) 70%) !important;
+}
+
+/* --- Brand Strip (Top Banner in Footer) --- */
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-strip {
+  background-color: #120c04 !important;
+  background-image:
+    radial-gradient(90% 80% at 22% 100%, rgba(199, 141, 27, 0.55) 0%, rgba(199, 141, 27, 0) 62%),
+    radial-gradient(70% 60% at 96% 90%, rgba(240, 185, 80, 0.45) 0%, rgba(240, 185, 80, 0) 66%),
+    linear-gradient(90deg, #f3dfae 0%, #c69335 14%, #6d4d13 38%, #241806 66%, #0d0903 100%) !important;
+}
+
+/* --- Text Colors & Accents --- */
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-nl-title-accent,
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-colhead,
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-legal-head,
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-tagline,
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-blau {
+  background: var(--lvf-grad-gold) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-info a,
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-info .lvf-s11-blau,
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-legal a {
+  color: #e8b45a !important;
+  background: none !important;
+  -webkit-text-fill-color: #e8b45a !important;
+}
+
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-info a:hover { color: #ffb43a !important; }
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-nav a:focus-visible,
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-legallinks a:focus-visible { outline-color: #ffb43a; }
+
+/* --- Social Icons --- */
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-social a { color: #febd4b !important; }
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-social a:hover { color: #ffd98a !important; }
+
+/* --- Newsletter Section --- */
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-newsletter {
+  background-color: #090603 !important;
+  background-image:
+    linear-gradient(rgba(255,255,255,0) 72%, rgba(255,235,200,0.45) 86%, rgba(255,244,222,0.88) 97%, rgba(255,247,230,0.94) 100%),
+    radial-gradient(44% 75% at 97% 103%, rgba(255,168,32,0.8) 0%, rgba(235,150,20,0.3) 50%, rgba(235,150,20,0) 78%),
+    radial-gradient(30% 45% at 3% 103%, rgba(220,140,20,0.28) 0%, rgba(220,140,20,0) 70%),
+    linear-gradient(rgb(9,6,3) 0%, rgb(27,18,6) 80%, rgb(56,36,8) 100%) !important;
+}
+
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-newsletter::before {
+  box-shadow: inset 0 0 0 1px rgba(255, 196, 90, 0.16) !important;
+}
+
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-nl-discord {
+  background: var(--lvf-grad-gold) !important;
+  box-shadow: inset 0 1px 17px #e8c25b !important;
+}
+
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-nl-submit {
+  background:
+    var(--lvf-grad-gold) padding-box,
+    linear-gradient(90deg, rgba(255, 146, 0, 0) 0%, #ff9200 50%, rgba(255, 146, 0, 0) 100%) border-box !important;
+  box-shadow: inset 0 1px 14px #e8c25b !important;
+  color: #1c1200 !important;
+}
+
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-nl-input {
+  background:
+    linear-gradient(#000000, #000000) padding-box,
+    linear-gradient(90deg, rgba(255, 170, 40, 0.6) 0%, rgba(103, 65, 0, 0.1) 40%, rgba(141, 94, 0, 0.4) 100%) border-box !important;
+}
+
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-nl-sub { color: #3a2408 !important; }
+
+/* --- Footer Logo Swap --- */
+body.page-id-8046 .lvf-page.lvf-page .lvf-s11-logo-img {
+  content: url("https://lvlup.tivaosagencytempdomains.de/wp-content/uploads/2026/08/lvlup-logo-nav-gold.webp") !important;
+}
+
+/* --- Ambient Glows --- */
+body.page-id-8046 .lvf-s11::before {
+  background:
+    radial-gradient(62% 56% at 16% 60%, rgba(235, 150, 20, 0.3) 0%, rgba(235, 150, 20, 0) 70%),
+    radial-gradient(62% 56% at 86% 40%, rgba(235, 150, 20, 0.25) 0%, rgba(235, 150, 20, 0) 70%),
+    radial-gradient(46% 38% at 50% 92%, rgba(250, 210, 140, 0.14) 0%, rgba(250, 210, 140, 0) 72%) !important;
+}
+
+@media (min-width: 1024px) {
+  body.page-id-8046 .lvf-s11::after {
+    background:
+      radial-gradient(395px 960px at 0% 100%,
+        rgb(254, 240, 169) 0%, rgb(252, 222, 96) 4.5%, rgb(252, 210, 68) 9.1%,
+        rgb(246, 185, 24) 18.1%, rgb(228, 146, 2) 36.3%, rgb(200, 120, 2) 54.4%,
+        rgb(176, 104, 3) 72.5%, rgb(157, 93, 5) 90.6%, rgb(155, 91, 4) 95.6%,
+        rgba(155, 91, 4, 0) 100%),
+      radial-gradient(395px 960px at 100% 100%,
+        rgb(254, 240, 169) 0%, rgb(252, 222, 96) 4.5%, rgb(252, 210, 68) 9.1%,
+        rgb(246, 185, 24) 18.1%, rgb(228, 146, 2) 36.3%, rgb(200, 120, 2) 54.4%,
+        rgb(176, 104, 3) 72.5%, rgb(157, 93, 5) 90.6%, rgb(155, 91, 4) 95.6%,
+        rgba(155, 91, 4, 0) 100%) !important;
+  }
+
+  /* Desktop Brand Strip refinement */
+  body.page-id-8046 .lvf-page.lvf-page .lvf-s11-strip {
+    background-color: #000000 !important;
+    background-image:
+      radial-gradient(26% 300% at 100% 50%,
+        rgb(246, 197, 75) 0%, rgb(243, 192, 64) 11%, rgb(237, 179, 41) 22%,
+        rgb(228, 165, 26) 33%, rgb(218, 149, 18) 44%, rgb(206, 134, 15) 56%,
+        rgb(192, 121, 12) 67%, rgb(175, 108, 10) 78%,
+        rgba(156, 94, 8, 0.51) 89%, rgba(143, 85, 7, 0) 100%),
+      radial-gradient(50% 220% at 100% 100%,
+        rgb(251, 215, 93) 0%, rgb(246, 203, 64) 9%, rgb(232, 176, 24) 18%,
+        rgb(211, 144, 9) 27%, rgb(187, 118, 5) 36%, rgb(164, 99, 4) 45%,
+        rgb(144, 84, 4) 55%, rgb(123, 72, 4) 64%, rgb(88, 52, 4) 73%,
+        rgb(37, 22, 3) 82%, rgb(6, 3, 0) 91%, rgba(1, 1, 0, 0) 100%),
+      radial-gradient(55% 200% at 0% 15%,
+        rgb(255, 250, 243) 0%, rgb(255, 250, 242) 17%, rgb(254, 245, 231) 25%,
+        rgb(252, 238, 216) 33%, rgb(250, 234, 208) 42%, rgb(242, 223, 187) 50%,
+        rgb(214, 182, 112) 58%, rgb(156, 120, 49) 67%, rgb(85, 58, 17) 75%,
+        rgb(28, 18, 3) 83%, rgb(6, 4, 1) 92%, rgba(2, 1, 0, 0) 100%) !important;
+  }
+
+  /* Desktop Newsletter refinement */
+  body.page-id-8046 .lvf-page.lvf-page .lvf-s11-newsletter {
+    background-color: #020100 !important;
+    background-image:
+      linear-gradient(180deg, rgba(255, 244, 214, 0) 58%, rgba(255, 240, 202, 0.03) 72%, rgba(255, 238, 196, 0.42) 84%, rgba(255, 250, 238, 0.92) 96%, rgba(255, 253, 250, 0.96) 100%),
+      radial-gradient(26% 46% at 0% 0%, rgba(236, 156, 32, 0.26) 0%, rgba(170, 100, 12, 0.1) 55%, rgba(104, 60, 6, 0) 85%),
+      radial-gradient(36% 62% at 100% 0%, rgba(252, 190, 72, 0.9) 0%, rgba(220, 143, 24, 0.58) 45%, rgba(170, 104, 12, 0.24) 72%, rgba(112, 66, 7, 0) 92%),
+      radial-gradient(12% 132% at 0% 100%, rgba(255, 246, 215, 1) 0%, rgba(255, 216, 112, 0.9) 26%, rgba(242, 172, 34, 0.82) 52%, rgba(196, 122, 12, 0.7) 74%, rgba(164, 100, 9, 0) 100%),
+      radial-gradient(46% 96% at 0% 100%, rgba(255, 222, 134, 0.9) 0%, rgba(241, 172, 32, 0.75) 36%, rgba(191, 116, 10, 0.4) 62%, rgba(140, 84, 6, 0) 90%),
+      radial-gradient(12% 150% at 100% 100%, rgba(255, 248, 222, 1) 0%, rgba(255, 222, 128, 0.92) 22%, rgba(246, 182, 48, 0.85) 46%, rgba(218, 142, 20, 0.74) 70%, rgba(186, 116, 10, 0) 100%),
+      radial-gradient(48% 98% at 100% 100%, rgba(255, 228, 144, 0.92) 0%, rgba(244, 179, 40, 0.78) 36%, rgba(198, 124, 12, 0.42) 62%, rgba(146, 89, 6, 0) 90%),
+      radial-gradient(88% 32% at 50% 104%, rgba(255, 252, 244, 0.98) 20%, rgba(255, 243, 214, 0.8) 52%, rgba(255, 235, 190, 0) 85%),
+      linear-gradient(180deg, #020100 0%, #050301 62%, #241806 100%) !important;
+  }
+
+  /* Desktop Logo Fix */
+  body.page-id-8046 .lvf-page .lvf-s11-logo-img {
+    width: 244.2px;
+    margin: -3.99px -3.99px -10.12px -7.18px;
+    clip-path: inset(3.99px 3.99px 10.12px 7.18px);
+  }
+}

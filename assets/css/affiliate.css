@@ -1,0 +1,3074 @@
+/* =====================================================================
+   Affiliate, zusammengefuehrtes Stylesheet (fragment-1 + 2 + 3).
+   Reihenfolge: Fragment 1, Fragment 2, Fragment 3, danach die
+   Korrekturen der Zusammenfuehrung (Naehte, Sprungziele, Mobil).
+   Alle Selektoren tragen den Praefix lvaf-.
+   ===================================================================== */
+
+/* ############################ FRAGMENT 1 (y 0 - 3770) ############### */
+
+/* =====================================================================
+   Affiliate  |  Fragment 1  |  Praefix lvaf-
+   Alle Maße 1:1 aus _referenz/affiliate-1760.png (Breite 1760 px)
+   abgeleitet, Inhaltsspalte 1240 px zentriert (x 261 - 1499).
+   Farben mit PIL aus dem Referenzbild pipettiert.
+   ===================================================================== */
+
+.lvf-page.lvaf-page {
+  --lvaf-shell: 1240px;
+  --lvaf-card: rgba(255, 255, 255, 0.08);
+  /* gemessen: Verlaufstext hell #8fe7ff -> #12a9ff */
+  --lvaf-blue: linear-gradient(180deg, #8ce7ff 0%, #12a9ff 100%);
+  /* Fließtext, gemessen #eaeaea .. #f1f2f3 auf dunklem Grund */
+  --lvaf-body: rgba(255, 255, 255, 0.82);
+  --lvaf-body-dim: rgba(255, 255, 255, 0.62);
+
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+  font-family: var(--lvf-font-display);
+  color: var(--lvf-white);
+}
+
+.lvf-page .lvaf-shell {
+  position: relative;
+  z-index: 1;
+  width: min(var(--lvaf-shell), 100% - 48px);
+  margin-inline: auto;
+}
+
+/* ------------------------------------------------ gemeinsame Bausteine */
+
+/* Eyebrow-Pille: Hero 191x33 (x 783-974, y 214-247),
+   Sektionen 230x33 (x 765-995, y 838-870) -> Padding 22 px          */
+.lvf-page .lvaf-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: fit-content;
+  height: 33px;
+  margin: 0 auto;
+  padding-inline: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.55);
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+}
+/* Hero-Pille: die Referenz zeigt eine gefuellte Pille OHNE Kontur
+   (Randpixel bei x 787 und x 972 gab es nur im Nachbau) und misst
+   197 px. Ohne Rahmen fallen 2 px weg, der Innenabstand faengt sie
+   mit auf: 152,5 px Inhalt + 2 x 22,25 px = 197 px.               */
+.lvf-page .lvaf-pill--dot {
+  padding-inline: 22.25px;
+  border: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.70);
+}
+.lvf-page .lvaf-pill--solid { background: #05080d; }
+.lvf-page .lvaf-pill-dot {
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #38b6ff;
+}
+.lvf-page .lvaf-pill-hl { color: #4db4f5; font-weight: 700; }
+
+/* Verlaufstext. Element + Klasse, damit die Heading-Resets des Themes
+   nicht gewinnen (Falle 2 im Vertrag).                              */
+.lvf-page .lvaf-h1 .lvaf-t-fade,
+.lvf-page .lvaf-h2 .lvaf-t-fade,
+.lvf-page .lvaf-h1 .lvaf-t-blue,
+.lvf-page .lvaf-h2 .lvaf-t-blue,
+.lvf-page .lvaf-h2 .lvaf-t-fade2,
+.lvf-page .lvaf-card-h,
+.lvf-page .lvaf-card-h2 .lvaf-t-blue,
+.lvf-page .lvaf-step-h .lvaf-t-blue,
+.lvf-page .lvaf-stat-val,
+.lvf-page .lvaf-th,
+.lvf-page .lvaf-td--val,
+.lvf-page .lvaf-step-n,
+.lvf-page .lvaf-metric-n {
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Ueberschriften-Weiss ist kein Flaechenweiss, sondern ein waagerechter
+   Verlauf. Gemessen an den Buchstabenstegen:
+   Hero Zeile 1  #b1bdc3 (links) -> #f4f4f4 (Mitte) -> #bcbdbf (rechts)
+   S2/S4/S5      #b4b8bb -> #ffffff
+   S3            #e0e0e0 -> #ffffff -> #b4bcc1                       */
+.lvf-page .lvaf-t-fade { background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 92%); }
+.lvf-page .lvaf-h1 .lvaf-t-fade { background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 55%, rgba(255, 255, 255, 0.73) 100%); }
+.lvf-page .lvaf-t-fade2 { background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.88) 0%, #ffffff 30%, rgba(255, 255, 255, 0.7) 100%); }
+.lvf-page .lvaf-t-blue { background-image: var(--lvaf-blue); }
+/* Im Entwurf ist der blaue Teil jeder Ueberschrift eine Gewichtsstufe
+   schwerer als der weisse (an den Buchstabenstegen und der Textbreite
+   gemessen: weiss 500, blau 600).                                    */
+.lvf-page .lvaf-h1 .lvaf-t-blue,
+.lvf-page .lvaf-h2 .lvaf-t-blue { font-weight: 600; }
+.lvf-page .lvaf-t-blue2 { color: #35b0ff; }
+
+.lvf-page .lvaf-h1 {
+  margin: 21px 0 0;
+  font-family: var(--lvf-font-display);
+  font-size: clamp(30px, 3.86vw, 68px);
+  line-height: 0.926;
+  font-weight: 500;
+  letter-spacing: normal;
+  text-align: center;
+}
+.lvf-page .lvaf-h1 span { display: block; }
+
+.lvf-page .lvaf-h2 {
+  margin: 14px 0 0;
+  font-family: var(--lvf-font-display);
+  font-size: clamp(29px, 3.55vw, 62.5px);
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: normal;
+  text-align: center;
+}
+
+.lvf-page .lvaf-sub {
+  max-width: 900px;
+  margin: 29px auto 0;
+  font-size: clamp(17px, 1.22vw, 21.5px);
+  line-height: 1.25;
+  font-weight: 400;
+  color: var(--lvaf-body);
+  text-align: center;
+  overflow-wrap: break-word;
+}
+.lvf-page .lvaf-sub--tight { max-width: 900px; margin-top: 17px; font-size: clamp(16px, 1.11vw, 19.5px); }
+
+/* ================================================ 1  HERO  y 0 - 746 */
+
+.lvf-page .lvaf-hero {
+  position: relative;
+  overflow: clip;
+  padding: 214px 0 73px;
+}
+
+/* Schein unten links (Spitze bei x~180, y~790, also unter der Kante)
+   plus schwacher Schein unten rechts. Bildwerte y700: x0 #31b0f9,
+   x550 #003f63, x880 #011018, x1650 #052f48.                        */
+.lvf-page .lvaf-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: clip;
+  pointer-events: none;
+  background-color: #000102;
+  background-image:
+    /* R3-affiliate-B1/B2: Beide Ellipsen neu gegen die Referenz eingepasst
+       (Kleinste-Quadrate ueber die textfreien Randstreifen x 0-255 und
+       x 1506-1758, y 100-720; das Modell der CSS-Ebenen trifft den
+       gerenderten Stand auf 1,77 Einheiten genau).
+         links  680x950 at 170|745  ->  846x907 at 185|747
+         rechts 800x420 at 1810|730 ->  765x387 at 1915|746
+       Mittlere Abweichung ueber alle Kanaele 8,75 -> 6,66.
+       Der rechte Rand war im Band y 400-700 um bis zu +21 zu hell.      */
+    radial-gradient(846px 907px at 185px 747px,
+      #3ab4fb 0%, rgba(52, 178, 250, 0.95) 20%, rgba(44, 164, 244, 0.76) 28%,
+      rgba(34, 148, 228, 0.63) 36%, rgba(24, 126, 205, 0.5) 42%,
+      rgba(16, 106, 178, 0.4) 50%, rgba(10, 80, 138, 0.28) 60%,
+      rgba(5, 50, 90, 0.16) 72%, rgba(2, 26, 48, 0.09) 88%, rgba(0, 0, 0, 0) 100%),
+    radial-gradient(765px 387px at 1915px 746px,
+      rgba(0, 150, 235, 0.44) 0%, rgba(0, 132, 210, 0.3) 40%,
+      rgba(0, 100, 165, 0.2) 65%, rgba(0, 52, 90, 0.09) 90%, rgba(0, 0, 0, 0) 100%),
+    linear-gradient(180deg, #000102 0%, #01080e 45%, #01111a 100%);
+}
+/* Die Sektion blendet an der Unterkante ab (y 720-746 gemessen). */
+.lvf-page .lvaf-hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 26px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+.lvf-page .lvaf-hero-in { text-align: center; }
+
+.lvf-page .lvaf-hero-sub {
+  max-width: 700px;
+  margin: 25px auto 0;
+  font-size: clamp(16px, 1.11vw, 19.5px);
+  line-height: 24px;
+  font-weight: 400;
+  color: var(--lvaf-body);
+  overflow-wrap: break-word;
+}
+
+/* Knopfreihe y 503 - 551, Knopf 1 x 668-880 (212), Knopf 2 x 890-1092 */
+.lvf-page .lvaf-hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 37px;
+}
+.lvf-page a.lvaf-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 46px;
+  padding-inline: 28px;
+  border-radius: 11px;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: filter 0.18s ease, transform 0.18s ease;
+}
+.lvf-page a.lvaf-btn--fill {
+  /* gemessen oben #a9ecff, unten #1acfff.
+     Die 28 px Innenabstand aus der Sammelregel sind fuer den
+     Ghost-Knopf richtig (203 px gegen Soll 203), fuer den
+     Hauptknopf 8 px zu viel. Links stehen wegen des Symbolfelds
+     ohnehin nur 6 px, also faellt die Kuerzung rechts an:
+     28 -> 20 px ergibt 210,8 px gegen Soll 211.                  */
+  padding-inline: 20px;
+  padding-left: 6px;
+  background: linear-gradient(180deg, #aeeeff 0%, #16d3ff 100%);
+  color: #05131b;
+}
+.lvf-page .lvaf-btn-ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  border-radius: 8px;
+  background: #05070a;
+  color: #ffffff;
+}
+.lvf-page a.lvaf-btn--ghost {
+  /* dunkle Flaeche mit blauem Schein an Unter- und rechter Kante */
+  background-color: #04121a;
+  background-image:
+    radial-gradient(130% 100% at 50% 138%, rgba(10, 162, 248, 0.95) 0%, rgba(10, 150, 235, 0.42) 46%, rgba(10, 150, 235, 0) 74%),
+    radial-gradient(55% 210% at 112% 62%, rgba(10, 160, 245, 0.8) 0%, rgba(10, 160, 245, 0) 70%);
+  color: #ffffff;
+}
+.lvf-page a.lvaf-btn:hover { filter: brightness(1.08); }
+.lvf-page a.lvaf-btn:focus-visible { outline: 2px solid var(--lvf-blue-light); outline-offset: 3px; }
+
+/* Kennzahlen y 618 - 671, Gruppen mit 95 px Abstand */
+.lvf-page .lvaf-stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 24px 95px;
+  margin: 69px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.lvf-page .lvaf-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.lvf-page .lvaf-stat-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 33px;
+}
+.lvf-page .lvaf-stat-ico { display: block; width: 26px; height: auto; flex: 0 0 auto; }
+.lvf-page .lvaf-stat-val {
+  font-size: 34px;
+  line-height: 1;
+  /* R3-affiliate-C1: 700 war eine Stufe zu fett. Stegbreite in der
+     Zeile y 635 ("14 Days"): Referenz 5 px, live 6-7 px; Tinte in
+     "Up to $5K" Referenz 1964, live 2232. Blaue Teile = 600.       */
+  font-weight: 600;
+  background-image: var(--lvaf-blue);
+  white-space: nowrap;
+}
+.lvf-page .lvaf-stat-lab {
+  margin-top: 2px;
+  font-size: 14px;
+  line-height: 1.35;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.72);
+  white-space: nowrap;
+}
+
+/* ====================== 2  A PARTNERSHIP ...  y 746 - 1523 ========== */
+
+.lvf-page .lvaf-part {
+  position: relative;
+  padding: 92px 0 60px;
+}
+/* Der Schein dieser Sektion bricht im Referenzbild hart bei y 1397 ab
+   (651 px unter der Sektionsoberkante). Deshalb eigene, beschnittene
+   Ebene statt eines durchlaufenden Verlaufs.                          */
+.lvf-page .lvaf-part-bg {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 0;
+  height: 651px;
+  overflow: clip;
+  pointer-events: none;
+  background-color: #000306;
+  background-image:
+    /* R3-affiliate-B3: Der Schein dieser Sektion war im Band
+       y 900-1300 (Seiten-y) deutlich zu hell; die Fehlerblase lag um
+       x 60-240 mit Spitze +47 im Blaukanal. Die noetige Daempfung
+       wurde punktweise als 1 - Referenz/live zurueckgerechnet
+       (Blau und Gruen gemittelt, mit der Helligkeit gewichtet), als
+       Ellipse 245 x 365 um (170 | 1030 Seiten-y) gefasst und das
+       Profil als gewichteter Median je t-Bin gebildet.
+       Mittlerer Blaufehler in x 0-258 / y 780-1390: 18,51 -> 3,97.
+       Der letzte Stopp liegt bei 87,5 %, ausserhalb wirkt nichts.   */
+    radial-gradient(245px 365px at 170px 284px,
+      rgba(0, 0, 0, 0.3742) 0%,
+      rgba(0, 0, 0, 0.3757) 4.17%,
+      rgba(0, 0, 0, 0.3720) 8.33%,
+      rgba(0, 0, 0, 0.3647) 12.5%,
+      rgba(0, 0, 0, 0.3563) 16.67%,
+      rgba(0, 0, 0, 0.3476) 20.83%,
+      rgba(0, 0, 0, 0.3364) 25%,
+      rgba(0, 0, 0, 0.3215) 29.17%,
+      rgba(0, 0, 0, 0.3059) 33.33%,
+      rgba(0, 0, 0, 0.2889) 37.5%,
+      rgba(0, 0, 0, 0.2721) 41.67%,
+      rgba(0, 0, 0, 0.2515) 45.83%,
+      rgba(0, 0, 0, 0.2291) 50%,
+      rgba(0, 0, 0, 0.2051) 54.17%,
+      rgba(0, 0, 0, 0.1803) 58.33%,
+      rgba(0, 0, 0, 0.1532) 62.5%,
+      rgba(0, 0, 0, 0.1248) 66.67%,
+      rgba(0, 0, 0, 0.1044) 70.83%,
+      rgba(0, 0, 0, 0.0818) 75%,
+      rgba(0, 0, 0, 0.0524) 79.17%,
+      rgba(0, 0, 0, 0.0203) 83.33%,
+      rgba(0, 0, 0, 0) 87.5%),
+    radial-gradient(760px 950px at -60px 700px,
+      #2fb2ff 0%, rgba(41, 172, 252, 0.98) 14%, rgba(34, 158, 240, 0.9) 26%,
+      rgba(26, 136, 214, 0.78) 36%, rgba(18, 112, 182, 0.62) 45%,
+      rgba(11, 84, 142, 0.44) 55%, rgba(6, 54, 94, 0.26) 67%,
+      rgba(2, 28, 50, 0.13) 82%, rgba(0, 0, 0, 0) 100%),
+    radial-gradient(500px 700px at 1820px 704px,
+      rgb(70, 196, 255) 0%, rgb(25, 166, 243) 15.5%, rgb(8, 127, 190) 25%,
+      rgb(6, 80, 120) 38%, rgb(4, 48, 70) 51.5%,
+      rgba(2, 60, 90, 0.45) 65%, rgba(2, 60, 90, 0.15) 85%, rgba(0, 0, 0, 0) 100%),
+    linear-gradient(180deg, #000306 0%, #01131d 42%, #01131d 100%);
+}
+/* Haarlinie an der Oberkante, Mitte #0a5f8e, zu den Seiten transparent */
+.lvf-page .lvaf-part-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg,
+    rgba(10, 95, 142, 0) 24%, rgba(10, 95, 142, 0.95) 50%, rgba(10, 95, 142, 0) 76%);
+}
+
+.lvf-page .lvaf-part-in { text-align: center; }
+
+/* Kartenraster: 3 x 405 px, Reihe 2 = 405 + 821, Luecke 12 px,
+   Kartenhoehe 187 px, y 1078 / 1276                                  */
+.lvf-page .lvaf-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 75px;
+  text-align: center;
+}
+.lvf-page .lvaf-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 187px;
+  padding: 24px 24px 20px;
+  border: 1px solid var(--lvaf-card);
+  border-radius: 20px;
+  background-color: #010305;
+  background-image: radial-gradient(170px 86px at 50% 14px, #0d2c40 0%, rgba(8, 28, 42, 0.6) 42%, rgba(0, 0, 0, 0) 80%);
+}
+.lvf-page .lvaf-card--wide { grid-column: span 2; }
+.lvf-page .lvaf-card-ghost {
+  position: absolute;
+  top: -11px;
+  left: -13px;
+  z-index: 0;
+  font-size: 124px;
+  line-height: 1;
+  font-weight: 500;
+  /* R3-affiliate-ABN-1: Die Geisterziffern waren live zu kraeftig.
+     Gemessen an der Kante der "0" von Karte 1 (Zeilen y 1110/1120/1130,
+     Karteninneres als Grund): Referenz hebt sich um 4,6-4,9 Stufen ab,
+     live um 7,0. Bei Weiss auf dunklem Grund ist der Hub 255*alpha,
+     also 0,028 -> 0,019.                                            */
+  color: rgba(255, 255, 255, 0.019);
+  pointer-events: none;
+  user-select: none;
+}
+/* Symbolkasten 62 x 62 (Karten 1-4), 96 x 96 (Karte 5) */
+.lvf-page .lvaf-ibox {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 16px;
+  background: #010204;
+}
+.lvf-page .lvaf-ibox img { display: block; width: 30px; height: auto; }
+.lvf-page .lvaf-ibox--lg { width: 96px; height: 96px; border-radius: 28px; flex: 0 0 auto; }
+.lvf-page .lvaf-ibox--lg img { width: 48px; }
+
+.lvf-page .lvaf-card-h {
+  position: relative;
+  z-index: 1;
+  margin: 15px 0 0;
+  font-size: 19.4px;
+  line-height: 1.3;
+  font-weight: 500;
+  background-image: var(--lvaf-blue);
+}
+.lvf-page .lvaf-card-p {
+  position: relative;
+  z-index: 1;
+  margin: 6px 0 0;
+  font-size: 10.5px;
+  line-height: 13px;
+  font-weight: 400;
+  color: var(--lvaf-body-dim);
+  overflow-wrap: break-word;
+}
+
+/* Karte 5: Text links, Symbol rechts */
+.lvf-page .lvaf-card--wide {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 24px 52px 24px 36px;
+  text-align: left;
+}
+.lvf-page .lvaf-card-txt { position: relative; z-index: 1; min-width: 0; padding-top: 48px; }
+.lvf-page .lvaf-card-h2 {
+  margin: 0;
+  font-size: 41px;
+  line-height: 1.1;
+  font-weight: 500;
+  color: #ffffff;
+}
+.lvf-page .lvaf-card-p2 {
+  margin: 9px 0 0;
+  font-size: 11.6px;
+  line-height: 14px;
+  font-weight: 400;
+  color: var(--lvaf-body-dim);
+  overflow-wrap: break-word;
+}
+
+/* Ecktupfen 7 px, 13 px vom Rand, 11 px von der nahen Kante */
+.lvf-page .lvaf-dot {
+  position: absolute;
+  z-index: 2;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ebfff;
+}
+.lvf-page .lvaf-dot--bl { left: 13px; bottom: 11px; }
+.lvf-page .lvaf-dot--br { right: 13px; bottom: 11px; }
+.lvf-page .lvaf-dot--tl { left: 13px; top: 11px; }
+.lvf-page .lvaf-dot--tr { right: 13px; top: 11px; }
+
+/* ============== untere Haelfte: durchlaufende Hintergrundscheine ==== */
+
+.lvf-page .lvaf-lower { position: relative; }
+/* Beginnt 126 px oberhalb der eigenen Oberkante, also exakt an der
+   harten Kante y 1397, und reicht bis unter das Fragment.            */
+.lvf-page .lvaf-lower::before {
+  content: "";
+  position: absolute;
+  top: -129px;
+  left: 0;
+  right: 0;
+  height: calc(100% + 129px);
+  z-index: -1;
+  pointer-events: none;
+  background-color: #000306;
+  background-image:
+    /* G1, linker Schein im Band y 2450-3050 (Restpunkt aus
+       gegencheck/affiliate-final.md).
+
+       Zwischenstand vom 09.08.2026, 01:49 Uhr: dort wurde die Ellipse
+       auf 1060 x 2900 mit dem Mittelpunkt 190 px UNTER der Unterkante
+       gesetzt. Die noetigen t-Werte waren dafuer nur an der Spalte
+       x 0 abgelesen. Die Spalte stimmte danach, die Flaeche nicht:
+       weil ein einziges Radienpaar beide Achsen bindet, wanderte der
+       Fehler nach rechts. Nachgemessen am Ziel, nur Hintergrundpixel,
+       Text und Karten ausmaskiert:
+
+         Band y 3000-3200   mittlere Abweichung 3,20 -> 11,42
+                            groesster Einzelwert   21 -> 109
+                            Anteil ueber 20      0,0 -> 30,4 Prozent
+         schlimmster Punkt  x 240 / y 3050: Referenz Rot 204, live 111
+
+       Genau dieses Band sollte unberuehrt bleiben, deshalb steht die
+       Ellipse hier wieder auf 1080 x 2100 mit dem Mittelpunkt 253 px
+       ueber der Unterkante, also auf dem Stand vor 01:49.
+
+       Korrigiert wird stattdessen mit der Ebene darueber. Der Fehler
+       war rein oertlich: live zu hell und zu weiss in einer Blase um
+       x 100 / y 2680, waagerecht bis x 360, senkrecht y 2450-3050.
+       Aus (live minus Referenz) wurde punktweise die noetige Deckkraft
+       einer daempfenden Blauebene zurueckgerechnet, die Blase per
+       Kleinste-Quadrate als Ellipse 446 x 541 um (160 | 1267) gefasst
+       und das Deckkraftprofil als gewichteter Median ueber t gebildet
+       (Zielbereich achtfach gewichtet, Restflaeche als Zuegel).
+       Der letzte Stopp ist durchsichtig, ausserhalb von
+       x -286..606 / y 2121..3203 wirkt die Ebene also nicht; die
+       Baender y 1400-1600 und y 3000-3200 bleiben unberuehrt.
+
+       Am Ziel gemessen, Hintergrundpixel, mittlere Abweichung je Kanal:
+         y 2450-3050 x 0-380   18,58 -> 6,71
+         y 1400-1600            4,68 -> 4,68  (unveraendert)
+         y 3000-3200            3,20 -> 1,23
+       Naht ::before zu Sektion 6 unveraendert 0,65.                   */
+    /* R3-affiliate-B4/B5: Die beiden linken Ellipsen sind neu gegen die
+       Referenz eingepasst. Grundlage ist ein Nachbau der CSS-Ebenen in
+       Python, der den gerenderten Stand in den textfreien Randstreifen
+       auf rund 1 Einheit genau trifft; optimiert wurde ueber
+       x 0-232 / y 1400-3765, alle drei Kanaele.
+         weiss 1080x2100 at -190|100%-253  ->  1085x2044 at -187|100%-256
+         blau   360x1500 at -150|883       ->   485x1433 at -136|902
+       Der Feinschliff lief ueber die GANZE Breite (Maske aus der
+       waagerechten Unruhe beider Bilder, undurchsichtige Bauteile
+       ausgeschnitten, 60 000 Punkte, Kacheln 80x120 px) mit der harten
+       Bedingung, dass keine Kachel um mehr als 2 schlechter wird als
+       im Ausgangsstand. Mittlere Abweichung 7,82 -> 6,79; im linken
+       Randstreifen war das Band y 1500-2200 vorher bis zu -25 zu
+       dunkel, jetzt hoechstens -7. Die beiden Daempfungen darueber
+       fangen die zu weit nach rechts laufende Blase y 2300-2760 ab. */
+    /* R3-affiliate-B5b: Nach dem ersten Durchgang blieb im Band
+       y 2300-2760 links noch bis +37 stehen (Blase, die im Entwurf
+       viel frueher nach rechts auslaeuft). Diese zweite, flache
+       Daempfung ist am gerenderten Stand zurueckgerechnet
+       (x 0-258 / y 2000-3000): mittlerer Blaufehler 6,41 -> 3,20.   */
+    radial-gradient(393px 791px at 259px 1029px,
+        rgba(0, 0, 0, 0.1253) 0%,
+        rgba(0, 0, 0, 0.1062) 5%,
+        rgba(0, 0, 0, 0.1062) 30%,
+        rgba(0, 0, 0, 0.0702) 35%,
+        rgba(0, 0, 0, 0.0322) 40%,
+        rgba(0, 0, 0, 0.0146) 45%,
+        rgba(0, 0, 0, 0.0025) 50%,
+        rgba(0, 0, 0, 0) 55%),
+    radial-gradient(278px 400px at 173px 1277px,
+        rgba(0, 150, 245, 0.2830) 0%,
+        rgba(0, 150, 245, 0.2830) 18.18%,
+        rgba(0, 150, 245, 0.2887) 22.73%,
+        rgba(0, 150, 245, 0.2965) 27.27%,
+        rgba(0, 150, 245, 0.2868) 31.82%,
+        rgba(0, 150, 245, 0.2797) 36.36%,
+        rgba(0, 150, 245, 0.2719) 40.91%,
+        rgba(0, 150, 245, 0.2627) 45.45%,
+        rgba(0, 150, 245, 0.2521) 50%,
+        rgba(0, 150, 245, 0.2237) 54.55%,
+        rgba(0, 150, 245, 0.1908) 59.09%,
+        rgba(0, 150, 245, 0.1654) 63.64%,
+        rgba(0, 150, 245, 0.1344) 68.18%,
+        rgba(0, 150, 245, 0.1170) 72.73%,
+        rgba(0, 150, 245, 0.1009) 77.27%,
+        rgba(0, 150, 245, 0.0912) 81.82%,
+        rgba(0, 150, 245, 0.0775) 86.36%,
+        rgba(0, 150, 245, 0.0505) 90.91%,
+        rgba(0, 150, 245, 0.0155) 95.45%,
+        rgba(0, 150, 245, 0) 100%),
+    radial-gradient(1085px 2044px at -187px calc(100% - 256px),
+      #ffffff 0%, #f7fdff 34%, #d3f0ff 46%, #63c6f8 52%,
+      #1e9ce6 59%, rgba(10, 122, 198, 0.6) 66%,
+      rgba(5, 78, 134, 0.34) 74%, rgba(2, 40, 72, 0.16) 85%,
+      rgba(1, 18, 34, 0.05) 95%, rgba(0, 0, 0, 0) 100%),
+    radial-gradient(485px 1433px at -136px 902px,
+      rgba(24, 154, 242, 0.95) 0%, rgba(8, 124, 204, 0.7) 34%,
+      rgba(4, 88, 148, 0.42) 54%, rgba(2, 48, 84, 0.19) 76%, rgba(0, 0, 0, 0) 96%),
+    /* Rechter Schein. Die Ellipse ist gegen die Referenz eingepasst
+       (Kleinste-Quadrate ueber die textfreie rechte Spalte x 1690-1758
+       UND die textfreien Zeilen der Seitenmitte x 1040-1500):
+       rx 575 / ry 2260, Mittelpunkt 170 px unter der Oberkante des
+       Pseudoelements. Die alte Form 830 x 2000 traf zwar die drei
+       Randanker bei x 1755, lief aber viel zu flach zur Seitenmitte
+       aus (Fenster x 1100-1500 / y 1750-2750: Referenz Blau 20,5,
+       vorher 59,2). Die Farbstopps stammen aus dem Profil der
+       Referenzspalte, damit die Randanker erhalten bleiben.
+
+       Der Schein ist im Entwurf oben BREIT und wird nach unten
+       schmal; eine einzelne Ellipse kann beides nicht. Die schmale
+       Ellipse unten trifft ab y 1900 (Bandfehler 14,6 -> 7,1), im
+       Band 1400-1800 fehlte damit Licht (6,4 -> 17,0). Diese erste
+       Ebene traegt genau diese Differenz nach: Lage und Deckkraft
+       sind aus (Referenz minus gerendertem Stand) zurueckgerechnet,
+       deshalb steht sie ueber der schmalen Ellipse.               */
+    radial-gradient(758px 430px at 1710px 175px,
+      rgba(185, 231, 255, 0.555) 2.4%, rgba(185, 231, 255, 0.555)
+      7.3%, rgba(185, 231, 255, 0.520) 17.1%, rgba(185, 231, 255,
+      0.404) 26.8%, rgba(185, 231, 255, 0.317) 36.6%, rgba(185, 231,
+      255, 0.271) 46.3%, rgba(185, 231, 255, 0.188) 56.1%, rgba(185,
+      231, 255, 0.106) 65.9%, rgba(185, 231, 255, 0.054) 75.6%,
+      rgba(185, 231, 255, 0.021) 85.4%, rgba(185, 231, 255, 0.005)
+      95.1%, rgba(185, 231, 255, 0) 100%),
+    radial-gradient(575px 2260px at 1850px 170px,
+      rgb(185, 231, 255) 0%, rgb(183, 229, 254) 10%, rgb(180, 227,
+      253) 17%, rgb(145, 210, 240) 20%, rgb(128, 202, 235) 23%,
+      rgb(103, 187, 222) 26%, rgb(70, 160, 199) 29%, rgb(50, 135,
+      177) 32%, rgb(40, 117, 160) 35%, rgb(33, 105, 146) 38%,
+      rgb(28, 95, 134) 41%, rgb(23, 87, 124) 44%, rgb(18, 80, 116)
+      47%, rgb(15, 73, 107) 50%, rgb(11, 66, 99) 53%, rgb(8, 59, 90)
+      56%, rgb(5, 51, 76) 60%, rgb(3, 40, 62) 64%, rgb(2, 31, 48)
+      68%, rgb(2, 18, 29) 73%, rgb(2, 9, 14) 78%, rgb(2, 3, 4) 84%,
+      rgb(1, 1, 2) 90%, rgb(0, 0, 0) 96%, rgba(0, 0, 0, 0) 100%);
+}
+
+/* ========================= 3  ONE RATE ...  y 1523 - 2124 ========== */
+
+.lvf-page .lvaf-rate {
+  position: relative;
+  padding: 50px 0 55px;
+  text-align: center;
+}
+
+/* Tabelle x 261-1499, y 1823-2069, Kopf 68 px, Zeilen je 59 px */
+.lvf-page .lvaf-table {
+  margin-top: 76px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  text-align: left;
+}
+.lvf-page .lvaf-tr {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  min-height: 59px;
+  background: rgba(0, 170, 255, 0.06);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+/* Der Entwurf wechselt hell/dunkel/hell (Messspalte x 850 ohne Text:
+   14 / 10 / 14 gegen durchgehend 11 im Nachbau).                    */
+.lvf-page .lvaf-tr:nth-child(even) { background: rgba(0, 170, 255, 0.075); }
+.lvf-page .lvaf-tr--head {
+  min-height: 68px;
+  border-top: 0;
+  background: rgba(255, 255, 255, 0.012);
+}
+.lvf-page .lvaf-th {
+  padding: 10px 20px;
+  font-size: 17px;
+  line-height: 1.2;
+  font-weight: 500;
+  text-align: center;
+  background-image: var(--lvaf-blue);
+}
+.lvf-page .lvaf-td {
+  padding: 10px 20px 10px 39px;
+  font-size: 15px;
+  line-height: 1.3;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.68);
+  overflow-wrap: break-word;
+}
+.lvf-page .lvaf-td--val {
+  padding-inline: 20px;
+  font-size: 17px;
+  font-weight: 500;
+  text-align: center;
+  background-image: var(--lvaf-blue);
+}
+/* Senkrechte Trennlinie in der Mitte (x 880) */
+.lvf-page .lvaf-tr { position: relative; }
+.lvf-page .lvaf-tr::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* =============== 4  APPLY. PROMOTE. EARN. GROW.  y 2124 - 2794 ===== */
+
+.lvf-page .lvaf-journey {
+  position: relative;
+  padding: 55px 0 40px;
+  text-align: center;
+}
+
+/* 5 Karten je 224 px, Luecke 30 px, Hoehe 324 px, y 2430 */
+.lvf-page .lvaf-steps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 30px;
+  margin: 74px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.lvf-page .lvaf-step {
+  position: relative;
+  min-height: 324px;
+  padding: 84px 24px 26px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  /* R3-affiliate-C2: Die Karte war praktisch durchsichtig, in der
+     Referenz ist das Karteninnere gleichmaessig das 0,74-fache des
+     Hintergrunds direkt daneben (9 Messzeilen y 2570-2730, Streuung
+     0,73-0,76; live vorher 1,00). Daraus rgba(2,8,14,0.28).        */
+  background: rgba(2, 8, 14, 0.28);
+  text-align: center;
+}
+/* Verbindungsstrich in der Luecke, y 2544 (114 px unter Kartenkante).
+   Der Strich fuellt genau den Zwischenraum und hoert an der Kartenkante
+   auf. Die Luecke ist 30 px breit (grid gap), also right: -30px bei
+   30 px Breite: linke Strichkante = rechte Kartenkante, rechte
+   Strichkante = linke Kante der Folgekarte. Vorher lief er mit
+   width: 45px und right: -31px 14 px in die linke und 1 px in die
+   rechte Karte hinein. Referenz affiliate-1760.png y 2544/2545:
+   Strich x 485..513 zwischen den Kartenraendern 484 und 514. */
+.lvf-page .lvaf-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 114px;
+  right: -30px;
+  width: 30px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.16);
+}
+.lvf-page .lvaf-step-n {
+  display: block;
+  font-size: 40px;
+  line-height: 1;
+  font-weight: 500;
+  background-image: var(--lvaf-blue);
+}
+.lvf-page .lvaf-step-dot {
+  display: block;
+  width: 9px;
+  height: 9px;
+  margin: 28px auto 0;
+  border-radius: 50%;
+  background: #50bffe;
+}
+.lvf-page .lvaf-step-h {
+  margin: 27px 0 0;
+  font-size: 15.4px;
+  line-height: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  overflow-wrap: break-word;
+}
+.lvf-page .lvaf-step-p {
+  margin: 12px 0 0;
+  font-size: 12.6px;
+  line-height: 16px;
+  font-weight: 400;
+  color: var(--lvaf-body-dim);
+  overflow-wrap: break-word;
+}
+
+/* =============== 5  BUILD BEYOND COMMISSION.  y 2794 - 3770 ======== */
+
+.lvf-page .lvaf-retainer {
+  position: relative;
+  padding: 41px 0 50px;
+}
+
+/* Anlaufschein ueber dem Rahmen. 12.08.2026.
+   BEFUND: im Band y 2790..2835 lief das Licht live viel zu frueh aus.
+   Bei x 460..520 stand live (3,44,73) gegen (15,80,116) im Entwurf, und
+   bis x 640 fiel live auf 9 Blau, waehrend der Entwurf dort 35 haelt.
+   Die Ursache liegt NICHT in dieser Sektion: .lvaf-aud-glow und
+   .lvaf-app-glow werden von ihren eigenen Sektionen geclippt, und ein
+   Ausblendtest von .lvaf-retainer aendert das Band um 0,0. Das Licht
+   kommt aus .lvaf-lower::before, einer ueber y 1400..3765 eingepassten
+   Ebene. Wer dort nachzieht, verstellt die Baender y 2450..3050 mit,
+   die stimmen.
+
+   Deshalb eine eigene, oertlich begrenzte Ebene. Ihre Werte sind nicht
+   geschaetzt, sondern gesucht: 22 000 Kombinationen aus Mitte, Radien,
+   Farbe, Deckkraft und Exponent wurden gegen das Soll gerechnet, mit der
+   harten Bedingung, dass kein Nachbarband um mehr als 0,5 schlechter wird
+   (werkzeuge/_tmp-anlaufschein-suche4.py). Beste Loesung:
+
+     ZIEL        y2760..2840 x260..1010    15,07 -> 4,08
+     links unten y2760..2840 x0..260        3,82 -> 3,94
+     links       y2400..2760 x0..260        7,26 -> 7,26
+     darueber    y2600..2760 x260..1010    17,98 -> 17,54
+     rechts      y2400..2840 x1010..1760    8,17 -> 8,17
+     Ecke links  y2830..2850 x246..300     12,42 -> 12,54
+     ganz oben   y2400..2600 x260..1010     6,53 unveraendert
+
+   Ein erster Anlauf mit einer breiteren Ellipse (950x250 um x350) brachte
+   das Zielband auf 3,02, verschlechterte aber den linken Randstreifen von
+   3,82 auf 12,22. Der Streifen stand nicht in der Schutzliste. Genau
+   dieser Fehler steht in WIDERLEGTE-BEFUNDE 16 und 17; deshalb wurde die
+   Liste ergaenzt und neu gesucht.
+
+   Die Ebene endet oben bei y 2640, dort ist die Deckkraft rechnerisch 0,
+   und unten an der Rahmenoberkante y 2840. Sie liegt mit z-index 0 ueber
+   .lvaf-lower::before (-1) und unter .lvaf-frame und .lvaf-shell (je 1),
+   verdeckt also weder die Karte noch den Text der Sektion darueber.
+
+   Nur ab 1289 px, denn erst dort hat der Rahmen seine volle Breite von
+   1257 px. Die Mitte des Scheins ist deshalb nicht als feste Spalte
+   angegeben, sondern als calc(50% - 330px): das sind fuer jede Breite ab
+   1289 px dieselben 298,5 px rechts der linken Rahmenkante, also genau
+   die Lage, die bei 1760 px eingepasst wurde. Unter 1289 px bleibt alles
+   wie vorher, dort ist nichts vermessen.                             */
+@media (min-width: 1289px) {
+  .lvf-page .lvaf-retainer::before {
+    content: "";
+    position: absolute;
+    top: -159px;
+    left: 0;
+    right: 0;
+    height: 200px;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(600px 290px at calc(50% - 330px) 260px,
+        rgba(48, 180, 245, 0.6500) 0%,
+        rgba(48, 180, 245, 0.5630) 5%,
+        rgba(48, 180, 245, 0.4839) 10%,
+        rgba(48, 180, 245, 0.4124) 15%,
+        rgba(48, 180, 245, 0.3480) 20%,
+        rgba(48, 180, 245, 0.2905) 25%,
+        rgba(48, 180, 245, 0.2394) 30%,
+        rgba(48, 180, 245, 0.1946) 35%,
+        rgba(48, 180, 245, 0.1555) 40%,
+        rgba(48, 180, 245, 0.1219) 45%,
+        rgba(48, 180, 245, 0.0933) 50%,
+        rgba(48, 180, 245, 0.0695) 55%,
+        rgba(48, 180, 245, 0.0500) 60%,
+        rgba(48, 180, 245, 0.0344) 65%,
+        rgba(48, 180, 245, 0.0223) 70%,
+        rgba(48, 180, 245, 0.0134) 75%,
+        rgba(48, 180, 245, 0.0072) 80%,
+        rgba(48, 180, 245, 0.0032) 85%,
+        rgba(48, 180, 245, 0.0010) 90%,
+        rgba(48, 180, 245, 0.0001) 95%,
+        rgba(48, 180, 245, 0.0000) 100%);
+  }
+}
+
+/* Aussenrahmen x 252-1508 / y 2835-3720, 10 px heller Ring,
+   Innenkarte x 262-1498 / y 2845-3710. Untere Ecken deutlich
+   staerker gerundet als die oberen (Bogen vermessen, R ~ 132).      */
+.lvf-page .lvaf-frame {
+  position: relative;
+  z-index: 1;
+  /* 1257 statt 1256: die rechte Rahmenkante lag gemessen bei x 1508,0,
+     in der Referenz bei x 1508,4 (letzte Innenspalte dort 1508, hier
+     1507). Mit der ungeraden Breite liegen die Kanten bei 251,5 und
+     1508,5.                                                        */
+  width: min(1257px, 100% - 32px);
+  margin-inline: auto;
+  padding: 10px;
+  border-radius: 44px 44px 140px 140px;
+  background: rgba(255, 255, 255, 0.05);
+}
+.lvf-page .lvaf-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 34px 34px 130px 130px;
+  background-color: #000306;
+  /* Werte im Karteninneren gemessen: links senkrechter weisser Kern
+     (x 262-300, y 2900-3100), Kuppe oben rechts, dazu ein blaues Band
+     an der Oberkante, das nach 330 px ausgelaufen ist.               */
+  background-image:
+    /* R3-affiliate-B8: Die vier Scheine der Karte sind neu gegen die
+       Referenz eingepasst. Nachbau der CSS-Ebenen in Python (trifft den
+       gerenderten Stand auf unter 1 Einheit), Stuetzpunkte nur auf
+       textfreien Flaechen der Karte (Maske ueber die waagerechte
+       Unruhe beider Bilder, 50 000 Punkte). Optimiert wurde das Mittel
+       ueber 99 Kacheln mit der Nebenbedingung, dass keine Kachel um
+       mehr als 6 schlechter wird. Mittlere Abweichung 18,41 -> 15,87;
+       Kachelraster 50x120 px, keine Kachel mehr als
+       4 schlechter.  520x180 -> 452x175                              */
+    radial-gradient(452px 175px at 100% 2px,
+      rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.965) 9.2%,
+      rgba(255, 255, 255, 0.925) 18.8%, rgba(255, 255, 255, 0.859) 28.5%,
+      rgba(255, 255, 255, 0.769) 38.1%, rgba(255, 255, 255, 0.596) 47.7%,
+      rgba(255, 255, 255, 0.412) 57.3%, rgba(255, 255, 255, 0.263) 66.9%,
+      rgba(255, 255, 255, 0.149) 76.5%, rgba(255, 255, 255, 0.075) 86.2%,
+      rgba(255, 255, 255, 0.027) 95.8%, rgba(255, 255, 255, 0) 100%),
+    /* R3-affiliate-B8: 1250x510 -> 1004x498 */
+    radial-gradient(1004px 498px at 100% 0%,
+      rgb(2, 200, 246) 0%, rgb(2, 190, 240) 12%, rgb(2, 172, 230) 20%,
+      rgb(2, 156, 218) 24%, rgb(2, 140, 204) 28%, rgb(2, 126, 190) 32%,
+      rgb(2, 114, 178) 36%, rgb(2, 104, 164) 40%, rgb(2, 97, 150) 44%,
+      rgba(2, 100, 155, 0.89) 48%, rgba(2, 100, 155, 0.50) 59%,
+      rgba(2, 100, 155, 0.30) 70%, rgba(2, 100, 155, 0.142) 81%,
+      rgba(2, 100, 155, 0) 100%),
+    /* R3-affiliate-B8: 200x820 at -40|110 -> 214x757 at -39|91 */
+    radial-gradient(214px 757px at -39px 91px,
+      rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.965) 15%,
+      rgba(255, 255, 255, 0.941) 25%, rgba(255, 255, 255, 0.867) 35%,
+      rgba(255, 255, 255, 0.710) 45%, rgba(255, 255, 255, 0.412) 55%,
+      rgba(255, 255, 255, 0.204) 65%, rgba(255, 255, 255, 0.090) 75%,
+      rgba(255, 255, 255, 0.024) 85%, rgba(255, 255, 255, 0.008) 95%,
+      rgba(255, 255, 255, 0) 100%),
+    /* R3-affiliate-B8: 760x1830 at -40|110 -> 760x2118 at -40|55 */
+    radial-gradient(760px 2118px at -40px 55px,
+      rgb(2, 190, 255) 0%, rgb(2, 176, 248) 14%, rgb(2, 165, 224) 19.7%,
+      rgb(2, 152, 214) 22.4%, rgb(2, 139, 203) 25%, rgb(2, 127, 191) 27.6%,
+      rgb(2, 106, 165) 32.9%, rgb(1, 88, 136) 38.2%, rgb(3, 72, 113) 43.4%,
+      rgb(3, 58, 91) 48.7%, rgba(3, 110, 170, 0.424) 53.9%,
+      rgba(3, 110, 170, 0.335) 59.2%, rgba(3, 110, 170, 0.235) 69.7%,
+      rgba(3, 110, 170, 0.10) 84%, rgba(3, 110, 170, 0) 100%),
+    linear-gradient(180deg,
+      rgba(2, 92, 142, 0.95) 0px, rgba(3, 66, 102, 0.8) 60px,
+      rgba(2, 22, 34, 0.35) 180px, rgba(0, 0, 0, 0) 330px);
+}
+.lvf-page .lvaf-panel-in {
+  position: relative;
+  z-index: 1;
+  padding: 84px clamp(20px, 3vw, 60px) 51px;
+  text-align: center;
+}
+.lvf-page .lvaf-h2--panel { margin-top: 14px; font-size: clamp(30px, 4.06vw, 71.5px); }
+
+.lvf-page .lvaf-panel-sub {
+  max-width: 780px;
+  margin: 20px auto 0;
+  font-size: clamp(15px, 1.05vw, 18.5px);
+  line-height: 24px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.86);
+  overflow-wrap: break-word;
+}
+
+/* Trennstrich x 710-1053 (344 px) mit 4-px-Punkten an den Enden */
+.lvf-page .lvaf-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(344px, 100%);
+  height: 4px;
+  margin: 48px auto 0;
+}
+.lvf-page .lvaf-rule i {
+  width: 4px;
+  height: 4px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.62);
+}
+.lvf-page .lvaf-rule b {
+  flex: 1 1 auto;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.38);
+}
+
+.lvf-page .lvaf-panel-p {
+  max-width: 920px;
+  margin: 47px auto 0;
+  font-size: clamp(17px, 1.28vw, 22.5px);
+  line-height: 32px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.94);
+  overflow-wrap: break-word;
+}
+
+/* Drei Karten je 320 px, Luecke 12 px, Hoehe 222 px, y 3362 */
+.lvf-page .lvaf-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: min(984px, 100%);
+  margin: 52px auto 0;
+  padding: 0;
+  list-style: none;
+}
+.lvf-page .lvaf-metric {
+  position: relative;
+  min-height: 222px;
+  padding: 48px 26px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  background: #010407;
+  text-align: left;
+}
+.lvf-page .lvaf-metric--light {
+  border-color: rgba(255, 255, 255, 0.4);
+  /* gemessen: unten links #0f8ac8, Mitte #bdeefd, oben rechts #ffffff */
+  background:
+    linear-gradient(55deg, #0d84c4 0%, #7ad4f4 30%, #bdeefd 52%, #eafaff 78%, #ffffff 100%);
+  color: #04131d;
+}
+.lvf-page .lvaf-metric-arrow {
+  position: absolute;
+  top: -5px;
+  left: -28px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #6fd0ff 0%, #17a4f5 100%);
+}
+.lvf-page .lvaf-metric-n {
+  display: block;
+  font-size: 56px;
+  line-height: 1;
+  font-weight: 600;
+  text-align: center;
+  background-image: var(--lvaf-blue);
+}
+.lvf-page .lvaf-metric--light .lvaf-metric-n {
+  background-image: none;
+  -webkit-text-fill-color: #04131d;
+  color: #04131d;
+}
+.lvf-page .lvaf-metric-l {
+  display: block;
+  margin-top: 37px;
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.92);
+  overflow-wrap: break-word;
+}
+.lvf-page .lvaf-metric--light .lvaf-metric-l { font-weight: 600; color: #04131d; }
+
+.lvf-page .lvaf-note {
+  margin: 51px 0 0;
+  font-size: 14px;
+  line-height: 1.35;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.42);
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+/* ================================================== Zwischengroessen */
+
+@media (max-width: 1320px) {
+  .lvf-page .lvaf-step { padding: 60px 18px 22px; min-height: 0; }
+  .lvf-page .lvaf-step-n { font-size: 34px; }
+  .lvf-page .lvaf-step-dot { margin-top: 24px; }
+  .lvf-page .lvaf-step-h { margin-top: 20px; }
+  .lvf-page .lvaf-card-h2 { font-size: 27px; }
+  .lvf-page .lvaf-metric-n { font-size: 42px; }
+  .lvf-page .lvaf-metric-l { font-size: 17px; line-height: 24px; margin-top: 28px; }
+  .lvf-page .lvaf-metric { padding: 34px 20px 24px; min-height: 0; }
+}
+
+@media (max-width: 1060px) {
+  .lvf-page .lvaf-hero { padding-top: 190px; }
+  .lvf-page .lvaf-steps { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .lvf-page .lvaf-step:not(:last-child)::after { display: none; }
+  .lvf-page .lvaf-stats { gap: 22px 46px; }
+}
+
+/* -------------------------------------------------------------------
+   Schmale Viewports: die Scheine sind in px vermessen und wuerden auf
+   dem Handy komplett ueber dem Text liegen. Deshalb ab hier in Prozent
+   und deutlich schwaecher, damit alles lesbar bleibt.
+   ------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .lvf-page .lvaf-hero-bg {
+    background-image:
+      /* Auslaufzone: die untersten 18 % blenden auf den Startton der
+         Folgesektion, sonst schneidet die Sektionskante den Schein
+         auf seinem hellsten Punkt hart ab (gemessen: Stufe 72). */
+      linear-gradient(180deg, rgba(0, 3, 6, 0) 82%, rgb(0, 3, 6) 100%),
+      radial-gradient(130% 46% at 16% 104%,
+        rgba(58, 180, 251, 0.95) 0%, rgba(30, 142, 222, 0.6) 30%,
+        rgba(14, 96, 162, 0.34) 52%, rgba(3, 40, 72, 0.12) 74%, rgba(0, 0, 0, 0) 92%),
+      radial-gradient(90% 26% at 106% 98%,
+        rgba(0, 140, 220, 0.34) 0%, rgba(0, 90, 148, 0.16) 50%, rgba(0, 0, 0, 0) 84%),
+      linear-gradient(180deg, #000102 0%, #01080e 45%, #01111a 100%);
+  }
+
+  .lvf-page .lvaf-part-bg {
+    height: 100%;
+    background-image:
+      /* dasselbe fuer die zweite Sektion: dort lag der Mittelpunkt der
+         Ellipse genau auf der Schnittkante (gemessen: Stufe 108). */
+      linear-gradient(180deg, rgba(0, 7, 12, 0) 78%, rgb(0, 7, 12) 100%),
+      radial-gradient(120% 44% at 0% 100%,
+        rgba(47, 178, 255, 0.9) 0%, rgba(26, 136, 214, 0.55) 30%,
+        rgba(10, 78, 132, 0.3) 52%, rgba(2, 28, 50, 0.1) 76%, rgba(0, 0, 0, 0) 94%),
+      radial-gradient(80% 26% at 106% 96%,
+        rgba(0, 150, 240, 0.42) 0%, rgba(0, 96, 156, 0.2) 45%, rgba(0, 0, 0, 0) 80%),
+      linear-gradient(180deg, #000306 0%, #01131d 42%, #01131d 100%);
+  }
+  .lvf-page .lvaf-part-bg::before { display: none; }
+
+  .lvf-page .lvaf-lower::before {
+    top: 0;
+    height: 100%;
+    background-image:
+      radial-gradient(85% 22% at -12% 64%,
+        rgba(120, 210, 255, 0.85) 0%, rgba(30, 156, 230, 0.5) 28%,
+        rgba(10, 104, 172, 0.28) 48%, rgba(2, 40, 72, 0.1) 72%, rgba(0, 0, 0, 0) 92%),
+      radial-gradient(70% 11% at 108% 6%,
+        rgba(0, 158, 248, 0.55) 0%, rgba(0, 104, 170, 0.26) 45%, rgba(0, 0, 0, 0) 82%);
+  }
+
+  .lvf-page .lvaf-panel {
+    background-image:
+      radial-gradient(60% 16% at 100% 0%,
+        rgba(255, 255, 255, 0.9) 0%, rgba(140, 210, 245, 0.5) 34%, rgba(0, 0, 0, 0) 80%),
+      radial-gradient(70% 30% at -8% 22%,
+        #ffffff 0%, #b8e5fb 18%, #45a9da 42%, rgba(4, 106, 166, 0.6) 62%,
+        rgba(2, 60, 96, 0.25) 82%, rgba(0, 0, 0, 0) 100%),
+      linear-gradient(180deg, rgba(2, 92, 142, 0.8) 0px, rgba(2, 22, 34, 0.3) 130px, rgba(0, 0, 0, 0) 250px);
+  }
+
+  /* Karten auf dem Handy dichter fuellen, sonst frisst der Schein den Text */
+  .lvf-page .lvaf-step { background: rgba(2, 8, 14, 0.72); }
+  .lvf-page .lvaf-table { background: rgba(2, 8, 14, 0.6); }
+}
+
+@media (max-width: 900px) {
+  .lvf-page .lvaf-nb { display: none; }
+  .lvf-page .lvaf-cards { grid-template-columns: repeat(2, 1fr); }
+  .lvf-page .lvaf-card--wide { grid-column: span 2; }
+  .lvf-page .lvaf-metrics { grid-template-columns: 1fr; }
+  .lvf-page .lvaf-metric-arrow { top: -22px; left: 50%; transform: translateX(-50%) rotate(90deg); }
+  .lvf-page .lvaf-metrics .lvaf-metric + .lvaf-metric { margin-top: 14px; }
+  .lvf-page .lvaf-frame { border-radius: 30px 30px 60px 60px; }
+  .lvf-page .lvaf-panel { border-radius: 22px 22px 52px 52px; }
+  .lvf-page .lvaf-panel-in { padding: 54px 20px 40px; }
+  .lvf-page .lvaf-panel-p { line-height: 28px; margin-top: 34px; }
+  .lvf-page .lvaf-panel-p .lvaf-t-blue2 { color: #8fd8ff; }
+  .lvf-page .lvaf-rule { margin-top: 34px; }
+}
+
+@media (max-width: 760px) {
+  .lvf-page .lvaf-hero { padding: 168px 0 56px; }
+  .lvf-page .lvaf-part { padding: 64px 0 48px; }
+  .lvf-page .lvaf-rate { padding: 40px 0 42px; }
+  .lvf-page .lvaf-journey { padding: 42px 0 34px; }
+  .lvf-page .lvaf-retainer { padding: 30px 0 40px; }
+
+  .lvf-page .lvaf-shell { width: calc(100% - 32px); }
+  .lvf-page .lvaf-h1 { font-size: clamp(28px, 8.2vw, 40px); }
+  .lvf-page .lvaf-h2 { font-size: clamp(26px, 7.6vw, 38px); }
+  .lvf-page .lvaf-hero-cta { gap: 10px; }
+  .lvf-page a.lvaf-btn { width: 100%; max-width: 320px; }
+
+  .lvf-page .lvaf-cards { grid-template-columns: 1fr; margin-top: 44px; }
+  .lvf-page .lvaf-card--wide,
+  .lvf-page .lvaf-card--w1 { grid-column: span 1; }
+  .lvf-page .lvaf-card--wide {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 24px 22px;
+  }
+  .lvf-page .lvaf-card-txt { padding-top: 0; }
+  .lvf-page .lvaf-card-h2 { font-size: 24px; }
+
+  .lvf-page .lvaf-steps { grid-template-columns: 1fr; margin-top: 44px; }
+  .lvf-page .lvaf-table { margin-top: 44px; }
+  .lvf-page .lvaf-th { font-size: 15px; padding-inline: 14px; }
+  .lvf-page .lvaf-td { font-size: 14px; padding-left: 18px; padding-right: 14px; }
+  .lvf-page .lvaf-td--val { font-size: 15px; }
+
+  .lvf-page .lvaf-stats { gap: 22px 30px; }
+  .lvf-page .lvaf-stat-val { font-size: 26px; }
+  .lvf-page .lvaf-stat-row { height: 28px; }
+  .lvf-page .lvaf-stat-ico { width: 21px; }
+  .lvf-page .lvaf-stat-lab { font-size: 12px; }
+
+  .lvf-page .lvaf-panel-p { font-size: 16px; line-height: 25px; }
+  .lvf-page .lvaf-metric-n { font-size: 38px; }
+  .lvf-page .lvaf-note { font-size: 12px; margin-top: 34px; }
+}
+
+@media (max-width: 420px) {
+  .lvf-page .lvaf-stats { gap: 18px 22px; }
+  .lvf-page .lvaf-stat { flex: 0 0 calc(50% - 11px); }
+  .lvf-page .lvaf-card-ghost { font-size: 96px; top: -3px; left: -10px; }
+}
+
+/* ############################ FRAGMENT 2 (y 3770 - 7855) ########### */
+
+/* ============================================================
+   Affiliate, Band 2 von 3
+   Referenz: _referenz/affiliate-1760.png, Original y = 3770 bis 7855
+   Alle Masse 1:1 aus dem Referenzbild bei 1760 px Seitenbreite,
+   Farben mit PIL aus dem Bild pipettiert.
+   Praefix: lvaf-  (Namensraeume lvaf-aud-, lvaf-app-, lvaf-fq-,
+   damit nichts mit Band 1 und Band 3 kollidiert)
+
+   Sektionen
+     lvaf-aud   y 3770 - 4442  Built for People Who Move Trading Audiences
+     lvaf-app   y 4442 - 6136  Apply to Join the Affiliate Program
+     lvaf-fq    y 6136 - 7855  Affiliate FAQs
+   ============================================================ */
+
+/* ---------- gemeinsame Bausteine dieses Bandes -------------- */
+/* Inhaltsbreite 1240 px: Karten laufen im Bild von x=261 bis
+   x=1499, mittig auf 1760.                                     */
+.lvf-page .lvaf-aud-in,
+.lvf-page .lvaf-app-in,
+.lvf-page .lvaf-fq-in {
+  position: relative;
+  z-index: 1;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* Pille: 28 px hoch, Fuellung exakt #00121c (bei y=6202 gemessen),
+   kein Rand. Schrift 15 px, reines Weiss.                       */
+.lvf-page .lvaf-aud-badge,
+.lvf-page .lvaf-app-badge,
+.lvf-page .lvaf-fq-badge {
+  display: table;
+  margin: 0 auto;
+  padding: 0 20px;
+  border-radius: 999px;
+  background: #00121c;
+  font-family: var(--lvf-font-display);
+  font-size: 15px;
+  line-height: 28px;
+  font-weight: 500;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+/* Gemessen: Fuellung des Kastens in Sektion 6 ist im Entwurf
+   dunkler und der Text nicht reinweiss (Ist 258 Pixel ueber 240,
+   Soll 7). Die Pillen der Sektionen 7 und 8 stimmen dagegen und
+   bleiben deshalb unveraendert.                                 */
+.lvf-page .lvaf-aud-badge { background: #000b12; color: rgba(255, 255, 255, 0.86); }
+
+/* ============================================================
+   6) WHO WE PARTNER WITH   y 3770 - 4442
+   ============================================================ */
+/* 52 oben (Pille beginnt bei 3822) + Inhalt + 59 unten.        */
+.lvf-page .lvaf-aud {
+  position: relative;
+  overflow: clip;
+  padding: 52px 20px 59px;
+  isolation: isolate;
+}
+
+/* Der grosse Schein am linken Rand besteht aus zwei Ellipsen mit
+   demselben Mittelpunkt im Original (x=-140 / y=3350 bzw.
+   x=-200 / y=3500). Der lange Schweif traegt die Spalte x=0
+   (Werte Zeile fuer Zeile pipettiert), die flache zweite Ellipse
+   die breite Aufhellung neben der Ueberschrift. Der Schein
+   beginnt in Band 1; beide Sektionen setzen ihn mit demselben
+   Mittelpunkt an und schneiden ihn per overflow: clip ab.       */
+/* Nachtrag Endkontrolle 09.08.2026.
+
+   Gemessen wurde die textfreie linke Spalte x 0..250 der Sektionen 6
+   und 7 (y 3790..6148) gegen die Referenz. Der Schweif der alten
+   Ellipse (Halbachsen 700 / 3440) lief viel zu flach aus: mittlere
+   Abweichung im Streifen 25,0 Kanalstufen, am linken Rand bis +63 im
+   Blaukanal (y 5950 Referenz (1,12,19), live (1,50,79)). Zusaetzlich
+   riss der Schein an der Sektionsgrenze y 6149 hart ab, weil
+   overflow: clip ihn dort mit noch 52 Blau abschnitt - eine Stufe von
+   46 in einer Zeile, wo die Referenz durchgehend (2,3,5) zeigt.
+
+   Rueckrechnung Zeile fuer Zeile bei x=0 (Verlauf invertiert, dann
+   nach ry aufgeloest) ergibt ueber 21 Stuetzstellen y 4500..6100
+   einen sehr stabilen Wert von ry = 2810..2930. Ein Gittersuchlauf
+   ueber (rx, ry) hat rx 750 / ry 3000 als bestes Paar bestaetigt.
+   Die Farbstopps sind aus dem gemessenen Referenzprofil ueber t
+   erzeugt (28 Bins, Median), deckend ueber dem Seitengrund #000306.
+   Mittelpunkt (-140 / 3348) bleibt unveraendert.
+
+   Nachher im selben Streifen: mittel 8,3 statt 25,0, Maximum 37
+   statt 69, Naht y 6147 (0,3,6) gegen Referenz (2,3,5).            */
+.lvf-page .lvaf-aud-glow,
+.lvf-page .lvaf-app-glow {
+  position: absolute;
+  left: -890px;
+  width: 1500px;
+  height: 6000px;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(closest-side,
+    rgb(255, 255, 255) 0%,
+    rgb(255, 255, 255) 23.21%,
+    rgb(255, 251, 255) 26.79%,
+    rgb(232, 242, 254) 30.36%,
+    rgb(182, 229, 252) 33.93%,
+    rgb(144, 217, 248) 37.5%,
+    rgb(118, 205, 242) 41.07%,
+    rgb(92, 190, 233) 44.64%,
+    rgb(70, 176, 222) 48.21%,
+    rgb(56, 162, 208) 51.79%,
+    rgb(43, 144, 191) 55.36%,
+    rgb(34, 124, 171) 58.93%,
+    rgb(25, 106, 152) 62.5%,
+    rgb(17, 91, 135) 66.07%,
+    rgb(10, 79, 119) 69.64%,
+    rgb(6, 68, 103) 73.21%,
+    rgb(3, 57, 89) 76.79%,
+    rgb(2, 48, 75) 80.36%,
+    rgb(1, 40, 62) 83.93%,
+    rgb(1, 31, 49) 87.5%,
+    rgb(1, 22, 35) 91.07%,
+    rgb(1, 13, 20) 94.64%,
+    rgb(1, 8, 12) 98.21%,
+    rgba(0, 3, 6, 0) 100%);
+}
+
+/* Ellipsenoberkante liegt im Original bei y=450; mit der kuerzeren
+   Halbachse (3440 -> 3000) rueckt sie um 440 px nach unten, damit der
+   Mittelpunkt an derselben Stelle bleibt.                          */
+.lvf-page .lvaf-aud-glow { top: -3428px; }
+.lvf-page .lvaf-app-glow { top: -4100px; }
+
+/* Letzte 200 px der Sektion 7 ausblenden. Die Referenz ist dort
+   unten links schwarz (y 6100 x 0..60 im Mittel (1.9,3.4,4.9)), die
+   Ellipse traegt rechnerisch aber noch rund 18 Blau. Ohne diese
+   Maske bleibt an der Naht zur FAQ-Sektion eine Restkante.
+   Prozentwerte beziehen sich auf das Element (6000 px hoch, Oberkante
+   bei Seiten-y 348), 88,5 % = y 5658, 96,5 % = y 6138. Sektion 6 wird
+   schon bei 68 % abgeschnitten, dort wirkt die Maske also nicht.
+   Nur Desktop: unter 1101 px steht die Ellipse ohnehin fast ganz
+   links ausserhalb des Bildes.                                     */
+@media (min-width: 1101px) {
+  .lvf-page .lvaf-app-glow {
+    -webkit-mask-image: linear-gradient(180deg,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 1) 88.5%,
+      rgba(0, 0, 0, 0.95) 89.9%,
+      rgba(0, 0, 0, 0.86) 91.2%,
+      rgba(0, 0, 0, 0.72) 92.5%,
+      rgba(0, 0, 0, 0.54) 93.9%,
+      rgba(0, 0, 0, 0.26) 95.2%,
+      rgba(0, 0, 0, 0) 96.5%,
+      rgba(0, 0, 0, 0) 100%);
+            mask-image: linear-gradient(180deg,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 1) 88.5%,
+      rgba(0, 0, 0, 0.95) 89.9%,
+      rgba(0, 0, 0, 0.86) 91.2%,
+      rgba(0, 0, 0, 0.72) 92.5%,
+      rgba(0, 0, 0, 0.54) 93.9%,
+      rgba(0, 0, 0, 0.26) 95.2%,
+      rgba(0, 0, 0, 0) 96.5%,
+      rgba(0, 0, 0, 0) 100%);
+  }
+}
+
+/* Flache Ellipse: Mitte im Original bei y=3500, Halbachsen
+   1000 / 950; sie erlischt vor y=4450.                          */
+.lvf-page .lvaf-aud-glow2,
+.lvf-page .lvaf-app-glow2 {
+  position: absolute;
+  left: -1200px;
+  width: 2000px;
+  height: 1900px;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(closest-side,
+    rgba(230, 247, 255, 0.88) 0%,
+    rgba(210, 242, 255, 0.78) 30%,
+    rgba(160, 222, 255, 0.55) 55%,
+    rgba(70, 190, 252, 0.25) 76%,
+    rgba(0, 162, 255, 0) 100%);
+}
+
+.lvf-page .lvaf-aud-glow2 { top: -1220px; }
+.lvf-page .lvaf-app-glow2 { top: -1892px; }
+
+/* Versalhoehe 3878..3921 = 44 px  ->  62 px Schrift.
+   Zeilenabstand Oberkante zu Oberkante 60 px.                   */
+.lvf-page h2.lvaf-aud-title {
+  margin: 20px 0 0;
+  font-family: var(--lvf-font-display);
+  font-size: 62.5px;
+  line-height: 61px;
+  font-weight: 500;
+  letter-spacing: normal;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+.lvf-page h2.lvaf-aud-title .lvaf-aud-title-b { font-weight: 600; }
+
+.lvf-page h2.lvaf-aud-title .lvaf-aud-title-w,
+.lvf-page h2.lvaf-aud-title .lvaf-aud-title-b {
+  display: block;
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Zeile 1: waagerecht, aussen (224,228,230), Mitte reines Weiss */
+.lvf-page h2.lvaf-aud-title .lvaf-aud-title-w {
+  background-image: linear-gradient(90deg,
+    rgba(255, 255, 255, 0.87) 0%,
+    #ffffff 32%,
+    #ffffff 77%,
+    rgba(255, 255, 255, 0.88) 100%);
+}
+
+/* Zeile 2: senkrecht, an der Versaloberkante (115,215,255),
+   auf der Grundlinie (50,190,255); auf die Zeilenbox gerechnet. */
+.lvf-page h2.lvaf-aud-title .lvaf-aud-title-b {
+  background-image: linear-gradient(180deg, rgb(127, 220, 255) 0%, rgb(37, 185, 255) 100%);
+}
+
+/* Versalhoehe 12 px -> 17 px, Zeilenabstand 24 px, Umbruch nach
+   "engaged" ergibt eine Textbreite von 746 px.                  */
+.lvf-page .lvaf-aud-lead {
+  max-width: 790px;
+  margin: 17px auto 0;
+  font-family: var(--lvf-font-display);
+  font-size: 19.5px;
+  line-height: 24px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.95);
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+/* Raster 4 x 2, Spalte 305 px, Abstand 6 px (waagerecht wie
+   senkrecht gemessen), Kartenhoehe 123 px.                      */
+.lvf-page ul.lvaf-aud-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin: 74px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Fuellung: schwarz mit halber Deckung, dadurch scheint der
+   Schein links durch (gemessen 50 % Durchlass). Rand als
+   Verlauf: oben links rgba(70,175,225,0.20), unten rechts 0.03. */
+.lvf-page li.lvaf-aud-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 123px;
+  margin: 0;
+  padding: 14px 12px;
+  list-style: none;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) padding-box,
+    linear-gradient(135deg,
+      rgba(70, 175, 225, 0.22) 0%,
+      rgba(70, 175, 225, 0.11) 45%,
+      rgba(70, 175, 225, 0.03) 100%) border-box;
+}
+
+/* Versalhoehe 4175..4186 = 12 px -> 17 px, Zeilenabstand 22 px,
+   Hoechstwert der Schrift 226 -> rgba(255,255,255,0.88).        */
+.lvf-page .lvaf-aud-card-t {
+  font-family: var(--lvf-font-display);
+  font-size: 19px;
+  line-height: 22px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.88);
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+/* ============================================================
+   7) APPLY TO JOIN THE AFFILIATE PROGRAM   y 4442 - 6136
+   ============================================================ */
+.lvf-page .lvaf-app {
+  position: relative;
+  overflow: clip;
+  /* unten 60 -> 72: nimmt die 12 px auf, die die Formularkarte oben
+     abgibt. Sektionshoehe und Seitenhoehe bleiben unveraendert.    */
+  padding: 52px 20px 72px;
+  isolation: isolate;
+}
+
+/* Versalhoehe 4550..4604 = 55 px -> 78 px Schrift.              */
+.lvf-page h2.lvaf-app-title {
+  margin: 18px 0 0;
+  font-family: var(--lvf-font-display);
+  font-size: 63px;
+  line-height: 62px;
+  font-weight: 500;
+  letter-spacing: normal;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+.lvf-page h2.lvaf-app-title .lvaf-app-title-b { font-weight: 600; }
+
+.lvf-page h2.lvaf-app-title .lvaf-app-title-w,
+.lvf-page h2.lvaf-app-title .lvaf-app-title-b {
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.lvf-page h2.lvaf-app-title .lvaf-app-title-w {
+  background-image: linear-gradient(90deg,
+    rgba(255, 255, 255, 0.85) 0%,
+    #ffffff 66%,
+    #ffffff 100%);
+}
+
+/* gemessen: (170,238,255) an der Versaloberkante, (24,182,255)
+   auf der Grundlinie, auf 74 px Zeilenbox hochgerechnet.        */
+.lvf-page h2.lvaf-app-title .lvaf-app-title-b {
+  background-image: linear-gradient(180deg, rgb(206, 252, 255) 0%, rgb(0, 167, 255) 100%);
+}
+
+.lvf-page .lvaf-app-lead {
+  max-width: 850px;
+  /* Abstand H2-Unterkante zu Lead-Oberkante: Soll 21 px. Mit 19 px
+     Aussenabstand waren es gemessen 25 px, also 15 px setzen.     */
+  margin: 15px auto 0;
+  font-family: var(--lvf-font-display);
+  font-size: 19.5px;
+  line-height: 24px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.95);
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+/* Formularkarte x 261..1499, y 4742..6076, Radius 24,
+   Innenabstand 42. Fuellung laesst 14 % des Scheins durch.      */
+.lvf-page .lvaf-app-card {
+  /* 12.08.2026: 84 -> 72. Die Karte lag mit y 4754,83 um 12 px unter der
+     Soll-Oberkante y 4742,5. Ausgleich im unteren Innenabstand der
+     Sektion, damit die Seite 9198 px hoch bleibt.                 */
+  margin: 72px 0 0;
+  padding: 42px;
+  border-radius: 24px;
+  background: rgba(0, 0, 0, 0.86);
+}
+
+/* Zeile 88 px hoch (Textfeld 62 px + 13 oben + 13 unten),
+   Abstand 10 px, Flaeche rgba(255,255,255,0.05).                */
+.lvf-page .lvaf-app-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 13px 14px 13px 43px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.lvf-page .lvaf-app-row + .lvaf-app-row { margin-top: 10px; }
+
+/* Grosse Felder: Zeile 169 px, Beschriftung oben ausgerichtet.  */
+.lvf-page .lvaf-app-row-tall { align-items: flex-start; }
+.lvf-page .lvaf-app-row-tall .lvaf-app-lab { padding-top: 21px; }
+
+/* Beschriftung: Spalte 153 px (x 346..499), Versalhoehe 11 px
+   -> 16 px, Zeilenabstand 20 px, Hoechstwert 227.               */
+.lvf-page .lvaf-app-lab {
+  flex: 0 0 148px;
+  max-width: 148px;
+  font-family: var(--lvf-font-display);
+  font-size: 17.8px;
+  line-height: 20px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  overflow-wrap: break-word;
+}
+
+/* Pflichtstern gemessen (212,3,3) */
+.lvf-page .lvaf-app-req { color: #d40303; }
+
+.lvf-page .lvaf-app-ctrl {
+  position: relative;
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Textfeld x 499..1436, Hoehe 62 px, Radius 14.
+   Fuellung waagerechter Verlauf (3,3,3) -> (11,17,22),
+   Rand oben links rgba(70,185,245,0.30), sonst schwaecher.      */
+.lvf-page.lvf-page .lvaf-app-input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 62px;
+  margin: 0;
+  padding: 0 30px 0 36px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  font-family: var(--lvf-font-display);
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 1.05px;
+  color: #ffffff;
+  background:
+    linear-gradient(100deg, #040404 0%, #0b1116 100%) padding-box,
+    linear-gradient(165deg,
+      rgba(0, 50, 80, 0.5) 0%,
+      rgba(0, 35, 57, 0.5) 42%,
+      rgba(7, 21, 29, 0.5) 100%) border-box;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+.lvf-page.lvf-page .lvaf-app-input:focus-visible {
+  outline: 2px solid rgba(140, 213, 255, 0.9);
+  outline-offset: 2px;
+}
+
+/* Platzhalter gemessen (77,77,78) */
+.lvf-page.lvf-page .lvaf-app-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+  opacity: 1;
+}
+
+.lvf-page.lvf-page .lvaf-app-select {
+  padding-right: 60px;
+  color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+}
+
+.lvf-page.lvf-page .lvaf-app-select option { color: #ffffff; background: #050a10; }
+
+/* Dreieck x 1391..1412, y 5117..5129, also 22 x 13,
+   32 px vom rechten Rand des Feldes.
+   Befund 9 vom 11.08.2026: mit right:24px lag das sichtbare Dreieck bei
+   x 1397..1418, also nur 26 px von der Feldkante (x 1444) statt der im
+   Entwurf gemessenen 32 px. Der Kasten ist 24 px breit, das Dreieck darin
+   um 1 px links und 2 px rechts eingerueckt, deshalb 30 px statt 24 px.
+   Der gleichartige Pfeil des FAQ-Formulars sitzt bereits richtig.  */
+.lvf-page .lvaf-app-caret {
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  width: 24px;
+  height: 14px;
+  margin-top: -7px;
+  pointer-events: none;
+}
+
+.lvf-page .lvaf-app-caret svg { display: block; }
+
+/* Grosses Textfeld: Hoehe 143 px, Text oben mit 21 px Abstand.  */
+.lvf-page.lvf-page .lvaf-app-area {
+  height: 143px;
+  padding: 21px 30px 21px 36px;
+  resize: none;
+}
+
+/* Zustimmung: Kaestchen 15 x 15 bei x=345, Schrift sehr matt
+   (Hoechstwert 63 -> rgba(255,255,255,0.26)).                   */
+.lvf-page .lvaf-app-agree {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 40px;
+  margin: 12px 0 0;
+  padding: 0 0 0 42px;
+  cursor: pointer;
+}
+
+.lvf-page.lvf-page .lvaf-app-check {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.lvf-page .lvaf-app-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 15px;
+  height: 15px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: transparent;
+  color: transparent;
+}
+
+.lvf-page.lvf-page .lvaf-app-check:checked + .lvaf-app-box {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.4);
+  color: #05060f;
+}
+
+.lvf-page.lvf-page .lvaf-app-check:focus-visible + .lvaf-app-box {
+  outline: 2px solid rgba(140, 213, 255, 0.9);
+  outline-offset: 2px;
+}
+
+/* Rechtslinks in der Einwilligung. Der Entwurf zeigt den Satz UNVERLINKT;
+   eine Einwilligung, deren Bedingungen nicht erreichbar sind, ist bei einer
+   deutschen UG angreifbar, deshalb hier bewusst abweichend. Geaendert werden
+   nur Farbe und Unterstreichung, keine Schriftmasse: der Umbruch der Zeile
+   und damit die Hoehe der Karte bleiben gleich.                  */
+.lvf-page .lvaf-app-agree-t a {
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.lvf-page .lvaf-app-agree-t a:hover,
+.lvf-page .lvaf-app-agree-t a:focus-visible { color: rgba(255, 255, 255, 0.9); }
+
+.lvf-page .lvaf-app-agree-t {
+  font-family: var(--lvf-font-display);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0.6px;
+  color: rgba(255, 255, 255, 0.26);
+  overflow-wrap: break-word;
+}
+
+/* Schaltflaeche x 303..1457, y 5964..6034 (1155 x 71), Radius 16.
+   Verlauf Zeile fuer Zeile pipettiert: oben (180,236,255),
+   Mitte (78,191,255), 80 % (44,180,255), unten (22,205,255).     */
+.lvf-page button.lvaf-app-submit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  min-height: 71px;
+  margin: 12px 0 0;
+  padding: 7px 7px 7px 54px;
+  border: 0;
+  border-radius: 16px;
+  background-image: linear-gradient(180deg,
+    #b8eeff 0%,
+    #4ebfff 50%,
+    #2cb4ff 80%,
+    #18cfff 100%);
+  cursor: pointer;
+  transition: filter 0.18s ease;
+}
+
+.lvf-page button.lvaf-app-submit:hover { filter: brightness(1.06); }
+
+.lvf-page button.lvaf-app-submit:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+/* Versalhoehe 5991..6008 = 18 px -> 24 px, schwarz.             */
+.lvf-page .lvaf-app-submit-t {
+  font-family: var(--lvf-font-display);
+  font-size: 25.5px;
+  line-height: 30px;
+  font-weight: 600;
+  color: #000000;
+  text-align: left;
+  overflow-wrap: break-word;
+}
+
+/* Dunkles Feld x 1077..1450, y 5971..6027 (374 x 57), Radius 12 */
+.lvf-page .lvaf-app-submit-ico {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 374px;
+  align-self: stretch;
+  min-height: 57px;
+  border-radius: 12px;
+  background: #050505;
+  color: #ffffff;
+}
+
+.lvf-page .lvaf-app-submit-ico svg { display: block; }
+
+/* ============================================================
+   8) AFFILIATE FAQS   y 6136 - 7855
+   ============================================================ */
+/* 51 oben (Pille beginnt bei 6187), unten schliesst der
+   Abschnitt buendig an die letzte Karte (y=7854) an, weil
+   Band 3 dort mit eigenem Innenabstand weitermacht.             */
+.lvf-page .lvaf-fq {
+  position: relative;
+  overflow: clip;
+  padding: 51px 20px 0;
+  isolation: isolate;
+}
+
+/* Seitliche Scheine der FAQ- und der Abschluss-Sektion sind im
+   Entwurf EINE durchlaufende Rampe ueber y=6136..8637. Deshalb
+   tragen beide dasselbe waagerechte Profil (bei y=7854 und y=8300
+   in der Referenz pipettiert und gemittelt); nur die senkrechte
+   Maske unterscheidet sich. Deckung bei x=0, gemessen:
+   y=6136 0,00 | 6300 0,004 | 6600 0,031 | 7000 0,157 | 7400 0,322 |
+   7700 0,392 | 7854 0,427  -> exakt der Startwert der CTA-Sektion.  */
+.lvf-page .lvaf-fq-glow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 700px;
+  z-index: 0;
+  pointer-events: none;
+  background-image: linear-gradient(90deg,
+    rgba(0, 162, 255, 1)     0,
+    rgba(0, 162, 255, 0.855) 20px,
+    rgba(0, 162, 255, 0.727) 40px,
+    rgba(0, 162, 255, 0.610) 60px,
+    rgba(0, 162, 255, 0.505) 80px,
+    rgba(0, 162, 255, 0.423) 100px,
+    rgba(0, 162, 255, 0.333) 120px,
+    rgba(0, 162, 255, 0.260) 140px,
+    rgba(0, 162, 255, 0.199) 160px,
+    rgba(0, 162, 255, 0.169) 180px,
+    rgba(0, 162, 255, 0.136) 200px,
+    rgba(0, 162, 255, 0.099) 240px,
+    rgba(0, 162, 255, 0.078) 280px,
+    rgba(0, 162, 255, 0.060) 320px,
+    rgba(0, 162, 255, 0.040) 380px,
+    rgba(0, 162, 255, 0.026) 440px,
+    rgba(0, 162, 255, 0.014) 520px,
+    rgba(0, 162, 255, 0.006) 600px,
+    rgba(0, 162, 255, 0)     700px);
+  -webkit-mask-image: linear-gradient(180deg,
+    rgba(0, 0, 0, 0)     0%,
+    rgba(0, 0, 0, 0.004) 9.5%,
+    rgba(0, 0, 0, 0.031) 27%,
+    rgba(0, 0, 0, 0.157) 50.3%,
+    rgba(0, 0, 0, 0.322) 73.6%,
+    rgba(0, 0, 0, 0.392) 91%,
+    rgba(0, 0, 0, 0.427) 100%);
+          mask-image: linear-gradient(180deg,
+    rgba(0, 0, 0, 0)     0%,
+    rgba(0, 0, 0, 0.004) 9.5%,
+    rgba(0, 0, 0, 0.031) 27%,
+    rgba(0, 0, 0, 0.157) 50.3%,
+    rgba(0, 0, 0, 0.322) 73.6%,
+    rgba(0, 0, 0, 0.392) 91%,
+    rgba(0, 0, 0, 0.427) 100%);
+}
+
+.lvf-page .lvaf-fq-glow-l { left: 0; }
+.lvf-page .lvaf-fq-glow-r { right: 0; transform: scaleX(-1); }
+
+/* Pille "FAQ'S" ist 102 px breit bei 39 px Text -> 31 px Rand,
+   30 px hoch. (Schreibweise mit Apostroph steht so im Entwurf.) */
+.lvf-page .lvaf-fq-badge {
+  padding: 0 33px;
+  font-size: 15px;
+  line-height: 33px;
+}
+
+/* Versalhoehe 6239..6282 = 44 px -> 62 px Schrift.              */
+.lvf-page h2.lvaf-fq-title {
+  margin: 14px 0 0;
+  font-family: var(--lvf-font-display);
+  font-size: 63px;
+  line-height: 61px;
+  font-weight: 500;
+  letter-spacing: normal;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+.lvf-page h2.lvaf-fq-title .lvaf-fq-title-w,
+.lvf-page h2.lvaf-fq-title .lvaf-fq-title-b {
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.lvf-page h2.lvaf-fq-title .lvaf-fq-title-w {
+  background-image: linear-gradient(90deg,
+    rgba(255, 255, 255, 0.87) 0%,
+    #ffffff 40%,
+    #ffffff 100%);
+}
+
+/* gemessen (166,230,255) oben, (38,180,255) unten, auf die
+   Zeilenbox von 61 px hochgerechnet.                            */
+.lvf-page h2.lvaf-fq-title .lvaf-fq-title-b {
+  background-image: linear-gradient(180deg, rgb(198, 242, 255) 0%, rgb(12, 170, 255) 100%);
+}
+
+.lvf-page .lvaf-fq-lead {
+  margin: 24px auto 0;
+  font-family: var(--lvf-font-display);
+  font-size: 19.5px;
+  line-height: 24px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.97);
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+.lvf-page .lvaf-fq-list { margin-top: 84px; }
+
+/* Karte 116 px hoch (aufgeklappt, einzeilige Antwort),
+   Abstand 12 px, Radius 20. Rand oben links rgba(20,180,255,0.17),
+   nach unten rechts abnehmend. Fuellung fast schwarz mit einem
+   blauen Hauch an der Oberkante (bei x=600 Zeile fuer Zeile
+   pipettiert: 6424 (2,20,30) bis 6530 (0,3,6)).                 */
+.lvf-page .lvaf-fq-item {
+  border: 1px solid transparent;
+  border-radius: 20px;
+  background:
+    linear-gradient(180deg, #00080d 0%, #00080d 10%, #01060a 30%, #000406 50%, #010204 62%, #010204 100%) padding-box,
+    linear-gradient(140deg,
+      rgba(20, 180, 255, 0.20) 0%,
+      rgba(20, 180, 255, 0.08) 45%,
+      rgba(20, 180, 255, 0) 100%) border-box;
+}
+
+.lvf-page .lvaf-fq-item + .lvaf-fq-item { margin-top: 12px; }
+
+.lvf-page h3.lvaf-fq-head { margin: 0; }
+
+.lvf-page button.lvaf-fq-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  margin: 0;
+  padding: 26px 32px 0 33px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  /* Kein Uebergang auf padding-bottom: eine animierte Polsterung zwingt den
+     Browser bei jedem Einzelbild zu einer neuen Layoutberechnung. Der Wert
+     springt jetzt, beide Endzustaende bleiben masslich unveraendert.
+     "none" statt Weglassen, weil sonst der Reset des Themes hello-elementor
+     mit "transition: 0.3s" auf jedem button greift und dann ALLE
+     Eigenschaften animiert. */
+  transition: none;
+}
+
+/* Eingeklappt faellt die Antwort samt ihrem Innenabstand weg,
+   deshalb bekommt der Kopf denselben Abstand nach unten.        */
+.lvf-page .lvaf-fq-item.lvaf-fq-closed .lvaf-fq-btn { padding-bottom: 26px; }
+
+.lvf-page button.lvaf-fq-btn:focus-visible {
+  outline: 2px solid rgba(140, 213, 255, 0.9);
+  outline-offset: -4px;
+  border-radius: 18px;
+}
+
+/* Der Browser gibt <button> von Haus aus white-space: nowrap. Auf dem
+   Handy wurden dadurch drei Fragen abgeschnitten (die laengste 469 px
+   in einem 276 px breiten Kasten). Auf dem Desktop bleiben sie
+   einzeilig, die Regel aendert dort also nichts.                  */
+.lvf-page button.lvaf-fq-btn,
+.lvf-page .lvaf-fq-q { white-space: normal; }
+
+/* Versalhoehe 6459..6470 = 12 px -> 18 px, reines Weiss.        */
+.lvf-page .lvaf-fq-q {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: var(--lvf-font-display);
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 500;
+  color: #ffffff;
+  overflow-wrap: break-word;
+}
+
+/* Knopf x 1437..1467, y 6453..6480 -> 30 x 28, Radius 10.
+   Ring unten rechts bis rgb(14,149,225), oben links deutlich
+   schwaecher; Balken hell.                                      */
+.lvf-page .lvaf-fq-ico {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 30px;
+  height: 28px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background:
+    linear-gradient(#03080d, #03080d) padding-box,
+    linear-gradient(145deg,
+      rgba(25, 70, 95, 0.16) 0%,
+      rgba(20, 115, 175, 0.48) 45%,
+      rgba(12, 178, 255, 1) 100%) border-box;
+  box-shadow: 0 3px 9px rgba(10, 150, 235, 0.3);
+}
+
+.lvf-page .lvaf-fq-ico-bar {
+  display: block;
+  width: 12.5px;
+  height: 2px;
+  border-radius: 2px;
+  background: #7cc7ee;
+}
+
+/* Zweiter Balken bildet aus dem Minus ein Plus, sobald die
+   Antwort eingeklappt ist.                                      */
+.lvf-page .lvaf-fq-ico::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 12.5px;
+  border-radius: 2px;
+  background: #7cc7ee;
+  transform: scaleY(0);
+  transition: transform 0.32s ease;
+}
+
+.lvf-page .lvaf-fq-item.lvaf-fq-closed .lvaf-fq-ico::after { transform: scaleY(1); }
+
+/* Aufklappen ohne Hoehenmessung: Rasterzeile von 1fr auf 0fr.
+   Dauer projektweit einheitlich 0.32s wie in s09 der Startseite und
+   e7-faq auf evaluation.                                         */
+.lvf-page .lvaf-fq-wrap {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.32s ease;
+}
+
+.lvf-page .lvaf-fq-item.lvaf-fq-closed .lvaf-fq-wrap { grid-template-rows: 0fr; }
+
+.lvf-page .lvaf-fq-clip { overflow: hidden; min-height: 0; }
+
+/* Versalhoehe 12 px -> 17 px, Zeilenabstand 26 px,
+   Hoechstwert (140,139,139) -> rgba(255,255,255,0.55).          */
+.lvf-page p.lvaf-fq-a {
+  margin: 0;
+  padding: 20px 33px 15px;
+  font-family: var(--lvf-font-display);
+  font-size: 17px;
+  line-height: 26px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.55);
+  overflow-wrap: break-word;
+}
+
+/* ============================================================
+   Schmalere Bildschirme
+   ============================================================ */
+@media (max-width: 1320px) {
+  .lvf-page .lvaf-app-row { padding-left: 32px; }
+  .lvf-page .lvaf-app-lab { flex-basis: 140px; max-width: 140px; }
+  .lvf-page button.lvaf-app-submit { padding-left: 36px; }
+  .lvf-page .lvaf-app-submit-ico { flex-basis: 280px; }
+}
+
+@media (max-width: 1100px) {
+  .lvf-page .lvaf-aud { padding: 44px 20px 50px; }
+  .lvf-page h2.lvaf-aud-title { font-size: 50px; line-height: 50px; }
+  .lvf-page ul.lvaf-aud-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 54px; }
+  .lvf-page .lvaf-app { padding: 44px 20px 50px; }
+  .lvf-page h2.lvaf-app-title { font-size: 58px; line-height: 58px; }
+  .lvf-page .lvaf-app-card { margin-top: 54px; padding: 30px; }
+  .lvf-page .lvaf-app-submit-ico { flex-basis: 200px; }
+  .lvf-page .lvaf-fq { padding-top: 44px; }
+  .lvf-page h2.lvaf-fq-title { font-size: 50px; line-height: 50px; }
+  .lvf-page .lvaf-fq-list { margin-top: 56px; }
+  .lvf-page .lvaf-fq-glow { width: 300px; }
+  /* Rechte Kante der Ellipse bleibt bei x=0, deshalb mit der neuen
+     Breite (1400 -> 1500) mitgezogen.                              */
+  .lvf-page .lvaf-aud-glow,
+  .lvf-page .lvaf-app-glow { left: -1500px; }
+}
+
+@media (max-width: 780px) {
+  .lvf-page h2.lvaf-aud-title { font-size: 38px; line-height: 40px; }
+  .lvf-page .lvaf-aud-lead { font-size: 16px; line-height: 23px; }
+  .lvf-page li.lvaf-aud-card { min-height: 104px; border-radius: 14px; }
+  .lvf-page .lvaf-aud-card-t { font-size: 16px; line-height: 21px; }
+
+  .lvf-page h2.lvaf-app-title { font-size: 40px; line-height: 42px; }
+  .lvf-page h2.lvaf-app-title .lvaf-app-title-w,
+  .lvf-page h2.lvaf-app-title .lvaf-app-title-b { display: block; }
+  .lvf-page .lvaf-app-lead { font-size: 16px; line-height: 23px; margin-top: 14px; }
+
+  /* Beschriftung ueber das Feld, damit bei 390 px nichts kippt. */
+  .lvf-page .lvaf-app-card { padding: 20px; border-radius: 20px; }
+  .lvf-page .lvaf-app-row,
+  .lvf-page .lvaf-app-row-tall {
+    display: block;
+    padding: 16px;
+    border-radius: 16px;
+  }
+  .lvf-page .lvaf-app-row-tall .lvaf-app-lab { padding-top: 0; }
+  .lvf-page .lvaf-app-lab {
+    display: block;
+    flex-basis: auto;
+    max-width: none;
+    margin-bottom: 10px;
+  }
+  .lvf-page.lvf-page .lvaf-app-input { height: 54px; padding: 0 18px; }
+  .lvf-page.lvf-page .lvaf-app-select { padding-right: 46px; }
+  .lvf-page .lvaf-app-caret { right: 16px; }
+  .lvf-page.lvf-page .lvaf-app-area { height: 128px; padding: 16px 18px; }
+  .lvf-page .lvaf-app-agree { padding-left: 0; }
+
+  .lvf-page button.lvaf-app-submit {
+    min-height: 62px;
+    padding: 6px 6px 6px 22px;
+    gap: 12px;
+  }
+  .lvf-page .lvaf-app-submit-t { font-size: 18px; line-height: 24px; }
+  .lvf-page .lvaf-app-submit-ico { flex-basis: 88px; min-height: 50px; }
+
+  .lvf-page h2.lvaf-fq-title { font-size: 38px; line-height: 40px; }
+  .lvf-page .lvaf-fq-lead { font-size: 16px; line-height: 23px; margin-top: 16px; }
+  .lvf-page .lvaf-fq-list { margin-top: 40px; }
+  .lvf-page button.lvaf-fq-btn { padding: 20px 18px 0; gap: 14px; }
+  .lvf-page .lvaf-fq-q { font-size: 16px; line-height: 24px; }
+  .lvf-page p.lvaf-fq-a { padding: 14px 18px 18px; font-size: 15px; line-height: 24px; }
+  .lvf-page .lvaf-fq-glow { width: 200px; }
+}
+
+@media (max-width: 560px) {
+  .lvf-page .lvaf-aud { padding: 36px 16px 40px; }
+  .lvf-page .lvaf-app { padding: 36px 16px 40px; }
+  .lvf-page .lvaf-fq { padding: 36px 16px 0; }
+  .lvf-page h2.lvaf-aud-title { font-size: 31px; line-height: 34px; }
+  .lvf-page h2.lvaf-app-title { font-size: 31px; line-height: 34px; }
+  .lvf-page h2.lvaf-fq-title { font-size: 31px; line-height: 34px; }
+  .lvf-page ul.lvaf-aud-grid { grid-template-columns: minmax(0, 1fr); }
+  .lvf-page li.lvaf-aud-card { min-height: 84px; }
+  .lvf-page .lvaf-app-card { padding: 14px; }
+  .lvf-page .lvaf-app-submit-t { font-size: 16px; line-height: 22px; }
+  .lvf-page .lvaf-app-submit-ico { flex-basis: 62px; }
+}
+
+/* ############################ FRAGMENT 3 (y 7854 - 8637) ########### */
+
+/* ============================================================
+   Affiliate, Fragment 3 von 3: Abschluss-CTA
+   Referenz: _referenz/affiliate-1760.png, Original y = 7854 bis 8637
+   Alle Masse 1:1 aus dem Referenzbild bei 1760 px Seitenbreite.
+   Praefix: lvaf-
+   ------------------------------------------------------------
+   Schriftgroessen sind aus den gemessenen Versalhoehen abgeleitet
+   (Versalhoehe = 0,70 em, Clash Grotesk). Gemessen wurden:
+   Ueberschrift 45,5 px, Unterzeile 15,5 px, Kennzahl 20,5 px,
+   Kennzahl-Label 8,5 px, Schaltflaechen-Text 10,5 px.
+   ============================================================ */
+
+/* ---------- Sektion ----------------------------------------
+   Die FAQ-Sektion aus Fragment 2 endet buendig an ihrer letzten
+   Karte (y=7854) und hat keinen Unterrand. Der Rahmen der
+   CTA-Karte beginnt bei y=7967, die Footer-Oberkante liegt bei
+   y=8637. Also 113 px oben, 568 px Rahmen, 102 px unten.
+
+   Nachtrag 08.08.2026 (Abnahme Zone2-A2): zwischen CTA-Karte und
+   Footer-Panel sollen 88 px liegen, gemessen waren 240. Davon
+   bringt das Theme 128 px mit (.lvf-s11 { padding: 128px 0 48px }
+   ab 1024 px), die restlichen 112 px kommen von hier.
+
+   Gekuerzt wird ueber einen negativen Aussenabstand, NICHT ueber den
+   Innenabstand: die seitlichen Scheine (.lvaf-cta-glow) haengen an
+   der Sektionshoehe, und in der Referenz leuchten die Rinnen genau in
+   diesem Zwischenraum weiter (y 8560: x0 (2,115,175)). Mit gekuerztem
+   Innenabstand waren sie dort gemessen auf (5,9,19) abgesackt. Die
+   Sektion behaelt also ihre Hoehe, der Footer rueckt darueber.
+   Damit das sichtbar bleibt, muss der Footer-Rahmen durchsichtig
+   sein, siehe die Regel zu .lvf-theme-teil weiter unten.
+   Mehr ist von der Seite aus nicht zu holen, die letzten 50 px
+   liegen im Theme.
+   ----------------------------------------------------------- */
+.lvf-page .lvaf-cta {
+  position: relative;
+  overflow: clip;
+  isolation: isolate;
+  padding: 113px 20px 102px;
+  font-family: var(--lvf-font-display);
+}
+
+/* ---------- Seitliche Scheine -------------------------------
+   Farbton konstant #00a2ff (r 2, g/b = 0,645 gemessen). Dasselbe
+   waagerechte Profil wie in der FAQ-Sektion, damit an der Naht
+   y=7854 kein Breitensprung entsteht. Senkrechte Maske gemessen:
+   y=7854 0,427 | 7900 0,439 | 8000 0,459 | 8100 0,490 |
+   8300 0,557 | 8500 0,651 | 8600 0,710 | 8637 0,733.
+   ----------------------------------------------------------- */
+.lvf-page .lvaf-cta-glow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 700px;
+  z-index: -1;
+  pointer-events: none;
+  background-image: linear-gradient(90deg,
+    rgba(0, 162, 255, 1)     0,
+    rgba(0, 162, 255, 0.855) 20px,
+    rgba(0, 162, 255, 0.727) 40px,
+    rgba(0, 162, 255, 0.610) 60px,
+    rgba(0, 162, 255, 0.505) 80px,
+    rgba(0, 162, 255, 0.423) 100px,
+    rgba(0, 162, 255, 0.333) 120px,
+    rgba(0, 162, 255, 0.260) 140px,
+    rgba(0, 162, 255, 0.199) 160px,
+    rgba(0, 162, 255, 0.169) 180px,
+    rgba(0, 162, 255, 0.136) 200px,
+    rgba(0, 162, 255, 0.099) 240px,
+    rgba(0, 162, 255, 0.078) 280px,
+    rgba(0, 162, 255, 0.060) 320px,
+    rgba(0, 162, 255, 0.040) 380px,
+    rgba(0, 162, 255, 0.026) 440px,
+    rgba(0, 162, 255, 0.014) 520px,
+    rgba(0, 162, 255, 0.006) 600px,
+    rgba(0, 162, 255, 0)     700px);
+  -webkit-mask-image: linear-gradient(180deg,
+    rgba(0, 0, 0, 0.427) 0%,
+    rgba(0, 0, 0, 0.439) 5.9%,
+    rgba(0, 0, 0, 0.459) 18.6%,
+    rgba(0, 0, 0, 0.490) 31.4%,
+    rgba(0, 0, 0, 0.557) 56.9%,
+    rgba(0, 0, 0, 0.651) 82.5%,
+    rgba(0, 0, 0, 0.710) 95.3%,
+    rgba(0, 0, 0, 0.62) 100%);
+          mask-image: linear-gradient(180deg,
+    rgba(0, 0, 0, 0.427) 0%,
+    rgba(0, 0, 0, 0.439) 5.9%,
+    rgba(0, 0, 0, 0.459) 18.6%,
+    rgba(0, 0, 0, 0.490) 31.4%,
+    rgba(0, 0, 0, 0.557) 56.9%,
+    rgba(0, 0, 0, 0.651) 82.5%,
+    rgba(0, 0, 0, 0.710) 95.3%,
+    rgba(0, 0, 0, 0.62) 100%);
+}
+
+/* Naht zum Theme-Footer, Aufloesung des Zielkonflikts U1 gegen Zone2-A1.
+
+   Vorgeschichte: der Footer-Schein (.lvf-s11::before) enthaelt als
+   dritte Ebene einen breiten Wash `radial-gradient(70% 380px at 50% 0%,
+   rgba(0,160,240,0.9) ...)`. Er wird von `overflow: clip` an der
+   Sektionsoberkante hart abgeschnitten und setzte dort mit voller
+   Staerke ein (Stufe 110, Mitte (2,104,158) gegen (0,3,6) darueber).
+   Die erste Korrektur hat ihn von oben eingeblendet (.lvaf-cta::after).
+   Damit war zwar die Naht glatt (U1), der Wash aber blieb und reichte
+   sogar 100 px weiter nach oben - und genau den zeigt die Referenz
+   nicht: zwischen CTA-Karte und Footer-Panel ist sie in der Mitte
+   durchgehend (0,0,0), nur die Randstreifen leuchten.
+
+   Beide Messpunkte zusammen gehen nur, wenn der Wash selbst weg ist.
+   Statt den ganzen Verlaufsstapel des Themes hier zu wiederholen (der
+   waere beim naechsten Theme-Patch veraltet), wird nur die dritte
+   Ebene aus dem Sichtfeld geschoben. Farben und Reihenfolge bleiben
+   damit im Theme. Faellt die Ebene dort weg, ist diese Regel wirkungslos
+   und kann ersatzlos raus.
+
+   Messpunkte danach: Mitte des Zwischenraums (x 960) gegen (0,0,0),
+   Naht CTA -> Footer Stufe unter 1 (Referenz 0,44).                */
+@media (min-width: 901px) {
+  body .lvf-s11::before {
+    background-repeat: no-repeat;
+    background-position:
+      0 0,          /* Schein links oben   */
+      0 0,          /* Schein rechts oben  */
+      0 -6000px,    /* blauer Wash, hier aus dem Bild geschoben */
+      0 0,          /* Rinne links   */
+      0 0,          /* Rinne rechts  */
+      0 0;          /* Boden         */
+  }
+}
+
+.lvf-page .lvaf-cta-glow--l { left: 0; }
+.lvf-page .lvaf-cta-glow--r { right: 0; transform: scaleX(-1); }
+
+/* ---------- Rahmen und Karte --------------------------------
+   Aussenrahmen x 251..1510, y 7967..8534  -> 1260 x 568, Radius 58.
+   Rahmenfarbe (14,22,26) ueber Grund (1,8,14) = rgba(255,255,255,0.05).
+   Innenkarte  x 261..1500, y 7977..8524   -> 1240 x 548, Radius 48.
+   ----------------------------------------------------------- */
+.lvf-page .lvaf-cta-frame {
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 58px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.lvf-page .lvaf-cta-card {
+  position: relative;
+  overflow: clip;
+  border-radius: 48px;
+  /* Ersatzflaeche, falls das Motiv nicht geladen wird, und
+     Trageflaeche unter 900 px, wo das Motiv ausgeblendet ist.
+     Stuetzstellen aus dem Referenzbild gerastert. */
+  background-color: #01060c;
+  background-image:
+    radial-gradient(52% 40% at 0% 92%,   rgba(150, 228, 255, 0.98) 0%, rgba(30, 150, 220, 0.50) 42%, rgba(0, 0, 0, 0) 76%),
+    radial-gradient(52% 40% at 100% 92%, rgba(150, 228, 255, 0.95) 0%, rgba(30, 150, 220, 0.45) 42%, rgba(0, 0, 0, 0) 76%),
+    radial-gradient(34% 58% at 0% 40%,   rgba(30, 140, 215, 0.85) 0%, rgba(8, 70, 115, 0.32) 48%, rgba(0, 0, 0, 0) 80%),
+    radial-gradient(36% 60% at 100% 24%, rgba(70, 185, 248, 0.95) 0%, rgba(12, 95, 150, 0.40) 46%, rgba(0, 0, 0, 0) 80%),
+    linear-gradient(180deg, #01050b 0%, #02141f 62%, #06334c 100%);
+}
+
+/* Motivflaeche: Ausschnitt der Karte aus dem Referenzbild,
+   Text- und Knopfflaechen harmonisch herausgerechnet.          */
+.lvf-page .lvaf-cta-card .lvaf-cta-art {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  border-radius: 48px;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Innenabstaende: Oberkante Karte 7977, Zeilenkasten der ersten
+   Ueberschriftzeile beginnt bei 8065 -> 88 px oben.
+   Unterkante Knoepfe 8432, Unterkante Karte 8524 -> 92 px unten. */
+.lvf-page .lvaf-cta-inner {
+  position: relative;
+  z-index: 1;
+  padding: 88px 48px 92px;
+  text-align: center;
+}
+
+/* ---------- Ueberschrift ------------------------------------
+   Versalhoehe 8071..8116 (45,5 px) -> 65 px Schrift.
+   Grundlinien 8117 und 8182 -> Zeilenabstand exakt 65 px.
+   ----------------------------------------------------------- */
+.lvf-page h2.lvaf-cta-title {
+  margin: 0;
+  font-family: var(--lvf-font-display);
+  font-size: 67.5px;
+  line-height: 65px;
+  font-weight: 500;
+  letter-spacing: normal;
+  overflow-wrap: break-word;
+}
+
+/* fit-content, damit der Textverlauf genau auf der Textbreite
+   liegt und nicht auf der vollen Kartenbreite.                 */
+.lvf-page h2.lvaf-cta-title .lvaf-cta-title-a,
+.lvf-page h2.lvaf-cta-title .lvaf-cta-title-b {
+  display: block;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Kernpixel gemessen: #9ddcfe an der Versaloberkante (10 % der
+   Zeilenbox), #5ac3fe auf der Grundlinie (80 %).               */
+.lvf-page h2.lvaf-cta-title .lvaf-cta-title-a {
+  font-weight: 600;
+  background-image: linear-gradient(180deg, #9ddcfe 10%, #5ac3fe 80%);
+}
+
+/* waagerechter Verlauf ueber die Textbreite: aussen rund #e9e9ea,
+   zwischen 28 % und 56 % reines Weiss, rechts leicht blaustichig. */
+.lvf-page h2.lvaf-cta-title .lvaf-cta-title-b {
+  background-image: linear-gradient(90deg,
+    #e9e9ea 0%,
+    #ffffff 28%,
+    #ffffff 56%,
+    #e5e5e7 84%,
+    #dee1e5 100%);
+}
+
+/* ---------- Unterzeile --------------------------------------
+   Versalhoehe 8226..8241 (15,5 px) -> 22 px. Kernpixel 255/255/255. */
+.lvf-page .lvaf-cta-sub {
+  margin: 23px 0 0;
+  font-family: var(--lvf-font-display);
+  font-size: 23.3px;
+  line-height: 34px;
+  font-weight: 400;
+  letter-spacing: 1.04px;
+  color: #ffffff;
+  overflow-wrap: break-word;
+}
+
+/* ---------- Kennzahlen --------------------------------------
+   Vier Gruppen, Kaesten x 498..591 / 675..806 / 890..1011 /
+   1095..1262, dazwischen jeweils exakt 84 px.                  */
+.lvf-page ul.lvaf-cta-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 22px 84px;
+  margin: 44px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lvf-page ul.lvaf-cta-stats .lvaf-cta-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lvf-page .lvaf-cta-stat-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.lvf-page .lvaf-cta-stat-icon {
+  display: block;
+  flex: 0 0 auto;
+  height: auto;
+}
+
+/* Symbolgroessen gemessen (Tintenbreite):
+   Geschenk 24, Kalender 21, Tresor 22, Kreisdiagramm 23.       */
+.lvf-page .lvaf-cta-stat-icon--gift     { width: 29px; }
+.lvf-page .lvaf-cta-stat-icon--calendar { width: 25px; }
+.lvf-page .lvaf-cta-stat-icon--vault    { width: 26px; }
+.lvf-page .lvaf-cta-stat-icon--retainer { width: 27px; }
+
+/* Versalhoehe 8301..8321 (20,5 px) -> 29 px. Verlauf pipettiert:
+   (140,213,255) an der Versaloberkante, (18,169,255) auf der
+   Grundlinie, also exakt var(--lvf-grad-blue). Die Stopps 16 %
+   und 76 % setzen ihn auf genau diese beiden Hoehen.            */
+.lvf-page .lvaf-cta-stat-value {
+  font-family: var(--lvf-font-display);
+  font-size: 30.5px;
+  line-height: 34px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  background-image: linear-gradient(180deg, #8cd5ff 16%, #12a9ff 76%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Versalhoehe 8331..8339 (8,5 px) -> 12 px. Hellster Kernpixel
+   (219,222,224) auf Grund (1,24,38) = rgba(255,255,255,0.86).   */
+.lvf-page .lvaf-cta-stat-label {
+  margin-top: -2px;
+  font-family: var(--lvf-font-display);
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.86);
+  white-space: nowrap;
+}
+
+/* ---------- Schaltflaechen ----------------------------------
+   Knopf 1: x 678..881 (204 x 46), Knopf 2: x 890..1083 (194 x 46),
+   Abstand 9 px, Radius 12, Oberkante beider bei y=8386.         */
+.lvf-page .lvaf-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  margin-top: 41px;
+}
+
+.lvf-page a.lvaf-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  border-radius: 12px;
+  font-family: var(--lvf-font-display);
+  font-size: 16.8px;
+  line-height: 1.25;
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: filter 0.18s ease;
+}
+
+.lvf-page a.lvaf-cta-btn:hover { filter: brightness(1.07); }
+
+.lvf-page a.lvaf-cta-btn:focus-visible {
+  outline: 2px solid var(--lvf-blue-light);
+  outline-offset: 3px;
+}
+
+/* Verlauf des Hauptknopfs zeilenweise pipettiert: oben
+   (184,240,255), Mitte (81,197,255), unten (26,218,255).
+   Innenabstaende: 5 links (Symbolkasten), 8 Spalt, 14 rechts.   */
+.lvf-page a.lvaf-cta-btn--primary {
+  gap: 8px;
+  padding: 0 14px 0 5px;
+  color: #000000;
+  background-image: linear-gradient(180deg,
+    #c2f3ff 0%,
+    #b8f0ff 2%,
+    #93dfff 13%,
+    #76d3ff 26%,
+    #62c9fe 39%,
+    #51c5ff 52%,
+    #41c0ff 65%,
+    #32c2ff 78%,
+    #21cdff 91%,
+    #17deff 100%);
+}
+
+/* Symbolkasten x 683..718, y 8391..8426 -> 36 x 36, Radius 9. */
+.lvf-page .lvaf-cta-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  background: #07080c;
+  color: #ffffff;
+}
+
+/* R3-affiliate-ABN-2: Der Pfeil im Schluss-CTA war zu klein. Am
+   Schnipsel gemessen (Kasten selbst stimmt, 36 x 36): Referenz
+   10,6 x 10,6 CSS-px, live 8,0 x 8,0. Aus Tinte und Kantenlaenge
+   folgt fuer die Referenz eine Strichstaerke von 1,99 CSS-px,
+   daraus 20 px Kantenlaenge bei stroke-width 1,6.                 */
+.lvf-page .lvaf-cta-btn-icon svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+/* Zweiter Knopf: fast schwarze Flaeche, Blauschein von unten,
+   rechts etwas kraeftiger. Unterste Zeile gemessen (12,152,231). */
+.lvf-page a.lvaf-cta-btn--ghost {
+  justify-content: center;
+  padding: 0 25px;
+  font-weight: 400;
+  color: #ffffff;
+  background-color: #02070c;
+  background-image:
+    linear-gradient(90deg, rgba(1, 6, 10, 0.92) 0%, rgba(1, 6, 10, 0.55) 6%, rgba(1, 6, 10, 0) 15%),
+    radial-gradient(70px 130% at 100% 100%, rgba(20, 168, 255, 0.55) 0%, rgba(20, 168, 255, 0) 100%),
+    linear-gradient(180deg,
+      #02080d 0%,
+      #01151f 18%,
+      #011c2a 40%,
+      #02243a 62%,
+      #0d4966 78%,
+      #1a86c4 90%,
+      #0a9def 100%);
+}
+
+/* ---------- Grosse, aber schmalere Bildschirme --------------- */
+@media (max-width: 1320px) {
+  .lvf-page .lvaf-cta-inner { padding: 76px 40px 80px; }
+  .lvf-page ul.lvaf-cta-stats { gap: 22px 60px; }
+}
+
+@media (max-width: 1100px) {
+  .lvf-page .lvaf-cta { padding: 88px 20px 72px; }
+  .lvf-page .lvaf-cta-frame { border-radius: 44px; padding: 8px; }
+  .lvf-page .lvaf-cta-card,
+  .lvf-page .lvaf-cta-card .lvaf-cta-art { border-radius: 36px; }
+  .lvf-page .lvaf-cta-inner { padding: 62px 32px 66px; }
+  .lvf-page h2.lvaf-cta-title { font-size: 52px; line-height: 54px; }
+  .lvf-page .lvaf-cta-sub { font-size: 19px; line-height: 30px; margin-top: 18px; }
+  .lvf-page ul.lvaf-cta-stats { gap: 24px 44px; margin-top: 34px; }
+  .lvf-page .lvaf-cta-glow { width: 320px; }
+}
+
+/* Unter 900 px traegt der CSS-Verlauf die Karte allein: das
+   Motiv ist 1240 x 548 und wuerde bei schmalen, hohen Karten
+   nur noch seinen dunklen Mittelteil zeigen.                   */
+@media (max-width: 899px) {
+  .lvf-page .lvaf-cta-card .lvaf-cta-art { display: none; }
+  /* schmale, hohe Karte: Scheine flacher ansetzen, damit die
+     Kartenmitte so dunkel bleibt wie in der Referenz. */
+  .lvf-page .lvaf-cta-card {
+    background-image:
+      radial-gradient(62% 22% at 0% 96%,   rgba(150, 228, 255, 0.95) 0%, rgba(30, 150, 220, 0.45) 42%, rgba(0, 0, 0, 0) 78%),
+      radial-gradient(62% 22% at 100% 96%, rgba(150, 228, 255, 0.92) 0%, rgba(30, 150, 220, 0.42) 42%, rgba(0, 0, 0, 0) 78%),
+      radial-gradient(40% 30% at 0% 30%,   rgba(30, 140, 215, 0.75) 0%, rgba(8, 70, 115, 0.26) 48%, rgba(0, 0, 0, 0) 80%),
+      radial-gradient(42% 30% at 100% 16%, rgba(70, 185, 248, 0.85) 0%, rgba(12, 95, 150, 0.32) 46%, rgba(0, 0, 0, 0) 80%),
+      linear-gradient(180deg, #01050b 0%, #020e17 58%, #042135 100%);
+  }
+}
+
+@media (max-width: 780px) {
+  .lvf-page .lvaf-cta { padding: 70px 16px 56px; }
+  .lvf-page .lvaf-cta-inner { padding: 48px 24px 52px; }
+  .lvf-page h2.lvaf-cta-title { font-size: 40px; line-height: 44px; }
+  .lvf-page .lvaf-cta-sub { font-size: 17px; line-height: 27px; }
+  .lvf-page ul.lvaf-cta-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 26px 16px;
+    margin-top: 30px;
+  }
+  .lvf-page .lvaf-cta-stat-value { font-size: 25px; line-height: 30px; }
+  .lvf-page .lvaf-cta-stat-label { white-space: normal; }
+  .lvf-page .lvaf-cta-actions { margin-top: 32px; }
+}
+
+@media (max-width: 560px) {
+  .lvf-page .lvaf-cta { padding: 56px 14px 44px; }
+  .lvf-page .lvaf-cta-frame { border-radius: 30px; padding: 6px; }
+  .lvf-page .lvaf-cta-card { border-radius: 24px; }
+  .lvf-page .lvaf-cta-inner { padding: 36px 18px 40px; }
+  .lvf-page h2.lvaf-cta-title { font-size: 31px; line-height: 35px; }
+  .lvf-page .lvaf-cta-sub { font-size: 15px; line-height: 24px; margin-top: 14px; }
+  .lvf-page .lvaf-cta-stat-value { font-size: 22px; line-height: 26px; }
+  .lvf-page .lvaf-cta-stat-label { font-size: 11px; line-height: 16px; }
+  .lvf-page .lvaf-cta-actions { flex-direction: column; gap: 10px; }
+  .lvf-page a.lvaf-cta-btn { width: 100%; justify-content: center; white-space: normal; }
+  .lvf-page a.lvaf-cta-btn--primary { justify-content: flex-start; }
+  .lvf-page .lvaf-cta-glow { width: 220px; }
+}
+
+/* ################## ZUSAMMENFUEHRUNG: NAEHTE, ANKER, MOBIL ########## */
+
+/* ---- Bewegungsreduktion: die drei gleichlautenden Bloecke der
+   Fragmente sind hier zu einem zusammengefasst.                       */
+@media (prefers-reduced-motion: reduce) {
+  .lvf-page.lvaf-page *,
+  .lvf-page.lvaf-page *::before,
+  .lvf-page.lvaf-page *::after { transition: none !important; animation: none !important; }
+}
+
+/* ---- Sprungziele. Der Kopf liegt fixiert ueber der Seite (Banner +
+   Navigation, zusammen 130 px). Ohne Rand landet das Ziel darunter.
+   Gleiche Werte wie die Theme-Regel fuer die Startseiten-Anker.        */
+.lvf-page #lvaf-rate,
+.lvf-page #lvaf-apply,
+.lvf-page #lvaf-app-title,
+.lvf-page #lvaf-cta-title { scroll-margin-top: 150px; }
+@media (max-width: 767px) {
+  .lvf-page #lvaf-rate,
+  .lvf-page #lvaf-apply,
+  .lvf-page #lvaf-app-title,
+  .lvf-page #lvaf-cta-title { scroll-margin-top: 120px; }
+}
+
+/* ---- Naht 1 (y = 3770): Grundton.
+   Fragment 1 legt bis y=3770 durchgehend eine eigene Grundflaeche
+   (#000102 im Hero, #000306 darunter). Die Sektionen von Fragment 2
+   und 3 haben keine; ohne diese Regel schlaegt dort der Theme-Wert
+   --lvf-bg (#05060f) durch, und an der Naht steht eine sichtbare
+   Farbkante. In der Referenz ist der Grund dort nahezu Schwarz
+   (y=4000 x=1700 -> 0,0,0; y=8600 x=600 -> 0,0,0).                    */
+body { background: #000306; }
+.lvf-page.lvaf-page { background-color: #000306; }
+
+/* ---- Newsletter-Unterzeile im Theme-Footer (Abnahme Zone2-A3).
+   `.lvf-s11-nl-sub { color: #ffffff }` steht im 1024er-Block des
+   Themes. Der Newsletter-Boden ist dort aber hell (Median
+   (102,159,187) in der Referenz), weisser Text darauf ist praktisch
+   unlesbar: der dunkelste Pixel im Textband war (179,210,224), in der
+   Referenz (0,0,0). Bis der Theme-Patch kommt, wird die Farbe hier
+   seitenweise zurechtgerueckt; mobil ist die Zeile bereits dunkel und
+   bleibt unberuehrt.                                                 */
+@media (min-width: 1024px) {
+  body .lvf-s11-nl-sub { color: #061a26; }
+
+  /* ---- Zwischenraum CTA zu Footer kuerzen (Abnahme Zone2-A2).
+     Nur ab 1024 px, denn nur dort bringt das Theme die 128 px
+     `.lvf-s11 { padding: 128px 0 48px }` mit; darunter sind es 40
+     bzw. 32 px, da wuerde ein negativer Aussenabstand den Footer
+     ueber die CTA-Karte ziehen.
+     Der Footer haengt in einem eigenen `.lvf-page.lvf-theme-teil`,
+     das den Theme-Grund #05060f deckend mitbringt. Ohne die zweite
+     Regel wuerde er die seitlichen Rinnen der CTA-Sektion abdecken
+     (gemessen (5,9,19) statt (2,109,168) in der Referenz). Dahinter
+     steht der Body mit #000306, also derselbe Ton wie im Rest der
+     Seite und naeher an der Referenz als (5,6,15).                 */
+  .lvf-page .lvaf-cta { margin-bottom: 0; overflow: clip visible; }
+  body .lvf-page.lvf-theme-teil { background-color: transparent; }
+
+  /* ---- Rinnen durchziehen. Bisher endete der seitliche Schein an der
+     Sektionsunterkante und der Footer setzte mit seinen eigenen, dort
+     noch schwachen Saeulen ein: gemessen bei x8 ein Absturz von
+     (0,97,153) auf (0,13,21). Frueher hat der Wash das ueberdeckt,
+     ohne ihn steht die Kante frei. Die Referenz laeuft an dieser
+     Stelle glatt durch und wird nach unten sogar heller
+     (x8: 8526 (2,105,163) -> 8766 (1,135,202)).
+
+     Der Schein reicht deshalb 130 px unter die Sektion, und die
+     Maske wird in Pixeln statt Prozent gesetzt, damit die oberen
+     Stufen dieselben bleiben wie bisher (die Werte bis 746 px sind
+     unveraendert aus der Referenz pipettiert). Die vier neuen Werte
+     ab 746 px sind aus den Rinnenwerten der Referenz zurueckgerechnet
+     (Deckung = Messwert / (0,93 x 162)). Ab 913 px laeuft die Maske
+     wieder auf null: die Footer-Rinnen sind im Theme durchgehend zu
+     dunkel (bei x8 gemessen 36 gegen 127 in der Referenz), deshalb
+     bliebe an jeder Abbruchkante eine sichtbare Linie. Der lange
+     Auslauf bis 1183 px macht daraus einen weichen Uebergang; die
+     restliche Helligkeit fehlt weiterhin und liegt im Theme.      */
+  .lvf-page .lvaf-cta-glow {
+    bottom: -400px;
+    -webkit-mask-image: linear-gradient(180deg,
+      rgba(0, 0, 0, 0.427) 0px, rgba(0, 0, 0, 0.439) 46px,
+      rgba(0, 0, 0, 0.459) 146px, rgba(0, 0, 0, 0.490) 246px,
+      rgba(0, 0, 0, 0.557) 446px, rgba(0, 0, 0, 0.651) 646px,
+      rgba(0, 0, 0, 0.720) 746px, rgba(0, 0, 0, 0.780) 791px,
+      rgba(0, 0, 0, 0.840) 851px, rgba(0, 0, 0, 0.880) 913px,
+      rgba(0, 0, 0, 0.700) 1000px, rgba(0, 0, 0, 0.430) 1090px,
+      rgba(0, 0, 0, 0) 1183px);
+            mask-image: linear-gradient(180deg,
+      rgba(0, 0, 0, 0.427) 0px, rgba(0, 0, 0, 0.439) 46px,
+      rgba(0, 0, 0, 0.459) 146px, rgba(0, 0, 0, 0.490) 246px,
+      rgba(0, 0, 0, 0.557) 446px, rgba(0, 0, 0, 0.651) 646px,
+      rgba(0, 0, 0, 0.720) 746px, rgba(0, 0, 0, 0.780) 791px,
+      rgba(0, 0, 0, 0.840) 851px, rgba(0, 0, 0, 0.880) 913px,
+      rgba(0, 0, 0, 0.700) 1000px, rgba(0, 0, 0, 0.430) 1090px,
+      rgba(0, 0, 0, 0) 1183px);
+  }
+}
+
+/* Das Werkzeug-Plugin gibt jeder Seite ohne Body-Klasse "lvlup-home-v2"
+   250px padding-top mit (sofort.css). Der Body ist weiss, darum stand
+   live ein 250 px hoher weisser Balken ueber dem Hero, waehrend die
+   Referenz den Glow bei y=0 beginnen laesst und der Kopf darueber
+   schwebt. Diese Seite bringt ihren Abstand selbst mit (214px im Hero),
+   deshalb wird das Polster hier zurueckgenommen - nur fuer den
+   Container, der DIESE Seite enthaelt.                                */
+body:not(.lvlup-home-v2):not(.elementor-editor-active)
+  [data-elementor-type="wp-page"]:has(.lvaf-page) { padding-top: 0; }
+
+/* ---- Naht 1 (y = 3770): grosser Schein links.
+   Beide Baender bauen denselben Schein mit verschiedenen Formeln:
+   Fragment 1 als Radiale in .lvaf-lower::before, Fragment 2 als zwei
+   Ellipsen in .lvaf-aud. Im Rendering bei 1760 px gemessen stand an
+   der Naht eine harte Kante von bis zu 89/255 im Blaukanal
+   (x=400: oberhalb 237, unterhalb 148; x=450: 204 gegen 115).
+
+   Korrekturschicht: .lvaf-aud::after liegt UEBER den Scheinen von
+   Fragment 2 (Pseudo-Element nach den Spans, gleiche Ebene) und
+   unter dem Inhalt (.lvaf-aud-in hat z-index 1). Ihr waagerechter
+   Verlauf ist Spalte fuer Spalte so berechnet, dass Fragment 2 an
+   der Nahtzeile exakt auf den Wert von Fragment 1 gehoben wird
+   (Farbe und Deckung je Stuetzstelle aus dem Rendering abgeleitet).
+   Die senkrechte Maske blendet die Korrektur ueber 320 px aus;
+   danach traegt wieder allein Fragment 2, das dort nachweislich zur
+   Referenz passt (y=4090: gemessen 159/93 gegen Soll 168/97 bei
+   x=300/400). Groesste Steigung der Maske 0,007 pro px, also unter
+   einem Helligkeitswert je Pixel - keine sichtbare Kante.
+
+   Nur ab 901 px: darunter stellt Fragment 1 seine Ebene auf
+   Prozentmasse um, dann passt die in px vermessene Korrektur nicht
+   mehr und wird auch nicht gebraucht (beide Scheine sind dort stark
+   abgeschwaecht).                                                    */
+@media (min-width: 901px) {
+  .lvf-page .lvaf-aud::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 320px;
+    z-index: 0;
+    pointer-events: none;
+    background-image: linear-gradient(90deg,
+      rgba(250, 254, 255, 1)      0px,
+      rgba(248, 253, 255, 1)    100px,
+      rgba(245, 252, 255, 1)    160px,
+      rgba(234, 249, 255, 1)    200px,
+      rgba(224, 245, 255, 1)    240px,
+      rgba(213, 241, 255, 1)    280px,
+      rgba(192, 233, 255, 0.98) 300px,
+      rgba(160, 224, 255, 0.951) 320px,
+      rgba(127, 212, 255, 0.930) 340px,
+      rgba(97, 202, 255, 0.904)  360px,
+      rgba(79, 194, 255, 0.863)  380px,
+      rgba(60, 184, 255, 0.843)  400px,
+      rgba(41, 177, 255, 0.818)  420px,
+      rgba(25, 168, 255, 0.731)  440px,
+      rgba(13, 163, 255, 0.568)  460px,
+      rgba(2, 152, 255, 0.432)   480px,
+      rgba(0, 140, 255, 0.301)   500px,
+      rgba(0, 128, 255, 0.224)   520px,
+      rgba(0, 123, 255, 0.176)   540px,
+      rgba(0, 109, 255, 0.129)   560px,
+      rgba(0, 63, 255, 0.073)    580px,
+      rgba(0, 40, 255, 0)        610px);
+    -webkit-mask-image: linear-gradient(180deg,
+      rgba(0, 0, 0, 1) 0px, rgba(0, 0, 0, 0.72) 40px, rgba(0, 0, 0, 0.42) 100px,
+      rgba(0, 0, 0, 0.20) 180px, rgba(0, 0, 0, 0.07) 260px, rgba(0, 0, 0, 0) 320px);
+            mask-image: linear-gradient(180deg,
+      rgba(0, 0, 0, 1) 0px, rgba(0, 0, 0, 0.72) 40px, rgba(0, 0, 0, 0.42) 100px,
+      rgba(0, 0, 0, 0.20) 180px, rgba(0, 0, 0, 0.07) 260px, rgba(0, 0, 0, 0) 320px);
+  }
+}
+
+/* ---- Naht 1 unter 900 px.
+   Dort stellt Fragment 1 seine Ebene auf Prozentmasse um; ihr Schein
+   erlischt bei 86 % der Hoehe, an der Naht ist er also schon aus
+   (gemessen bei 390 px: Blaukanal 6). Die flache Ellipse aus
+   Fragment 2 startet dagegen sofort mit voller Staerke - gemessen
+   ein Sprung von 6 auf 188 in einer Zeile. Deshalb blendet sie hier
+   ueber 300 px ein. Der Pixelwert bezieht sich auf das ELEMENT:
+   .lvaf-aud-glow2 beginnt 1220 px oberhalb der Sektionsoberkante.
+
+   Die Einblendung nimmt zugleich die Spitze weg, die genau unter
+   der Ueberschrift lag: "Move Trading Audiences" (hellblauer
+   Verlauf) stand auf rgb(111,143,160), also 2,2:1 Kontrast, jetzt
+   auf rund rgb(50,66,80) und damit ueber 6:1.                       */
+@media (max-width: 900px) {
+  .lvf-page .lvaf-aud-glow2 {
+    -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0) 1220px, rgba(0,0,0,1) 1520px);
+            mask-image: linear-gradient(180deg, rgba(0,0,0,0) 1220px, rgba(0,0,0,1) 1520px);
+  }
+}
+
+/* ---- Naht 2 (y = 7854): Breiten der beiden Randscheine auf schmalen
+   Bildschirmen gemeinsam fuehren, sonst springt die Breite genau an
+   der Naht. Ersetzt die einzelnen Angaben aus Fragment 2 und 3.       */
+@media (max-width: 1100px) {
+  .lvf-page .lvaf-fq-glow,
+  .lvf-page .lvaf-cta-glow { width: 480px; }
+}
+@media (max-width: 780px) {
+  .lvf-page .lvaf-fq-glow,
+  .lvf-page .lvaf-cta-glow { width: 340px; }
+}
+@media (max-width: 560px) {
+  .lvf-page .lvaf-fq-glow,
+  .lvf-page .lvaf-cta-glow { width: 260px; }
+}
+
+/* ---- Mobil (Pflicht laut Vertrag): bei 390 px darf nichts
+   abgeschnitten sein und nichts waagerecht scrollen.                  */
+
+/* Nichts darf aus dem Seitenwrapper herauslaufen. */
+.lvf-page.lvaf-page { max-width: 100%; overflow-x: clip; }
+
+@media (max-width: 560px) {
+  /* Tabelle: zwei Spalten bleiben, aber mit weniger Innenabstand,
+     damit "One-Time Evaluation Payments" nicht zerbricht.            */
+  .lvf-page .lvaf-table { margin-top: 34px; }
+  .lvf-page .lvaf-tr { grid-template-columns: 1.55fr 1fr; }
+  .lvf-page .lvaf-th { font-size: 13px; padding: 12px 8px; line-height: 1.25; }
+  .lvf-page .lvaf-td { font-size: 13px; line-height: 1.3; padding: 12px 8px 12px 12px; }
+  .lvf-page .lvaf-td--val { font-size: 14px; padding-inline: 8px; }
+
+  /* Kennzahlen im Hero zweispaltig, damit die Beschriftungen
+     ("Monthly Retainer Path") nicht ueber den Rand laufen.           */
+  .lvf-page .lvaf-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
+  .lvf-page .lvaf-stat { flex: none; min-width: 0; }
+  .lvf-page .lvaf-stat-lab { white-space: normal; text-align: center; }
+  .lvf-page .lvaf-stat-val { font-size: 24px; }
+
+  /* Pillen duerfen umbrechen statt zu ueberlaufen. */
+  .lvf-page .lvaf-pill,
+  .lvf-page .lvaf-aud-badge,
+  .lvf-page .lvaf-app-badge,
+  .lvf-page .lvaf-fq-badge {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+    overflow-wrap: break-word;
+  }
+  .lvf-page .lvaf-pill { height: auto; min-height: 33px; padding-block: 6px; line-height: 1.25; }
+  .lvf-page .lvaf-aud-badge,
+  .lvf-page .lvaf-app-badge,
+  .lvf-page .lvaf-fq-badge { display: block; width: fit-content; padding-block: 4px; line-height: 22px; }
+
+  /* Absendeknopf: Text darf umbrechen, Symbolfeld bleibt quadratisch. */
+  .lvf-page button.lvaf-app-submit { padding-left: 16px; gap: 10px; }
+  .lvf-page .lvaf-app-submit-t { min-width: 0; }
+  .lvf-page .lvaf-app-submit-ico { flex: 0 0 56px; }
+
+  /* Sehr lange Kartentitel und Antworten sicher umbrechen. */
+  /* 10,5 px Fliesstext ist auf dem Telefon zu klein (gemessen: rund
+     8 px Schriftbild). Die Referenz zeigt nur die Desktop-Ansicht.   */
+  .lvf-page .lvaf-card-p { font-size: 12.5px; line-height: 16px; }
+
+  .lvf-page .lvaf-card-h,
+  .lvf-page .lvaf-card-h2,
+  .lvf-page .lvaf-step-h,
+  .lvf-page .lvaf-metric-n,
+  .lvf-page .lvaf-fq-q,
+  .lvf-page p.lvaf-fq-a,
+  .lvf-page .lvaf-cta-stat-label { overflow-wrap: break-word; word-break: normal; }
+}
+
+@media (max-width: 420px) {
+  /* Kennzahlen der Abschluss-Karte: Wert und Beschriftung passen bei
+     390 px nur ohne Zeilensperre. */
+  .lvf-page .lvaf-cta-stat-value { white-space: normal; }
+  .lvf-page ul.lvaf-cta-stats { gap: 22px 10px; }
+
+  /* Grosse Karte: Innenabstaende weiter herunter, Ecken kleiner. */
+  .lvf-page .lvaf-panel-in { padding: 34px 14px 30px; }
+  .lvf-page .lvaf-frame { width: calc(100% - 20px); border-radius: 24px 24px 44px 44px; }
+  .lvf-page .lvaf-panel { border-radius: 18px 18px 38px 38px; }
+
+  /* Schrittkarten und Formularzeilen etwas enger. */
+  .lvf-page .lvaf-step { padding: 44px 16px 20px; }
+  .lvf-page .lvaf-app-row,
+  .lvf-page .lvaf-app-row-tall { padding: 14px; }
+}
+
+@media (min-width: 1024px) {
+  .lvf-page a.lvaf-btn--ghost {
+    background-color: #02070c;
+    background-image:
+      linear-gradient(90deg, rgba(1, 6, 10, 0.92) 0%, rgba(1, 6, 10, 0.55) 6%, rgba(1, 6, 10, 0) 15%),
+      radial-gradient(70px 130% at 100% 100%, rgba(20, 168, 255, 0.55) 0%, rgba(20, 168, 255, 0) 100%),
+      linear-gradient(180deg,
+        #02080d 0%,
+        #01151f 18%,
+        #011c2a 40%,
+        #02243a 62%,
+        #0d4966 78%,
+        #1a86c4 90%,
+        #0a9def 100%);
+  }
+
+  .lvf-page h2.lvaf-aud-title .lvaf-aud-title-w {
+    width: fit-content;
+    margin-inline: auto;
+    background-image: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.76) 0%,
+      #ffffff 32%,
+      #ffffff 77%,
+      rgba(255, 255, 255, 0.76) 100%);
+  }
+}
+
+/* --- Naht CTA -> Fusszeile, die beiden Aussenecken (12.08.2026) ------------
+   BEFUND: an der Sektionskante (live y 8280 bei 1760px) endet der seitliche
+   Schein des CTA in den aeussersten 80px deutlich heller, als die Fusszeile
+   ihn oben wieder aufnimmt. Quer ueber beide Ecken steht dort eine harte
+   waagerechte Linie.
+
+   IST (Median ueber 8 Bildzeilen je Seite, 40px-Spalten, 1760px, Gruen/Blau):
+     Abstand vom Rand    0-40   CTA (107,168) -> Fuss (64,100)   Stufe 23,7
+     Abstand vom Rand   40-80   CTA ( 77,122) -> Fuss (64,101)   Stufe  2,3
+     Abstand vom Rand  80-120   CTA ( 54, 86) -> Fuss (58, 92)   Stufe  5,3
+   SOLL (affiliate-aus-schnipseln.png bei y 8566; der Versatz +286 wurde
+   nicht uebernommen, sondern ueber den Inhalt der Fusszeile selbst gesucht,
+   Kantenkorrelation 0,63 gegen 0,20 fuer den naechstbesten Versatz):
+     Aussenecke links   (2,88,137) -> (2,90,138)   Stufe 1,2
+     Aussenecke rechts  (3,87,137) -> (2,89,138)   Stufe 1,2
+   Der Entwurf hat an dieser Naht also keine Stufe, im Mittel ueber 22
+   Spalten 0,4 gegen 4,3 live.
+
+   WARUM DER CTA UND NICHT DIE FUSSZEILE: die Fusszeile rendert auf allen
+   Seiten gleich, an derselben Stelle gemessen auf faq und affiliate
+   (+8 links/rechts (2,64,100) und (2,64,100), +60 beide (3,81,126), +250
+   beide (1,100,153)). Sie ist damit gesetzt und wird nicht angefasst. Der
+   CTA-Schein wird deshalb in den aeusseren 80px auf den Anschlusswert der
+   Fusszeile heruntergezogen.
+
+   ZURUECKGERECHNETE DECKKRAFT gegen den Seitengrund (1,4,8):
+     Spalte   0-40px  0,43  ->  Blau 168*0,57 + 8*0,43 = 100   (Fuss 100)
+     Spalte  40-80px  0,18  ->  Blau 122*0,82 + 8*0,18 = 101   (Fuss 101)
+     Spalte 80-120px  0,02  ->  praktisch unveraendert         (Fuss  92)
+   Erster Anlauf mit 0,46 am Rand blieb messbar zu hell (Ecke 6,0 statt
+   Entwurf 1,3), weil der Spaltenmedian ueber 40px mittelt und nicht den
+   Randwert nimmt; die Stuetzstellen sind deshalb nachgezogen.
+   Senkrecht wird nach oben ausgeblendet, voll erst ueber die letzten 12px,
+   ab 46px nichts mehr: bei -30px trifft der CTA den Entwurf bereits
+   (live (0,87,138) gegen Entwurf (3,85,134)), dort darf nicht gedaempft
+   werden. Aufbau wie bei .lvaf-cta-glow: waagerechtes Profil im Verlauf,
+   senkrechtes Ausblenden in der Maske.
+
+   Bleibt stehen: rechts innen (x1200 bis 1660) ist die Fusszeile oben um 3
+   bis 9 heller als links an derselben Stelle - ihr rechter Schein ist
+   breiter als ihr linker. Der Entwurf ist dort symmetrisch. Das ist ein
+   Befund der Fusszeile, nicht des CTA, und wird hier nicht ausgeglichen;
+   ein asymmetrischer CTA-Schein waere weiter vom Entwurf weg als jetzt.
+   -------------------------------------------------------------------------- */
+@media (min-width: 1101px) {
+  .lvf-page .lvaf-cta::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    height: 46px;
+    pointer-events: none;
+    background-image:
+      linear-gradient(90deg,
+        rgba(1, 4, 8, 0.52) 0,
+        rgba(1, 4, 8, 0.46) 16px,
+        rgba(1, 4, 8, 0.38) 32px,
+        rgba(1, 4, 8, 0.26) 48px,
+        rgba(1, 4, 8, 0.15) 64px,
+        rgba(1, 4, 8, 0.06) 80px,
+        rgba(1, 4, 8, 0.015) 96px,
+        rgba(1, 4, 8, 0) 112px),
+      linear-gradient(270deg,
+        rgba(1, 4, 8, 0.52) 0,
+        rgba(1, 4, 8, 0.46) 16px,
+        rgba(1, 4, 8, 0.38) 32px,
+        rgba(1, 4, 8, 0.26) 48px,
+        rgba(1, 4, 8, 0.15) 64px,
+        rgba(1, 4, 8, 0.06) 80px,
+        rgba(1, 4, 8, 0.015) 96px,
+        rgba(1, 4, 8, 0) 112px);
+    -webkit-mask-image: linear-gradient(0deg,
+      rgba(0, 0, 0, 1) 0,
+      rgba(0, 0, 0, 1) 12px,
+      rgba(0, 0, 0, 0.55) 26px,
+      rgba(0, 0, 0, 0.2) 36px,
+      rgba(0, 0, 0, 0) 46px);
+            mask-image: linear-gradient(0deg,
+      rgba(0, 0, 0, 1) 0,
+      rgba(0, 0, 0, 1) 12px,
+      rgba(0, 0, 0, 0.55) 26px,
+      rgba(0, 0, 0, 0.2) 36px,
+      rgba(0, 0, 0, 0) 46px);
+  }
+}
+
+/* Befund Muster A, 13.08.2026, referenz-neu/befunde/muster-ad-db-seiten.md
+   .lvaf-app-card hat im Grundregelsatz keinen Rand; die Figma-Referenz
+   (mockups/affiliate page/..., Ausschnitt "Apply to Join") zeigt einen
+   duennen, klar sichtbaren Rand um die ganze Karte.
+   Wert geschaetzt aus dem Bildvergleich, keine Figma-Rohzahl (API bis
+   Sonntag 17:43 gesperrt), vor dem naechsten Figma-Zugriff gegenpruefen. */
+.lvf-page .lvaf-app-card {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+/* .lvaf-metric hat rgba(255,255,255,0.1), das ist auf der fast schwarzen
+   Fuellung #010407 optisch nicht wahrnehmbar. Figma zeigt einen klar
+   erkennbaren Rand. Nur die Farbe wird angehoben, Breite/Stil bleiben
+   unangetastet. Ebenfalls Schaetzung, siehe Kommentar oben.
+   Korrektur, direkt danach gemessen: ".lvaf-metric--light" (dritte, helle
+   Retainer-Karte) setzt an selber Spezifitaet 0-2-0 border-color 0,4; ohne
+   :not() haette diese spaeter stehende Regel sie faelschlich auf 0,22
+   mitgezogen (per getComputedStyle bestaetigt). */
+.lvf-page .lvaf-metric:not(.lvaf-metric--light) {
+  border-color: rgba(255, 255, 255, 0.22);
+}

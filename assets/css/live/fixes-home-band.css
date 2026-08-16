@@ -1,0 +1,69 @@
+/* ==========================================================================
+   fixes-home-band.css
+   Startseite (home), Sektion s02: Zertifikatsband liegt wieder in seinem Kasten.
+
+   BEFUND (Kunde, mit Screenshot):
+   Das Slider-Band mit den Zertifikaten unter dem Hero laeuft ueber den
+   Container hinaus, in dem es liegt. Die Karten sind links und rechts am
+   Bildschirmrand angeschnitten statt im abgerundeten Kasten zu sitzen.
+
+   URSACHE:
+   lvlup-home-v2/assets/lvlup-home.css, Zeile 892, im Block
+   @media (min-width: 1024px):
+
+       .lvf-s02-strip { max-width: none; }
+
+   Diese Zeile hebt die Grundregel aus Zeile 522 ff. auf:
+
+       .lvf-s02-strip { max-width: 1550px; margin-inline: auto; }
+
+   Dadurch wird der Kasten ab 1024px bildschirmbreit, seine Rundung sitzt in
+   den Bildschirmecken und die Karten werden am Rand hart abgeschnitten.
+
+   REFERENZ (_referenz/home-1760.png, vermessen bei 1760px Breite):
+   - Kastenkante links  x = 105   (harte Kante 193 -> 23 in Zeile y = 900)
+                                  = (1760 - 1550) / 2, also 1550px zentriert
+   - Innenabstand       19px      (erste Karte beginnt bei x = 124)
+   - Rundung            30px      (--lvf-s02-strip-r bei 1760px)
+   - Links neben dem Kasten liegt der blaue Schein des Tickers frei
+     (Messwert x = 50: Helligkeit 215). Genau der wird heute vom
+     randlosen Band verdeckt.
+
+   LOESUNG:
+   Die Grundregel wird fuer den Desktop-Bereich wiederhergestellt. Kaans
+   Datei bleibt unangetastet, der Override steht hier im Fix-Plugin.
+
+   SPEZIFITAET:
+   .lvf-s02 .lvf-s02-ticker .lvf-s02-strip[data-lvf-marquee] = (0,4,0)
+   schlaegt .lvf-s02-strip = (0,1,0) aus der 1024er-Media-Query sicher,
+   und zwar unabhaengig davon, in welcher Reihenfolge die Stylesheets
+   geladen werden. Media-Queries erhoehen die Spezifitaet nicht.
+
+   LAUFANIMATION:
+   Bewusst NICHT angefasst werden .lvf-s02-row, .lvf-s02-set,
+   --lvf-s02-card-w und --lvf-s02-card-gap. Die Keyframes
+   lvf-s02-marquee laufen von translateX(0) bis
+   calc(-50% - var(--lvf-s02-card-gap) / 2), beziehen sich also auf die
+   Breite der Reihe und nicht auf die des Kastens. Ein Satz ist
+   10 Karten x 252px + 9 Luecken x 11px = 2619px breit und damit weiterhin
+   deutlich breiter als der Kasten (1550px). Der Uebergang von Satz 2 auf
+   Satz 1 bleibt luecken- und sprungfrei; durch den schmaleren Kasten wird
+   der Vorlauf sogar groesser als vorher.
+   ========================================================================== */
+
+@media (min-width: 1024px) {
+
+  .lvf-s02 .lvf-s02-ticker .lvf-s02-strip[data-lvf-marquee] {
+    /* Set to full width per user request */
+    max-width: none;
+    margin-inline: 0;
+
+    /* Beschnitt bleibt am gerundeten Kasten, damit die Karten innerhalb
+       weich auslaufen und nicht ueber die Ecken stehen. Beide Werte
+       entsprechen der Grundregel und stehen hier nur als Absicherung,
+       falls eine weitere Welle am Beschnitt dreht. */
+    overflow: hidden;
+    border-radius: 0; /* Remove border-radius on the left edge */
+  }
+
+}

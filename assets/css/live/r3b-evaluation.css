@@ -1,0 +1,299 @@
+/* ==========================================================================
+   r3b-evaluation.css — Abnahme Runde 3, Seite /evaluation/ (Post 8049)
+   ==========================================================================
+   Zweite Lage ueber r3-evaluation.css. Laedt alphabetisch NACH
+   "r3-evaluation.css" ("-" < "b"), gewinnt also bei gleicher Spezifitaet.
+   Kaans Dateien (evaluation.css, lvlup-theme.css) und die bestehenden
+   fixes-*.css bleiben unangetastet.
+
+   Grundlage: unabhaengige Abnahme am 10.08.2026 gegen die Schnipsel
+   runde3/referenz/evaluation/{1,2,3,Lvlup Futures - Evaluation Page}.jpg.
+   Alle SOLL-Werte pipettiert (PIL, 3..5 px gemittelt) am Referenz-Komposit
+   (1760 px breit, Faktor 1,4205). Jede Regel nennt Messpunkt und Grund.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   R3B-evaluation-01: Label-Pillen "Rules You Should Know" / "Account
+   Structure" leuchten blau — Regression aus R3-evaluation-12
+   --------------------------------------------------------------------------
+   R3-evaluation-12 hebt den Ghost-Button-Schatten aus evaluation.css auf
+   Spezifitaet 0-2-1 und legt ihn dabei auch auf .lvev-e4-pill und
+   .lvev-e5-pill. Der Schatten enthaelt "inset -1px -2px 10px #52b8f1" und
+   "inset -1px -2px 5px #00a4ff"; die beiden Label-Pillen bekommen dadurch
+   einen hellen cyanfarbenen Saum an der Unterkante.
+   SOLL (Schnipsel): flache dunkle Pille mit feinem Rand.
+     "Rules You Should Know", Fuellung x=800: SOLL (1,12,18) durchgehend,
+     IST bis (26,88,124) an der Unterkante.
+   Fuer die echten Ghost-Buttons (.lvev-e1-btn--ghost, .lvev-e6-btn--primary,
+   .lvev-e3-continue) bleibt R3-evaluation-12 unveraendert in Kraft.
+   -------------------------------------------------------------------------- */
+
+.lvev-e4 a.lvev-e4-pill,
+.lvev-e4 .lvev-e4-pill,
+.lvev-e5 a.lvev-e5-pill,
+.lvev-e5 .lvev-e5-pill {
+  box-shadow:
+    7px 3px 11px rgba(0, 0, 0, .36),
+    2px 2px 7px rgba(0, 0, 0, .1),
+    10px 8px 13px rgba(0, 0, 0, .09);
+}
+
+/* Der Rand der Pille kommt aus einer border-box-Ebene und war nach dem
+   Abschalten des Scheins noch deutlich heller als im Schnipsel. */
+.lvev-e4 a.lvev-e4-pill,
+.lvev-e4 .lvev-e4-pill {
+  background:
+    linear-gradient(#000a10, #000a10) padding-box,
+    linear-gradient(90deg, rgba(52, 176, 248, 0) 0%, rgba(53, 174, 244, .42) 53%, rgba(49, 169, 238, 0) 100%) border-box;
+}
+
+
+/* --------------------------------------------------------------------------
+   R3B-evaluation-02: heller Diagonalstreifen in den flachen Knoepfen
+   --------------------------------------------------------------------------
+   evaluation.css legt bei .lvev-e2-cta (Karten-Knopf "Select") und
+   .lvev-e2-build (Pille "Build Your Plan") eine border-box-Ebene
+   "linear-gradient(100deg|120deg, transparent, #35aef4, transparent)" unter
+   zwei padding-box-Ebenen, von denen die obere nach unten hin transparent
+   wird. Dadurch scheint der blaue Streifen mitten durch die Flaeche.
+   SOLL (Schnipsel) ist die Flaeche flach dunkel:
+     "Select", Spalte x=320: 1753 (2,24,38) .. 1786 (6,28,43);
+        quer bei Buttonmitte x=300..520 durchgehend (6,28,42).
+        IST vorher quer: x=470 (32,130,186) — heller Fleck.
+     "Build Your Plan", Spalte x=800: oben (4,33,51), unten (3,25,39).
+   Fix: padding-box-Ebene deckend machen, damit der Streifen nur noch im
+   0,5 px breiten Rand steht (dort zeigt ihn die Referenz auch).
+   -------------------------------------------------------------------------- */
+
+.lvev-e2 .lvev-e2-cta:not(.lvev-e2-cta--active) {
+  background:
+    linear-gradient(180deg, rgb(2, 24, 38) 0%, rgb(6, 28, 43) 100%) padding-box,
+    linear-gradient(100deg, rgba(52, 176, 248, 0) 30%, rgba(53, 174, 244, .55) 72%, rgba(49, 169, 238, 0) 100%) border-box;
+}
+
+.lvev-e2 a.lvev-e2-build,
+.lvev-e2 .lvev-e2-build {
+  background:
+    linear-gradient(180deg, rgb(4, 33, 51) 0%, rgb(3, 25, 39) 100%) padding-box,
+    linear-gradient(120deg, rgba(52, 176, 248, 0) 0%, rgba(53, 174, 244, .6) 53%, rgba(49, 169, 238, 0) 100%) border-box;
+}
+
+
+/* --------------------------------------------------------------------------
+   R3B-evaluation-03: aktiver blauer Knopf zu dunkel und zu grau
+   --------------------------------------------------------------------------
+   evaluation.css legt ueber --lvev-e2-grad-blue (#8cd5ff -> #12a9ff) noch
+   "linear-gradient(2deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 100%)". 0 % liegt
+   unten, die Fuellung wird also nach unten um 60 % abgedunkelt.
+   Messreihe Spalte x=705 durch den aktiven Umschalter "Lvlup Accounts"
+   (SOLL 1050..1088 / IST 1053..1091):
+     oben   SOLL (184,233,251)  IST (123,196,233)
+     Mitte  SOLL ( 95,202,255)  IST ( 66,144,188)
+     unten  SOLL ( 35,208,254)  IST ( 46,125,164)
+   Gleiche Abweichung am Karten-Knopf "Selected $50K" (Spalte x=640):
+     oben SOLL (171,231,254) / IST (113,190,229),
+     unten SOLL (35,207,254) / IST (40,117,157).
+   Fix: Verlauf direkt nach der Messreihe setzen, Abdunkler und den grossen
+   inneren Schein "inset 0 1px 24px #5bbce8" weglassen.
+   -------------------------------------------------------------------------- */
+
+.lvev-e2 .lvev-e2-tab.is-active,
+.lvev-e2 .lvev-e2-cta.lvev-e2-cta--active {
+  background:
+    linear-gradient(180deg,
+      rgb(190, 236, 252) 0%,
+      rgb(168, 231, 255) 8%,
+      rgb(146, 224, 254) 18%,
+      rgb(124, 214, 254) 29%,
+      rgb(103, 205, 255) 40%,
+      rgb(88, 198, 255) 50%,
+      rgb(74, 194, 254) 61%,
+      rgb(62, 193, 255) 71%,
+      rgb(50, 196, 255) 82%,
+      rgb(37, 202, 255) 92%,
+      rgb(33, 210, 254) 100%) padding-box;
+  box-shadow:
+    0 8px 12px -1px rgba(0, 0, 0, .64),
+    inset 0 2px 3px -1px rgba(255, 255, 255, .3);
+}
+
+
+/* --------------------------------------------------------------------------
+   R3B-evaluation-04: Randlicht in e4/e5 rechts — die Referenz ist dort
+   einseitig, live ist es spiegelsymmetrisch
+   --------------------------------------------------------------------------
+   R3-evaluation-06/07 setzen je Sektion zwei gleiche Radialverlaeufe,
+   einen "at 0px" und einen "at 100%". Die Referenz zeigt in diesem Band
+   aber NUR links Licht; der rechte Rand ist fast schwarz (am Rohschnipsel
+   2.jpg gegengeprueft: y=3600 links (18,82,118), rechts (5,27,41)).
+   Messreihe rechter Rand x=1752, SOLL-y -> IST-y (Versatz interpoliert):
+     3850->3966  SOLL (1, 6, 9)    IST (5,16,29)
+     4300->4424  SOLL (2,14,22)    IST (12,54,79)
+     4600->4729  SOLL (8,36,49)    IST (26,95,135)
+     4900->5034  SOLL (22,76,107)  IST (46,144,192)
+     5200->5322  SOLL (37,143,199) IST (104,205,243)
+     5500->5606  SOLL (99,196,246) IST (156,222,247)
+     5650->5748  SOLL (144,215,253) IST (202,238,250) — ab hier gleicht es sich an
+   Der linke Rand stimmt (Abweichung <= 10) und bleibt unangetastet.
+   Fix: nur die rechte Saeule bekommt eine kuerzere senkrechte Ausdehnung
+   (2600 -> 2050 px), der Lichtkern bleibt an derselben Stelle. Dadurch
+   setzt die Rampe rechts spaeter ein und trifft die Messreihe.
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 1024px) {
+
+.lvev-e4 .lvev-e4-glow--left {
+  background:
+    radial-gradient(300px 2600px at 0px 2563px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%),
+    radial-gradient(300px 2050px at 100% 2563px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%);
+}
+
+.lvev-e5 .lvev-e5-glow--left {
+  background:
+    radial-gradient(300px 2600px at 0px 1246px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%),
+    radial-gradient(300px 2050px at 100% 1246px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%);
+}
+
+/* Das breite Querband traegt oberhalb von y=5000 rechts noch zuviel bei
+   (gemessen nach dem ersten Durchgang: soll-y 5050 SOLL (29,106,150),
+   IST (43,150,200)). Rechte Kopie deshalb ebenfalls flacher. */
+.lvev-e4 .lvev-e4-glow--right {
+  background:
+    radial-gradient(1350px 1400px at 0px 2613px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%),
+    radial-gradient(1350px 1000px at 100% 2613px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%);
+}
+
+.lvev-e5 .lvev-e5-glow--right {
+  background:
+    radial-gradient(1350px 1400px at 0px 1296px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%),
+    radial-gradient(1350px 1000px at 100% 1296px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%);
+}
+
+}  /* Ende min-width 1024px */
+
+
+/* --------------------------------------------------------------------------
+   R3B-evaluation-06: die grossen Ziffern 01..06 in e5 sind flach und zu dunkel
+   --------------------------------------------------------------------------
+   evaluation.css:2464 setzt
+   "linear-gradient(182deg, rgba(140,213,255,.5) 0%, rgba(29,105,150,.28) 43%,
+    rgba(8,38,55,0) 90%)" — also nur senkrecht und mit halber Deckung.
+   Der Schnipsel zeigt einen DIAGONALEN Verlauf: unten links praktisch
+   unsichtbar, oben rechts voll deckend.
+   Hellster Glyphenpunkt (Karte 1, Ziffer "1", Stamm oben):
+     SOLL (141,214,255) / IST (48,93,123).
+   Linker Bogen der "0" (unten links):  SOLL (11,18,24) / IST (42,94,125).
+   Unterer Teil der "1" (unten rechts): SOLL (19,73,106) / IST (7,29,44).
+   Karte 3, Ziffer "3": SOLL (141,217,255) / IST (46,95,126).
+   -------------------------------------------------------------------------- */
+
+.lvev-e5 .lvev-e5-card .lvev-e5-num {
+  background: linear-gradient(45deg,
+    rgba(140, 213, 255, 0) 12%,
+    rgba(140, 213, 255, .06) 30%,
+    rgba(140, 213, 255, .34) 50%,
+    rgba(140, 213, 255, .72) 70%,
+    rgba(140, 213, 255, 1) 88%,
+    rgba(160, 224, 255, 1) 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+}
+
+
+/* --------------------------------------------------------------------------
+   R3B-evaluation-05: Stern im Abzeichen "Most Popular" weiss statt schwarz
+   --------------------------------------------------------------------------
+   evaluation.css setzt color:#000 auf .lvev-e2-pop, der Pfad im SVG traegt
+   aber eine eigene helle Fuellung. SOLL: schwarzer Stern auf hellblauer
+   Pille (Zoom z-e2-pop), IST: weisser Stern.
+   -------------------------------------------------------------------------- */
+
+.lvev-e2 .lvev-e2-pop .lvev-e2-pop-ico,
+.lvev-e2 .lvev-e2-pop .lvev-e2-pop-ico path,
+.lvev-e2 .lvev-e2-pop .lvev-e2-pop-ico polygon {
+  fill: #000000;
+}
+
+
+/* --------------------------------------------------------------------------
+   R3B-evaluation-07: Randlicht in e7/e8 rechts — die Referenz ist dort
+   staerker als links, live ist es spiegelsymmetrisch
+   --------------------------------------------------------------------------
+   Gegenstueck zu R3B-04: waehrend das Licht in e4/e5 nur links steht, ist es
+   im FAQ-Band und am Fuss rechts DEUTLICH heller als links. R3-evaluation-09
+   setzt beide Seiten gleich, also mit den (dunkleren) linken Werten.
+   Messreihe rechter Rand x=1752, SOLL-y -> IST-y:
+     7150->7336  SOLL (202,235,255)  IST (100,213,244)
+     7300->7496  SOLL (164,222,253)  IST ( 59,176,219)
+     7600->7814  SOLL ( 86,185,233)  IST ( 35,113,157)
+     7900->8132  SOLL ( 37,126,174)  IST ( 16, 67, 98)
+     8200->8450  SOLL ( 16, 79,116)  IST (  6, 27, 45)
+     8350->8609  SOLL (  9, 72,109)  IST (  5, 35, 56)
+   Der linke Rand stimmt im selben Band (Abweichung <= 25) und bleibt so.
+   Fix: nur die rechten Kopien bekommen eine groessere senkrechte Ausdehnung,
+   der Lichtkern bleibt an derselben Stelle (Saeule 2600 -> 3400 in e7 bzw.
+   2600 -> 3100 in e8, Querband 1400 -> 2000 in e7).
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 1024px) {
+
+.lvev-e7 .lvev-e7-bg {
+  background:
+    radial-gradient(300px 2600px at 0px -925px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%),
+    radial-gradient(300px 3400px at 100% -925px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%);
+}
+
+.lvev-e7 .lvev-e7-bg::before {
+  background:
+    radial-gradient(1350px 1400px at 0px -875px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%),
+    radial-gradient(1350px 2000px at 100% -875px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%);
+}
+
+.lvev-e8 .lvev-e8-bg {
+  background:
+    radial-gradient(300px 2600px at 0px -2164px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%),
+    radial-gradient(300px 3100px at 100% -2164px, rgba(254,254,255,1) 0%,rgba(250,253,255,1) 8%,rgba(216,240,254,1) 15%,rgba(161,220,253,1) 23%,rgba(128,204,244,1) 31%,rgba(80,178,226,1) 38%,rgba(50,150,201,.97) 46%,rgba(38,128,178,.94) 54%,rgba(26,100,142,.88) 62%,rgba(18,78,112,.78) 69%,rgba(10,62,92,.62) 77%,rgba(5,46,70,.36) 86%,rgba(2,30,48,0) 100%);
+}
+
+}  /* Ende min-width 1024px */
+
+
+/* --------------------------------------------------------------------------
+   R3B-evaluation-08: ZURUECKGENOMMEN — Hero-Bogen
+   --------------------------------------------------------------------------
+   Versuch: die beiden mittleren Farbstopps der Bodenflaeche (Ebene 1/2 in
+   R3-evaluation-02) anheben, damit der Bogen am Seitenrand frueher weiss
+   wird (SOLL x=7 y=550 (226,243,253), IST (133,195,222)).
+   Ergebnis der Gegenprobe: der Rand kam auf (164,209,234), also 62 statt 93
+   Stufen daneben — dafuer wurde die Bandmitte deutlich zu hell:
+     x=600  y=660  SOLL (38,139,187)  vorher (99,171,206)  danach (141,194,223)
+     x=1160 y=660  SOLL (15,130,185)  vorher (98,170,205)  danach (141,193,223)
+   Also 30 Stufen besser am Rand gegen 40 Stufen schlechter auf der groesseren
+   Flaeche in der Mitte. Regel wieder entfernt, Stand ist der von
+   R3-evaluation-02. Der Restbefund steht in ABNAHME.md als offener Punkt:
+   das Band y=480..600 ist an beiden Raendern rund 90 Stufen zu dunkel; sauber
+   loesbar nur, wenn Ebene 1/2 und 3/4 gemeinsam neu aufgebaut werden.
+   -------------------------------------------------------------------------- */
+
+
+/* --------------------------------------------------------------------------
+   R3B-evaluation-09: Preisbox in den e2-Karten zu blau (befunde.md D4)
+   --------------------------------------------------------------------------
+   evaluation.css:888 legt ueber die Box eine flaechige Ebene
+   "linear-gradient(rgba(0,162,255,.12), rgba(0,162,255,.12))" und darunter
+   "linear-gradient(0deg, rgba(0,24,38,0), #001826)". Die Box wird dadurch
+   durchgehend blau; im Schnipsel ist sie praktisch schwarz.
+   Messreihe Karte 1 (SOLL y 1245.. / IST y 1259..), Spalte x=310:
+     +6   SOLL (5, 8,12)  IST (0,40,64)
+     +54  SOLL (2, 7,10)  IST (0,33,53)
+     +102 SOLL (2, 3, 5)  IST (0,27,42)
+     +134 SOLL (3, 4, 6)  IST (0,23,35)
+   Spalte x=500 gleiches Bild (SOLL (1,7,11) gegen IST (1,25,41)).
+   -------------------------------------------------------------------------- */
+
+.lvev-e2 .lvev-e2-card .lvev-e2-plan {
+  background:
+    linear-gradient(0deg, rgba(0, 10, 16, 0) 0%, rgba(0, 10, 16, 1) 100%),
+    linear-gradient(221deg, rgba(0, 0, 0, .34) 0%, #000000 100%);
+}

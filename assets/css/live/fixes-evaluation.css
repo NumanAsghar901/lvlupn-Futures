@@ -1,0 +1,143 @@
+/* ==========================================================================
+   fixes-evaluation.css  --  Sicht-Fixes fuer /evaluation/ (Seite 8049)
+   --------------------------------------------------------------------------
+   Nur Overrides. Kaans Dateien (lvlup-theme.css, evaluation.css, Plugin
+   lvlup-home-v2, Vorlagen 4611/67) bleiben unangetastet.
+
+   Diese Datei wird vom Plugin lvlup-fixes mit Prioritaet 1200 geladen, also
+   nach lvlup-theme (998) und nach evaluation.css. Bei gleicher Spezifitaet
+   gewinnt sie dadurch bereits; wo der Reset des Theme auf 0-2-1 steht, wird
+   die Spezifitaet zusaetzlich angehoben.
+
+   Auftrag vom 09.08.2026 (Kundenscreenshot + Referenz
+   neue-seiten/_referenz/evaluation-1760.png). Herkunft der Befunde:
+   neue-seiten/gegencheck/patches/evaluation/patch-evaluation-css.md
+   (EV-18, EV-19, EV-20) und patch-theme.md (T-01).
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   1) Schwarzes Rechteck hinter "Choose Your Evaluation"
+   --------------------------------------------------------------------------
+   Ursache, am Live-Bild 1760 px nachgemessen (nicht geschaetzt):
+   Die beiden Glas-Panels .lvev-e1-panel--l/--r sind harte Rechtecke
+   (evaluation.css: top 128px, height 864px, width 46%, left/right -22%).
+   Ihre Innenkanten liegen bei x=422 und x=1338, ihre Unterkante bei y=992.
+   Ihr Verlauf (15deg) ist am UNTEREN Ende am hellsten, genau dort wird er
+   abgeschnitten. Dadurch stehen links und rechts zwei aufgehellte Flaechen
+   neben einem dunklen Streifen -- der Kunde sieht das als schwarzes Rechteck
+   hinter der Ueberschrift.
+   Messung vorher (Summe der RGB-Differenz ueber die Kante x=422):
+   y=780 -> 10, y=860 -> 19, y=940 -> 24, y=980 -> 27; Unterkante y=992 -> 11
+   Stufen an x=100. Die Referenz hat an derselben Stelle rgb(0,0,0) ohne jede
+   Kante.
+
+   Fix: Die Panels werden nach unten weich ausgeblendet, bevor sie das dunkle
+   Band erreichen. Voll deckend bis 43 % (y=500), ab 66 % (y=698) restlos
+   transparent. Oben, im hellen Lichtband des Hero, bleibt Kaans Glaseffekt
+   erhalten -- dort war die Kante schon vorher unsichtbar (Stufe 0 bis 4).
+   Es wird nichts entfernt, nur ausgeblendet. */
+
+.lvev-e1 .lvev-e1-panel {
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 43%, rgba(0, 0, 0, 0) 66%);
+          mask-image: linear-gradient(180deg, #000 0%, #000 43%, rgba(0, 0, 0, 0) 66%);
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+          mask-size: 100% 100%;
+}
+
+
+/* --------------------------------------------------------------------------
+   2a) Wortmarke "DX FUTURETECH" unten abgeschnitten   (Befund EV-18)
+   --------------------------------------------------------------------------
+   Quelldatei lvlup-9e83bcda12.webp, 1677 x 1228, RGBA. Am Original geprueft:
+   Symbol in Zeilen 0..907, Leerraum 908..1008, Wortmarke 1009..1227.
+   Kaans Fenster steht auf height 21px / background-position 0 94%; bei
+   background-size 164px betraegt das skalierte Bild 164 x 120,09, das Fenster
+   liegt damit auf Quellzeilen 952..1167 und schneidet die Wortmarke unten um
+   60 von 219 Zeilen ab = 27,4 %.
+
+   Fix: Fenster auf die Unterkante setzen (0 100%) und um eine Zeile erhoehen.
+   Neu sichtbar: Quellzeilen 1003..1228, die Wortmarke 1009..1227 liegt
+   vollstaendig darin. Breite und background-size bleiben unveraendert, die
+   Zeile wandert dadurch nicht.
+   Soll laut Referenz: Tinte 164 x 21 px. */
+
+.lvev-e3 .lvev-e3-dx-word {
+  height: 18px;                    /* Basis (background-size 128px): Fenster 992..1228 */
+  background-position: 0 100%;
+}
+
+@media (min-width: 1024px) {
+  .lvev-e3 .lvev-e3-dx-word {
+    height: 22px;                  /* background-size 164px: Fenster 1003..1228 */
+    background-position: 0 100%;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   2b) Volumetrica-Kerzensymbol allseitig abgeschnitten   (Befund EV-19)
+   --------------------------------------------------------------------------
+   Quelldatei lvlup-5b26379619.webp, 512 x 512, RGBA. Am Original geprueft:
+   Tinte in Zeilen 109..402, Spalten 105..406.
+   Kaans Kachel ist 34 x 26 px bei background-size 63px / position 50% 40%.
+   Sichtbar sind davon Quellspalten 118..394 und Quellzeilen 120..332 -- die
+   Tinte fuellt die Kachel randlos aus, unten fehlen 71 von 294 Zeilen = 24,1 %.
+   Gemessen im Live-Bild: Tinte exakt 34 x 26 px, also an allen vier Kanten
+   beschnitten. Referenz an derselben Stelle: 43 x 42 px, unbeschnitten.
+
+   Fix: Kachel auf 45 x 44 px, Bild auf 73px, Fenster mittig. Sichtbar sind
+   dann Quellspalten 101..410 und Quellzeilen 105..407, die Tinte liegt mit
+   rund 1 px Luft ringsum vollstaendig darin und misst 43 x 42 px -- der Wert
+   der Referenz. Die Kachel bleibt kleiner als der Innenraum der Zeile
+   (.lvev-e3-opt: 64 - 20 = 44 px, ab 768px 76 - 24 = 52 px), die Zeilenhoehe
+   aendert sich also nicht. Deckkraft und Farbe bleiben wie von Kaan gesetzt. */
+
+.lvev-e3 .lvev-e3-vol {
+  width: 45px;
+  height: 44px;
+  background-size: 73px auto;
+  background-position: 50% 50%;
+}
+
+
+/* --------------------------------------------------------------------------
+   3) Knopf "Apply Code" ist kein Knopf mehr   (Befunde EV-20 / T-01)
+   --------------------------------------------------------------------------
+   Ursache: der Shell-Reset in lvlup-theme.css steht mit
+   ".lvf-page.lvf-page button" auf 0-2-1 und schlaegt damit Kaans eigene Regel
+   ".lvev-e3-offer-btn" (0-1-0). Verloren gehen Hintergrund, Radius,
+   Schriftgroesse, Schriftschnitt, Laufweite und Textfarbe.
+   Messung vorher: Fuellung in der Knopfmitte rgb(21,25,36) (also die dunkle
+   Karte dahinter), Ecken rechtwinklig, Textkasten 77 x 14 px (16 px Schrift).
+   Referenz: blauer Verlauf, Radius 10 an allen vier Ecken, Textkasten
+   93 x 16 px (19 px Schrift, Schnitt 555).
+
+   Fix: Kaans eigene Deklarationen werden unveraendert wieder in Kraft gesetzt,
+   nur mit hoeherer Spezifitaet (0-3-1 schlaegt 0-2-1). Es wird nichts neu
+   erfunden -- die Werte stammen aus evaluation.css, dieselben, die auch
+   .lvev-e3-continue benutzt. Ausnahme: der Radius bleibt an allen vier Ecken
+   bei 10px (Kaans Regel ab 768px setzt "0 10px 10px 0"); die Referenz zeigt
+   den Knopf rundum abgerundet, nicht an das Eingabefeld angesetzt. */
+
+.lvf-page .lvev-e3 button.lvev-e3-offer-btn {
+  border-radius: 10px;
+  background-image: var(--lvf-grad-btn);
+  box-shadow: inset 0 1px 18px #5bbce8;
+  font-family: var(--lvf-font-display);
+  font-size: 17px;
+  line-height: 26px;
+  font-weight: 555;
+  letter-spacing: -0.02em;
+  color: #060606;
+}
+
+@media (min-width: 1024px) {
+  .lvf-page .lvev-e3 button.lvev-e3-offer-btn {
+    font-size: 19px;
+    line-height: 28px;
+    letter-spacing: -0.37px;
+  }
+}

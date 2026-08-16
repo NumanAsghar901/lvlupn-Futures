@@ -1,0 +1,654 @@
+/* ==========================================================================
+   r3-home.css  -  Runde 3, Startseite "/" (Post 7895)
+
+   Zweck: die Live-Seite an die neuen Referenz-Schnipsel angleichen
+   (runde3/referenz/home-desktop/ 1.jpg -> 2.jpg -> 3.jpg -> "Lvlup Futures -
+   Homepage - Desktop View.jpg", zusammengesetzt als
+   runde3/home/shots/home-ref-1760.png; Mobil: runde3/referenz/home-mobile/,
+   Frame 440).
+
+   REGELN, DIE HIER GELTEN
+   - Kaans Dateien (lvlup-theme.css, lvlup-home.css, Plugin lvlup-home-v2)
+     werden NICHT editiert. Nur Overrides in dieser Datei.
+   - Die bestehenden fixes-*.css bleiben unangetastet. Diese Datei wird vom
+     Plugin lvlup-fixes alphabetisch NACH fixes-home*.css geladen, der
+     Kartenlogo-, Pfeil- und Band-im-Kasten-Fix von gestern bleibt also gueltig
+     und wird hier auch an keiner Stelle zurueckgenommen.
+   - Jede Regel nennt den Befund und die gemessenen Vorher-/Sollwerte.
+     Vollstaendige Messreihen: runde3/home/befunde.md
+
+   ANSATZPUNKTE
+   Zusatzflaechen haengen bewusst an Kaans bereits vorhandenen, sichtbar
+   funktionierenden Glow-Ebenen (.lvf-s02-glow, .lvf-s05-glow, .lvf-s06-glow,
+   body.page-id-7895 .lvf-s09-bg) statt an den Sektionen selbst. Grund: `.lvf-s06::before` mit
+   z-index:-1 kommt live nachweislich nicht an (gemessen bei y 4490 / x 5:
+   Blaukanal 15 statt der rechnerisch erwarteten 115) - eine Ebene mit
+   z-index:-1 verschwindet hinter dem Hintergrund des Elementor-Containers.
+   Die Glow-Ebenen liegen dagegen auf z-index 0 und funktionieren.
+
+   SEITENBINDUNG
+   Jeder Selektor beginnt mit `body.page-id-7895`. Grund: die Klassen
+   `.lvf-s10-*` (CTA-Karte) stehen nicht nur auf der Startseite, sondern auch
+   auf /rules/ (Post 8048) - dort per curl nachgesehen. Ohne die Bindung wuerde
+   diese Datei auf einer fremden Seite mitwirken, an der gerade parallel
+   gearbeitet wird. `.lvf-s02`, `.lvf-s06` und `.lvf-s09` kommen nur auf der
+   Startseite vor, bekommen die Bindung aber aus demselben Grund mit.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   R3-home-01: Zertifikatsband (s02) - seitenbreiter Umgebungsschein
+
+   BEFUND (befunde.md G-01):
+   In der Referenz liegt unter dem Band ein Schein, der ueber die volle
+   Seitenbreite laeuft und an den Bildschirmraendern am HELLSTEN ist.
+   Blaukanal auf Hoehe y 1030 (unmittelbar unter dem Kasten):
+
+     x       5    220    550    880   1210   1540   1755
+     SOLL  182    128    105      -    111    129    166
+     IST    21     55     88     98     88     54     20
+
+   Der Ist-Verlauf ist also genau spiegelverkehrt: mittenbetont statt
+   randbetont. Ursache ist der einzige vorhandene Schein
+   (lvlup-home.css Z. 490, `.lvf-s02-ticker::before`,
+   radial-gradient(50% 44% at 50% 34%) + blur(34px)) - er sitzt in der Mitte
+   und ist am Rand rechnerisch bei 0.
+   Senkrecht (Referenz, x = 50): y 900 = 193,218,231 (fast weiss),
+   y 1000 = 15,145,195, y 1100 = 4,73,114, y 1200 = 4,35,54, y 1340 = 3,10,14.
+
+   LOESUNG
+   Zweite Ebene als `::after` desselben Elements. Kaans `::before` bleibt
+   unveraendert, der Kasten-Fix aus fixes-home-band.css ebenfalls (der
+   betrifft `.lvf-s02-strip`, nicht den Schein).
+   Aufbau: waagerechte Form ueber zwei linear-gradients (links/rechts),
+   senkrechter Abfall ueber die Maske. Maske statt eines Radials, weil sich
+   Form und Abfall so unabhaengig einstellen lassen und der Verlauf am
+   Bildrand nicht kuenstlich abknickt.
+
+   Der Kasten (.lvf-s02-strip) hat eigenen Hintergrund und liegt darueber -
+   die Karten werden also nicht ueberstrahlt.
+   ========================================================================== */
+
+@media (min-width: 768px) {
+
+  body.page-id-7895 .lvf-s02 .lvf-s02-ticker::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -80px;
+    bottom: -300px;
+    z-index: -1;            /* wie Kaans ::before: bleibt im Stapel des Tickers */
+    pointer-events: none;
+
+    background-image:
+      /* heller Kern direkt neben den Kastenkanten (Soll bei y 900: 193,218,231) */
+      radial-gradient(240px 130px at 0% 26%,
+        rgba(230, 246, 255, 0.95) 0%,
+        rgba(165, 222, 252, 0.60) 42%,
+        rgba(0, 155, 230, 0) 82%),
+      radial-gradient(240px 130px at 100% 26%,
+        rgba(230, 246, 255, 0.95) 0%,
+        rgba(165, 222, 252, 0.60) 42%,
+        rgba(0, 155, 230, 0) 82%),
+      /* blaue Saeulen: Deckkraft aus der Soll-Ist-Differenz je x zurueckgerechnet */
+      linear-gradient(90deg,
+        rgba(0, 152, 228, 0.80) 0px,
+        rgba(0, 150, 226, 0.62) 120px,
+        rgba(0, 148, 224, 0.43) 220px,
+        rgba(0, 144, 220, 0.24) 350px,
+        rgba(0, 140, 215, 0.12) 550px,
+        rgba(0, 136, 210, 0) 820px),
+      linear-gradient(270deg,
+        rgba(0, 152, 228, 0.80) 0px,
+        rgba(0, 150, 226, 0.62) 120px,
+        rgba(0, 148, 224, 0.43) 220px,
+        rgba(0, 144, 220, 0.24) 350px,
+        rgba(0, 140, 215, 0.12) 550px,
+        rgba(0, 136, 210, 0) 820px);
+
+    /* senkrechter Abfall: 100 % bis Bandunterkante, dann Auslauf bis y 1340 */
+    -webkit-mask-image: linear-gradient(180deg,
+      rgba(0, 0, 0, 0.55) 0%,
+      #000 20%,
+      #000 47%,
+      rgba(0, 0, 0, 0.58) 63%,
+      rgba(0, 0, 0, 0.26) 77%,
+      rgba(0, 0, 0, 0.06) 92%,
+      rgba(0, 0, 0, 0) 100%);
+            mask-image: linear-gradient(180deg,
+      rgba(0, 0, 0, 0.55) 0%,
+      #000 20%,
+      #000 47%,
+      rgba(0, 0, 0, 0.58) 63%,
+      rgba(0, 0, 0, 0.26) 77%,
+      rgba(0, 0, 0, 0.06) 92%,
+      rgba(0, 0, 0, 0) 100%);
+  }
+
+}
+
+/* Mobil (Frame 440): derselbe Befund, im Mobil-Schnipsel 2 noch deutlicher -
+   dort fuellt der Schein die ganze Flaeche um das Band herum.
+   Nachgemessen am 440er Render, linke Randspalte x = 6 (Live-y = Referenz-y + 30):
+
+     ref-y   1150  1250  1350  1450  1550  1650  1700
+     SOLL     252   235   150    75    40    23     8
+     Durchg1  185   99     27    15    15    15    15
+
+   Waagerecht ist der Schein mobil viel breiter als am Desktop: auf Hoehe
+   ref-y 1300 liegt selbst die Bildmitte noch bei B 145 (Rand 197). Weiter
+   unten zieht er sich auf die Raender zurueck (ref-y 1500: Rand 55, Mitte 5).
+   Deshalb drei Bestandteile: weisser Kern an den Raendern, Randsaeulen und
+   eine flach auslaufende Mittelflaeche, die senkrecht kuerzer ist als die
+   Saeulen. */
+@media (max-width: 767px) {
+
+  body.page-id-7895 .lvf-s02 .lvf-s02-ticker::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -60px;
+    bottom: -520px;
+    z-index: -1;
+    pointer-events: none;
+
+    background-image:
+      radial-gradient(210px 210px at 0% 40%,
+        rgba(238, 249, 255, 0.98) 0%,
+        rgba(190, 232, 253, 0.75) 34%,
+        rgba(60, 190, 245, 0.30) 60%,
+        rgba(0, 155, 230, 0) 84%),
+      radial-gradient(210px 210px at 100% 40%,
+        rgba(238, 249, 255, 0.98) 0%,
+        rgba(190, 232, 253, 0.75) 34%,
+        rgba(60, 190, 245, 0.30) 60%,
+        rgba(0, 155, 230, 0) 84%),
+      linear-gradient(90deg,
+        rgba(0, 152, 228, 0.90) 0px,
+        rgba(0, 150, 226, 0.56) 60px,
+        rgba(0, 148, 224, 0.28) 130px,
+        rgba(0, 144, 220, 0) 235px),
+      linear-gradient(270deg,
+        rgba(0, 152, 228, 0.90) 0px,
+        rgba(0, 150, 226, 0.56) 60px,
+        rgba(0, 148, 224, 0.28) 130px,
+        rgba(0, 144, 220, 0) 235px),
+      radial-gradient(95% 26% at 50% 36%,
+        rgba(0, 150, 226, 0.62) 0%,
+        rgba(0, 145, 220, 0.28) 55%,
+        rgba(0, 140, 215, 0) 88%);
+
+    -webkit-mask-image: linear-gradient(180deg,
+      rgba(0, 0, 0, 0.50) 0%,
+      #000 22%,
+      #000 45%,
+      rgba(0, 0, 0, 0.94) 53%,
+      rgba(0, 0, 0, 0.47) 63%,
+      rgba(0, 0, 0, 0.20) 74%,
+      rgba(0, 0, 0, 0.07) 85%,
+      rgba(0, 0, 0, 0) 96%);
+            mask-image: linear-gradient(180deg,
+      rgba(0, 0, 0, 0.50) 0%,
+      #000 22%,
+      #000 45%,
+      rgba(0, 0, 0, 0.94) 53%,
+      rgba(0, 0, 0, 0.47) 63%,
+      rgba(0, 0, 0, 0.20) 74%,
+      rgba(0, 0, 0, 0.07) 85%,
+      rgba(0, 0, 0, 0) 96%);
+  }
+
+}
+
+
+/* ==========================================================================
+   R3-home-02: Hero (s02) - seitlicher Schein rund ein Drittel zu dunkel
+
+   BEFUND (befunde.md G-07), Messpunkte x = 8:
+     y     100        200       300       400       500       600       700
+     SOLL  99,207,235  8,137,192 2,99,149  0,73,113  3,54,85   3,35,54   2,19,29
+     IST   68,141,176  1,79,118  0,66,99   0,50,74   2,34,51   0,12,18   0,1,1
+
+   LOESUNG: zusaetzliche Randsaeule in Kaans Schein-Ebene. Sie erbt dessen
+   blur(48px) und opacity - deshalb sind die Deckkraftwerte hier hoeher
+   angesetzt als die reine Differenzrechnung ergibt.
+   `.lvf-s02-glow` ist 180 % breit, der linke Bildrand liegt also bei 22 %,
+   der rechte bei 78 %.
+   ========================================================================== */
+
+@media (min-width: 768px) {
+
+  /* Durchgang 1 traf y 300..400 genau, war aber bei y 100 (200 statt 235) und
+     vor allem im Auslauf zu schwach (y 600: 27 statt 54, y 700: 2 statt 29).
+     Deshalb jetzt zwei Ebenen: heisser kurzer Kern oben und eine lange,
+     schwaechere Saeule, die bis unter die Statistikzeile reicht. */
+  body.page-id-7895 .lvf-s02 .lvf-s02-glow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(180px 420px at 22% 4%,
+        rgba(170, 230, 254, 0.95) 0%,
+        rgba(70, 195, 246, 0.72) 45%,
+        rgba(0, 160, 235, 0) 100%),
+      radial-gradient(180px 420px at 78% 4%,
+        rgba(170, 230, 254, 0.95) 0%,
+        rgba(70, 195, 246, 0.72) 45%,
+        rgba(0, 160, 235, 0) 100%),
+      radial-gradient(160px 980px at 22% 2%,
+        rgba(0, 152, 228, 0.62) 0%,
+        rgba(0, 148, 224, 0.44) 40%,
+        rgba(0, 142, 218, 0.24) 70%,
+        rgba(0, 136, 210, 0) 100%),
+      radial-gradient(160px 980px at 78% 2%,
+        rgba(0, 152, 228, 0.62) 0%,
+        rgba(0, 148, 224, 0.44) 40%,
+        rgba(0, 142, 218, 0.24) 70%,
+        rgba(0, 136, 210, 0) 100%);
+  }
+
+}
+
+
+/* ==========================================================================
+   R3-home-03: Rechnerband (s05) laeuft in s06 weiter, s06 bekommt Randglows
+
+   BEFUND (befunde.md G-02 / G-04):
+   Die blaue Fahne des Rechnerbandes endet live hart an der Sektionsgrenze
+   y 4483 (y 4470 = 2,145,214 -> y 4500 = 5,6,15). In der Referenz laeuft sie
+   ueber die ganze Plattform-Sektion weiter. Blaukanal am linken Bildrand,
+   Sektion s06 (live 4483..5293), Referenz um 159 px versetzt:
+
+     live-y   4483   4560   4700   4900   5100   5290
+     SOLL      174    163    147    135    120    104
+     IST        15     18     27     23     18     21
+
+   Waagerechte Form der Referenz an der Sektionsoberkante:
+     x        5     40     90    150    220    300    400
+     SOLL   174    143    102     65     38     19      8
+
+   Kaans `.lvf-s06::before` sollte genau das leisten, kommt aber nicht an
+   (z-index:-1, siehe Kopf dieser Datei). Deshalb neue Ebene in
+   `.lvf-s06-glow`, das auf z-index 0 liegt und sichtbar ist.
+   Deckkraftwerte aus (SOLL - IST) / (Quellfarbe - IST) zurueckgerechnet,
+   senkrechter Abfall wieder ueber die Maske.
+
+   NACHFIX 10.08.2026 (ABNAHME.md O-3): die Fahne lief zu weit nach innen.
+   Waagerechte Stopps neu bestimmt: fuer jedes x wurde das a_grad nach
+   kleinsten Quadraten ueber 39 Hoehen der Sektion aus SOLL und dem Stand
+   VOR dieser Datei (shots/home-ist-1760-v3.png) geloest:
+     a*(x) = SUM_y k(R-B) / SUM_y k^2   mit k = (Quellfarbe - B) * Maske(y)
+   Ergebnis (x:a): 0:0,762  40:0,563  90:0,354  120:0,244  150:0,155
+                   190:0,065  230:0,012  ab 240 negativ -> 0.
+   Der Stopp bei 0px bleibt 0,75 (statt 0,762), damit die im BERICHT.md
+   belegte Randsaeule bei x = 5 unveraendert bleibt. Maske unveraendert:
+   nachgerechnet stimmt sie auf 0,02 genau mit dem SOLL-Verlauf bei x = 0.
+   Mittlerer Absolutfehler ueber das Raster x 0..290 / 39 Hoehen: 6,0 -> 2,7.
+   Rest bei x >= 180 ist NICHT diese Ebene, sondern der Grund der Sektion
+   selbst (dort 12..20 gegen 0..7 im SOLL) - eigener Befund, hier nicht
+   angefasst.
+   ========================================================================== */
+
+body.page-id-7895 .lvf-s06 .lvf-s06-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(90deg,
+      rgba(0, 152, 228, 0.75) 0px,
+      rgba(0, 150, 226, 0.56) 40px,
+      rgba(0, 148, 224, 0.355) 90px,
+      rgba(0, 147, 223, 0.245) 120px,
+      rgba(0, 146, 222, 0.155) 150px,
+      rgba(0, 143, 219, 0.065) 190px,
+      rgba(0, 141, 216, 0.01) 235px,
+      rgba(0, 140, 215, 0) 280px),
+    linear-gradient(270deg,
+      rgba(0, 152, 228, 0.75) 0px,
+      rgba(0, 150, 226, 0.56) 40px,
+      rgba(0, 148, 224, 0.355) 90px,
+      rgba(0, 147, 223, 0.245) 120px,
+      rgba(0, 146, 222, 0.155) 150px,
+      rgba(0, 143, 219, 0.065) 190px,
+      rgba(0, 141, 216, 0.01) 235px,
+      rgba(0, 140, 215, 0) 280px);
+  -webkit-mask-image: linear-gradient(180deg,
+    #000 0%,
+    rgba(0, 0, 0, 0.80) 27%,
+    rgba(0, 0, 0, 0.66) 76%,
+    rgba(0, 0, 0, 0.54) 100%);
+          mask-image: linear-gradient(180deg,
+    #000 0%,
+    rgba(0, 0, 0, 0.80) 27%,
+    rgba(0, 0, 0, 0.66) 76%,
+    rgba(0, 0, 0, 0.54) 100%);
+}
+
+/* Mobil laufen dieselben Fahnen schmaler ein (Frame 440). */
+@media (max-width: 767px) {
+  body.page-id-7895 .lvf-s06 .lvf-s06-glow::before {
+    background-image:
+      linear-gradient(90deg,
+        rgba(0, 152, 228, 0.70) 0px,
+        rgba(0, 148, 224, 0.38) 40px,
+        rgba(0, 144, 220, 0.16) 80px,
+        rgba(0, 140, 215, 0) 130px),
+      linear-gradient(270deg,
+        rgba(0, 152, 228, 0.70) 0px,
+        rgba(0, 148, 224, 0.38) 40px,
+        rgba(0, 144, 220, 0.16) 80px,
+        rgba(0, 140, 215, 0) 130px);
+  }
+}
+
+
+/* ==========================================================================
+   R3-home-04: Plattformkarten (s06) - heller Glas-Verlauf kommt nicht an
+
+   BEFUND (befunde.md G-03), DX-Trade-Karte, 26 px innerhalb der linken Kante:
+     SOLL 195,223,239   IST 42,94,124
+   Kartenmitte:          SOLL 46,145,177    IST 41,57,68
+   Rechte Leuchtkante:   SOLL  2,172,209    IST 18,148,178  (passt)
+
+   Der weisse Kern sitzt im Soll in der unteren LINKEN Kartenecke. Kaans
+   Radial (lvlup-home.css Z. 3552, `190% 280% at 48% 175%`) erreicht die linke
+   untere Ecke rechnerisch nur mit Alpha rund 0,16 - deshalb hier eine
+   zusaetzliche Ecke.
+   Nur Desktop: unter 768 px ist die dunkle Fassung ausdruecklich gewollt
+   (lvlup-home.css Z. 3872 ff., Lesbarkeit heller Schrift) und das
+   Mobil-Schnipsel 5 bestaetigt dunkle Karten.
+   ========================================================================== */
+
+@media (min-width: 768px) {
+
+  /* Durchgang 1 (nur eine helle Ecke dazu) reichte nicht: die Karte ist im Soll
+     komplett anders aufgebaut. Dichte Messreihe an der Karte selbst
+     (live x 305..870 / y 4795..4990, Referenz +155):
+
+     untere Kartenzeile (rely 0,94), Soll:
+       relx  0,02  0,16  0,32  0,40  0,50  0,60  0,70  0,80  0,90  0,97
+       R,G,B 239   244   246   212    91    22     7     9     3     3
+             246   249   247   229   166    90    60    73   128   199
+             252   253   251   239   191   125    91   109   176   233
+     linke Spalte (relx 0,02), Soll oben 5,49,77 -> unten 240,248,251
+     rechte Spalte (relx 0,97), Soll oben 3,36,55 -> unten 3,206,239
+
+     Also: weisse Bluete am unteren Rand links bis rund 40 % Breite, cyanfarbene
+     Bluete in der unteren rechten Ecke, oben durchgehend dunkel. Kaans Fassung
+     hat den hellen Kern dagegen mittig unter der Karte (48 % / 175 %) und eine
+     breite Cyan-Flanke auf halber Hoehe rechts - deshalb war live die rechte
+     obere Ecke zu hell (8,96,122 statt 3,36,55) und die untere Kante zu dunkel.
+     Der Kartengrund wird hier deshalb vollstaendig neu gesetzt (Override, Kaans
+     Datei bleibt unveraendert). Nur Desktop - unter 768 px gilt weiter Kaans
+     bewusst dunkle Mobilfassung. */
+  body.page-id-7895 .lvf-s06 .lvf-s06-grid .lvf-s06-card--row {
+    background-color: #010509;
+    background-image:
+      /* weisse Bluete, unten links */
+      radial-gradient(52% 98% at 18% 110%,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 0.96) 38%,
+        rgba(248, 252, 255, 0.82) 45%,
+        rgba(215, 238, 250, 0.38) 62%,
+        rgba(175, 218, 244, 0.10) 78%,
+        rgba(150, 216, 252, 0) 88%),
+      /* cyanfarbene Bluete, untere rechte Ecke */
+      radial-gradient(30% 95% at 104% 102%,
+        rgba(0, 216, 248, 0.98) 0%,
+        rgba(0, 205, 242, 0.90) 25%,
+        rgba(0, 190, 235, 0.55) 48%,
+        rgba(0, 175, 228, 0.45) 60%,
+        rgba(0, 160, 215, 0.12) 80%,
+        rgba(0, 162, 255, 0) 100%),
+      /* schwacher Blauschimmer an der linken Flanke */
+      radial-gradient(30% 115% at -6% 46%,
+        rgba(3, 140, 205, 0.62) 0%,
+        rgba(3, 125, 190, 0.26) 45%,
+        rgba(3, 110, 175, 0) 82%),
+      /* Grundverlauf: oben dunkel, unten etwas heller */
+      linear-gradient(180deg, #02222f 0%, #02334d 55%, #033b5c 100%);
+  }
+
+  /* Die breite Terminal-Karte liegt schon nah am Soll (Randprofile weichen um
+     20 bis 40 ab). Durchgang 1 hat sie unten mittig zu hell gemacht
+     (Soll 10,65,96 / Ist 46,89,112), deshalb hier nur noch ein schwacher,
+     blauerer Zuschlag statt der weissen Ebene. */
+  body.page-id-7895 .lvf-s06 .lvf-s06-grid .lvf-s06-card--wide::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background-image:
+      radial-gradient(70% 42% at 50% 114%,
+        rgba(0, 150, 225, 0.30) 0%,
+        rgba(0, 140, 215, 0.12) 45%,
+        rgba(0, 162, 255, 0) 78%);
+  }
+
+  /* Inhalt der Karten muss ueber der neuen Ebene bleiben. */
+  body.page-id-7895 .lvf-s06 .lvf-s06-logo-box,
+  body.page-id-7895 .lvf-s06 .lvf-s06-copy,
+  body.page-id-7895 .lvf-s06 .lvf-s06-shot,
+  body.page-id-7895 .lvf-s06 .lvf-s06-badge {
+    position: relative;
+    z-index: 2;
+  }
+
+}
+
+
+/* ==========================================================================
+   R3-home-05: FAQ (s09) - Randglow fehlt in der unteren Haelfte
+
+   BEFUND (befunde.md G-05), Blaukanal x = 5, Sektion live 8384..9593
+   (Referenz um 90 px versetzt):
+
+     live-y   8384   8600   8900   9200   9450   9590
+     SOLL      156    128    104     84     73     73
+     IST        22     56     71     23     18     19
+
+   Live hat in der Mitte eine Beule und faellt danach auf fast Null; im Soll
+   laeuft das Blau durchgehend am Rand mit.
+
+   NACHFIX 10.08.2026 (ABNAHME.md O-3): der Glow lief zu weit nach innen.
+   Nachgemessen ist die Beule NICHT der Auslauf der Elite-Sektion, sondern
+   Kaans eigener Sektionsgrund `.lvf-s09 .lvf-s09-bg` (lvlup-home.css Z. 5486):
+     radial-gradient(38% 52% at   0% 34%, rgba(0,162,255,.30) 0%, ... 72%)
+     radial-gradient(38% 52% at 100% 40%, rgba(0,162,255,.26) 0%, ... 72%)
+   Nachgerechnet: Mitte bei y = 0,34 * 1209 = 411, also live y 8795 - genau
+   die gemessene Beulenmitte. Das Modell trifft den Stand VOR dieser Datei
+   auf unter 1 Stufe (x 0 / y 8807: gerechnet 46,7, gemessen 47,3; x 150:
+   35,5 gegen 36,0; x 255: 27,0 gegen 26,5).
+   Folge: bei rely 0,35 liegt der Grund allein schon bei 36 (x 150) und 26
+   (x 255), das SOLL bei 15 und 6. Die Ueberkorrektur war also nur zu einem
+   Drittel diese Ebene; auch mit Deckkraft 0 bliebe sie 21 Stufen zu hell.
+   Deshalb werden die beiden Seiten-Radialen seitengebunden auf 15 % gedimmt
+   (.30 -> .045, .26 -> .039, Block darunter) und dieser Glow uebernimmt den
+   Rand vollstaendig - dieselbe Vorgehensweise wie R3-home-04 bei den
+   Plattformkarten. Waagerechte Stopps und Maske danach gemeinsam nach
+   kleinsten Quadraten aus SOLL geloest (50 Hoehen x 26 Spalten, obere
+   Fuenftel dreifach gewichtet, damit die dort bereits passende Breite nicht
+   verloren geht). Die Maske ist danach durchgehend fallend; die alte Delle
+   bei 43 % war nur die Gegenrechnung zur Beule und faellt mit ihr weg.
+   Mittlerer Absolutfehler ueber das Raster x 0..250 / 50 Hoehen: 6,6 -> 2,8;
+   ohne Dimmen waere rechnerisch bestenfalls 6,6 erreichbar.
+   MOBIL bleibt alles wie vorher: das Dimmen steht in min-width 768, und der
+   Mobil-Block unten setzt zusaetzlich die alte Maske wieder ein.
+   ========================================================================== */
+
+/* Seiten-Radialen von Kaans Sektionsgrund gedimmt (Begruendung im Kopf des
+   Blocks). Die dritte, untere Radiale bleibt unveraendert stehen; nur die
+   beiden Seiten-Radialen sind neu bewertet. Nur Desktop. */
+@media (min-width: 768px) {
+  body.page-id-7895 .lvf-s09 .lvf-s09-bg {
+    background:
+      radial-gradient(38% 52% at 0% 34%, rgba(0, 162, 255, 0.045) 0%, rgba(0, 162, 255, 0) 72%),
+      radial-gradient(38% 52% at 100% 40%, rgba(0, 162, 255, 0.039) 0%, rgba(0, 162, 255, 0) 72%),
+      radial-gradient(90% 60% at 50% 104%, rgba(167, 223, 255, 0.07) 0%, rgba(4, 48, 74, 0) 72%);
+  }
+}
+
+body.page-id-7895 .lvf-s09 .lvf-s09-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(90deg,
+      rgba(0, 152, 228, 0.736) 0px,
+      rgba(0, 152, 228, 0.501) 40px,
+      rgba(0, 150, 226, 0.301) 90px,
+      rgba(0, 148, 224, 0.201) 120px,
+      rgba(0, 146, 222, 0.122) 150px,
+      rgba(0, 143, 219, 0.040) 190px,
+      rgba(0, 140, 215, 0) 220px),
+    linear-gradient(270deg,
+      rgba(0, 152, 228, 0.736) 0px,
+      rgba(0, 152, 228, 0.501) 40px,
+      rgba(0, 150, 226, 0.301) 90px,
+      rgba(0, 148, 224, 0.201) 120px,
+      rgba(0, 146, 222, 0.122) 150px,
+      rgba(0, 143, 219, 0.040) 190px,
+      rgba(0, 140, 215, 0) 220px);
+  -webkit-mask-image: linear-gradient(180deg,
+    rgba(0, 0, 0, 0.926) 0%,
+    rgba(0, 0, 0, 0.792) 10%,
+    rgba(0, 0, 0, 0.700) 20%,
+    rgba(0, 0, 0, 0.609) 30%,
+    rgba(0, 0, 0, 0.553) 40%,
+    rgba(0, 0, 0, 0.509) 50%,
+    rgba(0, 0, 0, 0.464) 60%,
+    rgba(0, 0, 0, 0.422) 70%,
+    rgba(0, 0, 0, 0.386) 80%,
+    rgba(0, 0, 0, 0.351) 90%,
+    rgba(0, 0, 0, 0.338) 100%);
+          mask-image: linear-gradient(180deg,
+    rgba(0, 0, 0, 0.926) 0%,
+    rgba(0, 0, 0, 0.792) 10%,
+    rgba(0, 0, 0, 0.700) 20%,
+    rgba(0, 0, 0, 0.609) 30%,
+    rgba(0, 0, 0, 0.553) 40%,
+    rgba(0, 0, 0, 0.509) 50%,
+    rgba(0, 0, 0, 0.464) 60%,
+    rgba(0, 0, 0, 0.422) 70%,
+    rgba(0, 0, 0, 0.386) 80%,
+    rgba(0, 0, 0, 0.351) 90%,
+    rgba(0, 0, 0, 0.338) 100%);
+}
+
+@media (max-width: 767px) {
+  body.page-id-7895 .lvf-s09 .lvf-s09-bg::before {
+    background-image:
+      linear-gradient(90deg,
+        rgba(0, 152, 228, 0.60) 0px,
+        rgba(0, 150, 226, 0.30) 40px,
+        rgba(0, 144, 220, 0.12) 80px,
+        rgba(0, 140, 215, 0) 130px),
+      linear-gradient(270deg,
+        rgba(0, 152, 228, 0.60) 0px,
+        rgba(0, 150, 226, 0.30) 40px,
+        rgba(0, 144, 220, 0.12) 80px,
+        rgba(0, 140, 215, 0) 130px);
+    /* Mobil bleibt die Maske von vor dem Nachfix - mobil war der Verlauf
+       laut ABNAHME in Ordnung, hier wird nichts verschoben. */
+    -webkit-mask-image: linear-gradient(180deg,
+      #000 0%,
+      rgba(0, 0, 0, 0.32) 43%,
+      rgba(0, 0, 0, 0.46) 75%,
+      rgba(0, 0, 0, 0.40) 100%);
+            mask-image: linear-gradient(180deg,
+      #000 0%,
+      rgba(0, 0, 0, 0.32) 43%,
+      rgba(0, 0, 0, 0.46) 75%,
+      rgba(0, 0, 0, 0.40) 100%);
+  }
+}
+
+
+/* ==========================================================================
+   R3-home-06: CTA-Karte (s10) - Deko-Pfeile zu gross, Kartengrund zu dunkel
+
+   BEFUND (befunde.md G-06), gemessen an der linken Pfeilspitze:
+     SOLL Pfeilkopf x 320..425 (105 px breit)
+     IST  Pfeilkopf x 270..415 (145 px breit)
+   Kaan setzt `.lvf-s10-arrow { width: 150px }` (lvlup-home.css Z. 6354),
+   Soll waeren rund 150 x 105/145 = 108 px. Die Position rueckt entsprechend
+   nach innen (Soll-Kopf beginnt 50 px weiter rechts).
+
+   Kartengrund, gleiche Rasterpunkte:
+     Karte oben rechts   SOLL 61,170,231   IST 60,129,171
+     Karte Mitte links   SOLL 13,85,127    IST  8,44,70
+   Deshalb eine zusaetzliche helle Ebene ueber dem Glow-Stapel, weich und
+   ohne Kanten, damit Kaans Aufbau erhalten bleibt.
+   ========================================================================== */
+
+@media (min-width: 768px) {
+
+  /* ZURUECKGENOMMEN: Deko-Pfeile.
+     Der Befund "Pfeile rund dreimal zu gross" stammte aus einer automatischen
+     Flaechenerkennung, die am hellen Kartenrand ansprach und damit falsch mass.
+     Der Drei-Fach-Vergleich bei 1,6-facher Vergroesserung
+     (vergleich/cta-pfeil-3fach.png, Referenz | 150 px | 122 px) zeigt:
+       Pfeilkopf Referenz 120 px, Kaans 150-px-Fassung 109 px, meine 122-px-
+       Fassung nur 85 px; Pfeilspitze Referenz 90 px ueber der Kartenunterkante,
+       Kaans Fassung 81 px, meine Fassung 49 px.
+     Kaans Werte liegen also naeher am Soll. Der Eindruck "zu gross" kam vom zu
+     dunklen Kartengrund, auf dem die Pfeile zu stark hervortraten - das behebt
+     die Regel darunter. Deshalb hier KEINE Groessen- oder Positionsaenderung
+     an .lvf-s10-arrow und .lvf-s10-diamond.
+     (Zwischenstand mit width:122px war live und wurde zurueckgebaut.) */
+
+  /* Kartengrund. Messreihe quer ueber die Karte (Punkte relativ zur
+     Kartenoberkante, live y 9635 / Referenz y 9713):
+
+       dy=60   x275        x420      x700     x1040     x1330       x1480
+       SOLL    34,117,167  1,18,26   2,2,4    4,51,79   88,180,231  112,199,248
+       IST     10, 49, 78  4,19,29   3,15,23  3,15,23   11, 50, 77   45,114,153
+
+     Das Soll hat also eine DUNKLE Kartenmitte mit kraeftigen Leuchtkanten
+     links und rechts; live ist es umgekehrt flau. Durchgang 1 hat die Mitte
+     zusaetzlich aufgehellt - falsche Richtung, wird hier ersetzt.
+     Reihenfolge der Ebenen: Leuchtkanten zuerst (liegen oben), darunter die
+     Abdunklung der Mitte, darunter unveraendert Kaans Glow-Stapel. */
+  body.page-id-7895 .lvf-s10 .lvf-s10-card > .lvf-s10-glow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background-image:
+      /* linke Leuchtkante, ueber die volle Kartenhoehe */
+      linear-gradient(90deg,
+        rgba(45, 168, 234, 0.92) 0px,
+        rgba(25, 140, 208, 0.58) 22px,
+        rgba(10, 105, 170, 0.16) 55px,
+        rgba(0, 90, 150, 0) 105px),
+      radial-gradient(20% 62% at 0% 104%,
+        rgba(60, 182, 242, 0.85) 0%,
+        rgba(20, 135, 205, 0.35) 45%,
+        rgba(0, 90, 150, 0) 82%),
+      /* rechte Leuchtkante, ueber die volle Kartenhoehe */
+      linear-gradient(270deg,
+        rgba(110, 200, 250, 0.90) 0px,
+        rgba(40, 165, 235, 0.60) 40px,
+        rgba(10, 115, 185, 0.16) 110px,
+        rgba(0, 90, 150, 0) 190px),
+      /* zusaetzliche helle Zone oben rechts (Soll x1330/dy60 = 88,180,231) */
+      radial-gradient(40% 50% at 100% 4%,
+        rgba(130, 210, 253, 0.95) 0%,
+        rgba(55, 180, 242, 0.80) 40%,
+        rgba(0, 120, 190, 0) 84%),
+      /* dunkle Mitte */
+      radial-gradient(58% 96% at 44% 40%,
+        rgba(2, 10, 18, 0.75) 0%,
+        rgba(2, 10, 18, 0.55) 50%,
+        rgba(2, 10, 18, 0) 86%);
+  }
+
+}

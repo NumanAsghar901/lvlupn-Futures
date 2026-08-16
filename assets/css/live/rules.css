@@ -1,0 +1,4293 @@
+/* == r1-hero == */
+/* Lvlup Futures - Trading Rules Seite: Sektion r1-hero
+   Praefix .lvr-r1-. Designbreite 1760, 1px Figma = 1px CSS, Band y=0..960.
+   Hintergrund der Sektion transparent (Seitengrund kommt von .lvf-page),
+   lokale Glows und Hero-Bild laufen weich aus (keine harten Kanten). */
+
+.lvr-r1 {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background: transparent;
+  text-align: center;
+}
+
+/* Hero-Bild (Spotlight-Beams) mit weichen Uebergaengen:
+   oben Abdunklung unter Banner/Nav, unten Auslaufen in den Seitengrund. */
+.lvr-r1-bg {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 689px;
+  z-index: -2;
+  pointer-events: none;
+  /* Oben nur leicht abdunkeln: die Lichtstrahlen sollen wie im Soll bis hinter
+     Banner und Nav durchscheinen (Header schwebt ueber dem Bild). */
+  background:
+    linear-gradient(180deg, rgba(5, 6, 15, 0.5) 0%, rgba(5, 6, 15, 0) 18%),
+    linear-gradient(180deg, rgba(5, 6, 15, 0) 52%, var(--lvf-bg) 98%),
+    radial-gradient(90% 70% at 50% 6%, rgba(0, 162, 255, 0.22) 0%, rgba(0, 162, 255, 0) 65%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.35) 100%),
+    url('https://lvlup.tivaosagencytempdomains.de/wp-content/uploads/2026/08/lvlup-a7ba857d2a.webp') center top / cover no-repeat;
+}
+
+/* Weicher Licht-Glow hinter der Headline (Figma "Black Text Glow", blur 300-520px) */
+.lvr-r1-glow {
+  position: absolute;
+  left: 50%;
+  top: 150px;
+  width: min(1000px, 110vw);
+  height: 520px;
+  transform: translateX(-50%);
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(140, 213, 255, 0.16) 0%, rgba(0, 162, 255, 0.07) 45%, rgba(0, 162, 255, 0) 75%);
+  filter: blur(20px);
+}
+
+/* Blauer Schimmer hinter Suche und Chips */
+.lvr-r1-glow--low {
+  top: 560px;
+  height: 420px;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(0, 162, 255, 0.10) 0%, rgba(0, 162, 255, 0.04) 45%, rgba(0, 162, 255, 0) 75%);
+}
+
+.lvr-r1-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 160px; /* Review R3: Hero war 112px zu hoch */
+  padding-bottom: 102px;
+}
+
+/* --- Badge "Zero Hidden Rules" --- */
+.lvr-r1-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 19px;
+  border-radius: 67px;
+  background: rgba(0, 0, 0, 0.47);
+  backdrop-filter: blur(86px);
+  -webkit-backdrop-filter: blur(86px);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.42px;
+  color: var(--lvf-white);
+}
+.lvr-r1-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lvf-grad-blue);
+  box-shadow: 0 0 8px rgba(18, 169, 255, 0.9);
+}
+
+/* --- Headline --- */
+.lvr-r1-title {
+  margin-top: 26px;
+  font-size: 68px;
+  font-weight: 500;
+  line-height: 63px;
+  letter-spacing: 0;
+}
+.lvr-r1-title-line {
+  display: block;
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lvr-r1-title-line--blue {
+  background: var(--lvf-grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* --- Subheadline --- */
+.lvr-r1-sub {
+  margin-top: 36px;
+  max-width: 551px;
+  font-size: 18px;
+  font-weight: 425;
+  line-height: 24px;
+  letter-spacing: 0.54px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* --- Feature-Pills --- */
+.lvr-r1-pills {
+  margin-top: 72px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px;
+  max-width: 1110px;
+  /* Review R3 (ru2): im Soll stehen die Chips frei, ohne Rahmen-Container */
+  padding: 0;
+}
+.lvr-r1-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 26px;
+  border-radius: 7px;
+  background: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+  font-weight: 550;
+  line-height: 17px;
+  letter-spacing: -0.42px;
+  color: rgba(255, 255, 255, 0.95);
+  white-space: nowrap;
+}
+.lvr-r1-pill-icon {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  color: var(--lvf-blue-light);
+}
+
+/* --- Suche --- */
+.lvr-r1-search {
+  margin-top: 124px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 1238px;
+  height: 65px;
+  padding: 0 26px;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background:
+    linear-gradient(#000000, #000000) padding-box,
+    linear-gradient(90deg, rgba(0, 170, 255, 0.6) 0%, rgba(0, 65, 103, 0.08) 26%, rgba(0, 94, 141, 0.4) 61%, rgba(0, 51, 88, 0.05) 100%) border-box;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), 0 -10px 40px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  text-align: left;
+}
+.lvr-r1-search-icon {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  color: rgba(255, 255, 255, 0.8);
+}
+.lvr-r1-search-input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  background: transparent;
+  border: 0;
+  outline: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 17px;
+  letter-spacing: 0.85px;
+  color: var(--lvf-white);
+}
+.lvr-r1-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  opacity: 1;
+}
+
+/* --- Kategorie-Chips --- */
+.lvr-r1-chips {
+  margin-top: 29px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px;
+  max-width: 1240px;
+}
+.lvr-r1-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 33px;
+  padding: 0 17px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) padding-box,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.22) 53%, rgba(255, 255, 255, 0.3) 100%) border-box;
+  font-size: 10px;
+  font-weight: 340;
+  line-height: 13px;
+  letter-spacing: 0.62px;
+  color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.lvr-r1-chip:hover {
+  color: var(--lvf-white);
+  background:
+    linear-gradient(rgba(18, 42, 60, 0.85), rgba(18, 42, 60, 0.85)) padding-box,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.3) 53%, rgba(255, 255, 255, 0.4) 100%) border-box;
+}
+.lvr-r1-chip--active {
+  background:
+    linear-gradient(180deg, rgba(140, 213, 255, 0.12) 0%, rgba(18, 169, 255, 0.12) 100%) padding-box,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.32) 53%, rgba(255, 255, 255, 0.45) 100%) border-box;
+  color: var(--lvf-white);
+  font-weight: 400;
+}
+
+/* --- Tablet --- */
+@media (max-width: 1023px) {
+  .lvr-r1-inner { padding-top: 190px; padding-bottom: 80px; }
+  .lvr-r1-title { font-size: clamp(44px, 6.5vw, 68px); line-height: 0.98; }
+  .lvr-r1-pills { margin-top: 56px; }
+  .lvr-r1-search { margin-top: 72px; }
+
+  /* Trefferflaeche der Kategorie-Chips, Befund 768-1023px: live 33px hoch bei
+     11px Schrift (Hoehe kommt aus der Basisregel oben, die Schrift aus dem
+     Override r3-rules.css; beide bleiben unveraendert, nur die Optik zaehlt
+     hier nicht mit). Nach dem Vorbild aus build/fragments/s04
+     (.lvf-s04-tab::before) und s01 (.lvf-s01-burger::after): ein ::before mit
+     negativem inset vergroessert nur die Klickflaeche, der sichtbare Chip
+     bleibt bei 33px / 11px stehen.
+     Gemessen mit werkzeuge (treffer-messen.js), Trefferhoehe je Chip:
+       768px  33 -> 45 px
+       1023px 33 -> 45 px
+     Trefferbreite wird um 6px groesser (2x3px), bleibt aber innerhalb der
+     9px-Luecke zwischen den Chips, kein Ueberlappen in der Zeile. */
+  .lvr-r1-chip { position: relative; }
+  .lvr-r1-chip::before {
+    content: "";
+    position: absolute;
+    /* -7px statt der zunaechst angenommenen -6px: der 1px-Rand des Chips
+       zaehlt doppelt gegen die Trefferflaeche, weil das ::before am
+       Padding-Rand ansetzt, nicht am Rand-Rand (31px Padding-Box statt
+       33px Border-Box). Mit -6px kamen nur 43px heraus, siehe Messwerte
+       oben im Blockkommentar. */
+    inset: -7px -3px;
+  }
+}
+
+/* --- Mobile (kein Design vorhanden, sauber abgeleitet) --- */
+@media (max-width: 767px) {
+  .lvr-r1-bg { height: 560px; }
+  .lvr-r1-inner { padding-top: 150px; padding-bottom: 64px; }
+  .lvr-r1-title { font-size: clamp(36px, 10.5vw, 48px); line-height: 1.04; }
+  .lvr-r1-sub { margin-top: 24px; font-size: 16px; line-height: 24px; }
+  .lvr-r1-pills { margin-top: 40px; padding: 10px; gap: 8px; }
+  .lvr-r1-pill { height: 44px; padding: 0 18px; }
+  .lvr-r1-search { margin-top: 48px; height: 56px; padding: 0 18px; }
+  .lvr-r1-search-input { font-size: 16px; letter-spacing: 0.2px; }
+  .lvr-r1-chips { margin-top: 24px; gap: 8px; }
+  .lvr-r1-chip { min-height: 44px; padding: 0 14px; font-size: 11px; }
+  /* Unter 768px ist die Trefferflaeche schon ueber die reale Boxgroesse
+     geloest (min-height:44px oben). Das ::before aus dem Tabletblock darueber
+     wuerde hier nur unnoetig ueberlappen (Chips liegen mit 8px Luecke enger),
+     deshalb hier wieder abgeschaltet. Gemessen: 44 -> 44px, keine Aenderung. */
+  .lvr-r1-chip::before { content: none; }
+}
+
+
+/* Abnahme Runde 2: Schnellfilter sind im Design reine Textlinks ohne Chips */
+.lvr-r1 .lvr-r1-chip {
+  border-color: transparent;
+  background: none;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.lvr-r1 .lvr-r1-chip:hover { background: none; color: #ffffff; }
+.lvr-r1 .lvr-r1-chip--active { background: none; color: #ffffff; font-weight: 500; }
+/* Rhythmus: unterer Hero-Block sass ~50px zu hoch */
+.lvr-r1 .lvr-r1-pills { margin-top: 122px; }
+
+
+/* ===== Pixelrunde 2 Rules (11.08.2026): Kategorie-Chips ==================== */
+
+/* Die Chipreihe war 1115,09 px breit statt 1063 (x 349..1412 im Band-JSON).
+   Das Polster ist NICHT schuld: Soll 17,104 px, live 17. Schuld sind drei
+   Werte aus dem Override R3-rules-05 (r3-rules.css Zeile 66-73):
+     Schriftgroesse 11 statt 10,262  -> rund 6,7 % breitere Glyphen
+     Rahmen         1 statt 0,171 px -> bei 10 Chips mal 2 Kanten rund 17 px
+     Laufweite      0,5 statt 0,6157 / 0,3079
+   Dazu die Luecke 9 statt 8,552 px (9 Luecken, 4 px).
+   Soll-Chipbreiten aus dem Band: 73 / 84 / 86 / 93 / 125 / 124 / 73 / 84 / 81
+   / 161 px. Die Regeln stehen mit drei Klassen, damit sie den Override
+   (zwei Klassen, Prioritaet 1200) schlagen. Chiphoehe bleibt fest 33 px,
+   an der Sektionshoehe aendert sich nichts.
+   Nur Desktop: die Tablet- und Mobilbloecke oben haben eigene Chipwerte
+   (44 px Mindesthoehe, 11 px Schrift) und duerfen nicht ueberschrieben werden. */
+@media (min-width: 1024px) {
+  .lvr-r1 .lvr-r1-chips { gap: 8.552px; }
+
+  .lvr-r1 .lvr-r1-chips .lvr-r1-chip {
+    height: 33px;
+    padding: 0 17.104px;
+    border: 0.171px solid transparent;   /* Band: strokeWeight 0,171 INSIDE */
+    border-radius: 6.84px;               /* Band: 6,8415 */
+    font-size: 10.262px;
+    font-weight: 343;
+    line-height: 12.62px;
+    letter-spacing: 0.6157px;
+    color: rgba(255, 255, 255, 0.85);
+    /* Band: Fuellung Schwarz 60 %, Strich Weissverlauf 0,30/0,60/0,90 bei
+       Ebenendeckkraft 0,20 - also wirksam 0,06/0,12/0,18. Der Override hatte
+       0,14/0,22/0,30, deshalb wirkten die Chips live umrandet statt flaechig. */
+    background:
+      linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) padding-box,
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.12) 53%, rgba(255, 255, 255, 0.18) 100%) border-box;
+  }
+
+  .lvr-r1 .lvr-r1-chips .lvr-r1-chip--active {
+    font-weight: 400;
+    letter-spacing: 0.3079px;
+    color: #ffffff;
+    /* Band: Fuellung Schwarz 100 % plus Blauverlauf mit 10 % Deckkraft darueber.
+       Live lag nur der Blauverlauf mit 12 % ohne Schwarz an, deshalb war der
+       aktive Chip ein helles blaues Feld statt eines dezent dunklen. */
+    background:
+      linear-gradient(180deg, rgba(140, 213, 255, 0.1) 0%, rgba(18, 169, 255, 0.1) 100%) padding-box,
+      linear-gradient(#000000, #000000) padding-box,
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.12) 53%, rgba(255, 255, 255, 0.18) 100%) border-box;
+  }
+
+  .lvr-r1 .lvr-r1-chips .lvr-r1-chip:hover {
+    color: #ffffff;
+    background:
+      linear-gradient(rgba(18, 42, 60, 0.85), rgba(18, 42, 60, 0.85)) padding-box,
+      linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.2) 53%, rgba(255, 255, 255, 0.28) 100%) border-box;
+  }
+}
+
+
+/* ===== Pixelrunde 2 Rules (11.08.2026): Hero-Bild-Ausschnitt =============== */
+
+/* Das Quellbild ist richtig (imageRef a7ba857d..., dieselbe Datei wie live),
+   falsch war der Ausschnitt. Der Figma-Frame "video" (x -80, 1920 x 689)
+   fuellt sich mit scaleMode STRETCH und imageTransform
+     [[0.8765786, 0.0390895, 0.0187274],
+      [-0.0947377, 0.3616828, 0.1102311]]
+   Diese Matrix bildet die Frame-Koordinate (u,v) auf die Bildkoordinate ab.
+   Eingesetzt ergeben sich im 1024x1024-Quellbild die Eckpunkte
+     (19/113) (917/16) (59/483) (957/386)
+   also ein um 6,17 Grad gedrehter Streifen von 903 x 373 px aus der Bildmitte,
+   waagerecht 2,1267-fach und senkrecht 1,8497-fach gedehnt.
+   Live lag dagegen "cover" mit Position 50% 0% an: der obere Bildrand,
+   ungedreht. Deshalb liefen die Lichtstrahlen anders.
+
+   Umsetzung: das ::before ist nicht mehr die Bildflaeche, sondern die
+   Bildebene selbst (1024 x 1024 px im Massstab 1:1), und die Umkehrmatrix
+   legt sie in den Frame. Zahlen: P = [[0.46751, 0.05810], [-0.05053, 0.53753]]
+   (Frame-px -> Bild-px), P hoch -1 = [[2.11432, -0.22853], [0.19875, 1.83893]],
+   Verschiebung -P hoch -1 mal (19,18 / 112,88) = (-14,76 / -211,39).
+   Der Frame beginnt 80 px links vom Seitenrand, deshalb left: -80px. */
+@media (min-width: 1024px) {
+  .lvr-r1 .lvr-r1-bg.lvr-r1-bg {
+    overflow: hidden;   /* schneidet die gedrehte Bildebene auf das Hero-Band */
+  }
+  .lvr-r1 .lvr-r1-bg.lvr-r1-bg::before {
+    inset: auto;
+    left: -80px;
+    top: 0;
+    /* Die Skalierung steckt in width/height, in der Matrix bleibt nur die
+       Drehung (Spaltennormen 1). Rechnerisch dasselbe Bild, aber die Ebene
+       wird direkt in Endgroesse gerastert statt erst in 1024 px.
+       Kantenschaerfe gemessen: Soll 0,879 / hier 0,859 (Mittel des
+       waagerechten Helligkeitsgradienten ueber x 1100..1750, y 140..520).
+       Spaltennormen von P hoch -1: 2,1236 und 1,8531
+       -> 1024 x 2,1236 = 2174,6 px breit, 1024 x 1,8531 = 1897,6 px hoch,
+          Restmatrix [[0,99563, -0,12332], [0,09359, 0,99235]]. */
+    width: 2174.6px;
+    height: 1897.6px;
+    background: url('https://lvlup.tivaosagencytempdomains.de/wp-content/uploads/2026/08/lvlup-a7ba857d2a.webp') 0 0 / 100% 100% no-repeat;
+    transform-origin: 0 0;
+    transform: matrix(0.99563, 0.09359, -0.12332, 0.99235, -14.76, -211.39);
+
+    /* Tonung neu angepasst. Der alte Wert saturate(3.6) contrast(1.05)
+       brightness(0.5) aus R3-rules-16 war an den FALSCHEN Ausschnitt
+       angepasst: der obere Bildrand ist fast grau, deshalb brauchte er die
+       dreifache Saettigung. Der richtige Ausschnitt ist von sich aus blau,
+       die 3,6 walzten die Lichtstrahlen platt.
+       Gemessen als RMS gegen das Soll-Bild ueber die Hero-Flaeche ohne Text
+       (555 x 1760 Bildpunkte, 39 Varianten durchgerechnet):
+         alter Ausschnitt + alter Filter  23,26
+         neuer Ausschnitt + alter Filter  21,00
+         neuer Ausschnitt ohne Filter     15,33
+         neuer Ausschnitt + Wert unten    11,75  <- bester Fit */
+    filter: saturate(2.1) contrast(1.15);
+  }
+}
+
+
+/* ===== Pixelrunde 2 Rules (11.08.2026): seitliche Randleuchten ============= */
+
+/* Diese beiden Ebenen sind Seitenebenen, keine Sektionsebenen - sie stammen aus
+   dem Override R3-rules-13 (server-stand-20260810/lvlup-fixes/r3-rules.css,
+   Zeile 285-333) und laufen ueber alle Sektionen hinweg. Weil an dieser Datei
+   nichts geaendert werden darf, stehen die Korrekturen hier im ersten Fragment
+   der Seite und schlagen den Override ueber eine doppelte .lvf-page-Klasse.
+
+   Befund (Gegenpruefung "gesamteindruck.md" und eigene Nachmessung am
+   linken/rechten Randstreifen, Mittel ueber x 0..120 bzw. 1640..1760,
+   Halbwertsbereiche der drei Lichtbaeuche je Seite):
+
+     links  1  Soll 3821..6123 (Breite 2302, Gipfel 4778)
+               Ist  3573..6001 (Breite 2428, Gipfel 4973)   -> 185 px zu hoch, 126 zu breit
+     links  2  Soll 10372..12682 (Breite 2310)
+               Ist  10081..12601 (Breite 2520)              -> 186 px zu hoch, 210 zu breit
+     links  3  Soll 16278..17835 (Breite 1557)
+               Ist  16013..17937 (Breite 1924)              ->  82 px zu hoch, 367 zu breit
+     rechts 1  Soll 1241..2491, Ist 1250..2444, Gipfel 217 gegen 234
+     rechts 2  Soll 8633..9444, Ist 8564..9351              ->  81 px zu hoch, Gipfel 188 gegen 207
+     rechts 3  Soll 14981..15792, Ist 14948..15720          ->  53 px zu hoch, Gipfel 188 gegen 202
+
+   Dazu die Saettigung: 0,607 live gegen 0,691 im Entwurf, die blasseste aller
+   acht Seiten. Ursache ist der Farbverlauf selbst - er haelt Weiss zu lange.
+   Auf der Kernachse gemessen (Abstand vom Gipfel, Soll gegen Ist):
+     900 px  (73,181,229) gegen (117,188,228)   Rot 44 zu hoch
+    1200 px  (39,149,200) gegen  (87,145,182)   Rot 48 zu hoch
+    1600 px  (12, 97,145) gegen  (28, 82,119)
+   Die Stufen unten sind genau diese Soll-Messwerte, umgerechnet auf den
+   Anteil des jeweiligen Radius. */
+@media (min-width: 1024px) {
+  body.page-id-8048 .lvf-page.lvf-page::before {
+    background-image:
+      /* Fusszeilen-Kern aus R3-rules-22 unveraendert uebernommen - er gehoert
+         zum Bereich unterhalb von r9 und wird hier nur mitgefuehrt, damit die
+         Regel den kompletten Ebenenstapel ersetzt. */
+      radial-gradient(ellipse 3000px 2200px at 0 21300px,
+        rgba(200,238,255,.95) 0%, rgba(150,216,255,.90) 15%, rgba(40,180,255,.66) 32%,
+        rgba(0,168,255,.45) 50%, rgba(0,162,255,.30) 70%, rgba(0,162,255,.19) 95%,
+        rgba(0,162,255,0) 100%),
+      radial-gradient(ellipse 3000px 2465px at 0 4964px,
+        rgba(246,252,255,1) 0%, rgba(231,246,255,1) 6%, rgba(208,237,254,1) 12%,
+        rgba(170,225,253,1) 18%, rgba(127,210,248,1) 24%, rgba(96,196,240,1) 30%,
+        rgba(73,181,229,1) 37%, rgba(54,166,217,1) 43%, rgba(39,149,200,1) 49%,
+        rgba(23,122,173,1) 57%, rgba(12,97,145,1) 65%, rgba(4,74,114,.95) 73%,
+        rgba(1,54,85,.85) 81%, rgba(1,24,38,.55) 93%, rgba(0,20,32,0) 100%),
+      radial-gradient(ellipse 3000px 2383px at 0 11536px,
+        rgba(246,252,255,1) 0%, rgba(231,246,255,1) 6%, rgba(208,237,254,1) 12%,
+        rgba(170,225,253,1) 18%, rgba(127,210,248,1) 24%, rgba(96,196,240,1) 30%,
+        rgba(73,181,229,1) 37%, rgba(54,166,217,1) 43%, rgba(39,149,200,1) 49%,
+        rgba(23,122,173,1) 57%, rgba(12,97,145,1) 65%, rgba(4,74,114,.95) 73%,
+        rgba(1,54,85,.85) 81%, rgba(1,24,38,.55) 93%, rgba(0,20,32,0) 100%),
+      radial-gradient(ellipse 3000px 1618px at 0 17088px,
+        rgba(246,252,255,1) 0%, rgba(231,246,255,1) 6%, rgba(208,237,254,1) 12%,
+        rgba(170,225,253,1) 18%, rgba(127,210,248,1) 24%, rgba(96,196,240,1) 30%,
+        rgba(73,181,229,1) 37%, rgba(54,166,217,1) 43%, rgba(39,149,200,1) 49%,
+        rgba(23,122,173,1) 57%, rgba(12,97,145,1) 65%, rgba(4,74,114,.95) 73%,
+        rgba(1,54,85,.85) 81%, rgba(1,24,38,.55) 93%, rgba(0,20,32,0) 100%);
+  }
+
+  /* Rechts nur Lage und Hoehe: Farbe und Form treffen dort bereits
+     (Farbton 202 gegen 201 Grad), die Kerne sind nur 53 bis 81 px zu hoch und
+     rund 8 % zu hell. */
+  body.page-id-8048 .lvf-page.lvf-page::after {
+    background-image:
+      /* Fusszeilen-Kern aus R3-rules-22 unveraendert uebernommen. */
+      radial-gradient(ellipse 3000px 2400px at 100% 21200px,
+        rgba(190,234,255,.95) 0%, rgba(120,205,255,.80) 25%, rgba(20,170,255,.63) 50%,
+        rgba(0,162,255,.42) 70%, rgba(0,162,255,.22) 85%, rgba(0,162,255,0) 100%),
+      radial-gradient(ellipse 3000px 950px at 100% 1879px,
+        rgba(255,255,255,.87) 0%, rgba(240,250,255,.83) 28%, rgba(160,220,255,.57) 55%,
+        rgba(50,175,255,.26) 78%, rgba(0,150,240,0) 100%),
+      radial-gradient(ellipse 3000px 2500px at 100% 2169px,
+        rgba(140,213,255,.31) 0%, rgba(40,175,255,.22) 45%, rgba(0,162,255,.09) 75%,
+        rgba(0,162,255,0) 100%),
+      radial-gradient(ellipse 3000px 700px at 100% 9071px,
+        rgba(235,248,255,.75) 0%, rgba(200,238,255,.70) 25%, rgba(140,213,255,.53) 45%,
+        rgba(50,175,255,.31) 65%, rgba(0,155,245,.09) 85%, rgba(0,150,240,0) 100%),
+      radial-gradient(ellipse 3000px 1750px at 100% 7981px,
+        rgba(0,162,255,.37) 0%, rgba(0,162,255,.36) 50%, rgba(0,162,255,.20) 78%,
+        rgba(0,162,255,0) 100%),
+      radial-gradient(ellipse 3000px 700px at 100% 15393px,
+        rgba(235,248,255,.76) 0%, rgba(200,238,255,.71) 25%, rgba(140,213,255,.54) 45%,
+        rgba(50,175,255,.32) 65%, rgba(0,155,245,.09) 85%, rgba(0,150,240,0) 100%),
+      radial-gradient(ellipse 3000px 1750px at 100% 14303px,
+        rgba(0,162,255,.37) 0%, rgba(0,162,255,.36) 50%, rgba(0,162,255,.20) 78%,
+        rgba(0,162,255,0) 100%);
+  }
+}
+
+
+/* ===========================================================================
+   Die rechte Seitenebene lief ueber Weiss, 11.08.2026
+
+   Die Seitenraender der ganzen rules-Seite werden von zwei Ebenen auf
+   .lvf-page::before und ::after beleuchtet (R3-rules-13 und -22). Am rechten
+   Rand hatten drei der vier Kegel einen entsaettigten Kern:
+
+     Kegel bei y  1879   live rgba(255,255,255,0.87)   Entwurf (145,215,253)
+     Kegel bei y  9071   live rgba(235,248,255,0.75)   Entwurf (146,219,253)
+     Kegel bei y 15393   live rgba(235,248,255,0.76)   Entwurf (145,219,253)
+
+   Saettigung live 0,00 bis 0,08 gegen 0,43 im Entwurf. Sichtbar als weisse
+   Saeule am rechten Rand, am deutlichsten neben der Vergleichstabelle.
+
+   WICHTIG fuer die naechste Runde: die LINKE Ebene ist richtig so. Dort
+   misst der Entwurf an den Kernstellen (249,253,255) mit Saettigung 0,02,
+   also tatsaechlich fast weiss. Wer beide Seiten gleich behandelt, macht die
+   linke kaputt.
+
+   Korrigiert wurde nur das Farbverhaeltnis der entsaettigten Stuetzpunkte
+   (R/B 0,57 und G/B 0,86 nach der Messung am rechten Rand), Radien,
+   Positionen und Deckkraefte bleiben unveraendert. Die vier gesaettigten
+   Schichten sind unangetastet.
+
+   Die wirksamen Werte stehen in r3-rules.css mit
+   `body.page-id-8048 .lvf-page::after` (0-2-2), deshalb hier 0-3-2.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  body.page-id-8048 .lvf-page.lvf-page::after {
+    background-image:
+      radial-gradient(3000px 2400px at 100% 21200px, rgba(190, 234, 255, 0.95) 0%, rgba(120, 205, 255, 0.8) 25%, rgba(20, 170, 255, 0.63) 50%, rgba(0, 162, 255, 0.42) 70%, rgba(0, 162, 255, 0.22) 85%, rgba(0, 162, 255, 0) 100%),
+      radial-gradient(3000px 950px at 100% 1879px, rgba(146, 219, 255, 0.87) 0%, rgba(146, 219, 255, 0.83) 28%, rgba(160, 220, 255, 0.57) 55%, rgba(50, 175, 255, 0.26) 78%, rgba(0, 150, 240, 0) 100%),
+      radial-gradient(3000px 2500px at 100% 2169px, rgba(140, 213, 255, 0.31) 0%, rgba(40, 175, 255, 0.22) 45%, rgba(0, 162, 255, 0.09) 75%, rgba(0, 162, 255, 0) 100%),
+      radial-gradient(3000px 700px at 100% 9071px, rgba(146, 219, 255, 0.75) 0%, rgba(146, 219, 255, 0.7) 25%, rgba(140, 213, 255, 0.53) 45%, rgba(50, 175, 255, 0.31) 65%, rgba(0, 155, 245, 0.09) 85%, rgba(0, 150, 240, 0) 100%),
+      radial-gradient(3000px 1750px at 100% 7981px, rgba(0, 162, 255, 0.37) 0%, rgba(0, 162, 255, 0.36) 50%, rgba(0, 162, 255, 0.2) 78%, rgba(0, 162, 255, 0) 100%),
+      radial-gradient(3000px 700px at 100% 15393px, rgba(146, 219, 255, 0.76) 0%, rgba(146, 219, 255, 0.71) 25%, rgba(140, 213, 255, 0.54) 45%, rgba(50, 175, 255, 0.32) 65%, rgba(0, 155, 245, 0.09) 85%, rgba(0, 150, 240, 0) 100%),
+      radial-gradient(3000px 1750px at 100% 14303px, rgba(0, 162, 255, 0.37) 0%, rgba(0, 162, 255, 0.36) 50%, rgba(0, 162, 255, 0.2) 78%, rgba(0, 162, 255, 0) 100%);
+  }
+}
+
+
+/* Nachjustierung der Hero-Tonung, 11.08.2026, zweite Runde: der Wert
+   saturate(2.1) war mit den alten Seitenebenen im Ruecken kalibriert, deren
+   blauer Dunst bis y960 ueber dem Bild lag. Nach deren Entfernung (Block
+   unten) fehlte den Lichtstrahlen innen rechts Saettigung. Neu gemessen im
+   Harness (RMS ueber den Hero ohne Textmitte, y60..680):
+     saturate(2.1)  17,04   innen rechts (x1460..1700, y200..500) 16,9
+     saturate(2.5)  16,87   innen rechts 15,1   <- bester Fit
+     saturate(2.9)  17,03   innen rechts 13,8 (kippt global)
+   Gleicher Selektor wie der Messblock oben, spaeter in der Datei. */
+@media (min-width: 1024px) {
+  .lvr-r1 .lvr-r1-bg.lvr-r1-bg::before {
+    filter: saturate(2.5) contrast(1.15);
+  }
+}
+
+
+/* ===========================================================================
+   Seitenebenen neu vermessen: Hero-Dunst rechts und linker Grosskegel,
+   11.08.2026, zweite Runde
+
+   1. RECHTS: die beiden r2/r3-Ebenen (950px bei y1879 und 2500px bei y2169)
+   liefen 1250 px zu weit nach oben. Am rechten Randstreifen (x 1700..1760,
+   Median ueber 40 Zeilen) gemessen:
+     y 760  Entwurf (3, 5, 8)   live ( 9,35,56)
+     y 840  Entwurf (3, 8,12)   live (11,38,60)
+     y 960  Entwurf (5,20,29)   live (14,47,72)
+   Der Entwurf ist dort schwarz, der Hero endet hart bei etwa y740. Zugleich
+   war der Bereich UNTER dem Kegelkern zu dunkel und zu grau:
+     y 2400 Entwurf (90,187,229)  live (108,157,187)
+     y 2800 Entwurf (39,110,151)  live ( 29, 59, 84)
+   Beide Ebenen sind deshalb hier ENTFERNT. Ihre Aufgabe uebernehmen die
+   Sektions-Glows, die an den Sektionsgrenzen von selbst enden, wie es der
+   Entwurf zeigt (harter Wechsel bei y2000/2062):
+     - r2-Kegel rechts: neu im r2-Fragment (Glow-Box endet bei 2062)
+     - r3-Kernlicht oben rechts: neu im r3-Fragment (Box beginnt bei 2062)
+   Die vier r5/r7-Ebenen (9071/7981, 15393/14303) und der Fusszeilen-Kern
+   sind unveraendert uebernommen, sie gehoeren nicht zu r1..r4.
+
+   2. LINKS: der Grosskegel (Kern y4964) hatte ein viel zu schmales
+   Weiss-Plateau und keinerlei Querabfall in den ersten 255 px:
+     y 4200 Entwurf (191,232,255)  live ( 70,186,244)
+     y 4400 Entwurf (233,247,255)  live ( 84,194,252)
+     y 5600 Entwurf (137,216,252)  live ( 86,194,250)
+     y 3500 x120..240 Entwurf (14,39,54)  live (19,113,163)  (zu breit!)
+   Ersatz durch zwei Ebenen, numerisch an 285 Messpunkte des Entwurfs
+   gefittet (Randprofil y2500..7400 plus 8 Querschnitte, mittlere
+   Restabweichung 6,0 je Kanal): ein weisser Kern (508x1142 bei y4806) und
+   ein gesaettigter Saum (546x3323 bei y5041). Die Kegel bei y11536/y17088
+   und der Fusszeilen-Kern bleiben unveraendert.
+   WICHTIG zur Malreihenfolge: ::before liegt UNTER den Sektionen, ::after
+   UEBER ihnen (Baumreihenfolge der Pseudoelemente bei z-index 0). Die
+   beiden Drawdown-Glows aus R3-rules-15 malten deshalb ueber den weissen
+   Kern und drueckten seinen Rotkanal bei y4400 um den Faktor 0,62 herunter,
+   sie sind im neuen r3-Stapel entfallen (siehe r3-Fragment).
+   Selektor wie im Block darueber (0-3-2), spaeter in der Datei = wirksam.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  body.page-id-8048 .lvf-page.lvf-page::before {
+    background-image:
+      radial-gradient(ellipse 3000px 2200px at 0 21300px,
+        rgba(200,238,255,.95) 0%, rgba(150,216,255,.90) 15%, rgba(40,180,255,.66) 32%,
+        rgba(0,168,255,.45) 50%, rgba(0,162,255,.30) 70%, rgba(0,162,255,.19) 95%,
+        rgba(0,162,255,0) 100%),
+      radial-gradient(ellipse 508px 1142px at 0 4806px,
+        rgba(249,253,255,1) 0%, rgba(240,249,255,0.99) 35%,
+        rgba(205,236,254,0.87) 55%, rgba(140,213,255,0.46) 75%,
+        rgba(80,190,250,0) 100%),
+      radial-gradient(ellipse 546px 3323px at 0 5041px,
+        rgba(120,205,253,1) 0%, rgba(55,180,245,0.90) 35%,
+        rgba(15,145,215,0.21) 60%, rgba(3,95,150,0.03) 80%,
+        rgba(0,55,95,0) 100%),
+      radial-gradient(ellipse 3000px 2383px at 0 11536px,
+        rgba(246,252,255,1) 0%, rgba(231,246,255,1) 6%, rgba(208,237,254,1) 12%,
+        rgba(170,225,253,1) 18%, rgba(127,210,248,1) 24%, rgba(96,196,240,1) 30%,
+        rgba(73,181,229,1) 37%, rgba(54,166,217,1) 43%, rgba(39,149,200,1) 49%,
+        rgba(23,122,173,1) 57%, rgba(12,97,145,1) 65%, rgba(4,74,114,.95) 73%,
+        rgba(1,54,85,.85) 81%, rgba(1,24,38,.55) 93%, rgba(0,20,32,0) 100%),
+      radial-gradient(ellipse 3000px 1618px at 0 17088px,
+        rgba(246,252,255,1) 0%, rgba(231,246,255,1) 6%, rgba(208,237,254,1) 12%,
+        rgba(170,225,253,1) 18%, rgba(127,210,248,1) 24%, rgba(96,196,240,1) 30%,
+        rgba(73,181,229,1) 37%, rgba(54,166,217,1) 43%, rgba(39,149,200,1) 49%,
+        rgba(23,122,173,1) 57%, rgba(12,97,145,1) 65%, rgba(4,74,114,.95) 73%,
+        rgba(1,54,85,.85) 81%, rgba(1,24,38,.55) 93%, rgba(0,20,32,0) 100%);
+  }
+
+  body.page-id-8048 .lvf-page.lvf-page::after {
+    background-image:
+      radial-gradient(3000px 2400px at 100% 21200px, rgba(190, 234, 255, 0.95) 0%, rgba(120, 205, 255, 0.8) 25%, rgba(20, 170, 255, 0.63) 50%, rgba(0, 162, 255, 0.42) 70%, rgba(0, 162, 255, 0.22) 85%, rgba(0, 162, 255, 0) 100%),
+      /* HIER STAND das Brueckenlicht fuer den Streifen y2000..2062
+         (ellipse 950px 46px at 100% 2036px). Es hat den dunklen Streifen
+         ueber der Naht aufgehellt, war aber ein Behelf: die Seitenebene
+         liegt UEBER den Sektionen, deshalb legte sich die Ellipse als
+         eigener Bauch ueber das r3-Kernlicht und hinterliess bei y2050..2070
+         eine Delle (Blau 246 bei y2050, 250 bei y2080, Entwurf durchgehend
+         252). Entfernt am 12.08.2026, nachdem der Anlauf in
+         .lvr-r2::after die Aufgabe an der richtigen Stelle erledigt.
+         Gemessen: Naht-Sprung Block 18 mit Bruecke 7,3, ohne 0,3; Mittel
+         ueber alle 20 Bloecke 1,1 -> 0,3. Die Baender y1900..2000 (15,79 ->
+         15,83) und y2004..2060 (10,86 -> 10,92) bleiben gleich. */
+      radial-gradient(3000px 700px at 100% 9071px, rgba(146, 219, 255, 0.75) 0%, rgba(146, 219, 255, 0.7) 25%, rgba(140, 213, 255, 0.53) 45%, rgba(50, 175, 255, 0.31) 65%, rgba(0, 155, 245, 0.09) 85%, rgba(0, 150, 240, 0) 100%),
+      radial-gradient(3000px 1750px at 100% 7981px, rgba(0, 162, 255, 0.37) 0%, rgba(0, 162, 255, 0.36) 50%, rgba(0, 162, 255, 0.2) 78%, rgba(0, 162, 255, 0) 100%),
+      radial-gradient(3000px 700px at 100% 15393px, rgba(146, 219, 255, 0.76) 0%, rgba(146, 219, 255, 0.71) 25%, rgba(140, 213, 255, 0.54) 45%, rgba(50, 175, 255, 0.32) 65%, rgba(0, 155, 245, 0.09) 85%, rgba(0, 150, 240, 0) 100%),
+      radial-gradient(3000px 1750px at 100% 14303px, rgba(0, 162, 255, 0.37) 0%, rgba(0, 162, 255, 0.36) 50%, rgba(0, 162, 255, 0.2) 78%, rgba(0, 162, 255, 0) 100%);
+  }
+}
+
+
+/* ============ Naht r1/r2 bei y913: Anlauf des r2-Leuchtens ================
+   Befund 12.08.2026. Messweise: 20 Spaltenbloecke, je Block der MEDIAN ueber
+   8 Zeilen ober- und unterhalb der Naht, Anker inhaltlich per normierter
+   Kreuzkorrelation (r=0,79 gegen 0,28 Fremdtreffer, Versatz 0).
+
+     Sprung Ist vorher    Mittel 13,1   groesster Block 17,0
+     Sprung Ist nachher   Mittel  1,1   groesster Block  1,7
+     Sprung Soll          Mittel  0,4   groesster Block  2,0
+
+   Das Band y760..912 gegen den Entwurf: 6,54 vorher, 4,91 nachher; Block 1
+   von 15,6 auf 6,0. Seitenhoehe unveraendert 21598 px.
+
+   Ueber der Naht ist live reines Schwarz (0,0,0) in ALLEN 20 Bloecken, ab
+   y913 steht sofort (1,15,24) an. Der Entwurf hat dort keine Kante: sein
+   Wert steigt von y780 an gleichmaessig (Block 1 Blau: y780 18, y820 23,
+   y860 30, y900 41, y913 45).
+
+   Ursache: .lvr-r2-glow hat inset:0 und beginnt damit exakt an der
+   Sektionskante, die Maske startet bei #000 0 - also volle Staerke ab der
+   ersten Zeile. Die Regel weiter oben in r2 (Block 5, Einlauf ueber 150px)
+   ist wirkungslos, weil der spaetere Stapel in derselben Datei mit
+   .lvf-page .lvr-r2 .lvr-r2-glow.lvr-r2-glow (0-4-0) die Maske neu setzt.
+
+   Warum der Anlauf hier in r1 steht und nicht in r2: .lvr-r2 hat
+   overflow:hidden, eine nach oben verlaengerte Ebene wuerde abgeschnitten.
+   In r1 endet sie durch overflow:clip punktgenau an der Naht.
+
+   Laenge 153px ist nicht geschaetzt: der Entwurf setzt die Glasflaeche als
+   FRAME "Frame 2147237220" box(-4,760,1768,1242), sie beginnt also bei y760
+   und endet bei y2002 (figma/specs-rules/r2-account-overview.txt). 913-760
+   = 153. Die Deckkraft ist so gewaehlt, dass die Ebene an der Naht genau
+   den Wert liefert, mit dem das r2-Leuchten anfaengt (Blau 22 in der
+   Flaeche, 29 links), damit dort kein neuer Absatz entsteht.
+   ========================================================================= */
+@media (min-width: 1024px) {
+  .lvr-r1::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 153px;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 620px 153px at 0 100%,
+        rgba(3, 163, 255, 0.030) 0%, rgba(3, 163, 255, 0) 100%),
+      linear-gradient(180deg,
+        rgba(3, 163, 255, 0) 0%, rgba(3, 163, 255, 0.039) 25%,
+        rgba(3, 163, 255, 0.061) 50%, rgba(3, 163, 255, 0.076) 75%,
+        rgba(3, 163, 255, 0.088) 100%);
+  }
+}
+
+/* == r2-account-overview == */
+/* Sektion r2-account-overview (Trading Rules) - Praefix .lvr-r2- */
+.lvr-r2 {
+  position: relative;
+  padding: 100px 0 190px;
+  overflow: hidden;
+}
+
+/* Weiche Hintergrund-Glows, laufen transparent in die Nachbarsektionen aus */
+.lvr-r2-glow {
+  position: absolute;
+  inset: 170px 0 0 0; /* Abnahme: Glow lag hinter der Ueberschrift (Kontrast 1,3:1) */
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 96% 72% at 50% 55%, rgba(255, 255, 255, 0.95) 0%, rgba(226, 243, 252, 0.6) 45%, rgba(190, 225, 245, 0.25) 68%, rgba(255, 255, 255, 0) 88%),
+    radial-gradient(ellipse 100% 85% at 50% 55%, rgba(18, 169, 255, 0.9) 0%, rgba(0, 162, 255, 0.45) 48%, rgba(0, 162, 255, 0) 78%),
+    radial-gradient(ellipse 65% 26% at 50% 106%, rgba(140, 213, 255, 0.5) 0%, rgba(140, 213, 255, 0) 72%),
+    radial-gradient(ellipse 130% 105% at 50% 50%, rgba(4, 48, 74, 0.5) 0%, rgba(4, 48, 74, 0) 82%);
+}
+.lvr-r2 .lvf-container { position: relative; z-index: 1; }
+
+.lvr-r2-title {
+  font-size: clamp(30px, 3.4vw, 41px);
+  font-weight: 500;
+  line-height: 0.93;
+  letter-spacing: -0.02em;
+  margin: 0 0 48px;
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lvr-r2-accent {
+  background: var(--lvf-grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Tabelle */
+.lvr-r2-table {
+  position: relative;
+  border: 0.703259px solid rgba(255, 255, 255, 0.1);
+  border-radius: 11.2521px;
+  background:
+    linear-gradient(90deg, rgba(0, 162, 255, 0.501961) 0%, #00a2ff 50%, rgba(0, 162, 255, 0.501961) 100%),
+    rgba(255, 255, 255, 0.05);
+  background-blend-mode: color, normal;
+  backdrop-filter: blur(42.95px);
+  -webkit-backdrop-filter: blur(42.95px);
+  overflow: hidden;
+}
+.lvr-r2-row {
+  display: grid;
+  grid-template-columns: 223px repeat(8, 1fr);
+}
+
+/* Gruppenkopf (Lvlup / Startup) */
+.lvr-r2-row--groups { grid-template-columns: 223px 1fr 1fr; }
+.lvr-r2-gh-empty { min-height: 68px; }
+.lvr-r2-gh {
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+}
+
+/* Feature-Spalte */
+.lvr-r2-f {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px 10px 23px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 14px;
+  letter-spacing: 0.66px;
+  color: #000000;
+  text-align: left;
+}
+.lvr-r2-f--light {
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0.56px;
+  line-height: 18px;
+  color: #ffffff;
+}
+.lvr-r2-f--dark { color: #ffffff; letter-spacing: 0.33px; font-weight: 425; }
+
+/* Standard-Zelle */
+.lvr-r2-c {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 6px;
+  min-height: 59px;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: 0.44px;
+  color: #000000;
+  text-align: center;
+}
+.lvr-r2-c--split { box-shadow: inset 1px 0 0 0 rgba(255, 255, 255, 0.14); }
+
+/* Zeile Kontogroessen */
+.lvr-r2-c--size {
+  min-height: 68px;
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 5px 21px -1px rgba(255, 255, 255, 0.13);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.25px;
+  color: #ffffff;
+}
+.lvr-r2-c--size.lvr-r2-c--split {
+  box-shadow: inset 1px 0 0 0 rgba(255, 255, 255, 0.14), inset 0 5px 21px -1px rgba(255, 255, 255, 0.13);
+}
+
+/* Zeile Evaluation Payment (Blau-Gradient, dunkler Text) */
+.lvr-r2-c--grad {
+  min-height: 83px;
+  background: var(--lvf-grad-blue);
+  box-shadow: inset 0 5px 22px -1px rgba(255, 255, 255, 0.21);
+  font-weight: 483;
+  letter-spacing: 0.66px;
+  color: #000000;
+}
+.lvr-r2-c--grad.lvr-r2-c--split {
+  box-shadow: inset 1px 0 0 0 rgba(0, 0, 0, 0.18), inset 0 5px 22px -1px rgba(255, 255, 255, 0.21);
+}
+.lvr-r2-or { font-weight: 600; letter-spacing: 0.44px; }
+
+/* Schwarze Preis-Zeilen */
+.lvr-r2-c--dark {
+  background: linear-gradient(rgba(18, 169, 255, 0.1), rgba(18, 169, 255, 0.1)), #000000;
+  font-size: 12px;
+  font-weight: 425;
+  line-height: 15px;
+  letter-spacing: 0.69px;
+  color: #ffffff;
+}
+.lvr-r2-c--dark.lvr-r2-c--split { box-shadow: inset 1px 0 0 0 rgba(255, 255, 255, 0.08); }
+.lvr-r2-row--dark-top .lvr-r2-c--dark { box-shadow: inset 0 5px 22px -1px rgba(255, 255, 255, 0.1); }
+.lvr-r2-row--dark-top .lvr-r2-c--dark.lvr-r2-c--split {
+  box-shadow: inset 1px 0 0 0 rgba(255, 255, 255, 0.08), inset 0 5px 22px -1px rgba(255, 255, 255, 0.1);
+}
+.lvr-r2-row--dark-bot .lvr-r2-c--dark { box-shadow: inset 0 -5px 22px -1px rgba(255, 255, 255, 0.1); }
+.lvr-r2-row--dark-bot .lvr-r2-c--dark.lvr-r2-c--split {
+  box-shadow: inset 1px 0 0 0 rgba(255, 255, 255, 0.08), inset 0 -5px 22px -1px rgba(255, 255, 255, 0.1);
+}
+.lvr-r2-na { font-size: 11px; font-weight: 400; letter-spacing: 0.66px; color: rgba(255, 255, 255, 0.5); }
+
+/* Koerper-Zeilen (dunkler Text auf hellem Glow) */
+.lvr-r2-row--body { border-top: 1px solid rgba(255, 255, 255, 0.16); }
+.lvr-r2-row--body .lvr-r2-c {
+  background: rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 5px 21px -1px rgba(255, 255, 255, 0.13);
+}
+.lvr-r2-row--body .lvr-r2-c--split {
+  box-shadow: inset 1px 0 0 0 rgba(255, 255, 255, 0.14), inset 0 5px 21px -1px rgba(255, 255, 255, 0.13);
+}
+.lvr-r2-row--body .lvr-r2-f { box-shadow: inset 0 5px 21px -1px rgba(255, 255, 255, 0.13); }
+.lvr-r2-v { font-weight: 510; color: #000000; }
+.lvr-r2-s { font-weight: 400; color: rgba(0, 0, 0, 0.6); }
+.lvr-r2-none { color: rgba(0, 0, 0, 0.7); }
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .lvr-r2 { padding: 72px 0 130px; }
+  .lvr-r2-row { grid-template-columns: 150px repeat(8, 1fr); }
+  .lvr-r2-row--groups { grid-template-columns: 150px 1fr 1fr; }
+  .lvr-r2-f { padding-left: 16px; }
+  .lvr-r2-c--size { font-size: 15px; }
+  .lvr-r2-gh { font-size: 15px; }
+}
+
+/* Mobile: gestapelte Darstellung, Konto-Label per data-Attribut */
+@media (max-width: 767px) {
+  .lvr-r2 { padding: 56px 0 90px; }
+  .lvr-r2-title { margin-bottom: 32px; }
+  .lvr-r2-table { backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); }
+
+  .lvr-r2-row--groups { display: none; }
+
+  .lvr-r2-row { grid-template-columns: 1fr 1fr; }
+  .lvr-r2-f {
+    grid-column: 1 / -1;
+    padding: 16px 16px 6px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    box-shadow: none;
+  }
+  .lvr-r2-f--light { font-size: 13px; font-weight: 600; }
+  .lvr-r2-c {
+    min-height: 0;
+    padding: 12px 8px 16px;
+    gap: 4px;
+    font-size: 13px;
+    line-height: 1.35;
+    letter-spacing: 0.2px;
+    box-shadow: none;
+  }
+  .lvr-r2-c::before {
+    content: attr(data-a);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+  .lvr-r2-c--size { font-size: 15px; min-height: 0; background: rgba(0, 0, 0, 0.1); box-shadow: none; }
+  .lvr-r2-c--grad { min-height: 0; box-shadow: none; }
+  .lvr-r2-c--dark { font-size: 13px; }
+  .lvr-r2-row--dark-top .lvr-r2-c--dark,
+  .lvr-r2-row--dark-bot .lvr-r2-c--dark { box-shadow: none; }
+  .lvr-r2-row--body .lvr-r2-c { box-shadow: none; }
+  .lvr-r2-c--split,
+  .lvr-r2-c--size.lvr-r2-c--split,
+  .lvr-r2-c--grad.lvr-r2-c--split,
+  .lvr-r2-row--body .lvr-r2-c--split { box-shadow: none; }
+  .lvr-r2-na { font-size: 12px; }
+}
+
+
+/* ===== Pixelrunde 2 Rules (11.08.2026): r2-Uebersichtstabelle ============== */
+
+/* 1. Gruppenkoepfe "Lvlup Accounts" / "Startup Accounts" waren weiss.
+   Band-JSON: der Textknoten hat zwei Fuellungen, weiss UND darueber den
+   Verlauf 8cd5ff -> 12a9ff (180 Grad) - sichtbar ist also das Blau.
+   Im Soll-Bild gemessen rgb(70,181,240) und rgb(77,182,239),
+   live rgb(253,253,253) und rgb(254,254,254).
+   Der Verlauf liegt auf einem eigenen span, sonst wuerde background-clip:text
+   auch die schwarze Zellfuellung wegschneiden. */
+@media (min-width: 1024px) {
+  .lvr-r2 .lvr-r2-gh-t {
+    background: var(--lvf-grad-blue);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  /* Band-JSON: Schriftgewicht 458, Zeilenhoehe 23,8 px (bisher 500 / normal) */
+  .lvr-r2 .lvr-r2-gh { font-weight: 458; line-height: 23.8px; }
+}
+
+/* 2. Koerperzeilen sind 60 statt 59 px hoch. Ursache ist der Trennstrich:
+   .lvr-r2-row--body traegt border-top: 1px, im Band-JSON liegt der Strich
+   dagegen INNEN in der 59 px hohen Zeile. Im Soll-Bild gemessene Linien:
+   1386 / 1444 / 1503 / 1562 / ... also 59 px Raster, live 1385 / 1445 / 1505
+   also 60. Ueber neun Zeilen sind das die 9 px, um die die Tabelle mit 879
+   statt 870 px zu hoch war. */
+@media (min-width: 1024px) {
+  .lvr-r2 .lvr-r2-row--body .lvr-r2-c,
+  .lvr-r2 .lvr-r2-row--body .lvr-r2-f { min-height: 58px; }
+}
+
+/* 3. Gestapelte Zellen ("6 %" ueber "($1,500)"): Band-JSON setzt die beiden
+   Zeilen 14 px auseinander (Ink 1405 und 1419, Zeilenhoehen 14,08 und 14,3),
+   live waren es 21 px, weil zwischen den beiden spans zusaetzlich 7 px
+   Abstand standen. Dadurch rutschte die obere Zeile 6,9 px nach oben. */
+@media (min-width: 1024px) {
+  .lvr-r2 .lvr-r2-c { gap: 0; }
+  /* Unterzeile: Band-JSON Gewicht 353, live 400. */
+  .lvr-r2 .lvr-r2-s { font-weight: 353; }
+}
+
+/* 4. Sektionsfuss: der Override R3-rules-12 setzt padding-bottom auf 136 px und
+   nennt als Grund ausdruecklich "zusaetzlich 9px, weil die Tabelle selbst 879
+   statt 870 hoch ist". Nachdem Punkt 2 diese 9 px behoben hat, gehoeren sie
+   zurueck in den Abstand: 136 + 9 = 145. Sektionshoehe bleibt damit 1149 px. */
+@media (min-width: 1024px) {
+  .lvf-page .lvr-r2 { padding-bottom: 145px; }
+}
+
+/* 5. Harte Kante an der Oberkante des r2-Leuchtens.
+   Gemessen am linken Randstreifen (x 0..240): der Wert springt bei y 973 in
+   einer einzigen Zeile von 6,7 auf 42,6. Im Soll-Bild steigt er dort
+   gleichmaessig um 0,2 Stufen je Zeile (y 950: 24,3 -> y 1009: 38,3),
+   es gibt keine Kante.
+   Ursache: Override R3-rules-14 (r3-rules.css Zeile 340-352) setzt
+   .lvr-r2-glow auf inset: 60px 0 0 0; die Ellipsen sind an der Oberkante des
+   Kastens sofort voll deckend. R3-rules-27 blendet nur die unteren 90 px aus.
+   Hier dieselbe Maske wie R3-rules-30 sie fuer r3 bis r9 verwendet, nur mit
+   laengerem Einlauf nach oben. Doppelte Klasse, damit die Regel den Override
+   schlaegt; kein page-id im Selektor, damit sie auch lokal greift. */
+@media (min-width: 1024px) {
+  .lvr-r2 .lvr-r2-glow.lvr-r2-glow {
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0, #000 150px, #000 calc(100% - 90px), rgba(0, 0, 0, 0) 100%);
+            mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0, #000 150px, #000 calc(100% - 90px), rgba(0, 0, 0, 0) 100%);
+  }
+}
+
+
+/* ===========================================================================
+   Die beiden Randscheine liefen ueber Weiss, 11.08.2026
+
+   Live standen an beiden Seitenraendern zwei fast reinweisse Lichtkegel, im
+   Entwurf sind es helle, aber deutlich blaue Flaechen. Gemessen im Kern des
+   jeweiligen Kegels:
+
+     linker Kegel  (x 0, y 1648)      Entwurf (230,246,254)   live (254,254,254)
+     rechter Kegel (x 1759, y 1757)   Entwurf (195,233,255)   live (240,249,253)
+
+   Ueber die ganze Breite bei y 1900 gemessen faellt die Saettigung live auf
+   0,04 bis 0,17, im Entwurf bleibt sie zwischen 0,42 und 0,90. Der Schein
+   laeuft also nicht nur heller, sondern ueber Grau statt ueber Cyan.
+
+   Die wirksamen Werte stehen in r3-rules.css (R3-rules-21, Prioritaet 1200)
+   mit `.lvr-r2 .lvr-r2-glow` und damit 0-2-0. Der Kommentar dort benennt das
+   Problem bereits ("weil die Kernebene fast weiss ist"), die Korrektur hat
+   die Kerne aber auf rgba(255,255,255,1) gelassen. Deshalb hier 0-3-0.
+
+   Die Stuetzpunkte folgen dem am Mockup gemessenen Abfall entlang der
+   Kernhoehe, die Radien und Deckkraefte bleiben unveraendert.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lvf-page .lvr-r2 .lvr-r2-glow {
+    background:
+      radial-gradient(ellipse 700px 820px at 0 62%,
+        rgba(230, 246, 254, 1) 0%, rgba(205, 237, 254, 0.95) 26%, rgba(160, 214, 246, 0.82) 46%,
+        rgba(118, 196, 241, 0.5) 66%, rgba(0, 150, 240, 0) 100%),
+      radial-gradient(ellipse 660px 700px at 100% 72%,
+        rgba(195, 233, 255, 0.9) 0%, rgba(155, 219, 254, 0.86) 32%, rgba(132, 207, 248, 0.7) 52%,
+        rgba(115, 197, 243, 0.36) 70%, rgba(0, 150, 240, 0) 100%),
+      /* Mittelschicht: der Kern war mit rgba(140,213,255) zu blass. Unter der
+         Tabelle misst der Entwurf (21,144,213) mit Saettigung 0,90, live
+         waren es (57,137,182) mit 0,69: der Rotkanal lag rund 36 Stufen zu
+         hoch. Bei 0,85 Deckkraft ueber dem dunklen Grund ergibt
+         rgba(25,172,254) genau diesen Zielwert. */
+      radial-gradient(ellipse 78% 46% at 50% 72%,
+        rgba(25, 172, 254, 0.85) 0%, rgba(10, 168, 252, 0.66) 45%, rgba(0, 162, 255, 0.28) 70%, rgba(0, 162, 255, 0) 92%),
+      radial-gradient(ellipse 130% 105% at 50% 50%, rgba(4, 48, 74, 0.5) 0%, rgba(4, 48, 74, 0) 82%);
+  }
+}
+
+
+/* ===========================================================================
+   r2-Glow komplett neu vermessen, 11.08.2026, zweite Runde
+
+   Drei Befunde am frisch gerenderten Stand (Median bzw. 85. Perzentil,
+   nie Mittelwert ueber Text):
+
+   1. Der Einlauf oben fehlte: die Glow-Box begann bei y1083 (inset 170px)
+      und die Maske blendete erst ab dort ein. Der Entwurf leuchtet am linken
+      Rand aber schon ab etwa y920 (y1100: Entwurf (15,125,187), live
+      ( 52, 88,114); y1200: Entwurf ( 68,184,246), live (107,153,182), also
+      zu grau). Die Box beginnt jetzt an der Sektionskante (inset 0), die
+      Ellipsen laufen dort von selbst auf Null aus, eine Einblend-Maske
+      braucht es oben nicht mehr.
+   2. Das Mittelfeld hinter der Tabelle war viel zu dunkel: 85. Perzentil
+      x700..1100 bei y1450 Entwurf (90,190,255), live (30,113,161); y1650
+      Entwurf (78,186,255), live (40,139,196). Die Mittelellipse endete zu
+      frueh nach oben.
+   3. Beide Seitenkegel hatten die Kernhoehe zu tief und fielen nach unten
+      zu flach aus: rechts y1600 Entwurf (203,236,255), live (144,216,252);
+      Gipfel im Entwurf bei etwa y1650, live bei y1780.
+
+   Der Stapel unten ist ein numerischer Fit an 214 Messpunkte des Entwurfs
+   (Randprofile links/rechts y920..2040, Innenspalten x180/x1580, Mittelfeld
+   durchs Tabellenglas). Anker in Pixeln ab Boxoberkante (= Sektionskante
+   y913): linker Kern 658x500 bei y+712, rechter Kern 485x531 bei y+753,
+   Mittelellipse 2200x850 bei y+689, dazu je Seite ein gesaettigter Saum
+   fuer Ein- und Auslauf. Die dunkle Abdeckebene bleibt wie gehabt.
+
+   Maske: der Entwurf schneidet die Flaeche links bei etwa y2000 hart ab
+   (y1950 (133,203,244) -> y2000 (2,2,2)), rechts laeuft sie bis zur
+   Sektionsgrenze durch und uebergibt dort an das r3-Kernlicht. Deshalb
+   zwei Maskenhaelften: links harte Ausblendung 64..56px vor der Unterkante
+   (also bei y1998..2006 wie im Entwurf), rechts erst in den letzten 20px.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lvf-page .lvr-r2 .lvr-r2-glow.lvr-r2-glow {
+    inset: 0;
+    background:
+      radial-gradient(ellipse 658px 500px at 0 712px,
+        rgba(234, 247, 255, 1) 0%, rgba(216, 240, 254, 0.85) 40%,
+        rgba(150, 216, 250, 0.78) 70%, rgba(60, 180, 245, 0) 100%),
+      radial-gradient(ellipse 485px 531px at 100% 753px,
+        rgba(205, 237, 255, 1) 0%, rgba(175, 226, 254, 0.91) 40%,
+        rgba(110, 200, 250, 0.62) 70%, rgba(40, 170, 240, 0) 100%),
+      /* Mittelellipse: hell hinter den Tabellenzeilen y1390..1930 UND als
+         Anstieg an beiden Raendern. Ein Verkuerzen nach oben (Plateau-Test)
+         riss die Randanstiege bei y1100..1250 um 30 bis 60 Stufen auf,
+         deshalb bleibt die volle Hoehe. Dass sie oberhalb der Tabelle
+         durchscheint, wo der Entwurf dunkle Deko-Streifen zeigt, liegt an
+         den bewusst nicht gebauten Streifen (NOTIZ), nicht am Glow. */
+      radial-gradient(ellipse 2200px 850px at 50% 647px,
+        rgba(90, 192, 255, 1) 0%, rgba(30, 172, 254, 0.90) 40%,
+        rgba(0, 150, 240, 0.05) 70%, rgba(0, 120, 200, 0) 100%),
+      radial-gradient(ellipse 543px 897px at 0 620px,
+        rgba(110, 200, 250, 1) 0%, rgba(40, 170, 235, 0.90) 40%,
+        rgba(10, 120, 190, 0.05) 70%, rgba(0, 60, 110, 0) 100%),
+      /* Nachmessung V2: der Aufstieg zum rechten Kegel war bei y1200 rund
+         30 Stufen zu rot/hell ((51,152,209) gegen (20,136,199)) und der
+         Abfall bei y1900 24 zu rot - Saum enger und unten verankert. */
+      radial-gradient(ellipse 363px 1130px at 100% 947px,
+        rgba(85, 192, 248, 0.88) 0%, rgba(40, 170, 235, 0.76) 40%,
+        rgba(10, 120, 190, 0.05) 70%, rgba(0, 60, 110, 0) 100%),
+      /* Bodenfeld rechts der Mitte: der Entwurf haelt das Feld unter der
+         Tabelle bis zur Sektionskante blau (y2030 x1300 Entwurf (50,141,179),
+         ohne diese Ebene (13,65,100)). Die Seitenebene ::after kann dort
+         nicht helfen, ihre x-Maske endet bei x1415. */
+      radial-gradient(ellipse 260px 240px at 74% 100%,
+        rgba(80, 185, 243, 0.55) 0%, rgba(40, 165, 235, 0.35) 45%,
+        rgba(0, 140, 220, 0.12) 75%, rgba(0, 120, 200, 0) 100%),
+      radial-gradient(ellipse 130% 105% at 50% 50%, rgba(4, 48, 74, 0.5) 0%, rgba(4, 48, 74, 0) 82%);
+    /* Rechte Haelfte OHNE Ausblendung: der Glow laeuft bis zur Sektionskante
+       und uebergibt dort an das r3-Kernlicht. Mit einer 20px-Ausblendung
+       stand bei y2042..2062 ein toter dunkler Streifen (d bis 76). */
+    -webkit-mask-image:
+      linear-gradient(180deg, #000 0, #000 calc(100% - 64px), rgba(0, 0, 0, 0) calc(100% - 56px)),
+      linear-gradient(180deg, #000 0, #000 100%);
+    -webkit-mask-size: 880px 100%, 880px 100%;
+    -webkit-mask-position: 0 0, 880px 0;
+    -webkit-mask-repeat: no-repeat;
+            mask-image:
+      linear-gradient(180deg, #000 0, #000 calc(100% - 64px), rgba(0, 0, 0, 0) calc(100% - 56px)),
+      linear-gradient(180deg, #000 0, #000 100%);
+            mask-size: 880px 100%, 880px 100%;
+            mask-position: 0 0, 880px 0;
+            mask-repeat: no-repeat;
+  }
+}
+
+
+/* ============ Naht r2/r3 bei y2062: Anlauf des r3-Kernlichts ==============
+   Befund 12.08.2026. Messweise wie bei r1/r2: 20 Spaltenbloecke, Median ueber
+   je 8 Zeilen, Anker inhaltlich (r=0,92 gegen 0,70 Fremdtreffer).
+
+     Sprung Ist vorher    Mittel 17,5   groesster Block 48,3 (Block 17)
+     Sprung Ist nachher   Mittel  0,3   groesster Block  1,0
+     Sprung Soll          Mittel  0,6   groesster Block  1,7
+
+   Wirksam wird das erst zusammen mit zwei weiteren Schritten: der Regel
+   direkt darunter, die das r2-Leuchten rechts enden laesst, und dem
+   Entfernen des alten Brueckenlichts aus der Seitenebene in r1-hero.
+
+   Am rechten Rand steht ueber der Naht (18,84,120), eine Zeile darunter
+   (67,145,186). Der Entwurf hat an derselben Stelle (72,168,208) ueber UND
+   unter der Naht, also keinen Absatz.
+
+   Ursache: .lvr-r3-glow traegt sein Kernlicht bei `at 100% 14px`, also 14px
+   unter der Sektionskante, und schaltet die Einlaufmaske aus R3-rules-30
+   ausdruecklich ab (`mask-image: none` im r3-Fragment). Damit steht die
+   Ebene ab der ersten Zeile voll da.
+
+   Wo der Anlauf anfangen muss, sagt der Entwurf: die Glasflaeche
+   FRAME "Frame 2147237220" box(-4,760,1768,1242) endet bei y2002, ab dort
+   uebernimmt das r3-Licht. Deshalb genau 60px, von y2002 bis zur Naht.
+
+   VORSICHT bei der Gegenmessung: referenz-neu/soll/rules-aus-schnipseln.png
+   ist genau dort aus zwei Figma-Ausschnitten zusammengesetzt (Grenze bei
+   design_y 2002, siehe soll-bilder.json). Am rechten Rand springt das
+   SOLL-Bild dadurch selbst um 112 Stufen im Rotkanal ((49,170,229) bei
+   y2000 gegen (161,188,204) bei y2004). Der Bandbereich y2002..2062 laesst
+   sich mit dieser Datei also nicht auf den Punkt bewerten - die Naht bei
+   y2062 dagegen schon, dort ist das Soll durchgehend.
+
+   Der Stapel ist der obere Teil von .lvr-r3-glow, um 60px nach unten
+   verschoben, damit die Ellipsen in Seitenkoordinaten an derselben Stelle
+   liegen wie in r3. Oben laeuft er ueber 14px ein, sonst entstuende bei
+   y2002 eine neue Kante. overflow:hidden von .lvr-r2 schneidet ihn an der
+   Naht sauber ab.
+   ========================================================================= */
+@media (min-width: 1024px) {
+  .lvr-r2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 60px;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 657px 728px at 100% 74px,
+        rgba(212, 238, 253, 1) 0%, rgba(140, 212, 249, 0.81) 30%,
+        rgba(55, 170, 228, 0.52) 55%, rgba(12, 100, 155, 0.26) 80%,
+        rgba(0, 55, 95, 0) 100%),
+      radial-gradient(ellipse 1500px 200px at 100% 80px,
+        rgba(90, 190, 245, 0.55) 0%, rgba(30, 160, 230, 0.38) 45%,
+        rgba(0, 130, 205, 0.12) 75%, rgba(0, 110, 180, 0) 100%),
+      radial-gradient(ellipse 255px 2201px at 100% 314px,
+        rgba(85, 190, 242, 0.85) 0%, rgba(45, 160, 220, 0.40) 35%,
+        rgba(15, 110, 165, 0.28) 60%, rgba(3, 60, 100, 0.23) 85%,
+        rgba(0, 35, 60, 0) 100%);
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0, #000 14px);
+            mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0, #000 14px);
+  }
+}
+
+
+/* ============ Gegenstueck dazu: die rechte Haelfte endet jetzt auch =======
+   Der Maskenstapel oben blendet nur die LINKE Haelfte (x 0..880) 64px vor der
+   Unterkante aus, also bei y1998..2006, genau am Ende der Glasflaeche. Die
+   rechte lief bis zur Sektionskante durch. Begruendet war das damit, dass
+   sonst bei y2042..2062 ein toter dunkler Streifen stand (d bis 76) - richtig,
+   solange nichts an seine Stelle trat.
+
+   Mit dem Anlauf oben tritt das r3-Kernlicht an seine Stelle, und die rechte
+   Haelfte kann dieselbe Kante bekommen wie die linke. Ohne diesen Schritt
+   liegen im Band y2002..2062 beide Leuchten uebereinander; gemessen wurde
+   der Naht-Sprung dadurch in der Mitte groesser statt kleiner
+   (Bloecke 11 bis 15: 24,0/15,0/13,3/24,3/26,0 vor dem Anlauf,
+   44,3/40,0/40,7/44,0/41,3 mit Anlauf und ohne diese Regel).
+
+   Eine Maskenebene ueber die volle Breite statt zwei zu 880px; mask-size und
+   mask-position muessen dabei mit zurueckgesetzt werden, sonst gilt die alte
+   Kachelung und die rechte Haelfte faellt ganz weg.
+
+   Band y2004..2060 gegen den Entwurf, Mittel ueber alle 20 Bloecke:
+   16,36 vorher, 17,64 mit Anlauf allein, 10,86 mit beiden Regeln. Die Baender
+   darueber (y1500..1900: 13,50) und darunter (y2064..2140: 9,37) bleiben auf
+   die zweite Stelle unveraendert. Seitenhoehe unveraendert 21598 px.
+   ========================================================================= */
+@media (min-width: 1024px) {
+  .lvf-page .lvr-r2 .lvr-r2-glow.lvr-r2-glow {
+    -webkit-mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - 64px), rgba(0, 0, 0, 0) calc(100% - 56px));
+    -webkit-mask-size: 100% 100%;
+    -webkit-mask-position: 0 0;
+            mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - 64px), rgba(0, 0, 0, 0) calc(100% - 56px));
+            mask-size: 100% 100%;
+            mask-position: 0 0;
+  }
+}
+
+/* == r3-evaluation-drawdown == */
+/* Sektion r3-evaluation-drawdown (Trading Rules) - Praefix .lvr-r3- */
+.lvr-r3 {
+  position: relative;
+  padding: 60px 0 130px;
+  overflow: hidden;
+}
+
+/* Weiche Hintergrund-Glows, laufen transparent in die Nachbarsektionen aus.
+   Oben dezent blau, im Drawdown-Block ein starker blauer Glow von links. */
+.lvr-r3-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 22% at 82% 2%, rgba(0, 162, 255, 0.22) 0%, rgba(0, 162, 255, 0) 70%),
+    radial-gradient(ellipse 90% 30% at 50% 9%, rgba(4, 48, 74, 0.55) 0%, rgba(4, 48, 74, 0) 72%),
+    radial-gradient(ellipse 70% 26% at 12% 74%, rgba(0, 162, 255, 0.5) 0%, rgba(0, 162, 255, 0) 70%),
+    radial-gradient(ellipse 40% 15% at 6% 74%, rgba(140, 213, 255, 0.35) 0%, rgba(140, 213, 255, 0) 72%),
+    radial-gradient(ellipse 110% 40% at 30% 82%, rgba(4, 48, 74, 0.6) 0%, rgba(4, 48, 74, 0) 75%);
+}
+.lvr-r3 .lvf-container { position: relative; z-index: 1; }
+
+/* Sektionskoepfe (1 Evaluation Rules / 2 Drawdown Rules) */
+.lvr-r3-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 0 0 64px;
+}
+.lvr-r3-head--dd { margin-top: 111px; }
+.lvr-r3-badge {
+  flex: 0 0 auto;
+  width: 37px;
+  height: 37px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background: var(--lvf-grad-blue);
+  box-shadow: inset -1px 0 3px 0 rgba(255, 255, 255, 0.68);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.08em;
+  color: #05060f;
+}
+.lvr-r3-title {
+  font-size: clamp(30px, 3.4vw, 41px);
+  font-weight: 500;
+  line-height: 0.93;
+  letter-spacing: -0.02em;
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lvr-r3-accent {
+  background: var(--lvf-grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Zwei-Spalten-Grids (Spaltenbreiten aus dem Figma: 523/699 bzw. 699/523) */
+.lvr-r3-grid { display: grid; gap: 16px; align-items: start; }
+.lvr-r3-grid--eval { grid-template-columns: 523px 1fr; }
+.lvr-r3-grid--dd { grid-template-columns: 1fr 523px; }
+.lvr-r3-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+/* Karten */
+.lvr-r3-card {
+  border: 1px solid rgba(53, 174, 244, 0.35);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(46px);
+  -webkit-backdrop-filter: blur(46px);
+  padding: 26px 26px 38px;
+}
+.lvr-r3-card--blur110 {
+  backdrop-filter: blur(110px);
+  -webkit-backdrop-filter: blur(110px);
+}
+.lvr-r3-card--dark {
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(110px);
+  -webkit-backdrop-filter: blur(110px);
+}
+.lvr-r3-card--solid {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(110px);
+  -webkit-backdrop-filter: blur(110px);
+}
+
+/* Kartenkopf (dunkle Leiste) */
+.lvr-r3-cardhead {
+  display: flex;
+  align-items: center;
+  min-height: 58px;
+  padding: 10px 21px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  border-radius: 8px 0 8px 0;
+  background:
+    linear-gradient(0deg, rgba(0, 24, 38, 0) 0%, rgba(0, 24, 38, 0.2) 100%),
+    linear-gradient(231deg, rgba(0, 0, 0, 0.34) 0%, #000000 100%);
+}
+.lvr-r3-cardtitle {
+  font-size: clamp(19px, 1.8vw, 24px);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+/* Fliesstext */
+.lvr-r3-body { padding: 29px 17px 0; }
+.lvr-r3-body p {
+  font-size: 15px;
+  font-weight: 340;
+  line-height: 26px;
+  letter-spacing: 0.9px;
+  color: rgba(246, 248, 250, 0.6);
+}
+.lvr-r3-body p + p { margin-top: 26px; }
+
+/* Tabellen */
+.lvr-r3-table {
+  width: 100%;
+  margin-top: 22px;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 9px;
+  overflow: hidden;
+}
+.lvr-r3-table th,
+.lvr-r3-table td { width: 50%; padding: 17px 24px; text-align: left; }
+.lvr-r3-table th {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 11px;
+  font-weight: 433;
+  line-height: 15px;
+  letter-spacing: 0.75px;
+  color: #ffffff;
+}
+.lvr-r3-table th:first-child { border-radius: 5px 0 0 0; }
+.lvr-r3-table th:last-child { border-radius: 0 5px 0 0; }
+.lvr-r3-table td {
+  background: rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 14px;
+  font-weight: 425;
+  line-height: 18px;
+  letter-spacing: 0.42px;
+  color: rgba(255, 255, 255, 0.65);
+}
+.lvr-r3-table tbody tr:last-child td { border-bottom: 0; }
+.lvr-r3-table tbody tr:last-child td:first-child { border-radius: 0 0 0 5px; }
+.lvr-r3-table tbody tr:last-child td:last-child { border-radius: 0 0 5px 0; }
+.lvr-r3-table + .lvr-r3-body { padding-top: 23px; }
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .lvr-r3 { padding: 48px 0 100px; }
+  .lvr-r3-grid--eval,
+  .lvr-r3-grid--dd { grid-template-columns: 5fr 7fr; }
+  .lvr-r3-grid--dd { grid-template-columns: 7fr 5fr; }
+  .lvr-r3-head--dd { margin-top: 80px; }
+  .lvr-r3-card { padding: 20px 20px 30px; }
+  .lvr-r3-body { padding: 24px 10px 0; }
+  .lvr-r3-table + .lvr-r3-body { padding-top: 20px; }
+}
+
+/* Mobile: gestapelt, Fliesstext >= 16px */
+@media (max-width: 767px) {
+  .lvr-r3 { padding: 40px 0 80px; }
+  .lvr-r3-head { gap: 12px; margin-bottom: 36px; }
+  .lvr-r3-head--dd { margin-top: 56px; }
+  .lvr-r3-badge { width: 32px; height: 32px; font-size: 20px; }
+  .lvr-r3-grid--eval,
+  .lvr-r3-grid--dd { grid-template-columns: 1fr; }
+  .lvr-r3-card { padding: 16px 16px 26px; border-radius: 18px; }
+  .lvr-r3-cardhead { min-height: 52px; padding: 10px 16px; }
+  .lvr-r3-body { padding: 22px 4px 0; }
+  .lvr-r3-body p { font-size: 16px; line-height: 1.6; letter-spacing: 0.3px; }
+  .lvr-r3-body p + p { margin-top: 20px; }
+  .lvr-r3-table { margin-top: 18px; }
+  .lvr-r3-table th, .lvr-r3-table td { padding: 13px 14px; }
+  .lvr-r3-table th { font-size: 11px; }
+  .lvr-r3-table td { font-size: 14px; }
+}
+
+
+/* Review R3 (ru1): Tabellen rahmenlos wie im Soll - keine Zellrahmen, keine
+   Spaltentrenner, keine Zebra-Fuellung; nur duenne Linie unter der Kopfzeile. */
+.lvr-r3 .lvr-r3-table th,
+.lvr-r3 .lvr-r3-table td {
+  border: 0;
+  background: transparent;
+}
+.lvr-r3 .lvr-r3-table tbody tr,
+.lvr-r3 .lvr-r3-table tbody tr:nth-child(odd),
+.lvr-r3 .lvr-r3-table tbody tr:nth-child(even) {
+  border: 0;
+  background: transparent;
+}
+.lvr-r3 .lvr-r3-table thead th {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+
+/* Abnahme Runde 2: Karten waren zu hell (Luma 26-47 statt 1-7) - fast schwarze
+   Flaechen wie im Entwurf; Tabellen auf dunklerer Innenflaeche, Kopflinie weich. */
+.lvr-r3 .lvr-r3-card {
+  background-color: rgba(1, 4, 7, 0.92);
+}
+.lvr-r3 .lvr-r3-table {
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 10px;
+}
+.lvr-r3 .lvr-r3-table thead th {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+
+/* Pixelrunde 2 Rules (11.08.2026): Trennlinien der Innentabellen.
+   Im Band-JSON traegt JEDE Zeile unten einen Strich rgba(255,255,255,0.06)
+   mit 0,534 px, INSIDE gezeichnet; oben hat keine Zeile einen Strich, und der
+   Tabellenrahmen (Frame 2147237344) ist unsichtbar.
+   Im Soll-Bild gemessen (textfreier Streifen): fuenf Haarlinien Helligkeit
+   5 bis 9, Flaeche dazwischen 1,0. Live fehlten die vier Zeilenstriche ganz,
+   die Kopflinie stand auf 16,9.
+   1 px mit 3,2 % Weiss gibt dieselbe Lichtmenge wie 0,534 px mit 6 %
+   (254 x 0,06 x 0,534 = 8,1 Stufen). */
+@media (min-width: 1024px) {
+  .lvr-r3 .lvr-r3-table thead tr th,
+  .lvr-r3 .lvr-r3-table tbody tr td,
+  .lvr-r3 .lvr-r3-table tbody tr:last-child td {
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.032);
+  }
+
+  /* Aussenradius: Band-JSON 8,545 px, bisher 10. */
+  .lvr-r3 .lvr-r3-table { border-radius: 8.5px; }
+
+  /* Textspalte: Band-JSON gibt fuer die 523er Karten x 1019 mit 438 px Breite,
+     also 43 px Einzug links. Gerendert waren es 435 px, weil der 1px-Rahmen
+     der Karte von den 523 px abgeht (523 - 2 - 2x26 - 2x17 = 435). Wegen der
+     drei fehlenden Pixel brach "Lvlup Drawdown Lock" eine Zeile zu frueh um
+     ("... the drawdown" statt "... the drawdown stops", Beleg
+     belege/rules/r3-drawdown-lock.png) - die Karte wurde 369 statt 334 px.
+     16 px links ergibt x 1019 (1 Rahmen + 26 Kartenpolster + 16), 15 px
+     rechts ergibt 438 px Breite. */
+  .lvr-r3 .lvr-r3-body { padding-inline: 16px 15px; }
+
+  /* Zeilenhoehe damit 45 px wie im Band-JSON (vorher 44), Tabelle 222 statt
+     218 px (Soll 221).
+
+     Dazu die beiden Abstaende um die Tabelle auf das Band-Mass. Gerechnet an
+     "Lvlup Account Profit Targets" (Band: Karte 2223..2686, Kopfleiste bis
+     2307, Textzeile 1 bei 2336, Tabelle 2369..2590, Textzeile 2 bei 2613):
+       Text -> Tabelle   Soll 15 / bisher 22
+       Tabelle -> Text   Soll 15 / bisher 22 (Override R3-rules-06 setzt
+                         .lvr-r3 .lvr-r3-body auf 22 und schlaegt damit die
+                         Fragmentregel mit 23)
+     Damit sind die vier Tabellenkarten 464 / 491 / 464 / 464 px statt
+     476 / 502 / 476 / 476 (Soll 463 / 490 / 460 / 460), also +1 bis +4 statt
+     +12 bis +15. */
+  .lvr-r3 .lvr-r3-table { margin-top: 15px; }
+  .lvr-r3 .lvr-r3-table + .lvr-r3-body { padding-top: 15px; }
+
+  /* Die beiden Tabellenkarten des Drawdown-Blocks stehen in der laengeren der
+     zwei Spalten, deshalb verkuerzt sich die Sektion um 20 px auf 3142.
+     Der Sektionsfuss gibt sie zurueck: Override R3-rules-12 (r3-rules.css
+     Zeile 217) setzt 50 px, das Band-JSON verlangt 89 (letzte Karte 5135 ->
+     Sektionsende 5224). 70 px trifft die bisherige Sektionshoehe 3162 px
+     wieder genau und geht dabei in Richtung Soll. */
+  .lvf-page .lvr-r3 { padding-bottom: 70px; }
+}
+
+
+/* ===========================================================================
+   r3-Glow: Kernlicht oben rechts, 11.08.2026, zweite Runde
+
+   Der Entwurf zeigt am rechten Rand direkt unter der r2-Tabelle einen
+   hellen Kern, der hart an der Bereichsgrenze beginnt (y2000 im Entwurf)
+   und ueber rund 2500 px nach unten auslaeuft. Live stand dort nur die
+   schwache Ellipse "80% 22% at 82% 2%" mit 0,22 plus die Seitenebene aus
+   R3-rules-13, zusammen deutlich zu dunkel und ohne Querabfall:
+     y2100 Rand   Entwurf (198,233,253)   live (130,196,230)
+     y2400 Rand   Entwurf ( 86,185,227)   live (104,153,183)  (zu grau)
+     y2800 Rand   Entwurf ( 38,108,149)   live ( 28, 56, 80)
+     y2800 x1580  Entwurf ( 12, 39, 54)   live ( 27, 56, 79)  (zu breit)
+   Nachdem die Seitenebenen im r1-Fragment aus diesem Bereich entfernt sind,
+   uebernimmt die Sektion selbst: ein Kern (657x728) plus ein schmaler
+   Randsaum (255x2201), numerisch an 156 Messpunkte gefittet (mittlere
+   Restabweichung 3,7 je Kanal).
+
+   Die beiden Drawdown-Glows links (R3-rules-15: 70%/26% und 40%/15% bei
+   12%/74%) sind hier bewusst NICHT mehr im Stapel: Sektions-Glows malen
+   UEBER die Seitenebene ::before, und die 0,5er-Blauellipse wusch den
+   weissen Grosskegel des Entwurfs blau (gemessen y4400 x0..15: Entwurf
+   (233,247,255), mit Paar (129,209,255), Rotkanal mal 0,62). Den linken
+   Lichtberg traegt jetzt vollstaendig die neu gefittete Seitenebene im
+   r1-Fragment, die hinter den Karten liegt wie im Entwurf.
+
+   Die Maske aus R3-rules-30 (90px-Einblendung oben) wuerde den harten
+   Kernbeginn an der Sektionskante wegblenden, der Entwurf zeigt ihn hart:
+   deshalb hier ohne Maske. Unten enden beide Ebenen rechnerisch vor der
+   Sektionskante, eine Ausblendung braucht es nicht.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lvf-page .lvr-r3 .lvr-r3-glow {
+    background:
+      radial-gradient(ellipse 657px 728px at 100% 14px,
+        rgba(212, 238, 253, 1) 0%, rgba(140, 212, 249, 0.81) 30%,
+        rgba(55, 170, 228, 0.52) 55%, rgba(12, 100, 155, 0.26) 80%,
+        rgba(0, 55, 95, 0) 100%),
+      /* Breites, flaches Feld direkt unter der Sektionskante: der Entwurf
+         zieht das Kernlicht bis etwa x1150 nach links (y2070 x1150..1300
+         Entwurf (23,79,112)/(47,134,175), ohne diese Ebene (7,29,48)/
+         (28,83,116)). Liegt UNTER dem Kern, an der hellen Kante wirkt es
+         deshalb nicht doppelt; ry 200 haelt es aus dem Bereich ab y2260
+         (mit 430 stand y2200 quer 25 Stufen zu hell). */
+      radial-gradient(ellipse 1500px 200px at 100% 20px,
+        rgba(90, 190, 245, 0.55) 0%, rgba(30, 160, 230, 0.38) 45%,
+        rgba(0, 130, 205, 0.12) 75%, rgba(0, 110, 180, 0) 100%),
+      /* Nachmessung V2: der Saum war im Mitteltail zu rot (y2800 Rand
+         (58,119,156) gegen (39,110,151), x1580 y2500 (23,82,118) gegen
+         (19,65,93)) - Kopffarbe entsaettigt und leicht abgeschwaecht. */
+      radial-gradient(ellipse 255px 2201px at 100% 254px,
+        rgba(85, 190, 242, 0.85) 0%, rgba(45, 160, 220, 0.40) 35%,
+        rgba(15, 110, 165, 0.28) 60%, rgba(3, 60, 100, 0.23) 85%,
+        rgba(0, 35, 60, 0) 100%);
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
+}
+
+/* == r4-consistency-conditions == */
+/* Sektion r4-consistency-conditions (Trading Rules) - Praefix .lvr-r4- */
+.lvr-r4 {
+  position: relative;
+  padding: 60px 0 130px;
+  overflow: hidden;
+}
+
+/* Weiche Hintergrund-Glows nach dem Figma (grosse blaue Sterne links, starke
+   Leuchten im unteren Bereich). Laufen transparent in die Nachbarsektionen aus,
+   keine harten Kanten. */
+.lvr-r4-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 40% at -6% 12%, rgba(0, 162, 255, 0.4) 0%, rgba(0, 162, 255, 0) 68%),
+    radial-gradient(ellipse 40% 30% at 0% 18%, rgba(140, 213, 255, 0.22) 0%, rgba(140, 213, 255, 0) 70%),
+    radial-gradient(ellipse 90% 45% at 25% 78%, rgba(0, 162, 255, 0.5) 0%, rgba(0, 162, 255, 0) 70%),
+    radial-gradient(ellipse 55% 32% at 12% 82%, rgba(140, 213, 255, 0.3) 0%, rgba(140, 213, 255, 0) 72%),
+    radial-gradient(ellipse 120% 50% at 40% 88%, rgba(4, 48, 74, 0.65) 0%, rgba(4, 48, 74, 0) 75%);
+}
+.lvr-r4 .lvf-container { position: relative; z-index: 1; }
+
+/* Sektionskoepfe (3 Consistency Rules / 4 Trading Conditions) */
+.lvr-r4-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 0 0 75px;
+}
+.lvr-r4-head--cond { margin-top: 111px; }
+.lvr-r4-badge {
+  flex: 0 0 auto;
+  width: 37px;
+  height: 37px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background: var(--lvf-grad-blue);
+  box-shadow: inset -1px 0 3px 0 rgba(255, 255, 255, 0.68);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.08em;
+  color: #05060f;
+}
+.lvr-r4-title {
+  font-size: clamp(30px, 3.4vw, 41px);
+  font-weight: 500;
+  line-height: 0.93;
+  letter-spacing: -0.02em;
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lvr-r4-accent {
+  background: var(--lvf-grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Zwei gleich breite Spalten (Figma: 611px + 16px + 611px) */
+.lvr-r4-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.lvr-r4-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+/* Karten. Standard: fast transparent (rgba(255,255,255,0.02) im Figma),
+   --dark: rgba(0,0,0,0.62). Alle mit starkem Backdrop-Blur. */
+.lvr-r4-card {
+  border: 1px solid rgba(53, 174, 244, 0.35);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(110px);
+  -webkit-backdrop-filter: blur(110px);
+  padding: 26px 26px 38px;
+}
+.lvr-r4-card--dark { background: rgba(0, 0, 0, 0.62); }
+
+/* Kartenkopf (dunkle Leiste) */
+.lvr-r4-cardhead {
+  display: flex;
+  align-items: center;
+  min-height: 58px;
+  padding: 10px 21px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  border-radius: 8px 0 8px 0;
+  background:
+    linear-gradient(0deg, rgba(0, 24, 38, 0) 0%, rgba(0, 24, 38, 0.2) 100%),
+    linear-gradient(231deg, rgba(0, 0, 0, 0.34) 0%, #000000 100%);
+}
+.lvr-r4-cardtitle {
+  font-size: clamp(19px, 1.8vw, 24px);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+/* Fliesstext */
+.lvr-r4-body { padding: 29px 17px 0; }
+.lvr-r4-body p {
+  font-size: 15px;
+  font-weight: 340;
+  line-height: 26px;
+  letter-spacing: 0.9px;
+  color: rgba(246, 248, 250, 0.6);
+}
+.lvr-r4-body p + p { margin-top: 26px; }
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .lvr-r4 { padding: 48px 0 100px; }
+  .lvr-r4-head { margin-bottom: 56px; }
+  .lvr-r4-head--cond { margin-top: 80px; }
+  .lvr-r4-card { padding: 20px 20px 30px; }
+  .lvr-r4-body { padding: 24px 10px 0; }
+}
+
+/* Mobile: gestapelt, Fliesstext >= 16px */
+@media (max-width: 767px) {
+  .lvr-r4 { padding: 40px 0 80px; }
+  .lvr-r4-head { gap: 12px; margin-bottom: 36px; }
+  .lvr-r4-head--cond { margin-top: 56px; }
+  .lvr-r4-badge { width: 32px; height: 32px; font-size: 20px; }
+  .lvr-r4-grid { grid-template-columns: 1fr; }
+  .lvr-r4-card { padding: 16px 16px 26px; border-radius: 18px; }
+  .lvr-r4-cardhead { min-height: 52px; padding: 10px 16px; }
+  .lvr-r4-body { padding: 22px 4px 0; }
+  .lvr-r4-body p { font-size: 16px; line-height: 1.6; letter-spacing: 0.3px; }
+  .lvr-r4-body p + p { margin-top: 20px; }
+}
+
+
+/* Abnahme Runde 2: Karten waren zu hell (Luma 26-47 statt 1-7) - fast schwarze
+   Flaechen wie im Entwurf; Tabellen auf dunklerer Innenflaeche, Kopflinie weich. */
+.lvr-r4 .lvr-r4-card {
+  background-color: rgba(1, 4, 7, 0.92);
+}
+.lvr-r4 .lvr-r4-table {
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 10px;
+}
+.lvr-r4 .lvr-r4-table thead th {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+
+/* Pixelrunde 2 Rules (11.08.2026): Textspalte auf das Band-Mass.
+   Band-JSON: Text x 304 mit 526 px Breite in den 611er Karten, also 43 px
+   Einzug links und 42 rechts. Gerendert waren es 524 px, weil der 1px-Rahmen
+   der Karte von den 611 px abgeht (611 - 2 - 2x26 - 2x17 = 524). Die zwei
+   fehlenden Pixel liessen einzelne Absaetze eine Zeile zu frueh umbrechen.
+   16 px links ergibt x 304 (1 Rahmen + 26 Kartenpolster + 16), 15 px rechts
+   ergibt 526 px Breite. */
+@media (min-width: 1024px) {
+  .lvr-r4 .lvr-r4-body { padding-inline: 16px 15px; }
+}
+
+/* Die breitere Textspalte spart in der laengeren der beiden Spalten eine
+   Zeile ein, die Sektion wurde dadurch 2187 statt 2213 px. Der Sektionsfuss
+   gibt die 26 px zurueck: Override R3-rules-12 (r3-rules.css Zeile 222) setzt
+   72 px, das Band-JSON verlangt mehr (der Override glich die frueher zu hohen
+   Karten aus). 98 px trifft die bisherige Sektionshoehe 2213 px wieder genau. */
+@media (min-width: 1024px) {
+  .lvf-page .lvr-r4 { padding-bottom: 98px; }
+}
+
+
+/* ===========================================================================
+   r4-Glow: vom linken Randstreifen fernhalten, 11.08.2026, zweite Runde
+
+   Sektions-Glows malen UEBER die Seitenebene ::before (Baumreihenfolge bei
+   z-index 0). Die beiden Ebenen aus R3-rules-15 (rgba(0,162,255,0.4) und
+   rgba(140,213,255,0.22) um y5489) wuschen damit den unteren Auslauf des
+   weissen Grosskegels blau: am Rand gemessen
+     y5300  Entwurf (213,240,255)   mit Glow (168,222,254)
+     y5600  Entwurf (137,216,252)   mit Glow ( 94,194,251)
+   Der Entwurf haelt den Auslauf weiss. Deshalb blendet eine x-Maske den
+   Glow ueber den ersten 255 px aus, exakt dort, wo die Seitenebene ihr
+   Plateau hat (gleiche Kante wie die Maske aus R3-rules-13). Die
+   y-Ausblendungen der letzten 90 px oben und unten aus R3-rules-30 bleiben
+   als zweite Maskenebene mit Schnittmengen-Verknuepfung erhalten.
+   Tiefer im Bild (x ab 345) aendert sich nichts, dort liefert der Glow
+   weiter das flache Blau hinter den Karten.
+   Spezifitaet 0-3-0, damit die Regel R3-rules-30 (0-2-0) schlaegt.
+   =========================================================================== */
+@media (min-width: 1024px) {
+  .lvf-page .lvr-r4 .lvr-r4-glow {
+    -webkit-mask-image:
+      linear-gradient(90deg, rgba(0, 0, 0, 0) 255px, #000 345px),
+      linear-gradient(180deg, rgba(0, 0, 0, 0) 0, #000 90px, #000 calc(100% - 90px), rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-composite: source-in;
+            mask-image:
+      linear-gradient(90deg, rgba(0, 0, 0, 0) 255px, #000 345px),
+      linear-gradient(180deg, rgba(0, 0, 0, 0) 0, #000 90px, #000 calc(100% - 90px), rgba(0, 0, 0, 0) 100%);
+            mask-composite: intersect;
+  }
+}
+
+/* == r5-contracts-payout == */
+/* Sektion r5-contracts-payout (Trading Rules) - Praefix .lvr-r5- */
+.lvr-r5 {
+  position: relative;
+  padding: 10px 0 130px;
+  overflow: hidden;
+}
+
+/* Weiche Hintergrund-Glows nach dem Figma (starkes blaues Leuchten rechts mittig,
+   dezenter Schein oben links). Laufen transparent in die Nachbarsektionen aus,
+   keine harten Kanten. */
+.lvr-r5-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 30% at 98% 32%, rgba(0, 162, 255, 0.5) 0%, rgba(0, 162, 255, 0) 70%),
+    radial-gradient(ellipse 38% 22% at 90% 36%, rgba(140, 213, 255, 0.28) 0%, rgba(140, 213, 255, 0) 72%),
+    radial-gradient(ellipse 60% 30% at 95% 62%, rgba(0, 162, 255, 0.42) 0%, rgba(0, 162, 255, 0) 70%),
+    radial-gradient(ellipse 40% 22% at 88% 66%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 72%),
+    radial-gradient(ellipse 45% 24% at 0% 6%, rgba(0, 162, 255, 0.2) 0%, rgba(0, 162, 255, 0) 70%),
+    radial-gradient(ellipse 90% 40% at 70% 92%, rgba(4, 48, 74, 0.6) 0%, rgba(4, 48, 74, 0) 75%);
+}
+.lvr-r5 .lvf-container { position: relative; z-index: 1; }
+
+/* Sektionskoepfe (5 Contracts and Account Limits / 6 Lvlup Payout Rules) */
+.lvr-r5-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 0 0 75px;
+}
+.lvr-r5-head--payout { margin-top: 111px; }
+.lvr-r5-badge {
+  flex: 0 0 auto;
+  width: 37px;
+  height: 37px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background: var(--lvf-grad-blue);
+  box-shadow: inset -1px 0 3px 0 rgba(255, 255, 255, 0.68);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.08em;
+  color: #05060f;
+}
+.lvr-r5-title {
+  font-size: clamp(30px, 3.4vw, 41px);
+  font-weight: 500;
+  line-height: 0.93;
+  letter-spacing: -0.02em;
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lvr-r5-accent {
+  background: var(--lvf-grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Zwei Spalten (Figma: 523px + 16px + 699px) */
+.lvr-r5-grid { display: grid; grid-template-columns: 523fr 699fr; gap: 16px; align-items: start; }
+.lvr-r5-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+/* Karten. Standard: rgba(255,255,255,0.05), --soft: 0.02, --dark: rgba(0,0,0,0.35),
+   --darker: rgba(0,0,0,0.85). Alle mit starkem Backdrop-Blur und feinem blauen Rand. */
+.lvr-r5-card {
+  border: 1px solid rgba(53, 174, 244, 0.35);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(110px);
+  -webkit-backdrop-filter: blur(110px);
+  padding: 26px 26px 38px;
+}
+.lvr-r5-card--soft { background: rgba(255, 255, 255, 0.02); }
+.lvr-r5-card--dark { background: rgba(0, 0, 0, 0.35); }
+.lvr-r5-card--darker { background: rgba(0, 0, 0, 0.85); }
+
+/* Kartenkopf (dunkle Leiste) */
+.lvr-r5-cardhead {
+  display: flex;
+  align-items: center;
+  min-height: 58px;
+  padding: 10px 21px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  border-radius: 8px 0 8px 0;
+  background:
+    linear-gradient(0deg, rgba(0, 24, 38, 0) 0%, rgba(0, 24, 38, 0.2) 100%),
+    linear-gradient(231deg, rgba(0, 0, 0, 0.34) 0%, #000000 100%);
+}
+.lvr-r5-cardtitle {
+  font-size: clamp(19px, 1.8vw, 24px);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+/* Fliesstext */
+.lvr-r5-body { padding-top: 29px; }
+.lvr-r5-body p {
+  padding-inline: 17px;
+  font-size: 15px;
+  font-weight: 340;
+  line-height: 26px;
+  letter-spacing: 0.9px;
+  color: rgba(246, 248, 250, 0.6);
+}
+.lvr-r5-body p + p { margin-top: 26px; }
+
+/* Tabellen (Maximum Contract Limits / Maximum Payout Amount) */
+.lvr-r5-tablewrap {
+  margin: 20px 0 26px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 9px;
+  overflow: hidden;
+}
+.lvr-r5-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.lvr-r5-table th {
+  padding: 17px 24px;
+  background: rgba(0, 0, 0, 0.5);
+  font-size: 11px;
+  font-weight: 433;
+  line-height: 15px;
+  letter-spacing: 0.75px;
+  text-align: left;
+  color: #ffffff;
+}
+.lvr-r5-table td {
+  padding: 13px 24px;
+  background: rgba(0, 0, 0, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 14px;
+  font-weight: 425;
+  line-height: 18px;
+  letter-spacing: 0.42px;
+  color: rgba(255, 255, 255, 0.65);
+}
+.lvr-r5-table th + th,
+.lvr-r5-table td + td { border-left: 1px solid rgba(255, 255, 255, 0.06); }
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .lvr-r5 { padding: 10px 0 100px; }
+  .lvr-r5-head { margin-bottom: 56px; }
+  .lvr-r5-head--payout { margin-top: 80px; }
+  .lvr-r5-card { padding: 20px 20px 30px; }
+  .lvr-r5-body { padding-top: 24px; }
+  .lvr-r5-body p { padding-inline: 10px; }
+}
+
+/* Mobile: gestapelt, Fliesstext >= 16px */
+@media (max-width: 767px) {
+  .lvr-r5 { padding: 0 0 80px; }
+  .lvr-r5-head { gap: 12px; margin-bottom: 36px; }
+  .lvr-r5-title { min-width: 0; flex: 1 1 0; font-size: clamp(24px, 7vw, 30px); line-height: 1.05; }
+  .lvr-r5-head--payout { margin-top: 56px; }
+  .lvr-r5-badge { width: 32px; height: 32px; font-size: 20px; }
+  .lvr-r5-grid { grid-template-columns: 1fr; }
+  .lvr-r5-card { padding: 16px 16px 26px; border-radius: 18px; }
+  .lvr-r5-cardhead { min-height: 52px; padding: 10px 16px; }
+  .lvr-r5-body { padding-top: 22px; }
+  .lvr-r5-body p { padding-inline: 4px; font-size: 16px; line-height: 1.6; letter-spacing: 0.3px; }
+  .lvr-r5-body p + p { margin-top: 20px; }
+  .lvr-r5-table th { padding: 14px 12px; font-size: 10px; letter-spacing: 0.4px; }
+  .lvr-r5-table td { padding: 12px; font-size: 13px; }
+}
+
+
+/* Review R3 (ru1): Tabellen rahmenlos wie im Soll - keine Zellrahmen, keine
+   Spaltentrenner, keine Zebra-Fuellung; nur duenne Linie unter der Kopfzeile. */
+.lvr-r5 .lvr-r5-table th,
+.lvr-r5 .lvr-r5-table td {
+  border: 0;
+  background: transparent;
+}
+.lvr-r5 .lvr-r5-table tbody tr,
+.lvr-r5 .lvr-r5-table tbody tr:nth-child(odd),
+.lvr-r5 .lvr-r5-table tbody tr:nth-child(even) {
+  border: 0;
+  background: transparent;
+}
+.lvr-r5 .lvr-r5-table thead th {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+
+/* Abnahme Runde 2: Karten waren zu hell (Luma 26-47 statt 1-7) - fast schwarze
+   Flaechen wie im Entwurf; Tabellen auf dunklerer Innenflaeche, Kopflinie weich. */
+.lvr-r5 .lvr-r5-card {
+  background-color: rgba(1, 4, 7, 0.92);
+}
+.lvr-r5 .lvr-r5-table {
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 10px;
+}
+.lvr-r5 .lvr-r5-table thead th {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+
+/* Pixelrunde Rules (10.08.2026): falsch sitzende Karten auf das Figma-Mass.
+   Die Sektionshöhe stimmte (2413 / Soll 2412), aber drei Karten sassen 20 bis
+   30 px falsch (grenzen-rules-gegenprobe.json: "Multiple Accounts" +30 live).
+   Ursachen und Korrekturen, alle Werte an Soll-Bild und Band-JSON nachgemessen.
+   Nur Desktop - Tablet/Mobil behalten die bisherigen Werte (keine Referenz). */
+@media (min-width: 1024px) {
+  /* 1. Textbreite linke Spalte: Entwurf 438 px, gerendert 435. Deshalb bricht
+     "Exposure Is Aggregated" Absatz 1 auf 4 statt 3 Zeilen um (Soll-Bild:
+     3 Zeilen) und die Karte ist 343 statt 317 hoch; "Maximum Total Allocation"
+     und "Multiple Accounts" rutschen 27/28 px nach unten. Rechter Einzug 14
+     statt 17 px entspricht exakt der Box im Band-JSON (x 304, w 438). */
+  .lvr-r5 .lvr-r5-grid > .lvr-r5-col:nth-child(1) .lvr-r5-body p { padding-inline: 17px 14px; }
+
+  /* 2. Tabellen: Kopfzeile Soll 42 / Ist 50 (Band-JSON Zeilen 42 + 4 × 45).
+     Abstand Text -> Tabelle Soll 7 / Ist 20, Tabelle -> Text Soll 23 / Ist 26
+     (Band-JSON y 7698 / 7919 / 7942). Trifft "Maximum Contract Limits"
+     (Soll 460 / Ist 487) und "Maximum Payout Amount" (Soll 438 / Ist 461). */
+  .lvr-r5 .lvr-r5-table th { padding-top: 13px; padding-bottom: 13px; }
+  .lvr-r5 .lvr-r5-tablewrap { margin: 7px 0 23px; }
+
+  /* 3. Kartenfüsse einzeln auf das Band-JSON (der Entwurf fussst die Karten
+     unterschiedlich, damit die Spalten gleich enden). Kartenhöhe im Render:
+     108 + 26 × Zeilenslots + padding-bottom. */
+  .lvr-r5 .lvr-r5-head:not(.lvr-r5-head--payout) + .lvr-r5-grid > .lvr-r5-col:nth-child(1) > .lvr-r5-card:nth-child(3) { padding-bottom: 30px; } /* Maximum Total Allocation: Soll 294 / Ist 291 */
+  .lvr-r5 .lvr-r5-head:not(.lvr-r5-head--payout) + .lvr-r5-grid > .lvr-r5-col:nth-child(2) > .lvr-r5-card:nth-child(1) { padding-bottom: 24px; } /* Maximum Contract Limits: Soll 460 / Ist 487, nach Tabellenkorrektur 463 */
+  .lvr-r5 .lvr-r5-head:not(.lvr-r5-head--payout) + .lvr-r5-grid > .lvr-r5-col:nth-child(2) > .lvr-r5-card:nth-child(2) { padding-bottom: 32px; } /* Multiple Accounts: Soll 270 / Ist 265 */
+  .lvr-r5 .lvr-r5-head--payout + .lvr-r5-grid > .lvr-r5-col:nth-child(1) > .lvr-r5-card:nth-child(3) { padding-bottom: 29px; } /* Drawdown After a Payout: Soll 371 / Ist 369 */
+  .lvr-r5 .lvr-r5-head--payout + .lvr-r5-grid > .lvr-r5-col:nth-child(2) > .lvr-r5-card:nth-child(1) { padding-bottom: 33px; } /* Payout Cycle: Soll 245 / Ist 239 */
+  .lvr-r5 .lvr-r5-head--payout + .lvr-r5-grid > .lvr-r5-col:nth-child(2) > .lvr-r5-card:nth-child(2) { padding-bottom: 28px; } /* Maximum Payout Amount: Soll 438 / Ist 436 nach Tabellenkorrektur */
+  .lvr-r5 .lvr-r5-head--payout + .lvr-r5-grid > .lvr-r5-col:nth-child(2) > .lvr-r5-card:nth-child(3) { padding-bottom: 26px; } /* Payout Request Processing State: Soll 264 / Ist 265 */
+
+  /* 4. Kopfzeile "6 Lvlup Payout Rules": Abstand zum Raster darüber Soll 111
+     (Band-JSON 8512 -> 8623). Der Live-Override stellt 87, das glich die
+     früher zu hohen Karten aus; nach deren Korrektur zurück auf 111. */
+  .lvr-r5 .lvr-r5-grid + .lvr-r5-head--payout { margin-top: 111px; }
+
+  /* 5. Sektionsfuss: letzte Karte bis Sektionsende Soll 75 (9772 -> 9847),
+     Live-Override 77. 74 trifft die Soll-Höhe 2412 im Render am genauesten. */
+  .lvf-page .lvr-r5 { padding-bottom: 74px; }
+}
+
+
+/* Pixelrunde 2 Rules (11.08.2026): Innenleben der beiden Tabellen.
+   Belege: Band-JSON r5 (Tabellen x 826 / y 7698 und 9142, je w 647, h 221)
+   und das Soll-Bild. */
+@media (min-width: 1024px) {
+  /* 1. Trennlinien. Im Band traegt JEDE Zeile unten einen Strich
+     rgba(255,255,255,0.06) mit 0,534 px INSIDE, oben keine, und der
+     Tabellenrahmen ist unsichtbar. Live fehlten alle vier Zeilenstriche,
+     stattdessen lag ein Rahmen um die ganze Tabelle.
+     1 px mit 3,2 % Weiss = dieselbe Lichtmenge wie 0,534 px mit 6 %. */
+  .lvr-r5 .lvr-r5-table thead tr th,
+  .lvr-r5 .lvr-r5-table tbody tr td,
+  .lvr-r5 .lvr-r5-table tbody tr:last-child td {
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.032);
+  }
+  .lvr-r5 .lvr-r5-tablewrap {
+    border: 0;              /* Band: Aussenstrich unsichtbar */
+    border-radius: 8.5px;   /* Band: 8,545 px, bisher 9 */
+  }
+
+  /* 2. Gleich breite Spalten. Band: 3 x 216 px bzw. 2 x 324 px auf 647 px
+     Tabellenbreite. Live rechnete der Browser aus dem Inhalt:
+     169,7 / 197,1 / 277,4 bzw. 294,7 / 349,5 - die mittlere Spaltenkante sass
+     44,4 px zu weit links. */
+  .lvr-r5 .lvr-r5-table { table-layout: fixed; }
+
+  /* 3. Hoehenausgleich: die Tabelle waechst durch die vier Striche und den
+     entfallenen Rahmen von 220 auf 222 px (Soll 221). Der Abstand zum Text
+     darunter gibt die 2 px zurueck (23 -> 21), die Karten bleiben exakt so
+     hoch wie nach der Reparatur vom 10.08. */
+  .lvr-r5 .lvr-r5-tablewrap { margin: 7px 0 21px; }
+}
+
+
+/* Effektrunde Rules (11.08.2026): Grundflaeche und Glows auf das aktuelle
+   Soll-Mockup (referenz-neu/soll/rules-aus-schnipseln.png), gemessen ueber
+   die lokale Live-Emulation (Fragmente + lvlup-fixes, Treue 0,1).
+   Spezifitaet 0-3-0, weil r3-rules.css (Prio 1200, fremde Datei) die
+   Glow-Stapel mit 0-2-0 ueberschreibt. Nur Desktop. */
+@media (min-width: 1024px) {
+  /* 1. Grundflaeche: Soll misst in kartenfreien Zonen (Spaltenluecke x786-798)
+     durchgehend (0,0,0) bis (1,1,3), live (5,6,15) = --lvf-bg, Abweichung 8-9
+     ueber die ganze Sektion. Abdunkler UNTER der Glow-Ebene (::before kommt im
+     Baum vor .lvr-r5-glow). Links ab x255..345 ausgeblendet, damit der linke
+     Seitenkegel (.lvf-page::before aus r3-rules.css, nicht meine Datei) sein
+     Weiss behaelt; oben 60px Einlauf gegen eine Nahtkante zu r4. */
+  .lvf-page .lvr-r5::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.8);
+    -webkit-mask-image:
+      linear-gradient(90deg, rgba(0, 0, 0, 0) 255px, #000 345px),
+      linear-gradient(180deg, rgba(0, 0, 0, 0) 0, #000 60px);
+    mask-image:
+      linear-gradient(90deg, rgba(0, 0, 0, 0) 255px, #000 345px),
+      linear-gradient(180deg, rgba(0, 0, 0, 0) 0, #000 60px);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
+  /* 2. Glow-Stapel neu nach dem Soll. Gemessen (x1650, Sektions-y relativ):
+     Soll rel 20..980 nur (9..17,41..51,59..74) - das liefert schon der rechte
+     Seitenkegel; live standen dort bis (11,121,186), also bis 69 zu hell,
+     verursacht durch die grossen Ellipsen 98%/32% (0,5) und 90%/36% (0,28).
+     Der linke Deckenglow 0%/6% (0,2) entfaellt: Soll misst dort (1,1,1),
+     live (4,34,57). Uebrig bleibt der Kern auf Kegelhoehe rel 64 Prozent
+     (Soll x1650 rel 1580-1700: (91,198,244), Saettigung 0,63 - der Kegel
+     allein ist dort zu weiss) plus ein Auslaeufer in die Kartenflaeche
+     (Soll durch die Karte bei x1460 rel 1340-1460: (4,34,52)-(6,58,89)). */
+  /* Feinpass 2: das Soll-Profil bei x1650 steigt steil (rel 1220 (18,98,144)
+     -> 1580 (91,198,244) -> 1820 (65,182,232)), Version 1 war zu flach und
+     oben zu frueh hell (rel 1220 (41,123,171)). Ellipse schmaler (ry 400)
+     und satter; zweite Ellipse tiefer fuer die unteren Payout-Karten
+     (Soll durch Karte x1460 rel 1580-2060: (2,22,31)..(3,30,46)). */
+  /* Feinpass 3: zwei Innenkerne dazu, weil eine einzige Randellipse das
+     steile Soll-Querprofil nicht schafft (Rand x1650 rel 1460: 179 Gruen,
+     Karte x1460 rel 1460: 58 Gruen - auf 200 px). Der Kern bei x1520/58%
+     traegt das Licht durch die Payout-Karten (Soll x1460 rel 1340-1460:
+     (4,34,52)-(6,58,89), vorher (16,30,38)); der Kern bei x1600/78% die
+     unteren Karten (Soll x1460 rel 1820-2060: (2,22,31)-(3,30,46)). */
+  .lvf-page .lvr-r5 .lvr-r5-glow {
+    background:
+      radial-gradient(ellipse 560px 400px at 100% 66%, rgba(0, 170, 255, 0.65) 0%, rgba(0, 162, 255, 0.36) 45%, rgba(0, 162, 255, 0) 78%),
+      radial-gradient(ellipse 260px 280px at calc(50% + 640px) 58%, rgba(0, 162, 255, 0.6) 0%, rgba(0, 162, 255, 0) 75%),
+      radial-gradient(ellipse 420px 440px at calc(50% + 720px) 78%, rgba(0, 162, 255, 0.28) 0%, rgba(0, 162, 255, 0) 75%);
+  }
+}
+
+/* == r6-profitsplit-starter == */
+/* Sektion r6-profitsplit-starter (Trading Rules) - Praefix .lvr-r6- */
+.lvr-r6 {
+  position: relative;
+  padding: 60px 0 115px;
+  overflow: hidden;
+}
+
+/* Weiche Hintergrund-Glows nach dem Figma (grosse blaue Sterne links oben,
+   dunkelblaues Leuchten darunter). Laufen transparent aus, keine harten Kanten. */
+.lvr-r6-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 38% at -6% 10%, rgba(0, 162, 255, 0.4) 0%, rgba(0, 162, 255, 0) 68%),
+    radial-gradient(ellipse 40% 28% at 0% 16%, rgba(140, 213, 255, 0.22) 0%, rgba(140, 213, 255, 0) 70%),
+    radial-gradient(ellipse 70% 40% at 10% 45%, rgba(0, 162, 255, 0.28) 0%, rgba(0, 162, 255, 0) 70%),
+    radial-gradient(ellipse 45% 30% at 4% 55%, rgba(140, 213, 255, 0.18) 0%, rgba(140, 213, 255, 0) 72%),
+    radial-gradient(ellipse 110% 55% at 30% 60%, rgba(4, 48, 74, 0.6) 0%, rgba(4, 48, 74, 0) 75%);
+}
+.lvr-r6 .lvf-container { position: relative; z-index: 1; }
+
+/* Sektionskoepfe (7 Profit Split Rules / 8 Starter Accounts Payout Rules) */
+.lvr-r6-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 0 0 75px;
+}
+.lvr-r6-head--starter { margin-top: 163px; }
+.lvr-r6-badge {
+  flex: 0 0 auto;
+  width: 37px;
+  height: 37px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background: var(--lvf-grad-blue);
+  box-shadow: inset -1px 0 3px 0 rgba(255, 255, 255, 0.68);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.08em;
+  color: #05060f;
+}
+.lvr-r6-title {
+  font-size: clamp(30px, 3.4vw, 41px);
+  font-weight: 500;
+  line-height: 0.93;
+  letter-spacing: -0.02em;
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lvr-r6-accent {
+  background: var(--lvf-grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Unterer Block: ungleiche Spalten (Figma: 523px + 16px + 699px).
+   Oberer Block: zwei gleich breite Spalten (611px + 16px + 611px). */
+.lvr-r6-grid { display: grid; grid-template-columns: 523fr 699fr; gap: 16px; align-items: start; }
+.lvr-r6-grid--even { grid-template-columns: 1fr 1fr; }
+.lvr-r6-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+/* Karten. Standard: fast transparent (rgba(255,255,255,0.02) im Figma),
+   --mid: rgba(0,0,0,0.35), --deeper: rgba(0,0,0,0.69), --dark: rgba(0,0,0,0.85).
+   Alle mit starkem Backdrop-Blur. */
+.lvr-r6-card {
+  border: 1px solid rgba(53, 174, 244, 0.35);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(110px);
+  -webkit-backdrop-filter: blur(110px);
+  padding: 26px 26px 38px;
+}
+.lvr-r6-card--mid { background: rgba(0, 0, 0, 0.35); }
+.lvr-r6-card--deeper { background: rgba(0, 0, 0, 0.69); }
+.lvr-r6-card--dark { background: rgba(0, 0, 0, 0.85); }
+
+/* Kartenkopf (dunkle Leiste) */
+.lvr-r6-cardhead {
+  display: flex;
+  align-items: center;
+  min-height: 58px;
+  padding: 10px 21px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  border-radius: 8px 0 8px 0;
+  background:
+    linear-gradient(0deg, rgba(0, 24, 38, 0) 0%, rgba(0, 24, 38, 0.2) 100%),
+    linear-gradient(231deg, rgba(0, 0, 0, 0.34) 0%, #000000 100%);
+}
+.lvr-r6-cardtitle {
+  font-size: clamp(19px, 1.8vw, 24px);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+/* Fliesstext */
+.lvr-r6-body { padding: 29px 17px 0; }
+.lvr-r6-body p {
+  font-size: 15px;
+  font-weight: 340;
+  line-height: 26px;
+  letter-spacing: 0.9px;
+  color: rgba(246, 248, 250, 0.6);
+}
+.lvr-r6-body p + p { margin-top: 26px; }
+
+/* Tabellen (Payout Cap / Minimum Payout) */
+.lvr-r6-table {
+  width: 100%;
+  margin: 23px 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 9px;
+  overflow: hidden;
+}
+.lvr-r6-table th,
+.lvr-r6-table td {
+  padding: 15px 24px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.lvr-r6-table th {
+  background: rgba(0, 0, 0, 0.5);
+  font-size: 11px;
+  font-weight: 430;
+  line-height: 15px;
+  letter-spacing: 0.75px;
+  color: #ffffff;
+}
+.lvr-r6-table td {
+  background: rgba(0, 0, 0, 0.4);
+  font-size: 14px;
+  font-weight: 425;
+  line-height: 18px;
+  letter-spacing: 0.42px;
+  color: rgba(255, 255, 255, 0.65);
+}
+.lvr-r6-table tbody tr:last-child td { border-bottom: 0; }
+.lvr-r6-body .lvr-r6-table + p { margin-top: 0; }
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .lvr-r6 { padding: 48px 0 100px; }
+  .lvr-r6-head { margin-bottom: 56px; }
+  .lvr-r6-head--starter { margin-top: 90px; }
+  .lvr-r6-card { padding: 20px 20px 30px; }
+  .lvr-r6-body { padding: 24px 10px 0; }
+  .lvr-r6-table th, .lvr-r6-table td { padding: 13px 16px; }
+}
+
+/* Mobile: gestapelt, Fliesstext >= 16px */
+@media (max-width: 767px) {
+  .lvr-r6 { padding: 40px 0 80px; }
+  .lvr-r6-head { gap: 12px; margin-bottom: 36px; }
+  .lvr-r6-head--starter { margin-top: 56px; }
+  .lvr-r6-badge { width: 32px; height: 32px; font-size: 20px; }
+  .lvr-r6-grid, .lvr-r6-grid--even { grid-template-columns: 1fr; }
+  .lvr-r6-card { padding: 16px 16px 26px; border-radius: 18px; }
+  .lvr-r6-cardhead { min-height: 52px; padding: 10px 16px; }
+  .lvr-r6-body { padding: 22px 4px 0; }
+  .lvr-r6-body p { font-size: 16px; line-height: 1.6; letter-spacing: 0.3px; }
+  .lvr-r6-body p + p { margin-top: 20px; }
+  .lvr-r6-table { margin: 20px 0; }
+  .lvr-r6-table th, .lvr-r6-table td { padding: 12px 14px; }
+  .lvr-r6-table th { font-size: 11px; }
+  .lvr-r6-table td { font-size: 14px; }
+}
+
+
+/* Review R3 (ru1): Tabellen rahmenlos wie im Soll - keine Zellrahmen, keine
+   Spaltentrenner, keine Zebra-Fuellung; nur duenne Linie unter der Kopfzeile. */
+.lvr-r6 .lvr-r6-table th,
+.lvr-r6 .lvr-r6-table td {
+  border: 0;
+  background: transparent;
+}
+.lvr-r6 .lvr-r6-table tbody tr,
+.lvr-r6 .lvr-r6-table tbody tr:nth-child(odd),
+.lvr-r6 .lvr-r6-table tbody tr:nth-child(even) {
+  border: 0;
+  background: transparent;
+}
+.lvr-r6 .lvr-r6-table thead th {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+
+/* Abnahme Runde 2: Karten waren zu hell (Luma 26-47 statt 1-7) - fast schwarze
+   Flaechen wie im Entwurf; Tabellen auf dunklerer Innenflaeche, Kopflinie weich. */
+.lvr-r6 .lvr-r6-card {
+  background-color: rgba(1, 4, 7, 0.92);
+}
+.lvr-r6 .lvr-r6-table {
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 10px;
+}
+.lvr-r6 .lvr-r6-table thead th {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+
+/* Pixelrunde Rules (10.08.2026): falsch sitzende Karten auf das Figma-Mass.
+   Die Sektionshöhe stimmte fast (2299 / Soll 2302), aber die beiden
+   Tabellen-Karten waren rund 20 px zu hoch und schoben "Account Lock During
+   Payout" (+20) und "Payout Rule Compliance" (+26) nach unten; "Account Lock
+   During Payout" selbst fehlten 16 px Fuss. Werte an Soll-Bild und Band-JSON
+   nachgemessen. Nur Desktop - Tablet/Mobil unveraendert (keine Referenz). */
+@media (min-width: 1024px) {
+  /* 1. Tabellen: Kopfzeile Soll 42 / Ist 46; Abstand Text -> Tabelle Soll 7 /
+     Ist 23, Tabelle -> Text Soll 23 / Ist 23 (Band-JSON y 10662 / 10883 /
+     10906). Trifft "Size-Based Starter Accounts Payout Cap" (Soll 541 /
+     Ist 561) und "Minimum Payout Requirement" (Soll 461 / Ist 483). */
+  .lvr-r6 .lvr-r6-table th { padding-top: 13px; padding-bottom: 13px; }
+  .lvr-r6 .lvr-r6-table { margin-top: 7px; }
+
+  /* 2. Kartenfüsse einzeln auf das Band-JSON (der Entwurf fusst die Karten
+     unterschiedlich, damit die Spalten gleich enden: beide 12065 bzw. 11911
+     sind dort so gezeichnet). Kartenhöhe im Render: 108 + 26 × Zeilenslots +
+     padding-bottom. */
+  .lvr-r6 .lvr-r6-grid--even > .lvr-r6-col:nth-child(1) > .lvr-r6-card { padding-bottom: 26px; } /* Base Profit Split: Soll 212 / Ist 213 */
+  .lvr-r6 .lvr-r6-grid--even > .lvr-r6-col:nth-child(2) > .lvr-r6-card { padding-bottom: 29px; } /* Starter Accounts Profit Split: Soll 293 / Ist 291 */
+  .lvr-r6 .lvr-r6-head--starter + .lvr-r6-grid > .lvr-r6-col:nth-child(1) > .lvr-r6-card:nth-child(1) { padding-bottom: 24px; } /* Starter Profit Split: Soll 340 / Ist 343 */
+  .lvr-r6 .lvr-r6-head--starter + .lvr-r6-grid > .lvr-r6-col:nth-child(1) > .lvr-r6-card:nth-child(2) { padding-bottom: 26px; } /* Maximum 50% Profit Withdrawal: Soll 394 / Ist 395 */
+  .lvr-r6 .lvr-r6-head--starter + .lvr-r6-grid > .lvr-r6-col:nth-child(1) > .lvr-r6-card:nth-child(3) { padding-bottom: 26px; } /* Maximum Five Payouts: Soll 290 / Ist 291 */
+  .lvr-r6 .lvr-r6-head--starter + .lvr-r6-grid > .lvr-r6-col:nth-child(1) > .lvr-r6-card:nth-child(4) { padding-bottom: 33px; } /* Account Lock Upon Payout: Soll 323 / Ist 317 */
+  .lvr-r6 .lvr-r6-head--starter + .lvr-r6-grid > .lvr-r6-col:nth-child(2) > .lvr-r6-card:nth-child(2) { padding-bottom: 43px; } /* Account Lock During Payout: Soll 203 / Ist 187 */
+  .lvr-r6 .lvr-r6-head--starter + .lvr-r6-grid > .lvr-r6-col:nth-child(2) > .lvr-r6-card:nth-child(3) { padding-bottom: 23px; } /* Minimum Payout Requirement: Soll 461 / Ist 463 nach Tabellenkorrektur */
+  .lvr-r6 .lvr-r6-head--starter + .lvr-r6-grid > .lvr-r6-col:nth-child(2) > .lvr-r6-card:nth-child(4) { padding-bottom: 32px; } /* Payout Rule Compliance: Soll 296 / Ist 291 */
+
+  /* 3. Sektionsfuss: letzte Karte bis Sektionsende Soll 84 (12065 -> 12149),
+     Live-Override 60. Der Override glich die früher zu hohen Karten aus. */
+  .lvf-page .lvr-r6 { padding-bottom: 84px; }
+}
+
+
+/* Pixelrunde 2 Rules (11.08.2026): Innenleben der beiden Tabellen.
+   Belege: Band-JSON r6 (Tabellen x 826 / y 10662 und 11438, je w 647, h 221)
+   und das Soll-Bild. */
+@media (min-width: 1024px) {
+  /* 1. Trennlinien. Im Band traegt JEDE Zeile unten einen Strich
+     rgba(255,255,255,0.06) mit 0,534 px INSIDE, oben keine, und der
+     Tabellenrahmen ist unsichtbar. Im Soll-Bild ueber x 1380..1460 gemessen:
+     Linien bei y 10703 / 10747 / 10792 / 10837 / 10882 mit Helligkeit 5 bis 9.
+     Live standen dort nur zwei Linien (Tabellenrahmen oben und unten, je 15,5)
+     und die Kopflinie mit 16,7.
+     1 px mit 3,2 % Weiss = dieselbe Lichtmenge wie 0,534 px mit 6 %. */
+  .lvr-r6 .lvr-r6-table thead tr th,
+  .lvr-r6 .lvr-r6-table tbody tr td,
+  .lvr-r6 .lvr-r6-table tbody tr:last-child td {
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.032);
+  }
+
+  /* 2. Gleich breite Spalten. Band: 3 x 216 px bzw. 2 x 324 px.
+     Live rechnete der Browser 154,2 / 267,5 / 188,4 aus dem Inhalt. */
+  .lvr-r6 .lvr-r6-table { table-layout: fixed; }
+
+  /* 3. Breite und Lage: Soll x 826, Breite 647 - also buendig zum
+     Kartenpolster. Live sass die Tabelle bei x 843,8 mit 612,1 Breite, weil
+     sie das Innenpolster von .lvr-r6-body (17 px je Seite) mitnimmt und
+     zusaetzlich einen 1px-Rahmen traegt. */
+  .lvr-r6 .lvr-r6-table {
+    width: calc(100% + 34px);   /* width:100% allein wuerde die Breite festnageln */
+    margin-inline: -17px;
+    border: 0;
+    border-radius: 8.5px;   /* Band: 8,545 px, bisher 9 */
+  }
+
+  /* 4. Hoehenausgleich: die Tabelle waechst durch die vier Striche und den
+     entfallenen Rahmen von 220 auf 222 px (Soll 221). Der Abstand zum Text
+     darunter gibt die 2 px zurueck (23 -> 21), die Karten bleiben exakt so
+     hoch wie nach der Reparatur vom 10.08. */
+  .lvr-r6 .lvr-r6-table { margin-bottom: 21px; }
+}
+
+
+/* Effektrunde Rules (11.08.2026): Grundflaeche und Glows auf das aktuelle
+   Soll-Mockup, gemessen ueber die lokale Live-Emulation (Treue 0,1).
+   Spezifitaet 0-3-0 gegen die 0-2-0-Overrides in r3-rules.css. Nur Desktop. */
+@media (min-width: 1024px) {
+  /* 1. Grundflaeche wie r5: Soll in kartenfreien Zonen (0,0,0)..(1,1,3),
+     live (5,6,15). Links ausgespart, damit der weisse Kegelkern bei y=11350
+     (fremde Seitenebene) nicht gedimmt wird. Kein senkrechter Einlauf:
+     r5 traegt denselben Abdunkler, die Naht bleibt dadurch stetig. */
+  .lvf-page .lvr-r6::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.8);
+    -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 255px, #000 345px);
+    mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 255px, #000 345px);
+  }
+
+  /* 2. Glow-Stapel neu nach dem Soll:
+     a) Der Mittel-Glow auf Kegelhoehe reicht im Soll bis in die Spaltenluecke
+        (x786-798): rel 1220 (27,140,194), rel 1340 (39,169,230), rel 1460
+        (36,160,218), rel 1580 (30,117,163); live war die Luecke dort (5,16,29)
+        bis (5,6,15), Abweichung bis 133. Ellipse in der Flaeche zentriert
+        (x600, 60 Prozent), damit sie vor x60 ausgelaufen ist und den weissen
+        Kegelkern (Soll rel 1340 x60: (249,253,255)) nicht anfaerbt.
+     b) Die bisherigen grossen Blau-Ellipsen oben links (0,4 / 0,22 / 0,28 /
+        0,18) faerbten genau diesen Kegelkern ein: live x60 rel 1100 nur
+        (100,200,250) statt Soll (227,245,255), rel 140 dagegen (19,127,187)
+        statt (22,74,105). Sie entfallen; oben links daempft stattdessen eine
+        dunkle Schulter den Kegelrand auf das Soll (Kegel allein ergaebe dort
+        rund (42,99,133)). */
+  /* Feinpass 2: Luecke rel 1340 stand erst bei (16,87,128) statt (39,169,230),
+     Ellipse groesser und mit satterer Mittelstufe; dunkle Schulter oben
+     leicht angehoben (Soll x60 rel 20: (18,58,82), vorher (7,77,118)). */
+  /* Feinpass 3: Plateau der Ellipse verbreitert (Stufe bei 30 Prozent) und
+     senkrecht verlaengert - die Luecke stand rel 1340 bei (32,145,203) statt
+     (39,169,230) und fiel unterhalb zu schnell ab (rel 1700 (3,13,21) statt
+     (19,67,95)). */
+  .lvf-page .lvr-r6 .lvr-r6-glow {
+    background:
+      radial-gradient(ellipse 600px 580px at calc(50% - 180px) 61%, rgba(43, 187, 255, 0.96) 0%, rgba(43, 187, 255, 0.8) 30%, rgba(30, 170, 250, 0.45) 55%, rgba(0, 120, 200, 0) 86%),
+      radial-gradient(ellipse 480px 560px at 0px 4%, rgba(8, 28, 48, 0.55) 0%, rgba(8, 28, 48, 0) 75%);
+  }
+}
+
+/* == r7-billing-protector == */
+/* Sektion r7-billing-protector (Trading Rules) - Praefix .lvr-r7- */
+.lvr-r7 {
+  position: relative;
+  padding: 60px 0 147px;
+  overflow: hidden;
+}
+
+/* Weiche Hintergrund-Glows nach dem Figma (grosse blaue Sterne links von oben
+   bis Mitte, rechts ein weiteres Leuchten). Laufen transparent aus, keine
+   harten Kanten zu den Nachbarsektionen. */
+.lvr-r7-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 50% 26% at -8% 2%, rgba(0, 162, 255, 0.42) 0%, rgba(0, 162, 255, 0) 68%),
+    radial-gradient(ellipse 34% 20% at 0% 9%, rgba(140, 213, 255, 0.22) 0%, rgba(140, 213, 255, 0) 70%),
+    radial-gradient(ellipse 42% 30% at -5% 40%, rgba(0, 162, 255, 0.26) 0%, rgba(0, 162, 255, 0) 70%),
+    radial-gradient(ellipse 40% 28% at 104% 46%, rgba(0, 162, 255, 0.26) 0%, rgba(0, 162, 255, 0) 70%),
+    radial-gradient(ellipse 36% 22% at 100% 62%, rgba(18, 169, 255, 0.18) 0%, rgba(18, 169, 255, 0) 72%),
+    radial-gradient(ellipse 90% 50% at 40% 30%, rgba(4, 48, 74, 0.5) 0%, rgba(4, 48, 74, 0) 75%);
+}
+.lvr-r7 .lvf-container { position: relative; z-index: 1; }
+
+/* Sektionskoepfe (9 Billing and Account Lifecycle / 10 Payout Protector) */
+.lvr-r7-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 0 0 75px;
+}
+.lvr-r7-head--protector { margin-top: 111px; }
+.lvr-r7-badge {
+  flex: 0 0 auto;
+  width: 37px;
+  height: 37px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background: var(--lvf-grad-blue);
+  box-shadow: inset -1px 0 3px 0 rgba(255, 255, 255, 0.68);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.08em;
+  color: #05060f;
+}
+.lvr-r7-title {
+  font-size: clamp(30px, 3.4vw, 41px);
+  font-weight: 500;
+  line-height: 0.93;
+  letter-spacing: -0.02em;
+  text-align: center;
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Zwei gleich breite Spalten (Figma: 611px + 16px + 611px) */
+.lvr-r7-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.lvr-r7-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+/* Karten: fast transparent (rgba(255,255,255,0.02) im Figma) mit starkem
+   Backdrop-Blur und feinem blauen Haarrand. */
+.lvr-r7-card {
+  border: 1px solid rgba(53, 174, 244, 0.35);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(110px);
+  -webkit-backdrop-filter: blur(110px);
+  padding: 26px 26px 40px;
+}
+
+/* Kartenkopf (dunkle Leiste) */
+.lvr-r7-cardhead {
+  display: flex;
+  align-items: center;
+  min-height: 58px;
+  padding: 10px 21px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  border-radius: 8px 0 8px 0;
+  background:
+    linear-gradient(0deg, rgba(0, 24, 38, 0) 0%, rgba(0, 24, 38, 0.2) 100%),
+    linear-gradient(231deg, rgba(0, 0, 0, 0.34) 0%, #000000 100%);
+}
+.lvr-r7-cardtitle {
+  font-size: clamp(19px, 1.8vw, 24px);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+/* Fliesstext */
+.lvr-r7-body { padding: 29px 17px 0; }
+.lvr-r7-body p {
+  font-size: 15px;
+  font-weight: 340;
+  line-height: 26px;
+  letter-spacing: 0.9px;
+  color: rgba(246, 248, 250, 0.6);
+}
+.lvr-r7-body p + p { margin-top: 26px; }
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .lvr-r7 { padding: 48px 0 110px; }
+  .lvr-r7-head { margin-bottom: 56px; }
+  .lvr-r7-head--protector { margin-top: 90px; }
+  .lvr-r7-card { padding: 20px 20px 32px; }
+  .lvr-r7-body { padding: 24px 10px 0; }
+}
+
+/* Mobile: gestapelt, Fliesstext >= 16px, keine Ueberlaeufe */
+@media (max-width: 767px) {
+  .lvr-r7 { padding: 40px 0 80px; }
+  .lvr-r7-head { gap: 12px; margin-bottom: 36px; }
+  .lvr-r7-head--protector { margin-top: 56px; }
+  .lvr-r7-badge { width: 32px; height: 32px; font-size: 20px; }
+  .lvr-r7-title { text-align: left; }
+  .lvr-r7-grid { grid-template-columns: 1fr; }
+  .lvr-r7-card { padding: 16px 16px 26px; border-radius: 18px; }
+  .lvr-r7-cardhead { min-height: 52px; padding: 10px 16px; }
+  .lvr-r7-body { padding: 22px 4px 0; }
+  .lvr-r7-body p { font-size: 16px; line-height: 1.6; letter-spacing: 0.3px; }
+  .lvr-r7-body p + p { margin-top: 20px; }
+}
+
+
+/* Review R3 (ru2): letztes Wort der Ueberschriften traegt den Blau-Akzent */
+.lvr-r7-title-accent {
+  background: var(--lvf-grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+
+/* Abnahme Runde 2: Karten waren zu hell (Luma 26-47 statt 1-7) - fast schwarze
+   Flaechen wie im Entwurf; Tabellen auf dunklerer Innenflaeche, Kopflinie weich. */
+.lvr-r7 .lvr-r7-card {
+  background-color: rgba(1, 4, 7, 0.92);
+}
+.lvr-r7 .lvr-r7-table {
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 10px;
+}
+.lvr-r7 .lvr-r7-table thead th {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+
+/* Effektrunde Rules (11.08.2026): Grundflaeche und Glows auf das aktuelle
+   Soll-Mockup, gemessen ueber die lokale Live-Emulation (Treue 0,0).
+   Spezifitaet 0-3-0 gegen die 0-2-0-Overrides in r3-rules.css. Nur Desktop. */
+@media (min-width: 1024px) {
+  /* 1. Grundflaeche wie r5/r6: Soll in kartenfreien Zonen (1..2,1..7,1..11),
+     live (5,6,15) bis (10,11,20). Links ausgespart (weisser Kegelrand). */
+  .lvf-page .lvr-r7::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.8);
+    -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 255px, #000 345px);
+    mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 255px, #000 345px);
+  }
+
+  /* 2. Glows: die drei linken Ellipsen stimmen (x60-Profil Soll gegen live
+     rel 20..1340 mit Abweichung 1-10) und bleiben unveraendert. Rechts war
+     live zu hell und zu satt: x1650 rel 1340 Soll (4,53,83), live (3,81,129);
+     durch die Karte bei x1460 rel 1820 Soll (5,16,22), live (4,52,85).
+     Die Ellipsen 104%/46% (0,26) und 100%/62% (0,18) schrumpfen deshalb auf
+     einen schmalen Randstreifen (0,12) ohne unteren Auslaeufer; dazu ein
+     Hauch Weiss, weil der Soll-Rand Rot 14-17 traegt (reines Kegelblau
+     liesse Rot bei 3-5). */
+  .lvf-page .lvr-r7 .lvr-r7-glow {
+    background:
+      radial-gradient(ellipse 50% 26% at -8% 2%, rgba(0, 162, 255, 0.42) 0%, rgba(0, 162, 255, 0) 68%),
+      radial-gradient(ellipse 34% 20% at 0% 9%, rgba(140, 213, 255, 0.22) 0%, rgba(140, 213, 255, 0) 70%),
+      radial-gradient(ellipse 42% 34% at -5% 41%, rgba(0, 162, 255, 0.26) 0%, rgba(0, 162, 255, 0) 70%),
+      radial-gradient(ellipse 300px 520px at 100% 47%, rgba(0, 162, 255, 0.06) 0%, rgba(0, 162, 255, 0) 75%);
+  }
+  /* Feinpass 3: dritte Linksellipse senkrecht gestreckt (30 auf 34 Prozent),
+     der untere Auslauf war zu kurz: x60 rel 1580 (3,18,31) statt Soll
+     (1,34,53). */
+  /* Feinpass 2: der Weiss-Hauch entfaellt wieder - er hob Gruen mit an, das
+     schon 12-15 ueber dem Soll lag. Das fehlende Rot am rechten Rand
+     (Soll 9..17, live 1..5) stammt aus dem reinen Blau des Seitenbands in
+     r3-rules.css und ist von hier aus nicht senkbar (Befund, gemeldet). */
+}
+
+/* == r8-platforms-verification == */
+/* Sektion r8-platforms-verification (Trading Rules) - Praefix .lvr-r8- */
+.lvr-r8 {
+  position: relative;
+  padding: 60px 0 147px;
+  overflow: hidden;
+}
+
+/* Weiche Hintergrund-Glows nach dem Figma (grosse blaue Sterne links ueber die
+   Mitte der Sektion, rechts ein weiteres Leuchten, dunkles Blau grossflaechig).
+   Laufen transparent aus, keine harten Kanten zu den Nachbarsektionen. */
+.lvr-r8-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 46% 24% at -6% 38%, rgba(0, 162, 255, 0.4) 0%, rgba(0, 162, 255, 0) 68%),
+    radial-gradient(ellipse 32% 18% at 2% 46%, rgba(140, 213, 255, 0.2) 0%, rgba(140, 213, 255, 0) 70%),
+    radial-gradient(ellipse 40% 26% at 103% 30%, rgba(0, 162, 255, 0.28) 0%, rgba(0, 162, 255, 0) 70%),
+    radial-gradient(ellipse 34% 20% at 100% 74%, rgba(18, 169, 255, 0.18) 0%, rgba(18, 169, 255, 0) 72%),
+    radial-gradient(ellipse 44% 24% at -4% 92%, rgba(0, 162, 255, 0.22) 0%, rgba(0, 162, 255, 0) 70%),
+    radial-gradient(ellipse 90% 50% at 42% 40%, rgba(4, 48, 74, 0.5) 0%, rgba(4, 48, 74, 0) 75%);
+}
+.lvr-r8 .lvf-container { position: relative; z-index: 1; }
+
+/* Sektionskoepfe (11 Platforms and Execution / 12 Verification and Account Ownership) */
+.lvr-r8-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 0 0 75px;
+}
+.lvr-r8-head--verification { margin-top: 111px; }
+.lvr-r8-badge {
+  flex: 0 0 auto;
+  width: 37px;
+  height: 37px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background: var(--lvf-grad-blue);
+  box-shadow: inset -1px 0 3px 0 rgba(255, 255, 255, 0.68);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.08em;
+  color: #05060f;
+}
+.lvr-r8-title {
+  font-size: clamp(28px, 3.4vw, 41px);
+  font-weight: 500;
+  line-height: 0.93;
+  letter-spacing: -0.02em;
+  text-align: center;
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Zwei gleich breite Spalten (Figma: 611px + 16px + 611px), volle Karten spannen beide */
+.lvr-r8-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: stretch; }
+.lvr-r8-card--full { grid-column: 1 / -1; }
+
+/* Karten: fast transparent (rgba(255,255,255,0.02) im Figma) mit starkem
+   Backdrop-Blur und feinem blauen Haarrand. Dunklere Varianten per Modifikator. */
+.lvr-r8-card {
+  border: 1px solid rgba(53, 174, 244, 0.35);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(110px);
+  -webkit-backdrop-filter: blur(110px);
+  padding: 26px 26px 40px;
+}
+.lvr-r8-card--d45 { background: rgba(0, 0, 0, 0.45); }
+.lvr-r8-card--d50 { background: rgba(0, 0, 0, 0.5); }
+.lvr-r8-card--d80 { background: rgba(0, 0, 0, 0.8); }
+.lvr-r8-card--d85 { background: rgba(0, 0, 0, 0.85); }
+
+/* Kartenkopf (dunkle Leiste) */
+.lvr-r8-cardhead {
+  display: flex;
+  align-items: center;
+  min-height: 58px;
+  padding: 10px 21px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  border-radius: 8px 0 8px 0;
+  background:
+    linear-gradient(0deg, rgba(0, 24, 38, 0) 0%, rgba(0, 24, 38, 0.2) 100%),
+    linear-gradient(231deg, rgba(0, 0, 0, 0.34) 0%, #000000 100%);
+}
+.lvr-r8-cardtitle {
+  font-size: clamp(19px, 1.8vw, 24px);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+/* Fliesstext */
+.lvr-r8-body { padding: 29px 17px 0; }
+.lvr-r8-body p {
+  font-size: 15px;
+  font-weight: 340;
+  line-height: 26px;
+  letter-spacing: 0.9px;
+  color: rgba(246, 248, 250, 0.6);
+}
+.lvr-r8-body p + p { margin-top: 26px; }
+
+/* Nummerierte Liste (unterstuetzte Plattformen). Doppelte Klasse noetig, weil die
+   Shell .lvf-page ol auf list-style:none setzt. */
+.lvr-r8 .lvr-r8-list {
+  list-style: decimal;
+  padding-left: 22px;
+  margin-top: 14px;
+  font-size: 15px;
+  font-weight: 340;
+  line-height: 26px;
+  letter-spacing: 0.9px;
+  color: rgba(246, 248, 250, 0.6);
+}
+.lvr-r8 .lvr-r8-list li { padding-left: 4px; }
+.lvr-r8 .lvr-r8-list li::marker { color: rgba(140, 213, 255, 0.8); }
+.lvr-r8 .lvr-r8-list + p { margin-top: 26px; }
+
+/* Kommissionstabelle (Figma: Kopf rgba(0,0,0,0.5), Zeilen rgba(0,0,0,0.4),
+   Haarlinien rgba(255,255,255,0.06), Aussenradius 9px) */
+.lvr-r8-table {
+  width: 100%;
+  margin-top: 23px;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 9px;
+  overflow: hidden;
+}
+.lvr-r8-table th,
+.lvr-r8-table td { padding: 13px 24px; text-align: left; }
+.lvr-r8-table thead th {
+  background: rgba(0, 0, 0, 0.5);
+  font-size: 11px;
+  font-weight: 433;
+  line-height: 15px;
+  letter-spacing: 0.75px;
+  color: #ffffff;
+}
+.lvr-r8-table tbody td {
+  background: rgba(0, 0, 0, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 14px;
+  font-weight: 425;
+  line-height: 18px;
+  letter-spacing: 0.42px;
+  color: rgba(255, 255, 255, 0.65);
+}
+.lvr-r8-table + p { margin-top: 23px; }
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .lvr-r8 { padding: 48px 0 110px; }
+  .lvr-r8-head { margin-bottom: 56px; }
+  .lvr-r8-head--verification { margin-top: 90px; }
+  .lvr-r8-card { padding: 20px 20px 32px; }
+  .lvr-r8-body { padding: 24px 10px 0; }
+}
+
+/* Mobile: gestapelt, Fliesstext >= 16px, keine Ueberlaeufe */
+@media (max-width: 767px) {
+  .lvr-r8 { padding: 40px 0 80px; }
+  .lvr-r8-head { gap: 12px; margin-bottom: 36px; justify-content: flex-start; }
+  .lvr-r8-head--verification { margin-top: 56px; }
+  .lvr-r8-badge { width: 32px; height: 32px; font-size: 20px; }
+  .lvr-r8-title { text-align: left; }
+  .lvr-r8-grid { grid-template-columns: 1fr; }
+  .lvr-r8-card { padding: 16px 16px 26px; border-radius: 18px; }
+  .lvr-r8-cardhead { min-height: 52px; padding: 10px 16px; }
+  .lvr-r8-body { padding: 22px 4px 0; }
+  .lvr-r8-body p { font-size: 16px; line-height: 1.6; letter-spacing: 0.3px; }
+  .lvr-r8-body p + p { margin-top: 20px; }
+  .lvr-r8 .lvr-r8-list { font-size: 16px; line-height: 1.6; letter-spacing: 0.3px; }
+  .lvr-r8 .lvr-r8-list + p { margin-top: 20px; }
+  .lvr-r8-table th,
+  .lvr-r8-table td { padding: 12px 14px; }
+  .lvr-r8-table tbody td { font-size: 14px; }
+}
+
+
+/* Review R3 (ru1): Tabellen rahmenlos wie im Soll - keine Zellrahmen, keine
+   Spaltentrenner, keine Zebra-Fuellung; nur duenne Linie unter der Kopfzeile. */
+.lvr-r8 .lvr-r8-table th,
+.lvr-r8 .lvr-r8-table td {
+  border: 0;
+  background: transparent;
+}
+.lvr-r8 .lvr-r8-table tbody tr,
+.lvr-r8 .lvr-r8-table tbody tr:nth-child(odd),
+.lvr-r8 .lvr-r8-table tbody tr:nth-child(even) {
+  border: 0;
+  background: transparent;
+}
+.lvr-r8 .lvr-r8-table thead th {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+
+/* Abnahme 06.08.: blaue Akzentwoerter wie in allen anderen Ueberschriften */
+.lvr-r8-title-accent {
+  background: var(--lvf-grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+
+/* Abnahme Runde 2: Karten waren zu hell (Luma 26-47 statt 1-7) - fast schwarze
+   Flaechen wie im Entwurf; Tabellen auf dunklerer Innenflaeche, Kopflinie weich. */
+.lvr-r8 .lvr-r8-card {
+  background-color: rgba(1, 4, 7, 0.92);
+}
+.lvr-r8 .lvr-r8-table {
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 10px;
+}
+.lvr-r8 .lvr-r8-table thead th {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+
+/* Pixelrunde 2 Rules (11.08.2026): Innenleben der Kommissionstabelle.
+   Belege: Band-JSON r8 (Tabelle x 287, y 15723, w 1184, h 490) und Soll-Bild. */
+@media (min-width: 1024px) {
+  /* 1. Trennlinien. Im Band traegt JEDE der zehn Zeilen unten einen Strich
+     rgba(255,255,255,0.06) mit 0,534 px INSIDE, oben keine, und der
+     Tabellenrahmen ist unsichtbar. Im Soll-Bild ueber x 600..860 liegt bei
+     y 15763 genau eine Linie mit Helligkeit 7,2; live standen dort zwei
+     Linien mit je 16,9, davon eine ueber der Kopfzeile.
+     1 px mit 3,2 % Weiss = dieselbe Lichtmenge wie 0,534 px mit 6 %. */
+  .lvr-r8 .lvr-r8-table thead tr th,
+  .lvr-r8 .lvr-r8-table tbody tr td,
+  .lvr-r8 .lvr-r8-table tbody tr:last-child td {
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.032);
+  }
+
+  /* 2. Gleich breite Spalten. Band: 2 x 592 px auf 1184 px. Live 617,8 / 532,2,
+     die Spaltenkante sass damit 43,8 px zu weit rechts. */
+  .lvr-r8 .lvr-r8-table { table-layout: fixed; }
+
+  /* 3. Breite und Lage: Soll x 287, Breite 1184 - buendig zum Kartenpolster.
+     Live x 304 mit 1152 Breite, weil die Tabelle das Innenpolster von
+     .lvr-r8-body (17 px je Seite) mitnimmt und einen 1px-Rahmen traegt. */
+  .lvr-r8 .lvr-r8-table {
+    /* width:100% allein wuerde die Breite festnageln; 16 + 15 px sind das
+       Innenpolster von .lvr-r8-body (siehe Textspalten-Block am Dateiende). */
+    width: calc(100% + 31px);
+    margin-inline: -16px -15px;
+    border: 0;
+    border-radius: 8.5px;   /* Band: 8,545 px, bisher 9 */
+  }
+
+  /* 4. Abstand Tabelle -> Text darunter: Soll 15 (Band 16213 -> Textzeile
+     16228), bisher 23. Die Tabelle waechst durch die zehn Striche und den
+     entfallenen Rahmen von 484 auf 492 px (Soll 490); die 8 px gibt genau
+     dieser Abstand zurueck, die Karte bleibt gleich hoch. */
+  .lvr-r8 .lvr-r8-table + p { margin-top: 15px; }
+}
+
+
+/* Effektrunde Rules (11.08.2026): Grundflaeche, Glows, Terminal-Karte und
+   der Schein VOR den unteren Karten, alles auf das aktuelle Soll-Mockup,
+   gemessen ueber die lokale Live-Emulation (Treue 0,1).
+   Spezifitaet 0-3-0 gegen die 0-2-0-Overrides in r3-rules.css. Nur Desktop. */
+@media (min-width: 1024px) {
+  /* 1. Grundflaeche wie r5-r7: Soll in kartenfreien Zonen (0..2,0..7,0..11),
+     live (5,6,15). Links ausgespart (weisser Kegelkern bei y=17006). */
+  .lvf-page .lvr-r8::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.8);
+    -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 255px, #000 345px);
+    mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 255px, #000 345px);
+  }
+
+  /* 2. Glow-Stapel neu:
+     a) Rechter Stern auf Kegelhoehe y=15340 (rel 19 Prozent). Das Soll zeigt
+        ihn satt und weit in die Karten hinein: durch die Karte bei x1460
+        rel 380 (13,95,143), am Rand x1650 rel 380 (69,179,230); live nur
+        (34,54,70) bzw. (107,175,212), also zu grau und zu weiss.
+     b) Die linken Ellipsen halbiert: live x60 rel 980 (11,100,152) gegen
+        Soll (17,56,79).
+     c) Die Ellipse -4%/92% (0,22) entfaellt: sie faerbte den weissen
+        Kegelkern bei y=17006 ein (live x60 rel 1940 (179,227,253) statt
+        Soll (232,246,255)). */
+  /* Feinpass 2: Stern etwas tiefer und breiter (Soll durch Karte x1460
+     rel 380 (13,95,143), Version 1 nur (32,72,95)); linke Ellipsen weiter
+     halbiert (Soll x60 rel 860 (13,42,58), Version 1 (3,57,90)). */
+  /* Feinpass 3: Stern minimal tiefer (Luecke unter der Terminal-Karte,
+     Soll x1460 rel 740 (7,80,119), vorher (11,32,44)); linke Ellipsen weiter
+     runter (x60 rel 1100 Soll (22,74,105), vorher (15,97,144) - der Rest
+     dort ist die Schulter des Seitenkegels, gemeldet). */
+  .lvf-page .lvr-r8 .lvr-r8-glow {
+    background:
+      radial-gradient(ellipse 760px 600px at 100% 22%, rgba(40, 180, 255, 0.78) 0%, rgba(0, 155, 245, 0.48) 50%, rgba(0, 155, 245, 0) 82%),
+      /* Feinpass 6: flacher Unterlappen des Sterns - im Soll flutet das Licht
+         die Fuge unter der Terminal-Karte weit nach links (abs y15570:
+         x1250 (8,99,150), x900 (2,12,18)), der Hauptstern reichte dort nur
+         bis (4,16,25). */
+      radial-gradient(ellipse 1100px 260px at 100% 29%, rgba(0, 162, 255, 0.5) 0%, rgba(0, 162, 255, 0.22) 50%, rgba(0, 162, 255, 0) 85%),
+      radial-gradient(ellipse 46% 24% at -6% 38%, rgba(0, 162, 255, 0.08) 0%, rgba(0, 162, 255, 0) 68%),
+      radial-gradient(ellipse 32% 18% at 2% 46%, rgba(140, 213, 255, 0.04) 0%, rgba(140, 213, 255, 0) 70%);
+  }
+
+  /* 3. Schein VOR den Karten des Verification-Blocks unten links. Beleg: im
+     Soll ist die Luecke zwischen den Spalten (x786-798, rel 1820-2300) mit
+     (1..2,16..20,24..32) genauso hell wie die Flaeche der fast schwarzen
+     d80-Karte daneben (x746-780: (1..3,10..21,15..32)) - das geht nur, wenn
+     das Licht VOR den Karten liegt, nicht dahinter. Live beide (1,1,3).
+     Eigene Ebene mit z-index 1 nach dem Container im Baum, liegt damit ueber
+     den Karten; Ellipse in der Flaeche zentriert, damit sie den weissen
+     Kegelkern links nicht erreicht. */
+  .lvf-page .lvr-r8::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    /* Feinpass 2: Soll-Luecke rel 1940 (2,20,30) und noch rel 2420 (2,10,16),
+       Version 1 lieferte (1,11,18) und (0,0,1) - staerker und tiefer. */
+    /* Feinpass 4: Fuss weiter verlaengert (Soll haelt rel 2420 noch (2,10,16))
+       und ein zweiter Schein VOR der Kommissionskarte oben rechts: im Soll ist
+       die Karte unter dem Terminal-Kasten bei x1460 rel 740-860 (7,80,119)
+       bzw. (4,53,81) blau ueberhaucht, obwohl sie als d45 fast schwarz ist -
+       das Licht liegt also auch dort VOR der Karte. */
+    background:
+      radial-gradient(ellipse 620px 700px at calc(50% - 260px) 80%, rgba(10, 120, 190, 0.3) 0%, rgba(10, 120, 190, 0) 80%),
+      /* Feinpass 6: der Schein auf der Kommissionskarte oben rechts breiter
+         (Soll abs y15700: x1250 (0,44,69), x1470 (5,67,100)), die Karte ist
+         jetzt deckend, also traegt allein diese Ebene das Licht dort. */
+      radial-gradient(ellipse 650px 260px at calc(50% + 680px) 32%, rgba(0, 150, 235, 0.65) 0%, rgba(0, 150, 235, 0) 78%);
+  }
+
+  /* 4. Karte "Lvlup Trading Terminal": im Soll traegt sie einen blauen
+     Verlauf von links dunkel nach rechts unten hell plus einen leuchtenden
+     rechten Randsaum, live war sie flach grau. Gemessen im Soll (abs y15520,
+     x -> Farbe): 860 (3,16,25), 1180 (3,71,112), 1300 (6,113,174),
+     1400 (12,146,221), 1490 (26,164,237); Randsaum oben rechts x1490
+     y15380 (16,147,218). Live an denselben Stellen rund (32..36,50..57,
+     64..75). Nur diese eine Karte: --full ohne --d45/--d80. */
+  .lvr-r8 .lvr-r8-grid > .lvr-r8-card--full:not(.lvr-r8-card--d45):not(.lvr-r8-card--d80) {
+    /* Feinpass 2: obere Kartenhaelfte war zu dunkel (x1460 rel 500 Version 1
+       (24,96,141), Soll (16,145,216)) - Verlauf hoeher zentriert, Randsaum
+       kraeftiger. */
+    /* Feinpass 3: Kern wieder tiefer (die Helligkeit oben traegt der
+       Randsaum, nicht der Verlauf: Soll x1440 rel 500 nur (6,59,90),
+       Version 2 (21,109,164)); Farbton entrotet (Soll Rot 15, vorher 28). */
+    /* Feinpass 5: Karte deckend wie im Soll (links x560 misst (0,0,0), eine
+       durchscheinende Karte zeigte (6,7,9) plus den Stern dahinter); der
+       Randsaum in zwei Stufen: heisse Kante (Soll x1490 rel 500 (16,147,218))
+       plus weicher Innensaum. */
+    background-color: rgb(1, 4, 7);
+    /* Feinpass 6: Verlauf steiler und tiefer - Soll abs y15420: x1300 nur
+       (3,34,53), y15520: x1300 (6,113,174); vorher leuchtete die halbe
+       Karte (8,71,106 bei x1300 oben). */
+    background-image: radial-gradient(ellipse 680px 170px at 100% 84%, rgba(18, 170, 252, 0.95) 0%, rgba(10, 125, 205, 0.42) 55%, rgba(10, 125, 205, 0) 80%);
+    box-shadow:
+      inset -6px 0 12px rgba(120, 210, 255, 0.75),
+      inset -18px 0 34px -6px rgba(0, 165, 255, 0.6),
+      inset 0 -14px 30px -8px rgba(0, 150, 245, 0.4);
+    border-color: rgba(60, 180, 255, 0.4);
+  }
+
+  /* 5. Kommissionskarte ebenfalls deckend: im Soll bleibt ihr Inneres bei
+     (0,1,3) (x746-780, rel 860-1340), waehrend der verstaerkte Stern durch
+     eine 45-Prozent-Karte (12,53,76) liefern wuerde. Der blaue Hauch oben
+     rechts auf der Karte kommt aus dem Schein davor (Nr. 3). */
+  .lvr-r8 .lvr-r8-grid > .lvr-r8-card--full.lvr-r8-card--d45 {
+    background-color: rgb(2, 5, 10);
+  }
+}
+
+
+/* Pixelrunde 2 Rules (11.08.2026): Textspalte auf das Band-Mass.
+   Band-JSON: Text x 304 mit 526 px Breite in den 611er Karten, also 43 px
+   Einzug links und 42 rechts. Gerendert waren es 524 px, weil der 1px-Rahmen
+   der Karte von den 611 px abgeht (611 - 2 - 2x26 - 2x17 = 524). Die zwei
+   fehlenden Pixel liessen einzelne Absaetze eine Zeile zu frueh umbrechen.
+   16 px links ergibt x 304 (1 Rahmen + 26 Kartenpolster + 16), 15 px rechts
+   ergibt 526 px Breite. */
+@media (min-width: 1024px) {
+  .lvr-r8 .lvr-r8-body { padding-inline: 16px 15px; }
+}
+
+/* == r9-prohibited == */
+/* Sektion r9-prohibited (Trading Rules) - Praefix .lvr-r9- */
+.lvr-r9 {
+  position: relative;
+  padding: 0 0 150px;
+  overflow: hidden;
+}
+
+/* Weiche Hintergrund-Glows nach dem Figma: starkes blaues Leuchten an der
+   linken Kante (untere Haelfte), dezenter Schein oben links und ein weicher
+   Auslauf nach unten in die naechste Sektion. Alles radial mit transparenten
+   Enden, keine harten Kanten. */
+.lvr-r9-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 48% 32% at -4% 60%, rgba(0, 162, 255, 0.75) 0%, rgba(0, 162, 255, 0) 68%),
+    radial-gradient(ellipse 26% 20% at 0% 63%, rgba(167, 223, 255, 0.45) 0%, rgba(167, 223, 255, 0) 70%),
+    radial-gradient(ellipse 45% 20% at 0% 12%, rgba(0, 162, 255, 0.18) 0%, rgba(0, 162, 255, 0) 70%),
+    radial-gradient(ellipse 60% 22% at 25% 102%, rgba(0, 162, 255, 0.4) 0%, rgba(0, 162, 255, 0) 72%),
+    radial-gradient(ellipse 40% 16% at 40% 99%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 72%);
+}
+.lvr-r9 .lvf-container { position: relative; z-index: 1; }
+
+/* Sektionskopf (13 Prohibited Trading Rules) */
+.lvr-r9-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 0 0 75px;
+}
+.lvr-r9-badge {
+  flex: 0 0 auto;
+  width: 37px;
+  height: 37px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background: var(--lvf-grad-blue);
+  box-shadow: inset -1px 0 3px 0 rgba(255, 255, 255, 0.68);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.08em;
+  color: #05060f;
+}
+.lvr-r9-title {
+  font-size: clamp(30px, 3.4vw, 41px);
+  font-weight: 500;
+  line-height: 0.93;
+  letter-spacing: -0.02em;
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lvr-r9-accent {
+  background: var(--lvf-grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Zwei Spalten (Figma: je 611px, 16px Abstand) */
+.lvr-r9-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.lvr-r9-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+/* Karten. Standard: rgba(255,255,255,0.02), --dark: rgba(0,0,0,0.8).
+   Starker Backdrop-Blur und feiner blauer Rand wie im Figma. */
+.lvr-r9-card {
+  border: 1px solid rgba(53, 174, 244, 0.35);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(110px);
+  -webkit-backdrop-filter: blur(110px);
+  padding: 26px 26px 38px;
+}
+.lvr-r9-card--dark { background: rgba(0, 0, 0, 0.8); }
+.lvr-r9-card--wide { margin-top: 16px; }
+
+/* Kartenkopf (dunkle Leiste) */
+.lvr-r9-cardhead {
+  display: flex;
+  align-items: center;
+  min-height: 58px;
+  padding: 10px 21px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  border-radius: 8px 0 8px 0;
+  background:
+    linear-gradient(0deg, rgba(0, 24, 38, 0) 0%, rgba(0, 24, 38, 0.2) 100%),
+    linear-gradient(231deg, rgba(0, 0, 0, 0.34) 0%, #000000 100%);
+}
+.lvr-r9-cardtitle {
+  font-size: clamp(19px, 1.8vw, 24px);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+/* Fliesstext */
+.lvr-r9-body { padding-top: 29px; }
+.lvr-r9-body p {
+  padding-inline: 17px;
+  font-size: 15px;
+  font-weight: 340;
+  line-height: 26px;
+  letter-spacing: 0.9px;
+  color: rgba(246, 248, 250, 0.6);
+}
+.lvr-r9-body p + p { margin-top: 26px; }
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .lvr-r9 { padding: 0 0 110px; }
+  .lvr-r9-head { margin-bottom: 56px; }
+  .lvr-r9-card { padding: 20px 20px 30px; }
+  .lvr-r9-body { padding-top: 24px; }
+  .lvr-r9-body p { padding-inline: 10px; }
+}
+
+/* Mobile: gestapelt, Fliesstext >= 16px */
+@media (max-width: 767px) {
+  .lvr-r9 { padding: 0 0 80px; }
+  .lvr-r9-head { gap: 12px; margin-bottom: 36px; }
+  .lvr-r9-title { min-width: 0; flex: 1 1 0; font-size: clamp(24px, 7vw, 30px); line-height: 1.05; }
+  .lvr-r9-badge { width: 32px; height: 32px; font-size: 20px; }
+  .lvr-r9-grid { grid-template-columns: 1fr; }
+  .lvr-r9-card { padding: 16px 16px 26px; border-radius: 18px; }
+  .lvr-r9-cardhead { min-height: 52px; padding: 10px 16px; }
+  .lvr-r9-body { padding-top: 22px; }
+  .lvr-r9-body p { padding-inline: 4px; font-size: 16px; line-height: 1.6; letter-spacing: 0.3px; }
+  .lvr-r9-body p + p { margin-top: 20px; }
+}
+
+
+/* Abnahme Runde 2: Karten waren zu hell (Luma 26-47 statt 1-7) - fast schwarze
+   Flaechen wie im Entwurf; Tabellen auf dunklerer Innenflaeche, Kopflinie weich. */
+.lvr-r9 .lvr-r9-card {
+  background-color: rgba(1, 4, 7, 0.92);
+}
+.lvr-r9 .lvr-r9-table {
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 10px;
+}
+.lvr-r9 .lvr-r9-table thead th {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+
+/* Pixelrunde Rules (10.08.2026): Kartenfüsse und Sektionsfuss auf das Figma-Mass.
+   Der Entwurf gibt einzelnen Karten bewusst unterschiedliche Füsse, damit beide
+   Spalten exakt gleich hoch enden (je 2188 px, Band-JSON y 17529 bis 19717).
+   Die einheitlichen 27 px liessen die Spalten auseinanderlaufen: linke Karten
+   bis 24 px zu hoch, rechte Spalte und Schlusskarte bis 46 px zu tief, Sektion
+   2659 statt 2613 (grenzen-rules-gegenprobe.json).
+   Kartenhöhe im Render: 108 + 26 × Zeilenslots + padding-bottom. Die Werte unten
+   sind daraus gegen die Soll-Höhen des Band-JSON gerechnet und lokal nachgemessen.
+   Nur Desktop - Tablet/Mobil behalten die bisherigen Werte (keine Referenz). */
+@media (min-width: 1024px) {
+  /* linke Spalte (nth-child = Reihenfolge der Karten im Entwurf) */
+  .lvr-r9 .lvr-r9-grid > .lvr-r9-col:nth-child(1) > .lvr-r9-card:nth-child(1) { padding-bottom: 50px; } /* Pricing and Latency: Soll 288 / Ist 265 */
+  .lvr-r9 .lvr-r9-grid > .lvr-r9-col:nth-child(1) > .lvr-r9-card:nth-child(2) { padding-bottom: 28px; } /* Front-Running: Soll 266 / Ist 265 */
+  .lvr-r9 .lvr-r9-grid > .lvr-r9-col:nth-child(1) > .lvr-r9-card:nth-child(3) { padding-bottom: 29px; } /* Cross-Account Hedging: Soll 267 / Ist 265 */
+  .lvr-r9 .lvr-r9-grid > .lvr-r9-col:nth-child(1) > .lvr-r9-card:nth-child(4) { padding-bottom: 29px; } /* Mirroring: Soll 267 / Ist 265 */
+  .lvr-r9 .lvr-r9-grid > .lvr-r9-col:nth-child(1) > .lvr-r9-card:nth-child(5) { padding-bottom: 24px; } /* Third-Party: Soll 262 / Ist 265 */
+  .lvr-r9 .lvr-r9-grid > .lvr-r9-col:nth-child(1) > .lvr-r9-card:nth-child(6) { padding-bottom: 22px; } /* Manipulative Strategy: Soll 286 / Ist 291 */
+  .lvr-r9 .lvr-r9-grid > .lvr-r9-col:nth-child(1) > .lvr-r9-card:nth-child(7) { padding-bottom: 26px; } /* Account Sharing: Soll 238 / Ist 239 */
+  .lvr-r9 .lvr-r9-grid > .lvr-r9-col:nth-child(1) > .lvr-r9-card:nth-child(8) { padding-bottom: 42px; } /* Spam: Soll 202 / Ist 187 */
+  /* rechte Spalte */
+  .lvr-r9 .lvr-r9-grid > .lvr-r9-col:nth-child(2) > .lvr-r9-card:nth-child(1) { padding-bottom: 28px; } /* Insider: Soll 240 / Ist 239 */
+  .lvr-r9 .lvr-r9-grid > .lvr-r9-col:nth-child(2) > .lvr-r9-card:nth-child(2) { padding-bottom: 24px; } /* Cross-Account Arbitrage: Soll 262 / Ist 265 */
+  .lvr-r9 .lvr-r9-grid > .lvr-r9-col:nth-child(2) > .lvr-r9-card:nth-child(3) { padding-bottom: 24px; } /* Group Trading: Soll 262 / Ist 265 */
+  .lvr-r9 .lvr-r9-grid > .lvr-r9-col:nth-child(2) > .lvr-r9-card:nth-child(4) { padding-bottom: 24px; } /* Automated Copying: Soll 262 / Ist 265 */
+  .lvr-r9 .lvr-r9-grid > .lvr-r9-col:nth-child(2) > .lvr-r9-card:nth-child(5) { padding-bottom: 22px; } /* Copy Trading Own: Soll 286 / Ist 291 */
+  .lvr-r9 .lvr-r9-grid > .lvr-r9-col:nth-child(2) > .lvr-r9-card:nth-child(7) { padding-bottom: 22px; } /* Platform Manipulation: Soll 260 / Ist 265 */
+  /* Gambling (nth-child 6) und Regulatory (nth-child 8) bleiben beim Fuss 27:
+     Soll 265 / Ist 265 bzw. Soll 239 / Ist 239 nach der Absatzkorrektur unten.
+     Explizit festgehalten, damit die Werte nicht vom Live-Override abhaengen. */
+  .lvr-r9 .lvr-r9-grid > .lvr-r9-col:nth-child(2) > .lvr-r9-card:nth-child(6) { padding-bottom: 27px; }
+  .lvr-r9 .lvr-r9-grid > .lvr-r9-col:nth-child(2) > .lvr-r9-card:nth-child(8) { padding-bottom: 27px; }
+
+  /* Regulatory and Exchange Compliance: im Entwurf stehen die beiden Absätze
+     ohne Leerzeile untereinander (Band-JSON: kein Leerabsatz), unser p+p-Abstand
+     legt eine volle Zeile dazwischen. Soll 239 / Ist 265. */
+  .lvr-r9 .lvr-r9-grid > .lvr-r9-col:nth-child(2) > .lvr-r9-card:nth-child(8) .lvr-r9-body p + p { margin-top: 0; }
+
+  /* Schlusskarte Enforcement: Soll 238 / Ist 239 (Override 27). Doppelklasse,
+     damit die Regel den Live-Override (.lvr-r9 .lvr-r9-card, 27 px) schlaegt. */
+  .lvr-r9 .lvr-r9-card.lvr-r9-card--wide { padding-bottom: 26px; }
+
+  /* Sektionsfuss: Schlusskarte bis Sektionsende Soll 58 (19971 -> 20029),
+     Live-Override 59 / Basis 150. Sektion damit 2613 statt 2659. */
+  .lvf-page .lvr-r9 { padding-bottom: 58px; }
+}
+
+
+/* Effektrunde Rules (11.08.2026): Grundflaeche und Glows auf das aktuelle
+   Soll-Mockup, gemessen ueber die lokale Live-Emulation (Treue 0,1).
+   Spezifitaet 0-3-0 gegen die 0-2-0-Overrides in r3-rules.css. Nur Desktop. */
+@media (min-width: 1024px) {
+  /* 1. Grundflaeche wie r5-r8: Soll in kartenfreien Zonen (0,0,0)..(2,7,11),
+     live (5,6,15). Links ausgespart (Kegelkern y=17006 ragt in den
+     Sektionsanfang). Kein Auslauf unten: das Soll bleibt bis zur s10-Grenze
+     schwarz, und s10 legt dort seine eigene dunkle Blende darueber. */
+  .lvf-page .lvr-r9::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.8);
+    -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 255px, #000 345px);
+    mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 255px, #000 345px);
+  }
+
+  /* 2. Glow-Stapel abgeschwaecht, Formen wie gehabt (r3-rules-26 hatte schon
+     einmal halbiert, das Soll liegt noch darunter):
+     - links Mitte: live x60 rel 1580 (17,49,73) gegen Soll (2,31,47) -> 0,22
+       auf 0,11 und 0,12 auf 0,06;
+     - oben links: 0,18 auf 0,10, der Blauton drueckte das Rot des weissen
+       Kegelrands (live x60 rel 140 (85,191,241), Soll (111,199,237));
+     - unten: live Spaltenluecke rel 2300-2420 (17..18,29..31,43..47) gegen
+       Soll (0,7,13) -> 0,4 auf 0,14 und Weiss 0,12 auf 0,04. */
+  /* Feinpass 2: der linke Soll-Glow sitzt hoeher als gedacht (Maximum bei
+     rel 980-1300: Soll x60 (11,61,92)..(4,37,60), Version 1 dort (2,43,70)..
+     (7,18,33)) - Ellipse von 60 auf 48 Prozent gehoben; oben 0,10 -> 0,06,
+     weil der Blauton das Rot des Kegelrands drueckte. */
+  .lvf-page .lvr-r9 .lvr-r9-glow {
+    background:
+      radial-gradient(ellipse 46% 30% at -4% 50%, rgba(0, 162, 255, 0.19) 0%, rgba(0, 162, 255, 0) 68%),
+      radial-gradient(ellipse 24% 16% at 0% 50%, rgba(167, 223, 255, 0.08) 0%, rgba(167, 223, 255, 0) 70%),
+      /* Feinpass 4: flaches Zwischenstueck tiefer und schwaecher, das
+         Soll-Profil haelt links ein Plateau (0,30,46) von rel 1460 bis 1940;
+         die Hauptellipse dafuer gestreckt (26 auf 30 Prozent, 0,16 auf 0,19),
+         Feinpass 3 stand bei 1820 schon 17 drueber */
+      radial-gradient(ellipse 42% 26% at -4% 74%, rgba(0, 162, 255, 0.04) 0%, rgba(0, 162, 255, 0) 70%),
+      radial-gradient(ellipse 45% 20% at 0% 12%, rgba(0, 162, 255, 0.06) 0%, rgba(0, 162, 255, 0) 70%),
+      radial-gradient(ellipse 60% 22% at 25% 102%, rgba(0, 162, 255, 0.1) 0%, rgba(0, 162, 255, 0) 72%),
+      radial-gradient(ellipse 40% 16% at 40% 99%, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 72%);
+  }
+}
+
+/* == r9b-cta == */
+/* == s10 Final CTA ==
+   Basis = Mobile-Design (Frame 440). 768-1023 interpoliert, >=1024 exakt Desktop-Design (Frame 1760).
+   Alle Masse aus figma/specs/s10-final-cta-*.txt bzw. dem Band-JSON. */
+
+.lvf-s10 {
+  /* Mobil-Einheit: 1px bei 440 Designbreite, darunter proportional kleiner, darueber eingefroren. */
+  --lvf-s10-u: min(1px, 0.2272727vw);
+
+  --lvf-s10-r: calc(22 * var(--lvf-s10-u));            /* Kartenradius */
+  --lvf-s10-ring: calc(4.903 * var(--lvf-s10-u));      /* Aussenrahmen (Figma: OUTSIDE stroke) */
+  --lvf-s10-pad-b: calc(36 * var(--lvf-s10-u));        /* Karte padding-block */
+  --lvf-s10-pad-i: calc(26.5 * var(--lvf-s10-u));      /* Karte padding-inline */
+  --lvf-s10-gap: calc(31 * var(--lvf-s10-u));          /* Abstand Kopf / Stats / Buttons */
+  --lvf-s10-gap-head: calc(18 * var(--lvf-s10-u));     /* Headline -> Sub */
+  --lvf-s10-title: calc(37 * var(--lvf-s10-u));
+  --lvf-s10-title-lh: calc(40 * var(--lvf-s10-u));
+  --lvf-s10-sub: calc(13 * var(--lvf-s10-u));
+  --lvf-s10-stat: calc(27 * var(--lvf-s10-u));         /* Stat-Zahl, Icons/Label leiten sich in em ab */
+  --lvf-s10-stat-gap: calc(67 * var(--lvf-s10-u));
+  --lvf-s10-stat-rowgap: calc(21 * var(--lvf-s10-u));
+  --lvf-s10-btn: calc(13 * var(--lvf-s10-u));          /* Button-Schrift, Rest in em */
+  /* Zuschlag je Seite fuer das Antippfeld der beiden Knoepfe: genau der Rest,
+     der der realen Knopfhoehe (2.765 * --lvf-s10-btn) auf 44 px fehlt, nach
+     unten begrenzt auf die bisherigen 4 px. Gerechnet wird auf 44.1 statt 44:
+     Chrome legt Elementhoehen auf 1/64 px, ohne den Aufschlag kaeme dabei
+     43,99 heraus. Siehe Block am Dateiende. */
+  --lvf-s10-tap: max(4px, calc((44.1px - 2.765 * var(--lvf-s10-btn)) / 2));
+  --lvf-s10-shadow: 5px 5px 14px rgba(0, 0, 0, 0.25), 19px 17px 26px rgba(0, 0, 0, 0.21), 42px 40px 35px rgba(0, 0, 0, 0.13);
+
+  position: relative;
+  padding: calc(32 * var(--lvf-s10-u)) 0 calc(14 * var(--lvf-s10-u));
+  background: transparent;
+}
+
+.lvf-s10-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+.lvf-s10-container { padding-inline: calc(30 * var(--lvf-s10-u)); }
+
+/* ---------- Karte ---------- */
+.lvf-s10-card {
+  position: relative;
+  border-radius: var(--lvf-s10-r);
+  background: #000000;                                   /* Rectangle 402 (schwarz) ueber Rectangle 401 rgba(0,0,0,0.1) */
+  box-shadow: 4px 14px 14px rgba(0, 0, 0, 0.25);
+  padding: var(--lvf-s10-pad-b) var(--lvf-s10-pad-i);
+}
+
+/* Aussenrahmen: 4.9px (mobil) bzw. 10px (Desktop) OUTSIDE, Verlauf mit Deckkraft 0.19 */
+.lvf-s10-card::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--lvf-s10-ring));
+  border-radius: calc(var(--lvf-s10-r) + var(--lvf-s10-ring));
+  padding: var(--lvf-s10-ring);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.0608) 0%, rgba(255, 255, 255, 0.0095) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Glow-Ebene: Naeherung der weichgezeichneten Star-Vektoren. Groessen/Zentren
+   aus den Figma-Boxen der Star-Vektoren relativ zur Karte umgerechnet. */
+.lvf-s10-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  /* Mobil (vermessen am Soll): hellste Zone oben RECHTS (weiss-blau), dazu ein
+     breites helles Band am unteren Kartenrand (unter den Buttons), Mitte dunkles
+     Marineblau mit Blaustich, linke Flanke dezent. Weich auslaufend, keine Kanten. */
+  background:
+    radial-gradient(85% 35% at 100% 0%, rgba(90, 195, 250, 0.70) 0%, rgba(25, 145, 220, 0.45) 45%, rgba(0, 162, 255, 0) 80%),
+    radial-gradient(140% 50% at 50% 104%, rgba(70, 165, 230, 0.60) 0%, rgba(25, 115, 175, 0.40) 45%, rgba(0, 162, 255, 0) 85%),
+    radial-gradient(70% 38% at 0% 102%, rgba(50, 150, 215, 0.55) 0%, rgba(0, 162, 255, 0) 80%),
+    radial-gradient(45% 22% at 0% 0%, rgba(25, 100, 160, 0.35) 0%, rgba(0, 162, 255, 0) 75%),
+    linear-gradient(180deg, rgba(4, 18, 28, 0.55) 0%, rgba(6, 24, 38, 0.50) 40%, rgba(10, 38, 60, 0.50) 70%, rgba(16, 58, 88, 0.45) 100%);
+}
+
+/* ---------- Deko-Pfeile und -Rauten (Group 2147224196), an der Karte geclippt ---------- */
+.lvf-s10-deco {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Alte lange Deko-Pfeile: nur Desktop (ab 768), mobil durch die 3D-Pfeile ersetzt */
+.lvf-s10-arrow {
+  position: absolute;
+  display: none;
+  width: calc(120 * var(--lvf-s10-u));
+  aspect-ratio: 1 / 2;
+  height: auto;
+}
+.lvf-s10-arrow--l {
+  left: calc(-80 * var(--lvf-s10-u));
+  top: calc(-140 * var(--lvf-s10-u));
+  width: calc(100 * var(--lvf-s10-u));
+  transform: rotate(-42deg);
+  opacity: 0.9;
+}
+
+/* Mobil: blauer 3D-VollPfeil an der oberen linken Kartenecke, zeigt nach unten rechts
+   und ragt ueber den Kartenrand hinaus (Soll: ca. 90x60px sichtbar an Sektion x=0-100,
+   y=0-60; Figma-Box 200x193, massiv verlaesslich nur der helle Kern) */
+.lvf-s10-arrowhead {
+  position: absolute;
+  width: calc(95 * var(--lvf-s10-u));
+  aspect-ratio: 1 / 1;
+  height: auto;
+  left: calc(-20 * var(--lvf-s10-u));
+  top: calc(-20 * var(--lvf-s10-u));
+  opacity: 0.95;
+  filter: drop-shadow(0 calc(8 * var(--lvf-s10-u)) calc(22 * var(--lvf-s10-u)) rgba(0, 0, 0, 0.25));
+  pointer-events: none;
+}
+
+/* Mobil: blauer 3D-Vollpfeil am rechten Kartenrand, zeigt nach oben
+   (Soll: Sektion y=150-220 am rechten Rand, teilweise von der Karte geclippt) */
+.lvf-s10-arrow3d {
+  position: absolute;
+  width: calc(76 * var(--lvf-s10-u));
+  aspect-ratio: 1 / 1;
+  height: auto;
+  left: calc(320 * var(--lvf-s10-u));
+  top: calc(140 * var(--lvf-s10-u));
+  opacity: 0.95;
+  filter: drop-shadow(0 calc(8 * var(--lvf-s10-u)) calc(22 * var(--lvf-s10-u)) rgba(0, 0, 0, 0.25));
+  pointer-events: none;
+}
+
+.lvf-s10-arrow--r {
+  left: calc(330 * var(--lvf-s10-u));
+  top: calc(115 * var(--lvf-s10-u));
+  width: calc(115 * var(--lvf-s10-u));
+  transform: rotate(-16deg);
+  opacity: 0.85;
+}
+
+.lvf-s10-diamond {
+  position: absolute;
+  width: calc(96 * var(--lvf-s10-u));
+  aspect-ratio: 1 / 1;
+  height: auto;
+  display: none;                       /* im Mobile-Design nicht sichtbar */
+}
+.lvf-s10-diamond--r { transform: scaleX(-1); }
+
+.lvf-s10-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lvf-s10-gap);
+  margin-inline: auto;
+}
+
+/* ---------- Kopf ---------- */
+.lvf-s10-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lvf-s10-gap-head);
+  width: 100%;
+}
+
+.lvf-s10-title {
+  font-family: var(--lvf-font-display);
+  font-size: var(--lvf-s10-title);
+  font-weight: 500;
+  line-height: var(--lvf-s10-title-lh);
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #ffffff;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+  text-box: trim-both cap alphabetic;
+}
+
+/* Zweite Headline-Zeile: fett und im Blau-Verlauf (aus dem Soll-Render gemessen) */
+.lvf-s10-title-blue {
+  font-weight: 700;
+  color: #2bb1ff;
+}
+
+.lvf-s10-sub {
+  font-family: var(--lvf-font-display);
+  font-size: var(--lvf-s10-sub);
+  font-weight: 425;
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.85);
+  width: 100%;
+}
+
+/* ---------- Stats ---------- */
+/* Mobil spaltenweise gefuellt: links 100% + $1M, rechts 10% + Five (wie im Soll) */
+.lvf-s10-stats {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(2, auto);
+  justify-content: center;
+  justify-items: start;
+  column-gap: var(--lvf-s10-stat-gap);
+  row-gap: var(--lvf-s10-stat-rowgap);
+}
+
+.lvf-s10-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: var(--lvf-s10-stat);
+}
+
+.lvf-s10-stat-top {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+}
+
+.lvf-s10-ico { display: block; flex: none; }
+.lvf-s10-ico--split { width: 0.90em; height: 0.81em; }
+.lvf-s10-ico--funding { width: 0.84em; height: 0.75em; }
+.lvf-s10-ico--payout,
+.lvf-s10-ico--days { width: 0.75em; height: 0.75em; }
+
+.lvf-s10-stat-value {
+  font-family: var(--lvf-font-display);
+  font-size: 1em;
+  font-weight: 555;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: var(--lvf-blue-light);
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+  text-box: trim-both cap alphabetic;
+}
+
+.lvf-s10-stat-label {
+  margin-top: 0.22em;
+  font-family: var(--lvf-font-display);
+  font-size: 0.36em;
+  font-weight: 500;
+  line-height: 1.23;
+  letter-spacing: 0.04em;
+  text-align: center;
+  white-space: nowrap;
+  color: #ffffff;
+  text-box-trim: trim-both;
+  /* Untere Kante auf text statt alphabetic: sonst schneidet das Trim die
+     Unterlaengen von g/y ab (mobil: "Max Fundin", "Min Trading Dav"). */
+  text-box-edge: cap text;
+  text-box: trim-both cap text;
+}
+
+/* Verlaufsschrift nur wo unterstuetzt, sonst bleibt die Volltonfarbe stehen */
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .lvf-s10-title,
+  .lvf-s10-stat-label {
+    background-image: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50.5%, rgba(255, 255, 255, 0.7) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+  .lvf-s10-stat-value {
+    background-image: var(--lvf-grad-blue);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+  .lvf-s10-title-blue {
+    background-image: linear-gradient(180deg, #4abdff 0%, #0f9bf5 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* ---------- Buttons ---------- */
+/* Mobil nebeneinander ueber die volle Kartenbreite (wie im Soll), ab 768 natuerliche Breiten */
+.lvf-s10-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: var(--lvf-s10-btn);
+  gap: 0.47em;
+}
+
+/* Spezifitaet 0-2-0: die fremde Regel .elementor a{box-shadow:none} hat 0-1-1
+   und wuerde die Lichtsaeume der beiden Schaltflaechen sonst abschalten.
+   Die Knoepfe sind <a>-Elemente, deshalb greift sie hier. */
+.lvf-page .lvf-s10-btn,
+.lvf-page .lvf-s10-btn2 {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.765em;
+  border-radius: 0.61em;
+  font-family: var(--lvf-font-display);
+  font-size: 1em;
+  line-height: 1.5;
+  white-space: nowrap;
+  transition: filter 0.18s ease, box-shadow 0.18s ease;
+}
+
+/* Vergroessertes Antippfeld: reale Knopfhoehe + 2x --lvf-s10-tap = 44px.
+   Der Zuschlag ist nicht fest, weil die Knopfhoehe unter 440px Designbreite
+   mitschrumpft; bei 440px und darueber sind es die bisherigen 4 px. */
+.lvf-s10-btn::before,
+.lvf-s10-btn2::before {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--lvf-s10-tap)) 0;
+}
+
+.lvf-page .lvf-s10-btn {
+  gap: 0.47em;
+  min-width: 0;
+  flex: 1 1 auto;
+  padding: 0 0.71em 0 0.3em;
+  /* Saum-Verlauf statt --lvf-grad-blue plus inset-Schatten, 11.08.2026.
+     Figma legt hier einen INNER_SHADOW #5bbce8 im Blendmodus COLOR_DODGE an,
+     der aufhellt; der inset-Schatten dunkelte ab. Siehe shell.css. */
+  background-image: var(--lvf-grad-blue-btn);
+  color: #060606;
+  font-weight: 500;
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  box-shadow: var(--lvf-s10-shadow);
+}
+
+.lvf-s10-btn-ico {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.16em;
+  height: 2.16em;
+  border-radius: 0.31em;
+  background: #060606;
+}
+.lvf-s10-btn-ico svg { display: block; width: 1.08em; height: 1.08em; }
+
+.lvf-s10-btn-label { display: block; }
+
+/* 0.5px Rahmen des Primaer-Buttons: 90deg transparent -> #00a2ff -> transparent */
+.lvf-s10-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 0.5px;
+  background: linear-gradient(90deg, rgba(0, 162, 255, 0) 0%, #00a2ff 50%, rgba(0, 162, 255, 0) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.lvf-page .lvf-s10-btn2 {
+  min-width: 0;
+  flex: 0 1 auto;
+  padding-inline: 1em;
+  /* Sichtbare Pillen-Fuellung (Befund desktop R3, Sekundaer-Button): SOLL-Fuellung
+     RGB(6,18,24), vorher fast unsichtbar auf Schwarz. */
+  background: rgba(6, 18, 24, 0.9);
+  color: #ffffff;
+  font-weight: 400;
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  box-shadow:
+    inset -2px -5px 15px #52b8f1,
+    inset -4px -3px 12px #00a4ff,
+    inset -1px -1px 4px #00a4ff,
+    inset 7px 6px 10px #000000,
+    var(--lvf-s10-shadow);
+}
+
+.lvf-page .lvf-s10-btn:hover { filter: brightness(1.07); }
+.lvf-page .lvf-s10-btn2:hover { filter: brightness(1.12); }
+.lvf-s10-btn:focus-visible,
+.lvf-s10-btn2:focus-visible {
+  outline: 2px solid var(--lvf-blue-light);
+  outline-offset: 3px;
+}
+
+/* ---------- Tablet 768-1023: linear interpoliert auf die Desktop-Werte bei 1024 ---------- */
+@media (min-width: 768px) {
+  .lvf-s10 {
+    --lvf-s10-r: calc(5.859vw - 15px);            /* 30 -> 45 */
+    --lvf-s10-ring: calc(1.5625vw - 6px);         /* 6 -> 10 */
+    --lvf-s10-pad-b: calc(16.797vw - 83px);       /* 46 -> 89 */
+    --lvf-s10-pad-i: calc(34.375vw - 230px);      /* 34 -> 122 */
+    --lvf-s10-gap: calc(5.078vw - 5px);           /* 34 -> 47 */
+    --lvf-s10-gap-head: calc(3.906vw - 6px);      /* 24 -> 34 */
+    --lvf-s10-title: calc(10.156vw - 34px);       /* 44 -> 70 */
+    --lvf-s10-title-lh: calc(8.594vw - 22.9px);   /* 43.1 -> 65.1 */
+    --lvf-s10-sub: calc(2.734vw - 4px);           /* 17 -> 24 */
+    --lvf-s10-stat: calc(2.821vw + 8.33px);       /* 30 -> 37.22 */
+    --lvf-s10-stat-gap: calc(25.781vw - 168px);   /* 30 -> 96 */
+    --lvf-s10-btn: calc(0.641vw + 10.08px);       /* 15 -> 16.64 */
+    --lvf-s10-shadow: 6px 6px 18px rgba(0, 0, 0, 0.25), 24px 22px 33px rgba(0, 0, 0, 0.21), 53px 50px 44px rgba(0, 0, 0, 0.13);
+
+    padding: calc(3.906vw + 3px) 0 calc(3.906vw);   /* 33/30 bei 768, 43/40 bei 1024 */
+  }
+
+  .lvf-s10-container { padding-inline: 20px; }
+
+  .lvf-s10-card { box-shadow: 7.23px 28.93px 28.93px rgba(0, 0, 0, 0.25); }
+
+  .lvf-s10-brm { display: none; }
+
+  /* 4 Stats nebeneinander wie im Desktop-Design */
+  .lvf-s10-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--lvf-s10-stat-gap);
+  }
+
+  .lvf-s10-btn::before,
+  .lvf-s10-btn2::before { content: none; }
+
+  .lvf-s10-actions { width: auto; }
+  .lvf-page .lvf-s10-btn { flex: none; min-width: 14.2em; }
+  .lvf-page .lvf-s10-btn2 { flex: none; min-width: 10.15em; }
+
+  .lvf-page .lvf-s10-btn { -webkit-backdrop-filter: blur(8.32px); backdrop-filter: blur(8.32px); box-shadow: var(--lvf-s10-shadow); }
+  .lvf-page .lvf-s10-btn2 {
+    -webkit-backdrop-filter: blur(8.32px);
+    backdrop-filter: blur(8.32px);
+    box-shadow:
+      inset -2px -6px 19.4px #52b8f1,
+      inset -5px -4px 15.7px #00a4ff,
+      inset -0.78px -1.56px 4.53px #00a4ff,
+      inset 9px 7px 12.1px #000000,
+      var(--lvf-s10-shadow);
+  }
+
+  /* Desktop (vermessen am Soll): hellste Zone oben RECHTS (weiss-blau), rechte Flanke
+     und beide unteren Ecken sattblau, linke Flanke mittelblau, Mitte/oben dunkles
+     Marineblau. Zwei grosse weiche Radial-Glows (Zentren jenseits der Raender) plus
+     dunkle Basisrampe; alles weich auslaufend, keine harten Kanten. */
+  .lvf-s10-glow {
+    background:
+      radial-gradient(90% 120% at 112% 20%, rgba(90, 190, 255, 0.60) 0%, rgba(0, 165, 250, 0.65) 38%, rgba(0, 80, 122, 0.32) 62%, rgba(0, 162, 255, 0) 82%),
+      radial-gradient(85% 115% at -12% 85%, rgba(100, 195, 255, 0.55) 0%, rgba(0, 160, 245, 0.60) 38%, rgba(0, 80, 122, 0.32) 60%, rgba(0, 162, 255, 0) 80%),
+      radial-gradient(85% 55% at 50% 108%, rgba(45, 150, 215, 0.60) 0%, rgba(15, 90, 140, 0.30) 50%, rgba(0, 162, 255, 0) 82%),
+      linear-gradient(180deg, rgba(4, 20, 32, 0.60) 0%, rgba(7, 32, 52, 0.55) 40%, rgba(10, 44, 70, 0.55) 72%, rgba(14, 55, 85, 0.55) 100%);
+  }
+
+  /* Deko: Pfeile unten links/rechts, Rauten daneben, beide an der Unterkante geclippt */
+  .lvf-s10-arrowhead,
+  .lvf-s10-arrow3d { display: none; }
+
+  .lvf-s10-arrow {
+    display: block;
+    width: 12%;
+    opacity: 0.85;
+    top: auto;
+  }
+  .lvf-s10-arrow--l { left: 1.5%; bottom: -15%; transform: rotate(-12deg); }
+  .lvf-s10-arrow--r { left: auto; right: 1.5%; bottom: -15%; transform: rotate(12deg); }
+
+  .lvf-s10-diamond { display: block; width: 9.7%; }
+  .lvf-s10-diamond--l { left: 16.2%; bottom: -6.4%; }
+  .lvf-s10-diamond--r { right: 16.2%; bottom: -6.4%; }
+}
+
+/* ---------- Desktop >=1024: exakte Werte aus dem Desktop-Band ---------- */
+@media (min-width: 1024px) {
+  .lvf-s10 {
+    --lvf-s10-r: 45px;
+    --lvf-s10-ring: 10px;
+    --lvf-s10-pad-b: 89px;
+    --lvf-s10-pad-i: 122px;
+    --lvf-s10-gap: 47px;
+    --lvf-s10-gap-head: 34px;
+    --lvf-s10-title: 70px;
+    --lvf-s10-title-lh: 65.1px;
+    --lvf-s10-sub: 24px;
+    --lvf-s10-stat: 37.22px;
+    --lvf-s10-stat-gap: 96px;
+    --lvf-s10-btn: 16.64px;
+
+    /* Messpass 10.08.2026, gleiche Korrektur wie in build/fragments/s10:
+       Sektion soll 650px hoch sein, war 628px. Karte stimmt (Soll 547,
+       Ist 545), zu klein waren die Aussenabstaende. Die 50px unten ergeben
+       mit den 48px oben in s11 den Soll-Abstand von 98px zwischen den Karten.
+       Beide Dateien muessen gleich bleiben, es ist dieselbe Sektion .lvf-s10. */
+    padding: 53px 0 50px;
+  }
+
+  .lvf-s10-content { width: 995px; max-width: 100%; }
+
+  /* Im Desktop-Soll steht die Unterzeile in einer Zeile (Figma-Box 995px breit) */
+  .lvf-s10-sub { white-space: nowrap; }
+
+  /* Deko exakt nach Desktop-Band: Vektorboxen (170/1185, 10042) rel. Karte (260, 9733) */
+  .lvf-s10-arrow { width: 150px; }
+  .lvf-s10-arrow--l { left: 18px; bottom: -80px; }
+  .lvf-s10-arrow--r { right: 18px; bottom: -80px; }
+  .lvf-s10-diamond { width: 120px; }
+  .lvf-s10-diamond--l { left: 200px; bottom: -48px; }
+  .lvf-s10-diamond--r { right: 200px; bottom: -48px; }
+
+  .lvf-page .lvf-s10-btn,
+  .lvf-page .lvf-s10-btn2 { height: 46px; border-radius: 10px; line-height: 24.97px; }
+  .lvf-page .lvf-s10-btn { min-width: 236px; padding: 0 12px 0 5px; gap: 8px; }
+  .lvf-s10-btn-ico { width: 36px; height: 36px; border-radius: 6px; }
+  .lvf-s10-btn-ico svg { width: 18px; height: 18px; }
+  .lvf-page .lvf-s10-btn2 { min-width: 168px; padding-inline: 16.64px; }
+}
+
+
+/* Desktop-Korrektur (Soll gemessen an desktop-voll.png): auf halber Panelhoehe
+   liegt ein breites helles Blau-Band (Mitte 67,187,255), das im Kimi-Umbau
+   verloren ging. Als eigene Schicht, damit der restliche Glow-Stack bleibt. */
+@media (min-width: 768px) {
+  .lvf-s10-glow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+      radial-gradient(72% 34% at 50% 46%, rgba(70, 185, 255, 0.72) 0%, rgba(40, 150, 220, 0.32) 55%, rgba(0, 162, 255, 0) 80%),
+      radial-gradient(100% 30% at 50% 92%, rgba(45, 150, 215, 0.5) 0%, rgba(0, 162, 255, 0) 80%);
+  }
+}
+
+/* Seitlicher Glow um die Karte (Befund desktop R3): im SOLL steht die Karte in einem
+   weichen blauen Umfeld bis zum Bildrand (Randstreifen x0-80 SOLL RGB(3,49,78), IST
+   fast schwarz). Eigene Ebene hinter der Karte, weich auslaufend, keine Kanten. */
+@media (min-width: 768px) {
+  .lvf-s10::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(34% 90% at 0% 50%, rgba(4, 95, 150, 0.55) 0%, rgba(2, 60, 100, 0.22) 55%, rgba(0, 40, 70, 0) 100%),
+      radial-gradient(34% 90% at 100% 50%, rgba(4, 95, 150, 0.55) 0%, rgba(2, 60, 100, 0.22) 55%, rgba(0, 40, 70, 0) 100%);
+  }
+}
+
+
+/* Abnahme Runde 3 (nur Rules-Kopie): Ghost-Button ist im Soll blau gefuellt,
+   Flaeche ueber dem Panel schwarz statt blaeulich. */
+.lvf-s10 a.lvf-s10-btn2 {
+  background: rgba(20, 66, 92, 0.85);
+}
+.lvf-s10::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -140px;
+  height: 180px;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 4, 6, 0) 0%, rgba(0, 4, 6, 0.85) 60%, rgba(0, 4, 6, 0) 100%);
+}
+
+/* ============ Randfahne auf rules, 11.08.2026 ==============================
+   Gegenstueck zur "Durchlaufenden Randfahne" in build/fragments/s10. Die
+   Marken von dort sind NICHT uebertragbar: auf home traegt die Sektion den
+   Schein selbst ueber schwarzem Grund, auf rules kommt er aus dem Plugin
+   (R3-rules-22, `body.page-id-8048 .lvf-page::before` mit 3000 px breiten
+   Ellipsen). Dieses Feld liegt schon an und ist waagerecht viel zu breit:
+   gemessen 51 px unter der Sektionsoberkante, Blaukanal
+
+     x            0     40     80    120    160    200    240
+     Soll       121     88     62     39     24     16     12
+     Ist        102    102    102    102    102    101    101
+
+   Ein zusaetzlicher heller Verlauf wuerde x 40..240 also nur noch heller
+   machen. Deshalb hier zwei getrennte Aufgaben:
+
+   1. Der Schleier oben bekommt die waagerechte Maske. Ohne sie loescht er
+      genau die aeussersten 40 px, wo der Entwurf am hellsten ist. Gemessen im
+      Band y 19892..20072 (Mittel je x-Band, Soll gegen Ist):
+        x   0.. 20   Soll (2,71,111)  vorher (0,38,59)  28,9  ->  nachher 5,9
+        x  20.. 40   Soll (2,61, 95)  vorher (0,38,59)  20,5  ->  nachher 3,3
+        x  40.. 80   Soll (2,47, 73)  vorher (0,39,59)  13,4  ->  nachher 7,4
+        x  80..160   Soll (2,25, 40)  vorher (0,39,60)  15,1  ->  nachher 15,0
+      Kein Band wird schlechter, Mittel ueber alle Baender 20,51 -> 16,25.
+
+   2. Die Fahne selbst als eigene Ebene, nur die aeussersten 100 px. Ihre
+      Deckkraft ist aus dem Soll zurueckgerechnet: a = (Soll - Ist) / (255 -
+      Ist), gemessen bei x 0..6 gegen den Stand ohne diese Ebene. Sie faengt
+      60 px ueber der Sektion an und laeuft dort von 0 hoch, sonst stuende an
+      der Grenze zu r9 eine Kante von 18 Blaustufen (gemessen 100 gegen 118).
+      Die letzten 48 px laufen wie in s10 auf den Wert herunter, den s11 an
+      seiner Oberkante liefert (Blau 98 = 0,123); ohne das entstuende dort
+      ein Sprung von 97 Stufen.
+      Senkrechtes Profil x 0..6 ueber die ganze Sektion: 21,40 -> 5,71.
+      Linkes Feld x 0..40: 16,35 -> 10,03; x 40..120: 23,96 -> 24,06;
+      x 120..240 unveraendert 46,8.
+
+   OFFEN und nicht von hier aus loesbar: ab x 40 ist das Seitenfeld auf beiden
+   Raendern zu breit (rechts x 1460..1600 Soll (3,32,50) gegen Ist (12,92,137)).
+   Das sitzt in R3-rules-22 im Plugin, und `.lvf-page::after` liegt dort ueber
+   den Sektionen: ein Eingriff aus dem Fragment kommt rechts gar nicht an.
+   ========================================================================= */
+@media (min-width: 1024px) {
+  .lvf-s10::before {
+    -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 18px, rgba(0, 0, 0, 0.20) 36px, rgba(0, 0, 0, 0.70) 70px, rgba(0, 0, 0, 0.95) 110px, rgba(0, 0, 0, 1) 150px, rgba(0, 0, 0, 1) calc(100% - 150px), rgba(0, 0, 0, 0.95) calc(100% - 110px), rgba(0, 0, 0, 0.70) calc(100% - 70px), rgba(0, 0, 0, 0.20) calc(100% - 36px), rgba(0, 0, 0, 0) calc(100% - 18px), rgba(0, 0, 0, 0) 100%);
+            mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 18px, rgba(0, 0, 0, 0.20) 36px, rgba(0, 0, 0, 0.70) 70px, rgba(0, 0, 0, 0.95) 110px, rgba(0, 0, 0, 1) 150px, rgba(0, 0, 0, 1) calc(100% - 150px), rgba(0, 0, 0, 0.95) calc(100% - 110px), rgba(0, 0, 0, 0.70) calc(100% - 70px), rgba(0, 0, 0, 0.20) calc(100% - 36px), rgba(0, 0, 0, 0) calc(100% - 18px), rgba(0, 0, 0, 0) 100%);
+  }
+
+  /* Die Ebene ist ein ::after und liegt damit UEBER der Karte, anders als der
+     Schein in s10, der als ::before dahinter sitzt. Deshalb darf sie nur so
+     breit sein wie der Rand neben der Karte: `.lvf-container` ist hoechstens
+     1280 px breit, abzueglich 2x20 px Innenabstand bleibt die Karte 1240 px.
+     Unter 1280 px Fensterbreite steht die Karte am Rand, die Rechnung wird
+     null und die Ebene verschwindet, statt die Kartenecke blau einzufaerben.
+     Bei 1760 px sind es die vollen 260 px, die Maske endet ohnehin bei 100. */
+  .lvf-s10::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: max(0px, calc((100% - 1240px) / 2));
+    top: -60px;
+    bottom: 0;
+    pointer-events: none;
+    background-image: linear-gradient(180deg,
+      rgba(3, 163, 255, 0.000) 0px,
+      rgba(3, 163, 255, 0.126) 60px,
+      rgba(3, 163, 255, 0.126) 100px,
+      rgba(3, 163, 255, 0.131) 140px,
+      rgba(3, 163, 255, 0.140) 180px,
+      rgba(3, 163, 255, 0.130) 220px,
+      rgba(3, 163, 255, 0.130) 260px,
+      rgba(3, 163, 255, 0.120) 300px,
+      rgba(3, 163, 255, 0.115) 340px,
+      rgba(3, 163, 255, 0.122) 380px,
+      rgba(3, 163, 255, 0.122) 420px,
+      rgba(3, 163, 255, 0.144) 460px,
+      rgba(3, 163, 255, 0.235) 500px,
+      rgba(3, 163, 255, 0.339) 540px,
+      rgba(3, 163, 255, 0.424) 580px,
+      rgba(3, 163, 255, 0.514) 620px,
+      rgba(3, 163, 255, 0.593) 660px,
+      rgba(3, 163, 255, 0.123) 708px);
+    -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1) 0px, rgba(0, 0, 0, 0.55) 20px, rgba(0, 0, 0, 0.25) 40px, rgba(0, 0, 0, 0.06) 70px, rgba(0, 0, 0, 0) 100px);
+            mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1) 0px, rgba(0, 0, 0, 0.55) 20px, rgba(0, 0, 0, 0.25) 40px, rgba(0, 0, 0, 0.06) 70px, rgba(0, 0, 0, 0) 100px);
+  }
+}
+
+/* ============ Knopf-Effekte Desktop auf rules, 11.08.2026 ==================
+   Gegenstueck zum gleichnamigen Block in build/fragments/s10, aber nur zur
+   HAELFTE uebernommen. Messweise: Spaltenmedian ueber die volle Knopfhoehe,
+   zehn Bloecke, dazu die mittlere Abweichung ueber die ganze Knopfflaeche.
+
+   NICHT uebernommen: die Fuellebenen des Primaerknopfs. Auf rules liegt dort
+   schon --lvf-grad-blue-btn an und trifft den Entwurf besser als der
+   home-Stapel aus Glanz plus --lvf-grad-blue:
+     Spaltenmedian    Bestand 3,15   mit dem home-Stapel 5,38
+     Zeilenprofil     Bestand 2,70   mit dem home-Stapel 5,70
+   Beide Fassungen sind gegen ihr eigenes Mockup gemessen, hier gewinnt die
+   vorhandene.
+
+   UEBERNOMMEN: der Sekundaerknopf. Der Innenschein (15,7 und 19,4 px Radius)
+   leuchtet von unten bis an die Oberkante durch, dort gemessen Blau 174 statt
+   24 im Entwurf. Wie in s10 sitzt der Saum jetzt im Verlauf. Zwei Zutaten
+   kommen dazu, beide am rules-Mockup gemessen:
+
+   1. Rechte Flanke. Der Entwurf hat dort einen Saum, den der reine
+      Senkrechtverlauf nicht erzeugt (Block 10 Soll (11,95,140), mit dem
+      home-Verlauf allein (6,21,29), Abweichung 63,2).
+   2. Senkrechtes Profil nachgezogen. Der rules-Knopf ist ueber die ganze
+      Hoehe heller als der auf home; mit den home-Marken blieb die untere
+      Haelfte bis zu 69 Blaustufen zu dunkel.
+
+   Ergebnis, ganze Knopfflaeche x 918..1086:
+     gesamt 27,87 -> 16,28
+     textfreier Rand links  32,49 -> 5,83
+     textfreier Rand rechts 20,89 -> 11,85
+     Zeilenprofil x 936..950 (textfrei) 13,07 -> 4,95
+
+   Spezifitaet 0-4-1 wie in s10: r3-rules.css setzt
+   `body.page-id-8048 .lvf-s10 a.lvf-s10-btn2` (0-3-2). Mit drei Klassen
+   verliert die Regel und der Saum verschwindet ganz.
+   ========================================================================= */
+@media (min-width: 1024px) {
+  .lvf-page .lvf-s10 a.lvf-s10-btn2.lvf-s10-btn2 {
+    background:
+      linear-gradient(90deg,
+        rgba(25, 175, 255, 0) calc(100% - 34px),
+        rgba(25, 175, 255, 0.05) calc(100% - 26px),
+        rgba(25, 175, 255, 0.124) calc(100% - 20px),
+        rgba(25, 175, 255, 0.296) calc(100% - 15px),
+        rgba(25, 175, 255, 0.535) calc(100% - 10px),
+        rgba(25, 175, 255, 0.765) calc(100% - 5px),
+        rgba(25, 175, 255, 0.85) 100%),
+      linear-gradient(180deg,
+        rgba(25, 175, 255, 0.055) 0%,
+        rgba(25, 175, 255, 0.075) 11%,
+        rgba(25, 175, 255, 0.070) 22%,
+        rgba(25, 175, 255, 0.053) 33%,
+        rgba(25, 175, 255, 0.053) 46%,
+        rgba(25, 175, 255, 0.071) 52%,
+        rgba(25, 175, 255, 0.129) 59%,
+        rgba(25, 175, 255, 0.200) 65%,
+        rgba(25, 175, 255, 0.340) 72%,
+        rgba(25, 175, 255, 0.490) 78%,
+        rgba(25, 175, 255, 0.680) 85%,
+        rgba(25, 175, 255, 0.850) 91%,
+        rgba(40, 185, 255, 0.900) 100%),
+      linear-gradient(rgba(6, 18, 24, 0.9), rgba(6, 18, 24, 0.9));
+  }
+
+  /* Statt der vier Innenscheine nur noch der schwarze von oben links, wie in
+     s10. Die Scheine hoben die Oberkante auf Blau 174, Soll sind 24. */
+  .lvf-page .lvf-s10-btn2 {
+    box-shadow:
+      inset 9px 7px 14px rgba(0, 0, 0, 0.85),
+      var(--lvf-s10-shadow);
+  }
+}
+
+
+/* ============ Naht r9/s10 bei y20032: Uebergabe der Grundflaeche ==========
+   Befund 12.08.2026. 20 Spaltenbloecke, Median ueber je 8 Zeilen.
+
+     Sprung Ist vorher    Mittel 1,1   groesster Block 6,7 (Block 4, x 264..352)
+     Sprung Ist nachher   Mittel 0,4   groesster Block 2,0
+     Sprung Soll          Mittel 0,1   groesster Block 0,7
+
+   Ursache belegt durch Abschalten der Ebene im Probelauf: mit
+   .lvf-page .lvr-r9::before steht bei y20028 (0,9,14) und bei y20032
+   (0,16,24); ohne sie laeuft dieselbe Stelle glatt durch
+   ((0,15,23) -> (0,16,24)). Die 80-Prozent-Grundflaeche von r9 endet also
+   hart an der Sektionskante. Ihr Kommentar in r9-prohibited nennt als Grund,
+   s10 lege dort seine eigene dunkle Blende darueber - die steht an der Naht
+   aber nur bei Deckkraft 0,47 und uebernimmt damit nur die Haelfte.
+
+   Nicht die r9-Ebene wird ausgeblendet, sondern die s10-Blende uebernimmt:
+   der Entwurf ist an dieser Stelle auf BEIDEN Seiten dunkel (Block 4 Soll
+   (1,4,7) ueber und (1,4,5) unter der Naht), live ist es ueber der Naht
+   doppelt und unter der Naht vierfach zu hell. Ein Ausblenden von r9 haette
+   die obere Seite an die zu helle untere angeglichen, also die falsche
+   Richtung.
+
+   Die Blende behaelt Anstieg und waagerechte Maske aus dem Randfahnen-Block
+   (dort ist sie an x 0..40 gemessen). Neu sind nur: Plateau bis zur Naht
+   statt Abfall ab y20000, und ein laengerer Auslauf bis y20192 statt y20072.
+   Unter y20085 deckt die CTA-Karte die Ebene ohnehin ab, sichtbar bleibt sie
+   nur in den beiden Seitenrinnen.
+
+   Gegenprobe, dass die Randfahne dabei nichts verliert. Ihre eigenen
+   Kennzahlen ueber die ganze Sektion, vorher gegen nachher:
+     x   0..  6    6,05  ->   6,05
+     x   0.. 40   10,28  ->  10,17
+     x  40..120   23,75  ->  21,12
+     x 120..240   47,66  ->  42,74
+   Band y20034..20082 ueber alle Bloecke 19,56 -> 16,41, Band darueber
+   (y19950..20030) 10,42 -> 10,35. Seitenhoehe unveraendert 21598 px.
+   ========================================================================= */
+@media (min-width: 1024px) {
+  .lvf-page .lvf-s10::before {
+    height: 300px;
+    background: linear-gradient(180deg,
+      rgba(0, 4, 6, 0) 0px,
+      rgba(0, 4, 6, 0.85) 108px,
+      rgba(0, 4, 6, 0.85) 140px,
+      rgba(0, 4, 6, 0) 300px);
+  }
+}
+
+
+/* ============ Trefferflaeche CTA-Knoepfe 768-1023px, 12.08.2026 ============
+   Das "Vergroesserte Antippfeld" (::before, weiter oben in dieser Datei) wird
+   ab 768px mit content:none abgeschaltet, in der Annahme, die reale Knopfhoehe
+   reiche allein. Sie waechst dort aber nur mit dem em-Wert --lvf-s10-btn
+   linear bis zur festen 46px bei 1024px hoch, erreicht 44px real erst ab etwa
+   910px.
+   Gemessen (werkzeuge, treffer-messen.js), Trefferhoehe beider Knoepfe:
+     768px   41,5 -> 49,5 px
+     1023px  46   -> 54   px (war schon >=44, Overlay kommt oben drauf,
+                                bleibt unsichtbar)
+   Ab 1024px bleibt es wie zuvor deaktiviert, dieser Block greift dort nicht.
+   Selektor wie am Ursprungsort, keine hoehere Spezifitaet noetig: das
+   content:none steht in @media (min-width:768px) weiter oben in derselben
+   Datei, dieser Block hier kommt spaeter und gewinnt bei gleicher
+   Spezifitaet ueber die Position in der Kaskade.
+
+   NACHTRAG 12.08.2026, zweiter Durchgang: unterhalb von 440px Designbreite
+   reichten die festen 2x4px nicht. --lvf-s10-u = min(1px, 0.2272727vw)
+   schrumpft dort mit der Fensterbreite, und mit ihm die Knopfhoehe
+   (2.765 * --lvf-s10-btn). Bei 390px waren das 31,9px Elementhoehe, mit dem
+   Overlay 39,9px statt 44. Der Zuschlag steht deshalb jetzt in
+   --lvf-s10-tap und ist der exakt fehlende Rest auf 44px, nach unten auf die
+   bisherigen 4px begrenzt. Das Sichtbare bleibt unangetastet: das Overlay ist
+   durchsichtig, Schriftgroesse und Knopfhoehe aendern sich nicht, sonst
+   braeche der massstabsgetreue Nachbau des 440er-Entwurfs.
+   Gemessen (werkzeuge/treffer-messen.js), Trefferhoehe beider Knoepfe,
+   Kastenrechnung Elementbox + Overlay, vorher -> nachher:
+      320px   34,14 -> 44,10     440px   43,94 -> 44,09
+      360px   37,41 -> 44,10     767px   43,94 -> 44,09
+      390px   39,86 -> 44,10     768px   49,47 -> 49,47 (unveraendert)
+      414px   41,81 -> 44,09    1023px   54,00 -> 54,00 (unveraendert)
+   Die Abtastung mit elementFromPoint liegt rund 1,2px darueber, weil Chrome
+   die Trefferflaeche auf ganze Geraetepixel aufrundet; massgeblich ist die
+   Rechnung. Ab 1024px unveraendert 46px ohne Overlay. */
+@media (max-width: 1023px) {
+  .lvf-s10-btn::before,
+  .lvf-s10-btn2::before {
+    content: "";
+    position: absolute;
+    inset: calc(-1 * var(--lvf-s10-tap)) 0;
+  }
+}
+
+
+/* ====== Seitenrinnen der CTA-Sektion: der graue Kasten um die Karte =======
+   Befund 12.08.2026. Gemessen bei 1760 px gegen
+   referenz-neu/soll/rules-aus-schnipseln.png, Median je Streifen über die
+   volle Sektionshöhe.
+
+   IST-ZUSTAND: neben der Karte steht links wie rechts ein flaches, helles
+   Blau über die ganze Rinne, statt eines Scheins, der zum Bildrand hin
+   abfällt. Das ist der "graue Kasten", der die Karte umgibt:
+
+     x            Ist            Soll
+     0.. 20   ( 9, 96,143)   ( 2, 92,142)   Rand stimmt
+     60..120  (10, 80,118)   ( 3, 51, 80)
+     200..260 (13, 79,116)   ( 2, 16, 23)   innen 5x zu hell
+     1500..1560 (52,124,171) ( 7, 33, 49)
+     1720..1760 (54,125,172) (12,120,179)   Rand stimmt, aber Rot 54 statt 12
+
+   URSACHE, nicht in dieser Datei: R3-rules-28 in lvlup-fixes/r3-rules.css
+   maskiert die Seitenebenen `body.page-id-8048 .lvf-page::before/::after` mit
+   `#000 0 -> #000 255px -> 0 345px`. Die Ellipse dahinter ist 3000 px breit
+   und fällt innerhalb von 255 px praktisch nicht ab, das Plateau der Maske
+   übernimmt sie also in voller Stärke über die ganze Rinne.
+
+   WARUM NICHT DORT REPARIERT: die Maske gilt für die ganze Seite, und oben
+   ist das Plateau richtig. Gegenprobe mit steilerer Maske, gekachelt über
+   alle 21598 px gemessen: s10 wird besser (34,44 -> 30,80), die Seite
+   insgesamt aber schlechter (14,41 -> 16,85), am stärksten das Band
+   y4000..6000 (16,13 -> 29,45) und y10000..12000 (14,05 -> 24,23). Ein
+   waagerechter Verlauf kann nicht oben Plateau und unten Abfall sein.
+
+   DAHER hier eine örtliche Gegenebene, die nur in dieser Sektion liegt.
+   Träger ist .lvf-s10-container, dessen ::before/::after frei waren; die
+   beiden Pseudoelemente der Sektion sind mit Naht-Blende und Randfahne
+   belegt. z-index 1 ist nötig, weil .lvf-page::after mit z-index 0 über den
+   Sektionen liegt - ohne ihn kommt die Ebene rechts gar nicht an.
+
+   MULTIPLIKATIV statt schwarz-transparent: nach einer ersten Fassung mit
+   schwarzem Verlauf saßen Grün und Blau schon richtig, Rot stand rechts
+   noch 11 bis 39 Stufen zu hoch. Schwarz senkt alle drei Kanäle gleich,
+   `mix-blend-mode: multiply` dämpft jeden einzeln (Ergebnis = Grund mal
+   Farbe/255). Die Farbmarken sind 255 * Soll/Ist je Band.
+     nur schwarz      Rinne li 11,41   Rinne re 22,30   Sektion 20,29
+     multiplikativ    Rinne li  8,20   Rinne re 13,35   Sektion 18,50
+
+   ERGEBNIS bei 1760, Sektion gegen ihr eigenes Mockup:
+     ganze Sektion  27,42 -> 18,50      Rinne links  30,32 -> 8,20
+     Rinne rechts   51,64 -> 13,35      Karte        21,73 -> 21,73
+   Naht r9/s10 unverändert 0,40 (Soll 0,12), Naht s10/s11 unverändert 3,66.
+   Ganze Seite gekachelt 14,41 -> 14,12; alle Bänder außer y20000..21575
+   auf zwei Nachkommastellen unverändert, Hero y0..2000 bleibt 11,64.
+   Seitenhöhe unverändert 21598 px.
+
+   BREITEN, und das war der Fehler der ersten Fassung: die Rinne wächst mit
+   dem Fenster, weil der Container ab 1280 px gedeckelt ist (1440 px -> 100,
+   1600 -> 180, 1760 -> 260). Die Marken standen zuerst in festen Pixeln von
+   der KARTENKANTE aus und passten damit nur bei rund 1750 px. Bei 1440 px
+   landete die dunkelste Marke am Bildschirmrand und riss dort einen
+   80 px breiten dunklen Streifen neben die Karte: linker Rand (10,99,147)
+   fiel auf (2,34,51), also 65 Grün- und 96 Blaustufen zu dunkel, während
+   jede andere Sektion ihren Randschein behielt.
+   Jetzt sind die Marken am BILDSCHIRMRAND verankert, und der Randwert ist
+   über alle betroffenen Breiten gleich:
+     Breite  Rinne  links ohne     links mit      rechts mit     geänd. Pixel
+      1024      0   ( 6,  6,  6)   ( 6,  6,  6)   ( 4,  3,  3)      0,00 %
+      1280     20   (15,100,146)   (15,100,146)   (63,141,186)      0,00 %
+      1440    100   (10, 99,147)   ( 2, 94,144)   (14,135,186)     12,66 %
+      1600    180   (10, 99,147)   ( 2, 94,144)   (14,135,186)     20,77 %
+      1760    260   (10, 99,147)   ( 2, 94,144)   (14,135,186)     27,46 %
+   Grün und Blau bleiben am Rand also stehen, nur Rot wird korrigiert - genau
+   das, was der Entwurf dort zeigt.
+
+   Die senkrechte Maske lässt die Ebene über 96 px ein- und auslaufen, sonst
+   entstünde an den beiden Nähten eine Kante.
+   @supports, damit ohne multiply gar keine Ebene erscheint statt einer
+   deckenden Farbfläche.
+   ========================================================================= */
+@supports (mix-blend-mode: multiply) {
+  @media (min-width: 1300px) {
+    /* Der Container bekommt bewusst KEIN position:relative. Dadurch ist der
+       Bezugsrahmen der beiden Ebenen die Sektion .lvf-s10 (die ist relativ),
+       und 100% ist die Fensterbreite statt der gedeckelten Containerbreite.
+       Nur so lässt sich die Rinne überhaupt ausrechnen. */
+    .lvf-s10-container::before,
+    .lvf-s10-container::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      /* Vom Bildschirmrand bis zur Kartenkante. Die Karte ist ab 1280 px auf
+         1240 px gedeckelt, darunter wird der Wert negativ und die Ebene
+         verschwindet von selbst. 1300 px sind 30 px Rinne, dort steht nur der
+         neutrale Anfang des Verlaufs - der Einstieg ist deshalb unsichtbar. */
+      width: max(0px, calc((100% - 1240px) / 2));
+      z-index: 1;      /* über .lvf-page::after (z-index 0) */
+      pointer-events: none;
+      mix-blend-mode: multiply;
+      /* Die ersten und letzten 14 px bleiben VOLL transparent, erst danach
+         läuft die Ebene ein. Die beiden Nähte werden über je 8 Zeilen ober-
+         und unterhalb der Sektionskante gemessen; die liegen damit komplett
+         im transparenten Teil und bleiben unberührt. Ohne den flachen Anfang
+         stieg die Naht r9/s10 von 0,40 auf 0,56 und s10/s11 auf 3,94. */
+      -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0) 0, rgba(0,0,0,0) 14px, rgba(0,0,0,.35) 46px, #000 96px, #000 calc(100% - 96px), rgba(0,0,0,.35) calc(100% - 46px), rgba(0,0,0,0) calc(100% - 14px), rgba(0,0,0,0) 100%);
+              mask-image: linear-gradient(180deg, rgba(0,0,0,0) 0, rgba(0,0,0,0) 14px, rgba(0,0,0,.35) 46px, #000 96px, #000 calc(100% - 96px), rgba(0,0,0,.35) calc(100% - 46px), rgba(0,0,0,0) calc(100% - 14px), rgba(0,0,0,0) 100%);
+    }
+
+    /* Marken in festen Pixeln VOM BILDSCHIRMRAND, nicht von der Karte aus.
+       Das ist der Kern der Korrektur vom 12.08.: der aufhellende Schein sitzt
+       am Fensterrand (Plateau der Maske aus R3-rules-28, 255 px ab Rand) und
+       der Schein des Entwurfs ebenso. Beide wandern NICHT mit der Karte.
+       Von der Kartenkante aus gerechnet war die Ebene erst ab 1750 px richtig
+       und riss bei 1440 px einen dunklen Streifen neben die Karte. */
+    .lvf-s10-container::before {
+      left: 0;
+      background-image: linear-gradient(90deg,
+        rgb(57,244,253) 0px, rgb(57,244,253) 10px, rgb(77,219,229) 40px,
+        rgb(77,163,173) 90px, rgb(51,84,87) 160px, rgb(39,52,50) 230px,
+        rgb(39,52,50) 100%);
+    }
+    .lvf-s10-container::after {
+      right: 0;
+      background-image: linear-gradient(270deg,
+        rgb(57,245,255) 0px, rgb(57,245,255) 20px, rgb(47,184,203) 80px,
+        rgb(39,113,122) 160px, rgb(34,68,73) 230px,
+        rgb(34,68,73) 100%);
+    }
+  }
+}
+
+
+/* ===========================================================================
+   Kennzahlen-Labels am Seitenfuss lesbar, 12.08.2026
+
+   "Profit Split", "Max Funding", "Payout Access", "Min Trading Day" massen
+   bei 390 px nur 8,62 px. Die Groesse haengt ueber 0.36em an der Elternschrift
+   und schrumpft mobil mit. Dieselbe Zeile auf elite (.lve-e7-stat-label) hat
+   13 px, also 51 Prozent mehr bei gleichem Inhalt.
+
+   Das ist die letzte Flaeche vor der Fusszeile, auf der ein Interessent noch
+   kaufen soll, und dort stand die kleinste Schrift der Seite.
+
+   13 px vor dem Setzen geprueft, weil die Labels white-space:nowrap tragen und
+   groessere Schrift ueberlaufen koennte: Reihe 0 px, Seite 0 px Ueberlauf.
+   Breiteste Beschriftung waechst von 66 auf 100 px, die Reihe traegt es.
+   Oberhalb 1023 px bleibt der Entwurfswert unberuehrt.
+   =========================================================================== */
+@media (max-width: 1023px) {
+  .lvf-page .lvf-s10-stat-label { font-size: max(13px, 0.36em); }
+}

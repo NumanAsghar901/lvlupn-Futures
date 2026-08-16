@@ -1,0 +1,2755 @@
+/* Lvlup Futures - Shell: Fonts, Tokens, Basis. Gilt nur innerhalb von .lvf-page */
+@font-face {
+  font-family: 'Clash Grotesk Variable';
+  /* Kaan 06.08.: exakt die in Elementor hochgeladene Kundendatei verwenden */
+  src: url('../../fonts/ClashGrotesk-Variable.ttf') format('truetype');
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../../fonts/PlusJakartaSans-Variable.woff2') format('woff2');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('../../fonts/Roboto-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+.lvf-page {
+  /* Seitengrund, korrigiert 11.08.2026: reines Schwarz statt #05060f.
+     Alle vier direkt lesbaren Figma-Rahmen (home 156:182, evaluation 227:777,
+     rules 248:482, elite 263:465) tragen als oberste deckende Fuellung (0,0,0).
+     Bildmessung an referenz-neu/soll bestaetigt das auf allen acht Seiten:
+     haeufigster dunkler Wert (0,0,0), 14 bis 25 Prozent aller Pixel liegen in
+     jedem Kanal bei hoechstens 2.
+     #05060f steht in Figma zwar drin, aber nicht als Seitengrund: es ist die
+     Grundschicht des Deko-Stapels (Rectangle 21, Deckkraft 0,5) und die
+     Fuellung der eingebetteten Dashboard-Rahmen. Der alte Wert kam aus der
+     falschen Ebene. Bauteilgruende (.lvf-s02-card, .lvf-s07-vcard,
+     .lvf-s02-video) behalten #05060f absichtlich. */
+  --lvf-bg: #000000;
+  --lvf-white: #ffffff;
+  --lvf-blue: #00a2ff;
+  --lvf-blue-light: #8cd5ff;
+  --lvf-grad-blue: linear-gradient(180deg, #8cd5ff 0%, #12a9ff 100%);
+  /* Knopfvariante von --lvf-grad-blue, 11.08.2026.
+     In Figma liegt auf den blauen Knoepfen ein INNER_SHADOW #5bbce8 im
+     Blendmodus COLOR_DODGE, der aufhellt. In CSS lag er als gewoehnlicher
+     inset-Schatten darueber und hat abgedunkelt (Chip gemessen (114,199,242)
+     statt (163,235,255)). Dieser Verlauf hat den Blendmodus ausgerechnet und
+     ENTHAELT den Saum bereits; wo er anliegt, entfaellt der inset-Schatten.
+     Bewusst ein eigenes Token: --lvf-grad-blue tragen 214 Elemente, nur 26
+     davon den Saum. Wer die geteilte Variable umstellt, gibt 20 mal "OR",
+     16 mal "EOD" und allen Zahlenglyphen einen Lichtsaum, den der Entwurf
+     dort nicht hat. */
+  --lvf-grad-blue-btn: linear-gradient(180deg,
+    #b5ebff 0%,  #ace8ff 3%,  #9fe3ff 7%,  #8fdcff 13%,
+    #7ad3ff 22%, #63c8ff 35%, #4fc0ff 50%, #3ebaff 65%,
+    #30bbff 78%, #25c2ff 88%, #1dcaff 95%, #17d1ff 100%);
+  --lvf-grad-btn: linear-gradient(180deg, #6ecaff 0%, #0080ca 100%);
+  --lvf-yellow: #ffc700;
+  --lvf-grad-gold: linear-gradient(180deg, #feedb6 0%, #ff9200 100%);
+  --lvf-line: rgba(255, 255, 255, 0.09);
+  --lvf-text-dim: rgba(255, 255, 255, 0.4);
+  --lvf-text-mid: rgba(255, 255, 255, 0.6);
+  --lvf-font-display: 'Clash Grotesk Variable', 'Segoe UI', sans-serif;
+  --lvf-font-alt: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+  --lvf-font-mono-alt: 'Roboto', 'Segoe UI', sans-serif;
+
+  background: var(--lvf-bg);
+  color: var(--lvf-white);
+  font-family: var(--lvf-font-display);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+/* ==========================================================================
+   GRUND-RESET UND DIE ABWEHR GEGEN THEME UND ELEMENTOR
+   Neu geordnet am 11.08.2026. Vorher lagen Farbe, Füllung, Radius und
+   Textfüllung pauschal auf 0-2-1 und haben damit nicht nur das Theme,
+   sondern auch die eigenen Fragmentregeln (0-1-0 bis 0-2-0) erschlagen.
+   Folge: keine Lichtsäume an Buttons, reinweiße Menüpunkte, ein eckiger
+   Kopier-Knopf und flächig weiße Verlaufs-Überschriften.
+
+   Grundlage der neuen Spezifitäten ist die tatsächliche Ladereihenfolge im
+   <head>, am 11.08.2026 an der Live-Seite nachgesehen:
+     hello-elementor/reset.css -> elementor/frontend.min.css ->
+     elementor/post-*.css -> ekit -> lvlup-theme.css -> lvlup-home.css ->
+     lvlup-fixes/*.css
+   Unsere Dateien kommen also NACH Theme und Elementor. Bei gleicher
+   Spezifität gewinnen damit wir. Jede Stufe darüber hinaus trifft nur noch
+   die eigenen Fragmente. Der Satz "das Theme wird später geladen" in
+   ANLEITUNG-FIGMA-ZU-WORDPRESS.md gilt für diesen Stand nicht mehr; Beleg:
+   der Kopier-Knopf misst live 23 x 23 px, mit dem Theme-Innenabstand
+   .5rem 1rem wäre er deutlich größer.
+
+   Die Gegner, wörtlich aus hello-elementor/assets/css/reset.css 3.4.9:
+     a { background-color:transparent; color:#c36; text-decoration:none }      0-0-1
+     a:active, a:hover { color:#336 }                                          0-1-1
+     h1..h6 { color:inherit; font-family:inherit; font-weight:500;
+              line-height:1.2; margin-block-start:.5rem; margin-block-end:1rem } 0-0-1
+     button,input,optgroup,select,textarea { font-family:inherit;
+              font-size:1rem; line-height:1.5; margin:0 }                      0-0-1
+     [type=button],[type=submit],button { background-color:transparent;
+              border:1px solid #c36; border-radius:3px; color:#c36;
+              display:inline-block; font-size:1rem; font-weight:400;
+              padding:.5rem 1rem; text-align:center; transition:all .3s;
+              white-space:nowrap }                                             0-1-0
+     [type=button]:hover, [type=button]:focus, [type=submit]:hover, ...
+              { background-color:#c36; color:#fff; text-decoration:none }      0-2-0
+     input[type=text],...,select,textarea { border:1px solid #666;
+              border-radius:3px; padding:.5rem 1rem; width:100% }              0-1-1
+   und aus elementor/assets/css/frontend.min.css 4.2.1:
+     .elementor a { box-shadow:none; text-decoration:none }                    0-1-1
+
+   Merksatz für die Fragmente: eine Fragmentregel mit EINER Klasse (0-1-0)
+   gewinnt jetzt gegen Theme und Grund-Reset. Wer gegen Elementors
+   ".elementor a" (Schatten an Links) oder gegen die Füllung von Buttons
+   ankommen muss, schreibt ZWEI Klassen, in der Regel als ".lvf-page .lvf-xx".
+   ========================================================================== */
+
+.lvf-page *, .lvf-page *::before, .lvf-page *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.lvf-page img { max-width: 100%; height: auto; display: block; }
+.lvf-page ul, .lvf-page ol { list-style: none; }
+
+/* Links, Ruhezustand. Gegen "a { color:#c36 }" (0-0-1) reicht 0-0-1, weil wir
+   später geladen werden; :where() nimmt dem .lvf-page-Anker seine Klasse.
+   Vorher stand hier ".lvf-page a" mit 0-1-1 - genau das hat die sieben
+   Menüpunkte reinweiß statt gedämpft gemacht und dem Primärknopf in s10
+   weiße statt schwarzer Schrift gegeben. */
+:where(.lvf-page) a { color: inherit; text-decoration: none; }
+
+/* Links, Überfahren und Klick. Hier färbt das Theme mit 0-1-1 (#336), also
+   braucht die Abwehr ebenfalls 0-1-1. Diese eine Regel schlägt Fragmentregeln
+   mit einer Klasse - aber nur im Hover-Zustand, und dort sah die Seite bisher
+   ohnehin so aus (alle Links geerbt weiß). Wer eine eigene Hover-Farbe will,
+   schreibt sie mit zwei Klassen, z. B. ".lvf-page .lvf-s01-link:hover". */
+:where(.lvf-page) a:is(:hover, :active) { color: inherit; }
+
+/* Buttons, Teil 1: Radius. Das Theme setzt border-radius nur im Ruhezustand
+   ([type=button], 0-1-0). :is() zählt so viel wie sein stärkstes Argument,
+   die Regel liegt also exakt auf 0-1-0 und lässt jede Fragmentregel mit einer
+   Klasse gewinnen. Das ist der harte Kasten um den Kopier-Knopf: dessen
+   ".lvf-s01-copy { border-radius: 6.24px }" hatte 0-1-0 und verlor gegen die
+   früheren 0-2-1. Radius bewegt kein Layout, die Sektionshöhen bleiben. */
+:where(.lvf-page) :is(button, [type="button"], [type="submit"], [type="reset"]) {
+  border-radius: 0;
+}
+
+/* Buttons, Teil 2: Füllung und Schriftfarbe. Die färbt das Theme auch bei
+   :hover und :focus mit 0-2-0. Eine Regel OHNE Pseudoklasse und mit derselben
+   Spezifität genügt trotzdem, weil bei Gleichstand die später geladene
+   Datei gewinnt; so bleibt der Knopf auch beim Überfahren unverändert,
+   statt vom Theme pink gefüllt zu werden. Fragmentregeln brauchen hier
+   zwei Klassen (".lvf-page .lvf-s01-copy"). */
+.lvf-page :is(button, [type="button"], [type="submit"], [type="reset"]) {
+  background: none; color: inherit;
+}
+
+/* Buttons, Teil 3: alles Übrige bleibt bewusst auf 0-2-1. Schriftgröße,
+   Schriftschnitt und Rahmenbreite verändern die Textmasse und damit die
+   Sektionshöhen; die sind gerade mühsam eingestellt worden und dürfen sich
+   durch diese Umstellung nicht bewegen. Hier also nichts lockern, sondern bei
+   Bedarf einzeln und mit Messung. */
+.lvf-page.lvf-page button {
+  font-family: inherit; font-size: inherit; font-weight: inherit;
+  letter-spacing: inherit; border: 0;
+  -webkit-appearance: none; appearance: none;
+  cursor: pointer;
+}
+
+/* Formularfelder. Hier ist das Theme mit "input[type=text] usw." bei 0-1-1,
+   dagegen bleibt die doppelte Klasse nötig. Unverändert übernommen. */
+.lvf-page.lvf-page input,
+.lvf-page.lvf-page select,
+.lvf-page.lvf-page textarea {
+  font-family: inherit; font-size: inherit; font-weight: inherit; color: inherit;
+  background: none; border: 0; border-radius: 0; letter-spacing: inherit;
+  -webkit-appearance: none; appearance: none;
+}
+
+/* Überschriften. Das Theme setzt "h1..h6 { color:inherit; font-family:inherit }"
+   mit 0-0-1, mehr braucht die Abwehr nicht. Die früheren 0-2-1 haben die
+   Verlaufsfüllung aller Überschriften erschlagen: die Fragmente setzen
+   "color: transparent" zusammen mit "background-clip: text", und ein
+   erzwungenes "color: inherit" malt den Text wieder flächig weiß.
+   Betroffen waren home s02/s03/s04 und evaluation e3/e4/e5/e7/e8. */
+:where(.lvf-page) :is(h1, h2, h3, h4, h5, h6) {
+  font-family: inherit; color: inherit;
+}
+
+.lvf-container { max-width: 1280px; margin-inline: auto; padding-inline: 20px; }
+
+/* Sprungziele der Navigation. Ohne das landet der Nutzer unter der fixierten
+   Kopfleiste (Banner + Nav, zusammen 130px auf Desktop) und die Ueberschrift der
+   Zielsektion ist verdeckt. Gemessen am 03.08.2026 auf Seite 7895. */
+.lvf-page #evaluations,
+.lvf-page #how-it-works,
+.lvf-page #calculator,
+.lvf-page #platforms,
+.lvf-page #community,
+.lvf-page #elite,
+.lvf-page #faq { scroll-margin-top: 150px; }
+@media (max-width: 767px) {
+  .lvf-page #evaluations,
+  .lvf-page #how-it-works,
+  .lvf-page #calculator,
+  .lvf-page #platforms,
+  .lvf-page #community,
+  .lvf-page #elite,
+  .lvf-page #faq { scroll-margin-top: 120px; }
+}
+
+.lvf-page .lvf-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* Trefferflaechen auf Touch-Geraeten. Padding vergroessert die Flaeche, der negative
+   Margin haelt das Layout exakt an Ort und Stelle. Nur fuer Textlinks ohne eigenen
+   Hintergrund, dort ist der Effekt unsichtbar. Elemente mit Hintergrund oder Rahmen
+   (Preis-Buttons, Konto-Umschalter, Kopier-Knopf) bleiben absichtlich so klein wie im
+   Figma-Entwurf, sonst waere der Design-Vergleich verfaelscht; sie sind im Bericht als
+   offener Punkt vermerkt. */
+@media (pointer: coarse) {
+  .lvf-page .lvf-s04-rules,
+  .lvf-page .lvf-s09-link,
+  .lvf-page .lvf-s01-logo,
+  .lvf-page .lvf-s11-link,
+  .lvf-page .lvf-s11-legal a {
+    padding-block: 12px;
+    margin-block: -12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lvf-page *, .lvf-page *::before, .lvf-page *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+
+/* == s01 (theme) == */
+/* s01 Banner + Nav - Desktop 1760 (Content 1560 / Banner 1298), Mobile 440 */
+
+.lvf-s01 {
+  --lvf-s01-u: 1px;              /* Mobile-Skalierungseinheit, < 768px proportional */
+  --lvf-s01-h: 130px;            /* Bauhoehe des fixierten Kopfes, siehe REPORT */
+  position: relative;
+  z-index: 100;
+  font-family: var(--lvf-font-display);
+}
+
+.lvf-s01-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 0 8px;
+  pointer-events: none;          /* Luecke zwischen den Leisten bleibt durchklickbar */
+}
+.lvf-s01-bar > * { pointer-events: auto; }
+
+.lvf-s01-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  max-width: 1600px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+/* ---------------------------------------------------------------- Banner */
+
+.lvf-s01-banner {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 1298px;
+  height: 45px;
+  margin-inline: auto;
+  padding-inline: 24px;
+  border-radius: 18px;
+  background-color: #000000;
+  background-image: linear-gradient(0deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04));
+  box-shadow: 5.8px 23.19px 23.19px rgba(0, 0, 0, 0.25);
+}
+
+.lvf-s01-banner-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-areas: "offer code timer";
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* Angebot links */
+
+.lvf-s01-offer {
+  grid-area: offer;
+  display: flex;
+  align-items: center;
+  gap: 14.82px;
+}
+
+.lvf-s01-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6.24px;
+  height: 23px;
+  padding-inline: 9.36px;
+  border-radius: 78px;
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow:
+    inset -0.78px -2.34px 9.83px #f15252,
+    inset -0.78px -1.56px 4.53px #ff0000,
+    inset -0.78px -1.56px 4.53px #ff0000,
+    inset 3.12px 3.12px 3.9px #000000,
+    6.8px 2.91px 10.68px rgba(0, 0, 0, 0.36),
+    0 0 0 1.51px rgba(0, 0, 0, 0.25),
+    0 0 0 3.43px rgba(0, 0, 0, 0.16);
+}
+.lvf-s01-pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff0000;
+  flex: none;
+}
+.lvf-s01-pill-text {
+  font-size: 8.58px;
+  line-height: 10.56px;
+  font-weight: 400;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.lvf-s01-offer-full {
+  font-size: 10.92px;
+  line-height: 13.44px;
+  font-weight: 500;
+  color: #ffffff;
+  text-align: center;
+  white-space: nowrap;
+}
+.lvf-s01-offer-hl { color: #4da3ff; }
+.lvf-s01-offer-short { display: none; }
+
+/* Code + Kopierknopf */
+
+.lvf-s01-code {
+  grid-area: code;
+  display: flex;
+  align-items: center;
+  gap: 2.34px;
+}
+
+.lvf-s01-code-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 85px;
+  height: 23px;
+  padding-inline: 11.43px;
+  border-radius: 6.24px;
+  /* Saum-Verlauf statt --lvf-grad-blue plus inset-Schatten, 11.08.2026:
+     Figma legt hier einen INNER_SHADOW #5bbce8 im Blendmodus COLOR_DODGE an,
+     der aufhellt. Der frueher benutzte inset-Schatten dunkelt ab, gemessen
+     (114,199,242) statt (163,235,255). Der Blendmodus steckt jetzt im
+     Verlauf, deshalb faellt "inset 0 0.63px 10.4px #5bbce8" darunter weg. */
+  background: var(--lvf-grad-blue-btn);
+  color: #060606;
+  font-size: 12.48px;
+  line-height: 16.23px;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow:
+    0 0 0 0.88px rgba(0, 162, 255, 0.55),
+    6.8px 2.91px 10.68px rgba(0, 0, 0, 0.36),
+    0 0 0 1.51px rgba(0, 0, 0, 0.25),
+    0 0 0 3.43px rgba(0, 0, 0, 0.16);
+}
+
+.lvf-s01-copy {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 23px;
+  height: 23px;
+  flex: none;
+  border-radius: 6.24px;
+  box-shadow:
+    inset -0.78px -2.34px 9.83px #52b8f1,
+    inset -0.78px -1.56px 4.53px #00a4ff,
+    inset -0.78px -1.56px 4.53px #00a4ff,
+    inset 3.12px 3.12px 3.9px #000000,
+    6.8px 2.91px 10.68px rgba(0, 0, 0, 0.36),
+    0 0 0 1.51px rgba(0, 0, 0, 0.25),
+    0 0 0 3.43px rgba(0, 0, 0, 0.16);
+  transition: filter 0.15s ease;
+}
+/* Die Füllung des Kopier-Knopfes braucht zwei Klassen (0-2-0). Grund: Hello
+   Elementor färbt Buttons auch bei :hover und :focus ([type=button]:hover,
+   0-2-0), deshalb steht die Abwehr in shell.css ebenfalls auf 0-2-0. Mit nur
+   einer Klasse blieb der Knopf durchsichtig - zusammen mit dem damals
+   erzwungenen border-radius 0 war das der harte Kasten aus der Kundenmeldung.
+   Den in Figma zusätzlich vermerkten 134-Grad-Verlauf setze ich bewusst NICHT:
+   im Mockup misst der Knopf oben links 9,6 Helligkeit, ein Verlauf von #6ecaff
+   nach #0080ca würde ihn dort hell machen. */
+.lvf-page .lvf-s01-copy { background: rgba(0, 0, 0, 0.1); }
+
+.lvf-s01-copy::after {          /* Touch-Ziel vergroessern, Optik bleibt 23px */
+  content: "";
+  position: absolute;
+  inset: -11px;
+}
+.lvf-s01-copy:hover { filter: brightness(1.15); }
+.lvf-s01-copy-ico,
+.lvf-s01-copy-ok {
+  width: 10px;
+  height: 10px;
+  display: block;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.45));
+}
+.lvf-s01-copy-ok { display: none; }
+.lvf-s01-copy.is-done .lvf-s01-copy-ico { display: none; }
+.lvf-s01-copy.is-done .lvf-s01-copy-ok { display: block; }
+
+/* Countdown */
+
+.lvf-s01-timer {
+  grid-area: timer;
+  font-size: 10.92px;
+  line-height: 13.44px;
+  font-weight: 400;
+  letter-spacing: 0.66px;
+  color: #4da3ff;
+  text-align: right;
+  white-space: nowrap;
+}
+.lvf-s01-timer-num {
+  font-variant-numeric: tabular-nums;
+  color: #ffffff;
+}
+
+/* ------------------------------------------------------------------- Nav */
+
+.lvf-s01-nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 55px;
+  padding: 0 8.32px;
+  border-radius: 13px;
+  background-color: #000000;
+  background-image: linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
+  box-shadow: 26px 25px 37px rgba(0, 0, 0, 0.25);
+}
+.lvf-s01-nav::before {          /* Hairline-Verlaufsrand aus dem Design */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(90deg, rgba(52, 174, 244, 0) 0%, #35aef4 52%, rgba(49, 169, 238, 0) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.lvf-s01-logo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding-left: 17.68px;
+}
+/* Trefferfläche des Logo-Links auf 44 px, Optik unverändert. Der Link ist so
+   hoch wie die Bilddatei skaliert: 32 px unter 1024 (208er Breite, Datei
+   780x120) und 41,1 px darüber (267er Breite). Gemessen mit
+   werkzeuge/klickziele-messen.js an build-rules/preview.html, Zeiger "maus":
+     768 px und 1023 px   Treffer 225,7 x 32     -> 44
+     1440 px und 1760 px  Treffer 284,7 x 41,1   -> 44
+   Der Rechenweg im inset hält die Hitbox bei JEDER Bildhöhe auf 44 px:
+   (Höhe - 44) / 2 ist negativ, solange die Höhe darunter liegt, und wird
+   positiv, sobald sie darüber liegt - dann bleibt das Overlay innerhalb der
+   ohnehin ausreichenden Box und schrumpft nichts. Deshalb bleibt die Regel
+   auch richtig, falls die Bildhöhe später korrigiert wird (siehe die Notiz
+   zur Mobilgröße am .lvf-s01-logo-img weiter unten).
+   Vorbild: .lvf-s01-burger::after in dieser Datei, .lvf-s04-tab::before. */
+.lvf-s01-logo::after {
+  content: "";
+  position: absolute;
+  inset: calc((100% - 44px) / 2) 0;
+}
+.lvf-s01-logo-img {
+  display: block;
+  width: 208px;
+  height: auto;
+}
+
+.lvf-s01-menu { display: contents; }
+
+.lvf-s01-links {
+  display: flex;
+  align-items: center;
+  gap: 24.97px;
+}
+.lvf-s01-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: 8.32px;
+  font-size: 14.56px;
+  line-height: 20.81px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.15s ease;
+}
+/* Feste Hervorhebung von "Evaluations". In allen acht Mockups ist genau dieser
+   Punkt hell, auf jeder Seite - auch auf Rules und Elite. Es gibt im Entwurf
+   also KEINE Markierung der aktuellen Seite.
+   Die Klasse is-active, die das Theme-JS je nach Pfad vergibt, bekommt deshalb
+   bewusst keine Farbe mehr: sie war ohnehin defekt (auf home markierte sie
+   keinen Punkt, auf evaluation zwei, weil "Pricing" auf /evaluation/#pricing
+   zeigt) und hätte hier nur wieder vom Mockup weggeführt. */
+.lvf-s01-link--hell { color: #ffffff; }
+.lvf-s01-link:hover,
+.lvf-s01-link:focus-visible { color: #ffffff; }
+
+.lvf-s01-actions {
+  display: flex;
+  align-items: center;
+  gap: 6.56px;
+}
+
+.lvf-s01-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 121px;
+  height: 38px;
+  padding-inline: 13.65px;
+  border-radius: 7px;
+  background: rgba(0, 0, 0, 0.1);
+  font-size: 13.65px;
+  line-height: 20.47px;
+  font-weight: 400;
+  color: #ffffff;
+  white-space: nowrap;
+  transition: filter 0.15s ease;
+}
+.lvf-s01-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 181px;
+  height: 38px;
+  padding-inline: 13.65px;
+  border-radius: 7px;
+  /* Saum steckt im Verlauf, siehe --lvf-grad-blue-btn in shell.css */
+  background: var(--lvf-grad-blue-btn);
+  font-size: 13.65px;
+  line-height: 20.47px;
+  font-weight: 500;
+  color: #060606;
+  white-space: nowrap;
+  transition: filter 0.15s ease;
+}
+
+/* Die Schatten beider Kopfleisten-Knöpfe liegen bewusst in eigenen Regeln mit
+   zwei Klassen (0-2-0). Grund: Elementor liefert in frontend.min.css
+   ".elementor a { box-shadow: none }" mit 0-1-1 und schlägt damit jede
+   Regel mit nur einer Klasse. Beide Knöpfe sind <a>-Elemente, deshalb stand
+   "Client Area" live ohne Pille da und die CTA ohne inneren Lichtsaum.
+   Nur der Schatten wird angehoben, nicht der ganze Block - sonst würden die
+   späteren Regeln für schmale Bildschirme (0-1-0) verlieren.
+   Gegenprobe, die die Ursache belegt: auf der Elite-Seite war die Pille schon
+   immer da, weil dort "body.lvf-gold .lvf-s01-ghost" mit 0-2-1 gewinnt. */
+.lvf-page .lvf-s01-ghost {
+  box-shadow:
+    inset -1.64px -4.92px 15.9px #52b8f1,
+    inset -4.1px -3.28px 12.87px #00a4ff,
+    inset -0.64px -1.28px 3.71px #00a4ff,
+    inset 7.38px 5.74px 9.92px #000000,
+    5.57px 2.39px 8.75px rgba(0, 0, 0, 0.36),
+    0 0 0 1.24px rgba(0, 0, 0, 0.25),
+    0 0 0 2.81px rgba(0, 0, 0, 0.16);
+}
+/* Ohne inset-Saum seit 11.08.2026, der sitzt jetzt in --lvf-grad-blue-btn. */
+.lvf-page .lvf-s01-cta {
+  box-shadow:
+    0 0 0 0.41px rgba(0, 162, 255, 0.55),
+    5.57px 2.39px 8.75px rgba(0, 0, 0, 0.36),
+    0 0 0 1.24px rgba(0, 0, 0, 0.25),
+    0 0 0 2.81px rgba(0, 0, 0, 0.16);
+}
+.lvf-s01-ghost:hover,
+.lvf-s01-cta:hover { filter: brightness(1.12); }
+
+/* Burger */
+
+.lvf-s01-burger {
+  position: relative;
+  /* Ueber dem Menue-Overlay (z 99) bleiben, sonst ist der Schliessen-X
+     verdeckt und das offene Menue laesst sich nicht schliessen (Kaan 06.08.) */
+  z-index: 110;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 7px;
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow:
+    inset -1.64px -4.92px 15.9px #52b8f1,
+    inset -4.1px -3.28px 12.87px #00a4ff,
+    inset -0.64px -1.28px 3.71px #00a4ff,
+    inset 7.38px 5.74px 9.92px #000000,
+    5.57px 2.39px 8.75px rgba(0, 0, 0, 0.36),
+    0 0 0 1.24px rgba(0, 0, 0, 0.25),
+    0 0 0 2.81px rgba(0, 0, 0, 0.16);
+}
+.lvf-s01-burger::after {        /* Touch-Ziel >= 44px */
+  content: "";
+  position: absolute;
+  inset: -4px;
+}
+.lvf-s01-burger-ico {
+  position: relative;
+  display: block;
+  width: 19px;
+  height: 19px;
+}
+.lvf-s01-burger-l {
+  position: absolute;
+  left: 1px;
+  width: 17px;
+  height: 1.8px;
+  border-radius: 1px;
+  background: #ffffff;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.lvf-s01-burger-l:nth-child(1) { top: 3.6px; }
+.lvf-s01-burger-l:nth-child(2) { top: 8.6px; }
+.lvf-s01-burger-l:nth-child(3) { top: 13.6px; }
+.lvf-s01-burger[aria-expanded="true"] .lvf-s01-burger-l:nth-child(1) { transform: translateY(5px) rotate(45deg); }
+.lvf-s01-burger[aria-expanded="true"] .lvf-s01-burger-l:nth-child(2) { opacity: 0; }
+.lvf-s01-burger[aria-expanded="true"] .lvf-s01-burger-l:nth-child(3) { transform: translateY(-5px) rotate(-45deg); }
+
+.lvf-s01 :focus-visible {
+  outline: 2px solid var(--lvf-blue-light);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------- Tablet: < 1200px Burger */
+
+/* Schwelle am 12.08.2026 von 1023.98 auf 1199.98 gehoben. Grund, gemessen an
+   build/preview.html mit werkzeuge-Zaehlung ueber die drei Nav-Bloecke:
+     Logo 284,7 + Linkliste 455,9 + Knopfpaar 308,6 + Innenabstand 16,6
+     = 1065,8 px Mindestbedarf der Desktop-Navileiste.
+   Die Leiste bekommt Viewport minus 40 px Shell-Rand, sie passt also erst ab
+   1105,8 px ueberhaupt hinein, und dann ohne jeden Zwischenraum.
+   Bei 1024 px stand deshalb:
+     Nav-Inhalt 1057 px in 984 px Kasten, .lvf-s01-cta endete bei x1077,4,
+     also 53,4 px hinter dem Viewportrand. Weil shell.css .lvf-page auf
+     overflow-x: clip setzt, gibt es keinen Scrollbalken - der Knopf war
+     nicht erreichbar, nicht nur haesslich.
+     "About" endete bei x761,3 und "Client Area" begann bei x761,3: null
+     Abstand, die Liste klebte am Knopfpaar.
+   1199.98 statt 1105.98, weil erst ab 1200 px wieder Luft zwischen Liste und
+   Knoepfen steht: bei 1200 px sind es 47,1 px, bei 1280 px 87,1 px, bei
+   1760 px die Entwurfsluft von 247,1 px. Ab 1200 px aendert sich nichts. */
+@media (max-width: 1199.98px) {
+  .lvf-s01-burger { display: inline-flex; }
+
+  .lvf-s01-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    flex-direction: column;
+    gap: 28px;
+    padding: calc(var(--lvf-s01-h) + 24px) 24px 40px;
+    /* Deckschicht des Mobilmenues: folgt dem Seitengrund, der am 11.08.2026
+       von #05060f auf Schwarz korrigiert wurde. */
+    background: rgba(0, 0, 0, 0.97);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    animation: lvf-s01-fade 0.18s ease-out;
+  }
+  .lvf-s01-menu.is-open { display: flex; }
+
+  .lvf-s01-links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+  }
+  .lvf-s01-link {
+    justify-content: flex-start;
+    min-height: 48px;
+    padding-block: 12px;
+    font-size: 20px;
+    line-height: 24px;
+    border-bottom: 1px solid var(--lvf-line);
+  }
+  .lvf-s01-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .lvf-s01-ghost,
+  .lvf-s01-cta {
+    width: 100%;
+    min-width: 0;
+    height: 48px;
+    font-size: 15px;
+  }
+}
+
+@keyframes lvf-s01-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* -------------------------------------------------- Mobile: < 768px, 440er */
+
+@media (max-width: 767.98px) {
+  .lvf-s01 {
+    --lvf-s01-u: min(1px, 100vw / 440);
+    --lvf-s01-h: calc(min(1px, 100vw / 440) * 130);
+  }
+
+  .lvf-s01-bar {
+    gap: calc(var(--lvf-s01-u) * 9);
+    padding: calc(var(--lvf-s01-u) * 19) 0 calc(var(--lvf-s01-u) * 14);
+    background-color: #000000;
+    background-image: linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
+    box-shadow: 26px 25px 37px rgba(0, 0, 0, 0.25);
+  }
+  .lvf-s01-shell {
+    gap: calc(var(--lvf-s01-u) * 9);
+    max-width: none;
+    padding-inline: 0;
+  }
+
+  .lvf-s01-banner {
+    /* width:100% aus dem Desktop-Block wuerde mit den Margins 35px ueber den
+       Viewport ragen (Kopierknopf/Countdown abgeschnitten, belegt 06.08.2026) */
+    width: auto;
+    max-width: none;
+    /* Der Rahmen darf hier nicht clippen, sonst schneidet er die 44-px-
+       Trefferflaeche des Kopierknopfes ab. Gemessen bei 390 px mit clip:
+       Treffer 36,4 px statt 44 - nach oben stiess die Flaeche an die
+       Bannerkante (dahinter meldete elementFromPoint section.lvf-s02).
+       Sichtbar liegt nichts ausserhalb: der Inhalt braucht bei 440 px
+       302,1 von 326 px Breite und 31,4 von 47 px Hoehe, darunter skaliert
+       beides mit u. Im Entwurf clippt der Rahmen (Frame 2147237205 "clip"),
+       dort haengt aber Deko-Grafik darin, die hier gar nicht gebaut ist. */
+    overflow: visible;
+    height: calc(var(--lvf-s01-u) * 47);
+    margin-inline: calc(var(--lvf-s01-u) * 35);
+    padding-inline: calc(var(--lvf-s01-u) * 22);
+    border-radius: calc(var(--lvf-s01-u) * 12.7);
+    background-image: linear-gradient(0deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04));
+    box-shadow: calc(var(--lvf-s01-u) * 4.1) calc(var(--lvf-s01-u) * 16.37) calc(var(--lvf-s01-u) * 16.37) rgba(0, 0, 0, 0.25);
+  }
+  .lvf-s01-banner-row {
+    grid-template-columns: auto auto;
+    grid-template-areas:
+      "offer code"
+      "offer timer";
+    row-gap: calc(var(--lvf-s01-u) * 4.94);
+  }
+
+  .lvf-s01-offer {
+    align-self: center;
+    gap: calc(var(--lvf-s01-u) * 4.94);
+  }
+  .lvf-s01-pill {
+    height: calc(var(--lvf-s01-u) * 19);
+    gap: calc(var(--lvf-s01-u) * 5.13);
+    padding-inline: calc(var(--lvf-s01-u) * 7.69);
+    box-shadow:
+      inset calc(var(--lvf-s01-u) * -0.64) calc(var(--lvf-s01-u) * -1.92) calc(var(--lvf-s01-u) * 8.08) #f15252,
+      inset calc(var(--lvf-s01-u) * -0.64) calc(var(--lvf-s01-u) * -1.28) calc(var(--lvf-s01-u) * 3.72) #ff0000,
+      inset calc(var(--lvf-s01-u) * -0.64) calc(var(--lvf-s01-u) * -1.28) calc(var(--lvf-s01-u) * 3.72) #ff0000,
+      inset calc(var(--lvf-s01-u) * 2.56) calc(var(--lvf-s01-u) * 2.56) calc(var(--lvf-s01-u) * 3.21) #000000,
+      calc(var(--lvf-s01-u) * 5.58) calc(var(--lvf-s01-u) * 2.39) calc(var(--lvf-s01-u) * 8.77) rgba(0, 0, 0, 0.36),
+      0 0 0 calc(var(--lvf-s01-u) * 1.24) rgba(0, 0, 0, 0.25),
+      0 0 0 calc(var(--lvf-s01-u) * 2.82) rgba(0, 0, 0, 0.16);
+  }
+  .lvf-s01-pill-dot {
+    width: calc(var(--lvf-s01-u) * 5);
+    height: calc(var(--lvf-s01-u) * 5);
+  }
+  .lvf-s01-pill-text {
+    /* Entwurf: 7px w400 lh9, Textkasten 63x5 bei x75. Siehe Block am Ende. */
+    font-size: calc(var(--lvf-s01-u) * 7.05);
+    line-height: calc(var(--lvf-s01-u) * 8.67);
+  }
+
+  .lvf-s01-offer-full { display: none; }
+  .lvf-s01-offer-short {
+    display: inline-block;
+    font-size: calc(var(--lvf-s01-u) * 25);
+    line-height: calc(var(--lvf-s01-u) * 30.74);
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+    background: linear-gradient(126deg, #6ecaff 0%, #0080ca 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(calc(var(--lvf-s01-u) * 4.8) calc(var(--lvf-s01-u) * 2.06) calc(var(--lvf-s01-u) * 7.54) rgba(0, 0, 0, 0.36));
+  }
+
+  .lvf-s01-code {
+    justify-self: center;
+    gap: calc(var(--lvf-s01-u) * 1.65);
+  }
+  .lvf-s01-code-chip {
+    /* Entwurf: Button 60x17 bei x292, Text "LVLUP25" 9px w500 lh11. */
+    min-width: calc(var(--lvf-s01-u) * 60);
+    height: calc(var(--lvf-s01-u) * 17);
+    padding-inline: calc(var(--lvf-s01-u) * 8.07);
+    border-radius: calc(var(--lvf-s01-u) * 4.4);
+    font-size: calc(var(--lvf-s01-u) * 8.81);
+    line-height: calc(var(--lvf-s01-u) * 11.46);
+    /* Ohne inset-Saum, siehe Grundregel oben: --lvf-grad-blue-btn traegt ihn. */
+    box-shadow:
+      0 0 0 calc(var(--lvf-s01-u) * 0.62) rgba(0, 162, 255, 0.55),
+      calc(var(--lvf-s01-u) * 4.8) calc(var(--lvf-s01-u) * 2.06) calc(var(--lvf-s01-u) * 7.54) rgba(0, 0, 0, 0.36),
+      0 0 0 calc(var(--lvf-s01-u) * 1.07) rgba(0, 0, 0, 0.25),
+      0 0 0 calc(var(--lvf-s01-u) * 2.42) rgba(0, 0, 0, 0.16);
+  }
+  .lvf-s01-copy {
+    /* Entwurf: Button 17x17 bei x354. Sichtbare Groesse bleibt der Entwurf,
+       bedienbar wird der Knopf ueber ::after - siehe dort. */
+    width: calc(var(--lvf-s01-u) * 17);
+    height: calc(var(--lvf-s01-u) * 17);
+    border-radius: calc(var(--lvf-s01-u) * 4.4);
+    box-shadow:
+      inset calc(var(--lvf-s01-u) * -0.55) calc(var(--lvf-s01-u) * -1.65) calc(var(--lvf-s01-u) * 6.94) #52b8f1,
+      inset calc(var(--lvf-s01-u) * -0.55) calc(var(--lvf-s01-u) * -1.1) calc(var(--lvf-s01-u) * 3.19) #00a4ff,
+      inset calc(var(--lvf-s01-u) * -0.55) calc(var(--lvf-s01-u) * -1.1) calc(var(--lvf-s01-u) * 3.19) #00a4ff,
+      inset calc(var(--lvf-s01-u) * 2.2) calc(var(--lvf-s01-u) * 2.2) calc(var(--lvf-s01-u) * 2.75) #000000,
+      calc(var(--lvf-s01-u) * 4.8) calc(var(--lvf-s01-u) * 2.06) calc(var(--lvf-s01-u) * 7.54) rgba(0, 0, 0, 0.36),
+      0 0 0 calc(var(--lvf-s01-u) * 1.07) rgba(0, 0, 0, 0.25),
+      0 0 0 calc(var(--lvf-s01-u) * 2.42) rgba(0, 0, 0, 0.16);
+  }
+  /* Trefferflaeche des Kopierknopfes auf genau 44 px, Optik bleibt 17u.
+     Der feste Wert -14u brachte je nach Breite 45 px (bei 440) bis 36,8 px
+     (bei 360) - unter 440 px wurde die Flaeche mitskaliert, obwohl der Finger
+     das nicht tut. Derselbe Rechenweg wie bei .lvf-s01-burger::after:
+     (Optik - 44) / 2 ist negativ, solange die Optik kleiner als 44 px ist. */
+  .lvf-s01-copy::after { inset: calc((var(--lvf-s01-u) * 17 - 44px) / 2); }
+  .lvf-s01-copy-ico,
+  .lvf-s01-copy-ok {
+    /* Entwurf: copy-Filled 7x7 bei x359. */
+    width: calc(var(--lvf-s01-u) * 7);
+    height: calc(var(--lvf-s01-u) * 7);
+  }
+
+  .lvf-s01-timer {
+    /* Entwurf: "Ends in: ..." 8px w400 lh9 ls0.46, Kasten 104x5 bei x279. */
+    font-size: calc(var(--lvf-s01-u) * 7.71);
+    line-height: calc(var(--lvf-s01-u) * 9.49);
+    letter-spacing: calc(var(--lvf-s01-u) * 0.46);
+  }
+
+  .lvf-s01-nav {
+    height: calc(var(--lvf-s01-u) * 38);
+    padding: 0 calc(var(--lvf-s01-u) * 25) 0 calc(var(--lvf-s01-u) * 37);
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+  .lvf-s01-nav::before { display: none; }
+
+  .lvf-s01-logo {
+    padding-left: 0;
+  }
+  /* DAS WAR DER 767er-FEHLER. Repariert 12.08.2026, nachgemessen unten.
+     Die alte Regel ".lvf-s01-logo-img { height: 21u }" hat nie gegriffen:
+     shell.css setzt ".lvf-page img { height: auto }" mit 0-1-1 und schlaegt
+     die Klassenregel mit 0-1-0. Das Bild lief damit in sein Naturformat
+     780x120 und wurde nur noch von max-width: 100 % gebremst:
+       bei 390 px   301,4 x 46,4 statt 236,6 x 36,4
+       bei 440 px   340   x 52,3 statt 267   x 41,1
+       bei 767 px   667   x 102,6 statt 267  x 41,1
+     Bei 767 px reichte das Bild damit von y42,7 bis y145,3 quer ueber
+     x37..704. Der Banner liegt bei y19..66, die Navileiste ist
+     position: relative und steht nach dem Banner im Baum, malt also
+     darueber. Ab y43 lag das Bild also UEBER dem Banner und hat Pille,
+     Angebotstext und Countdown zugedeckt - genau der Befund "die Leiste ist
+     praktisch leer". Uebrig blieb, was oberhalb von y43 lag: Chip und
+     Kopierknopf. Bei 768 px faellt der Mobilzweig weg, dort gilt wieder
+     "width: 208px" und das Bild ist 208x32 - deshalb die harte Kante
+     zwischen 767 und 768 px.
+     Beleg im Bild: _shot 767 vorher/nachher.
+
+     Der Entwurf verlangt die Wortmarke 205 x 21 px (Group 28 box(37,84,205,21)),
+     also dieselbe Tintengroesse wie am Desktop. Die Datei lvlup-logo-nav.webp
+     ist 780x120 und traegt die Wortmarke nur bei x6..603, deshalb dieselbe
+     Rechnung wie im 1024er-Zweig: 205 * 780 / 598 = 267 px Bildbreite. Hier
+     mit u multipliziert, damit es unter 440 px massstabsgetreu mitskaliert.
+     Der Zusatz body:not(.lvf-gold) steht aus demselben Grund wie oben da:
+     die Elite-Seite tauscht
+     per Theme-JS auf lvlup-logo-nav-gold.webp, 306x48 und fast randlos, die
+     267 wuerden sie 24 Prozent zu gross machen.
+     max-width muss mit weg, sonst greift ".lvf-page img { max-width: 100% }". */
+  body:not(.lvf-gold) .lvf-page .lvf-s01-logo-img {
+    width: calc(var(--lvf-s01-u) * 267);
+    max-width: none;
+    height: auto;
+  }
+  /* Gold-Fassung bewusst unveraendert: fuer die Elite-Seite gibt es keinen
+     Mobil-Entwurf (figma/homepage-mobile.json deckt nur die Startseite ab),
+     und sie ist mit 306x48 bei 767 px nicht kaputt - das Bild endet dort bei
+     y122, der Banner bei y66. Gemessen und als offener Punkt gemeldet. */
+  .lvf-s01-logo-img {
+    width: auto;
+    height: calc(var(--lvf-s01-u) * 21);
+  }
+
+  .lvf-s01-burger {
+    width: calc(var(--lvf-s01-u) * 38);
+    height: calc(var(--lvf-s01-u) * 38);
+    border-radius: calc(var(--lvf-s01-u) * 7);
+  }
+  .lvf-s01-burger::after { inset: calc((var(--lvf-s01-u) * 38 - 44px) / 2); }   /* Hitbox immer >= 44px */
+  .lvf-s01-burger-ico {
+    width: calc(var(--lvf-s01-u) * 19);
+    height: calc(var(--lvf-s01-u) * 19);
+  }
+  .lvf-s01-burger-l {
+    left: calc(var(--lvf-s01-u) * 1);
+    width: calc(var(--lvf-s01-u) * 17);
+    height: calc(var(--lvf-s01-u) * 1.8);
+  }
+  .lvf-s01-burger-l:nth-child(1) { top: calc(var(--lvf-s01-u) * 3.6); }
+  .lvf-s01-burger-l:nth-child(2) { top: calc(var(--lvf-s01-u) * 8.6); }
+  .lvf-s01-burger-l:nth-child(3) { top: calc(var(--lvf-s01-u) * 13.6); }
+  .lvf-s01-burger[aria-expanded="true"] .lvf-s01-burger-l:nth-child(1) { transform: translateY(calc(var(--lvf-s01-u) * 5)) rotate(45deg); }
+  .lvf-s01-burger[aria-expanded="true"] .lvf-s01-burger-l:nth-child(3) { transform: translateY(calc(var(--lvf-s01-u) * -5)) rotate(-45deg); }
+}
+
+
+/* ---------------------------------------------- Gold-Variante (Elite-Seite) */
+/* Aktiv ueber Body-Klasse lvf-gold (setzt das Plugin auf der Elite-Seite).
+   Referenz: Lvlup Elite Page.jpg Kopfbereich - Icon/Buttons/Countdown gold,
+   Nav-Hairline gold, Logo-Bild tauscht das Theme-JS. */
+body.lvf-gold .lvf-s01-offer-hl { color: #ffb43a; }
+body.lvf-gold .lvf-s01-timer { color: #ffb43a; }
+body.lvf-gold .lvf-s01-code-chip {
+  background: var(--lvf-grad-gold);
+  box-shadow:
+    0 0 0 0.88px rgba(255, 146, 0, 0.55),
+    inset 0 0.63px 10.4px #e8c25b,
+    6.8px 2.91px 10.68px rgba(0, 0, 0, 0.36),
+    0 0 0 1.51px rgba(0, 0, 0, 0.25),
+    0 0 0 3.43px rgba(0, 0, 0, 0.16);
+}
+body.lvf-gold .lvf-s01-copy {
+  box-shadow:
+    inset -0.78px -2.34px 9.83px #f1c252,
+    inset -0.78px -1.56px 4.53px #ffa400,
+    inset -0.78px -1.56px 4.53px #ffa400,
+    inset 3.12px 3.12px 3.9px #000000,
+    6.8px 2.91px 10.68px rgba(0, 0, 0, 0.36),
+    0 0 0 1.51px rgba(0, 0, 0, 0.25),
+    0 0 0 3.43px rgba(0, 0, 0, 0.16);
+}
+body.lvf-gold .lvf-s01-nav::before {
+  background: linear-gradient(90deg, rgba(244, 180, 53, 0) 0%, #f4b435 52%, rgba(238, 169, 49, 0) 100%);
+}
+body.lvf-gold .lvf-s01-ghost,
+body.lvf-gold .lvf-s01-burger {
+  box-shadow:
+    inset -1.64px -4.92px 15.9px #f1c252,
+    inset -4.1px -3.28px 12.87px #ffa400,
+    inset -0.64px -1.28px 3.71px #ffa400,
+    inset 7.38px 5.74px 9.92px #000000,
+    5.57px 2.39px 8.75px rgba(0, 0, 0, 0.36),
+    0 0 0 1.24px rgba(0, 0, 0, 0.25),
+    0 0 0 2.81px rgba(0, 0, 0, 0.16);
+}
+body.lvf-gold .lvf-s01-cta {
+  background: var(--lvf-grad-gold);
+  box-shadow:
+    0 0 0 0.41px rgba(255, 146, 0, 0.55),
+    inset 0.26px 0.52px 14.43px #e8c25b,
+    5.57px 2.39px 8.75px rgba(0, 0, 0, 0.36),
+    0 0 0 1.24px rgba(0, 0, 0, 0.25),
+    0 0 0 2.81px rgba(0, 0, 0, 0.16);
+}
+body.lvf-gold .lvf-s01-offer-short {
+  background: var(--lvf-grad-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+body.lvf-gold .lvf-s01 :focus-visible { outline-color: #feedb6; }
+
+
+/* Abnahme 06.08.: .lvf-page a { color: inherit } (0,1,1) schlug die Klassen-
+   regel (0,1,0) - CTA-Text war weiss. Element+Klasse stellt Dunkel sicher. */
+a.lvf-s01-cta { color: #060606; }
+
+
+/* ===========================================================
+   Desktop >= 1024: Logo auf Entwurfsgroesse
+   =========================================================== */
+@media (min-width: 1024px) {
+  /* Dasselbe Grundproblem wie im Footer, aber mit eigenem Faktor - deshalb
+     getrennt gemessen. Die Datei lvlup-logo-nav.webp ist 780x120, die
+     Wortmarke darin nur x 6..603 und y 47..108. CSS skaliert die Datei, also
+     wird der Totrand mitskaliert und die Wortmarke bleibt zu klein.
+     Nachgemessen home-aus-vollbild.png gegen die Live-Aufnahme, beide 1760 breit:
+       Soll Wortmarke 205 px breit (x 126..330 in der Navileiste)
+       Ist  Wortmarke 160 px breit, also 78 Prozent davon
+     Noetige Bildbreite: 205 * 780 / 598 = 267 px, davon 205 px Wortmarke.
+     Der Footer braucht 304 px, hier reichen 267 px - im Entwurf ist das Logo
+     in der Kopfleiste kleiner als im Footer-Markenband.
+     Anders als im Footer wird hier NUR die Breite geaendert, keine negativen
+     Raender und kein clip-path. Grund: fixes-header.css Abschnitt B korrigiert
+     den Hochstand der Wortmarke bereits mit transform: translateY(-14.583%),
+     und zwar in Prozent der Elementhoehe. Diese Korrektur waechst also von
+     selbst mit und bleibt richtig. Zweite Korrektur oben drauf hiesse doppelt
+     verschoben. Es bleibt ein waagerechter Rest von rund 2 px, weil der linke
+     Totrand von 6 px mitwaechst - unterhalb der Messgenauigkeit.
+     .lvf-page muss in den Selektor, weil shell.css mit ".lvf-page img"
+     (0,1,1) ein max-width: 100% setzt.
+
+     body:not(.lvf-gold) ist der wichtigste Teil der Regel. Auf der Elite-Seite
+     tauscht lvlup-theme.js das Logo gegen lvlup-logo-nav-gold.webp, und das
+     ist eine ANDERE Datei mit anderem Zuschnitt: 306 x 48 statt 780 x 120,
+     also fast randlos. Nachgemessen elite-aus-vollbild.png gegen die
+     Live-Aufnahme: Soll Wortmarke 206 px, Ist 199 px, Faktor 1,04 - die
+     Gold-Fassung stimmt bereits. Auf 267 px hochgezogen waere sie 255 px
+     breit und damit 24 Prozent zu gross. Deshalb bleibt Elite unangetastet. */
+  body:not(.lvf-gold) .lvf-page .lvf-s01-logo-img {
+    max-width: none;
+    width: 267px;
+  }
+
+
+  /* =========================================================
+     Kundenmeldung 11.08.2026: "das Icon neben LVLUP25 oben rechts"
+     Gemessen home-aus-vollbild.png gegen eine frische Live-Aufnahme,
+     beide 1760 breit, Kanten als Median der innersten Pixelreihe.
+     ========================================================= */
+
+  /* 1) Reihenfolge der Innenschatten: Schwarz gehoert nach VORN.
+     CSS zeichnet den ZUERST genannten Schatten obenauf, im Entwurf liegt
+     die schwarze Lage ueber den blauen. Live stand sie als letzte Lage
+     darunter, deshalb leuchtete der blaue Schein auch an der Ober- und
+     der Linkskante durch: der Knopf hatte rundherum einen hellen Rahmen
+     statt nur unten und rechts wie im Entwurf. Genau das ist die
+     Kundenmeldung. Die Lagen selbst bleiben unveraendert, nur die
+     Reihenfolge dreht sich.
+       Kopierknopf oben    Soll   9   Ist  67   jetzt 16
+       Kopierknopf links   Soll  16   Ist  87   jetzt 21
+       Kopierknopf unten   Soll 124   Ist 137   jetzt 137
+       Kopierknopf rechts  Soll 115   Ist 124   jetzt 122
+     Spezifitaet 0-3-0 ist noetig: fixes-header.css setzt
+     ".lvf-page .lvf-s01-copy" mit 0-2-0 und wird nach dem Theme geladen. */
+  .lvf-page .lvf-s01-code .lvf-s01-copy {
+    box-shadow:
+      inset 3.12px 3.12px 3.9px #000000,
+      inset -0.78px -2.34px 9.83px #52b8f1,
+      inset -0.78px -1.56px 4.53px #00a4ff,
+      inset -0.78px -1.56px 4.53px #00a4ff;
+  }
+  /* Elite-Seite, gleicher Fehler in Gold. 0-4-1 noetig, weil
+     fixes-header.css dort "body.lvf-gold .lvf-page .lvf-s01-copy" (0-3-1)
+     setzt. Gemessen elite-aus-vollbild.png gegen die Live-Aufnahme:
+       oben  Soll  9  Ist 68  jetzt 16      links  Soll 17  Ist 89  jetzt 22 */
+  body.lvf-gold .lvf-page .lvf-s01-code .lvf-s01-copy {
+    box-shadow:
+      inset 3.12px 3.12px 3.9px #000000,
+      inset -0.78px -2.34px 9.83px #f1c252,
+      inset -0.78px -1.56px 4.53px #ffa400,
+      inset -0.78px -1.56px 4.53px #ffa400;
+  }
+  /* Dieselbe Bauart, derselbe Fehler: die Pille "LIMITED TIME OFFER" und
+     der Knopf "Client Area". Die drei Aussenlagen bleiben unangetastet,
+     der Vergleich neben der Pille (x 364..378) zeigt Soll und Ist dort
+     auf 1 bis 2 Stufen gleich, es gibt also keinen harten Kasten.
+       Pille oben          Soll   5   Ist  41   jetzt  9
+       Pille links         Soll  10   Ist  69   jetzt  8
+       Client Area oben    Soll  10   Ist  68   jetzt 14
+       Client Area links   Soll   6   Ist  96   jetzt 11 */
+  .lvf-s01-pill {
+    box-shadow:
+      inset 3.12px 3.12px 3.9px #000000,
+      inset -0.78px -2.34px 9.83px #f15252,
+      inset -0.78px -1.56px 4.53px #ff0000,
+      inset -0.78px -1.56px 4.53px #ff0000,
+      6.8px 2.91px 10.68px rgba(0, 0, 0, 0.36),
+      0 0 0 1.51px rgba(0, 0, 0, 0.25),
+      0 0 0 3.43px rgba(0, 0, 0, 0.16);
+  }
+  .lvf-page .lvf-s01-ghost {
+    box-shadow:
+      inset 7.38px 5.74px 9.92px #000000,
+      inset -1.64px -4.92px 15.9px #52b8f1,
+      inset -4.1px -3.28px 12.87px #00a4ff,
+      inset -0.64px -1.28px 3.71px #00a4ff,
+      5.57px 2.39px 8.75px rgba(0, 0, 0, 0.36),
+      0 0 0 1.24px rgba(0, 0, 0, 0.25),
+      0 0 0 2.81px rgba(0, 0, 0, 0.16);
+  }
+  /* Gold-Fassung des Knopfes. 0-3-1 noetig gegen die eigene Regel
+     "body.lvf-gold .lvf-s01-ghost" (0-2-1) weiter oben in dieser Datei.
+     Elite gemessen: oben Soll 11 Ist 69 jetzt 14, links Soll 7 Ist 97 jetzt 11. */
+  body.lvf-gold .lvf-page .lvf-s01-ghost {
+    box-shadow:
+      inset 7.38px 5.74px 9.92px #000000,
+      inset -1.64px -4.92px 15.9px #f1c252,
+      inset -4.1px -3.28px 12.87px #ffa400,
+      inset -0.64px -1.28px 3.71px #ffa400,
+      5.57px 2.39px 8.75px rgba(0, 0, 0, 0.36),
+      0 0 0 1.24px rgba(0, 0, 0, 0.25),
+      0 0 0 2.81px rgba(0, 0, 0, 0.16);
+  }
+
+  /* 2) Das Kopier-Icon selbst war zu klein. Das SVG hat viewBox 12, die
+     bemalte Flaeche darin liegt aber nur zwischen 0,9 und 11,1, also
+     10,2 Einheiten. Bei 10 px Kasten sind das 8,5 px Tinte, der Entwurf
+     zeigt 10 px (Figma copy-Filled, Kasten x 961..971 im Knopf x 954..977).
+     Noetiger Kasten: 10 * 12 / 10,2 = 11,76 px.
+     Nachgemessen durch Differenzbild mit ausgeblendetem Icon: Tinte jetzt
+     10 x 10 px, Abstand zur linken Knopfkante 7 px wie im Entwurf.
+     Der Haken (.lvf-s01-copy-ok) waechst mit, sonst springt die Groesse
+     beim Kopieren. */
+  .lvf-s01-copy-ico,
+  .lvf-s01-copy-ok {
+    width: 11.76px;
+    height: 11.76px;
+  }
+
+  /* 3) Auf der Elite-Seite blieb das Icon blau. Die Verlaufsmarken stehen
+     als Praesentationsattribut im SVG, und die schlaegt jede CSS-Regel.
+     Gemessen elite-aus-vollbild.png, Zeile y 38 quer durch die Glyphe:
+       Soll (255,230,128) .. (255,181,24) .. (207,136,11)
+       Ist  ( 98,188,240) .. ( 56,160,220)
+     Die Goldtoene sind die blauen mit getauschtem Rot- und Blauanteil,
+     #6ecaff wird #ffca6e, #0080ca wird #ca8000. Nachgemessen jetzt
+     (242,192,103) .. (229,172,76) .. (195,142,51). */
+  body.lvf-gold .lvf-s01-copy-ico stop:nth-child(1) { stop-color: #ffffff; }
+  body.lvf-gold .lvf-s01-copy-ico stop:nth-child(2) { stop-color: #ffca6e; }
+  body.lvf-gold .lvf-s01-copy-ico stop:nth-child(3) { stop-color: #ca8000; }
+
+
+  /* =========================================================
+     Zwei weitere Befunde derselben Messrunde, ausserhalb der Kundenmeldung
+     ========================================================= */
+
+  /* 4) Banner und Navileiste sind im Entwurf blaustichig, live neutralgrau.
+     Figma legt ueber Schwarz und den Weissanteil eine dritte Fuellung:
+     einen waagerechten Verlauf in #00a2ff mit Blendmodus COLOR, Deckkraft
+     0,5 an den Raendern und 1,0 in der Mitte. COLOR behaelt die Helligkeit
+     und nimmt nur Farbton und Saettigung, aus (10,10,10) wird deshalb
+     (0,13,21). CSS kann den Blendmodus fuer eine einzelne Fuellung nicht
+     nachbauen, das Ergebnis ist aber eindeutig und wird direkt als Verlauf
+     gesetzt. Der Weissanteil von 4 bzw. 2 Prozent steckt in diesen Werten
+     schon drin, deshalb ersetzt der Verlauf den bisherigen.
+     Gemessen als Median ueber y 19..24 bzw. y 70..74, beide Mockup-Bauten
+     stimmen hier ueberein:
+       Banner Mitte  Soll (0,13,21)  Ist (10,10,10)  jetzt (0,13,19)
+       Banner Rand   Soll (4,12,15)  Ist (10,10,10)  jetzt (5,12,15)
+       Nav Mitte     Soll (1, 6,10)  Ist ( 5, 5, 5)  jetzt (0, 7,10)
+       Nav Rand      Soll (1, 6, 9)  Ist ( 5, 5, 5)  jetzt (2, 7, 9) */
+  .lvf-s01-banner {
+    background-image: linear-gradient(90deg, rgb(5, 12, 15) 0%, rgb(0, 13, 21) 50%, rgb(5, 12, 15) 100%);
+  }
+  .lvf-s01-nav {
+    background-image: linear-gradient(90deg, rgb(3, 6, 8) 0%, rgb(0, 7, 10) 50%, rgb(3, 6, 8) 100%);
+  }
+
+  /* 5) Der leuchtende Rand der Navileiste war rund viermal zu kraeftig.
+     Figma zeichnet ihn mit strokeWeight 0,104 px, live liegen 1 px mit
+     Deckkraft 0,55 an. Gemessen bei x 880, wo der Grund darueber dunkel
+     ist und nichts dazwischenfunkt:
+       Oberkante  y  67   Soll (3,16,23)   Ist (30,94,131)   jetzt (6,26,37)
+       Unterkante y 121   Soll (7,27,38)   Ist (30,94,131)   jetzt (6,26,37)
+     Die beiden Mockup-Bauten sind sich hier nicht einig, der Schnipsel-Bau
+     liegt an der Oberkante mit (7,32,45) heller als der Vollbild-Bau.
+     0,12 trifft die Unterkante beider Bauten genau und laesst die Oberkante
+     eine Spur kraeftiger als der Vollbild-Bau, statt die Linie ganz
+     verschwinden zu lassen. */
+  .lvf-s01-nav::before { opacity: 0.12; }
+}
+
+
+/* ===========================================================================
+   Kopfbanner auf schmalen Schirmen, Stand 12.08.2026
+
+   ZURUECKGENOMMEN: die Untergrenzen per max() aus dem Vormittag.
+   Sie standen auf 9,5px / 10px / 10px / 24px fuer Pillentext, Chip,
+   Countdown und Kopierknopf. Begruendung damals: bei 390 px rechnet der
+   Mobilzweig 6,25 / 7,81 / 6,83 / 15,06 px, das sei unlesbar.
+
+   Warum sie weg mussten:
+   1. Es gibt einen Mobil-Entwurf des Kunden, figma/specs/s01-banner-nav-
+      mobile.txt, Frame 440 px. Er verlangt genau 7 / 9 / 8 px und 17x17 px.
+      Die alten calc-Werte 7.05u / 8.81u / 7.71u / 17u treffen ihn bei 440 px
+      und skalieren darunter massstabsgetreu. Die 6,25 px bei 390 px sind
+      also der Entwurf, keine Panne.
+   2. Die calc-Werte steigen im ganzen Mobilbereich nie ueber 7,05 px, also
+      hat jede Untergrenze bei JEDER Breite unter 768 px gewonnen, nicht nur
+      bei 390. Bei der Entwurfsbreite 440 px war der Pillentext dadurch
+      36 Prozent und der Kopierknopf 41 Prozent zu gross.
+   3. Sie waren die Ursache des Ueberlaufs bei 390 px. Der Entwurf hat bei
+      440 px keinen Millimeter Reserve: Angebotsgruppe 197 + Rinne 25 +
+      Code-Spalte 104 = 326 px, und 326 px ist genau der Innenraum des
+      Banners. Die Untergrenzen haben die Pille um 24 px und den Countdown
+      um 37 px verbreitert, macht 383 px Bedarf - der Rest lief hinten raus
+      und wurde von overflow: hidden abgeschnitten (bei 390 px fehlten die
+      Sekunden des Countdowns).
+   4. WCAG 2.5.8 misst die Trefferflaeche, nicht die Optik. Die lag bereits
+      bei rund 37 px, also ueber dem Mindestmass von 24 px. Es gab keinen
+      Verstoss, der die Vergroesserung erzwungen haette.
+
+   Was stattdessen gemacht wurde:
+   - Trefferflaeche des Kopierknopfes auf glatt 44 px, ueber ::after, ohne
+     die Optik anzufassen (siehe .lvf-s01-copy::after im Mobilzweig).
+   - Damit diese 44 px nicht am Rahmen abgeschnitten werden, clippt der
+     Banner unter 768 px nicht mehr (siehe .lvf-s01-banner im Mobilzweig).
+
+   OFFEN, gehoert dem Kunden, nicht der Umsetzung: bei 390 px sind die
+   Entwurfsgroessen rechnerisch 6,25 px (Pillentext), 7,81 px (Chip) und
+   6,83 px (Countdown). Das ist klein. Es ist aber der Entwurf, und der
+   Entwurf ist fuer 440 px gezeichnet. Eine Anhebung waere eine
+   Design-Entscheidung und keine Reparatur, deshalb steht sie hier nicht.
+   =========================================================================== */
+
+/* == s11 (theme) == */
+/* ===========================================================
+   s11 - Footer
+   Desktop-Frame 1760, Karte x=76..1684 (1608 breit), Band y=10330..11248
+   Mobile-Frame 440, Karte x=30..410 (380 breit)
+   =========================================================== */
+
+.lvf-s11 {
+  position: relative;
+  isolation: isolate;
+  /* clip NACH dem ::before-Blur: schneidet den -90px-Ueberstand ab, ohne dass
+     die Seite hoeher wird oder die weissen Rinnen-Spitzen grau werden */
+  overflow: clip;
+  padding: 32px 0 40px;
+  font-family: var(--lvf-font-display);
+}
+
+/* weiche Hintergrund-Glows (ersetzen die grossen Star-Vektoren);
+   Befund r3 Desktop 4: deutlich kraeftiger, Soll-Randstreifen RGB(13,131,187) */
+.lvf-s11::before {
+  content: "";
+  position: absolute;
+  /* unten -90px ueberstehend, damit der blur(46px) an der Seitenunterkante
+     nicht gegen Leere sampelt und die weissen Rinnen-Spitzen halbiert */
+  inset: -10% -22% -90px;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(62% 56% at 16% 60%, rgba(0, 150, 235, 0.5) 0%, rgba(0, 150, 235, 0) 70%),
+    radial-gradient(62% 56% at 86% 40%, rgba(0, 150, 235, 0.42) 0%, rgba(0, 150, 235, 0) 70%),
+    /* Soll-Profil 06.08.2026: die SEITENRINNEN neben der Karte leuchten nach
+       unten zunehmend (x8: y10700 2,117,178 -> y11080 74,208,250 -> unten
+       235,248,255 weiss).
+       ENTFERNT 11.08.2026, Kundenbeanstandung "der Footer fliegt oben":
+       hier stand ein blauer Wash "im Uebergang vom CTA-Panel"
+       radial-gradient(70% 380px at 50% 0%, rgba(0,160,240,0.9), transparent).
+       Den kennt der Entwurf nicht. Gemessen 4 bis 40 px ueber der
+       Kartenoberkante, Mitte x760/x1200: Soll 0,0,0 - Ist war 3,105,157.
+       Weil .lvf-s11 overflow:clip hat, wurde der Verlauf an der Sektionskante
+       hart abgeschnitten und malte genau die 48 px ueber der Karte blau aus.
+       Genau dieses Band laesst die Karte aufgesetzt wirken. Befund 3.1.
+       ACHTUNG Geometrie: ::before hat inset -10% -22% -90px, ist also 2534px
+       breit. Seitenrand x0 = 15.3%, x1760 = 84.7% - nicht 0%/100%! Breite
+       Saeulen, weil der blur(46px) schmale Kerne stark verduennt. */
+    radial-gradient(180px 950px at 15.3% 100%, rgba(245, 251, 255, 1) 0%, rgba(140, 215, 252, 0.98) 24%, rgba(25, 170, 240, 0.9) 50%, rgba(2, 135, 205, 0.6) 76%, rgba(2, 120, 190, 0) 100%),
+    radial-gradient(180px 950px at 84.7% 100%, rgba(245, 251, 255, 1) 0%, rgba(140, 215, 252, 0.98) 24%, rgba(25, 170, 240, 0.9) 50%, rgba(2, 135, 205, 0.6) 76%, rgba(2, 120, 190, 0) 100%),
+    radial-gradient(150% 420px at 50% 98%, rgba(55, 145, 195, 0.92) 0%, rgba(38, 120, 170, 0.6) 45%, rgba(14, 78, 120, 0.25) 74%, rgba(14, 78, 120, 0) 96%);
+  filter: blur(46px);
+}
+
+.lvf-s11-shell {
+  max-width: 1668px; /* Abnahme: 1608er Karte + 2x30 Padding = 76px Rand wie im Design */
+  margin-inline: auto;
+  padding-inline: clamp(16px, 6.8vw, 30px);
+}
+
+/* -----------------------------------------------------------
+   Karte: mobil ein Grid, damit der Newsletter-Block VOR der
+   schwarzen Karte steht (Mobile-Spec) und der Kartenhintergrund
+   erst ab Zeile 2 gezeichnet wird.
+   ----------------------------------------------------------- */
+.lvf-s11-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto auto auto auto auto;
+}
+
+.lvf-s11-main,
+.lvf-s11-colleft,
+.lvf-s11-colright { display: contents; }
+
+.lvf-s11-cardbg {
+  grid-column: 1;
+  grid-row: 2 / 7;
+  z-index: 0;
+  border: 1px solid transparent;
+  border-radius: 37px;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.95)) padding-box,
+    linear-gradient(90deg, rgba(52, 176, 248, 0) 0%, #35aef4 52%, rgba(49, 169, 238, 0) 100%) border-box;
+  box-shadow: 5px 19px 19px rgba(0, 0, 0, 0.25);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+/* zwei sehr schwache Deko-Lichter innerhalb der Karte */
+.lvf-s11-cardbg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(30% 26% at 72% 34%, rgba(140, 213, 255, 0.07) 0%, rgba(140, 213, 255, 0) 70%),
+    radial-gradient(30% 26% at 8% 68%, rgba(140, 213, 255, 0.06) 0%, rgba(140, 213, 255, 0) 70%);
+}
+.lvf-s11-cardbg { position: relative; }
+
+.lvf-s11-newsletter,
+.lvf-s11-strip,
+.lvf-s11-links,
+.lvf-s11-info,
+.lvf-s11-legal,
+.lvf-s11-bottom {
+  position: relative;
+  z-index: 1;
+  grid-column: 1;
+}
+
+.lvf-s11-newsletter { grid-row: 1; margin: 0 0 64px; }
+.lvf-s11-strip      { grid-row: 2; margin: 22px 21px 0; }
+.lvf-s11-links      { grid-row: 3; margin: 41px 21px 0; }
+.lvf-s11-info       { grid-row: 4; margin: 33px 21px 0; }
+.lvf-s11-legal      { grid-row: 5; margin: 8px 21px 0; }
+.lvf-s11-bottom     { grid-row: 6; margin: 9px 21px 21px; }
+
+/* -----------------------------------------------------------
+   Brand-Strip (leuchtendes Blau-Band)
+   ----------------------------------------------------------- */
+.lvf-s11-strip {
+  border-radius: 19px;
+  overflow: hidden;
+  background-color: #eaf6fd;
+  background-image:
+    radial-gradient(90% 80% at 22% 100%, rgba(143, 205, 239, 0.85) 0%, rgba(143, 205, 239, 0) 62%),
+    radial-gradient(70% 60% at 96% 90%, rgba(152, 208, 238, 0.7) 0%, rgba(152, 208, 238, 0) 66%),
+    linear-gradient(180deg, #ffffff 0%, #f4fbff 45%, #c3e5f7 82%, #a3d6f1 100%);
+  box-shadow: 6px 26px 26px rgba(0, 0, 0, 0.25);
+}
+
+.lvf-s11-strip-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 29px;
+  padding: 23px 24px;
+}
+
+/* Logo-Pille (Mobile: Bild ca. 240px breit in schwarzer Pille ca. 284x65, Radius 16) */
+.lvf-s11-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 22px;
+  border-radius: 16px;
+  background: #000;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.lvf-s11-logo:hover { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25); }
+.lvf-s11-logo:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.lvf-s11-logo-img { display: block; width: 240px; height: auto; }
+
+/* Tagline: im Design blaues Verlaufs-Text auf dem Band */
+.lvf-s11-tagline {
+  max-width: 282px;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 425;
+  line-height: 17px;
+  letter-spacing: 0.39px;
+  text-align: center;
+  background: linear-gradient(126deg, #6ecaff 0%, #0080ca 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+/* auf dem hellen Mobile-Band braucht der Verlauf mehr Tiefe */
+@media (max-width: 1023px) {
+  .lvf-s11-tagline { background: linear-gradient(126deg, #2f89c4 0%, #0f6ba6 100%); -webkit-background-clip: text; background-clip: text; }
+}
+
+/* Social-Buttons */
+.lvf-s11-social {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.lvf-s11-social a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #000;
+  color: #f2faff;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  transition: color 0.18s ease, transform 0.18s ease;
+}
+/* Touch-Ziel auf 44px vergroessern, ohne das Layout zu veraendern */
+.lvf-s11-social a::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+}
+.lvf-s11-social a:hover { color: #b7e6ff; transform: translateY(-1px); }
+.lvf-s11-social a:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.lvf-s11-social svg { width: 17px; height: 17px; fill: currentColor; }
+.lvf-s11-social .lvf-s11-ico-stroke {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+}
+.lvf-s11-social .lvf-s11-ico-dot { fill: currentColor; stroke: none; }
+
+/* -----------------------------------------------------------
+   Linkspalten
+   ----------------------------------------------------------- */
+.lvf-s11-links {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  justify-content: center;
+  column-gap: 23px;
+  row-gap: 15px;
+}
+/* doppelte Klasse: gewinnt gegen ".lvf-s11-nav { display: flex }" weiter unten */
+.lvf-s11-nav.lvf-s11-nav--other { display: none; }
+
+.lvf-s11-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  text-align: center;
+}
+.lvf-s11-nav ul { display: flex; flex-direction: column; gap: 1px; }
+
+.lvf-s11-colhead {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 33px;
+  padding-block: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.25px;
+  white-space: nowrap;
+  background: linear-gradient(126deg, #6ecaff 0%, #0080ca 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lvf-s11-nav a,
+.lvf-s11-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 33px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+  white-space: nowrap;
+  color: var(--lvf-text-mid);
+  transition: color 0.18s ease;
+}
+.lvf-s11-nav a:hover { color: #fff; }
+.lvf-s11-nav a:focus-visible { outline: 2px solid var(--lvf-blue); outline-offset: 2px; border-radius: 4px; }
+.lvf-s11-note { color: var(--lvf-text-mid); cursor: default; }
+
+/* -----------------------------------------------------------
+   Firmendaten / Rechtstexte
+   ----------------------------------------------------------- */
+.lvf-s11-info,
+.lvf-s11-legal {
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+}
+.lvf-s11-info  { padding: 21px 31px; }
+.lvf-s11-legal { padding: 21px 31px; -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); }
+
+.lvf-s11-info p {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 13px;
+  letter-spacing: 0.28px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.lvf-s11-info p + p { margin-top: 13px; }
+.lvf-s11-info a,
+.lvf-s11-blau {
+  background: linear-gradient(126deg, #6ecaff 0%, #0080ca 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lvf-s11-info a:hover { background: none; color: var(--lvf-blue-light); }
+
+.lvf-s11-legal p {
+  font-size: 9px;
+  font-weight: 400;
+  line-height: 13px;
+  letter-spacing: 0.21px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.lvf-s11-legal p + p { margin-top: 0; }
+.lvf-s11-legal p.lvf-s11-legal-gap { margin-top: 13px; }
+.lvf-s11-legal-head {
+  background: linear-gradient(126deg, #6ecaff 0%, #0080ca 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lvf-s11-legal a {
+  color: var(--lvf-blue-light);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  word-break: break-word;
+  /* Trefferhöhe des Partner-Links auf 44 px. Gemessen mit
+     werkzeuge/klickziele-messen.js an build-rules/preview.html, Zeiger "maus":
+       390 px   Treffer 224 x 15     768 px   Treffer 289,5 x 15
+       1023 px  Treffer 190,5 x 15   1440 px  Treffer 241,5 x 12
+     Der Zeilenkasten misst also nur 15 px (Schrift 11 px) bzw. 12 px auf dem
+     Desktop (Schrift 9 px), egal wie die Zeilenhöhe eingestellt ist: ein
+     Inline-Kasten ist so hoch wie die Schriftmetrik, nicht wie line-height.
+
+     Warum kein ::after mit negativem inset wie sonst im Projekt: der Link
+     bricht über zwei Zeilen um. Ein absolut gesetztes Overlay spannt dann
+     EINEN Kasten über beide Zeilen samt dem Leerraum rechts und links davon -
+     bei 1023 px wären das 848 px Breite quer durch den Fließtext.
+     Senkrechtes padding an einem Inline-Element ändert dagegen weder
+     Zeilenhöhe noch Umbruch (es wirkt nur auf Anstrich und Trefferbox) und
+     wächst pro Zeilenfragment einzeln mit. Sichtbar ändert sich nichts, weil
+     der Link keinen Hintergrund und keinen Rahmen hat und die Unterstreichung
+     an der Schrift hängt, nicht am Kasten.
+
+     z-index gehört zwingend dazu, padding allein reicht nicht. Inline-Inhalt
+     wird in Dokumentreihenfolge gezeichnet: der Text HINTER dem Link liegt
+     also über dessen Polsterung, und Chrome liefert dort beim Treffertest den
+     Absatz statt den Link. Mit padding allein wurden aus 15 px nur 29,5 px
+     statt 44. Erst position/z-index hebt den Link über die Nachbarzeilen.
+
+     Der Wert muss GANZZAHLIG sein. Mit den rechnerisch genau passenden
+     14,5 px saß die Oberkante des Inline-Kastens auf einem halben Pixel, und
+     Chrome rückte den ganzen Glyphenlauf der URL um 1 px nach unten:
+     1279 abweichende Pixel im Differenzbild, während 13, 14, 15 und 16 px
+     bitgleich rendern (Gegenprobe je zweimal gerendert, Rauschen 0 Pixel).
+     15 px ergeben 45,5 px Trefferhöhe - lieber einen halben Pixel zu viel
+     als ein verschobenes Schriftbild.
+
+     Preis dieser Lösung: die Trefferbox greift rund 14 px in die Textzeile
+     darüber und darunter. Im Rechtsblock steht genau EIN Link, es kann also
+     kein anderes Ziel verdeckt werden - die Prosa im Streifen über und unter
+     der URL wird aber mit anklickbar, und wer dort mit der Maus Text markiert,
+     greift in die URL-Zeile. Das ist der bewusst gezahlte Preis für 44 px.
+
+     0-2-1 nötig: shell.css setzt unter "@media (pointer: coarse)" für genau
+     diesen Selektor padding-block: 12px mit ebenfalls 0-2-1. Gleiche
+     Spezifität, aber das Fragment wird später geladen - deshalb gewinnt diese
+     Regel auf Touch-Geräten wie auf Mausgeräten. */
+}
+.lvf-page .lvf-s11-legal a {
+  position: relative;
+  z-index: 1;
+  padding-block: 15px;
+}
+
+/* -----------------------------------------------------------
+   Newsletter
+   ----------------------------------------------------------- */
+.lvf-s11-newsletter {
+  position: relative;
+  border-radius: 19px;
+  overflow: hidden;
+  /* Befund r3 Mobil 13: unterer Kartenrand heller, Soll RGB(126,168,189),
+     damit der dunkle Hinweistext lesbar bleibt */
+  background-color: #12303f;
+  background-image:
+    radial-gradient(110% 72% at 0% 102%, rgba(160, 214, 246, 0.95) 0%, rgba(160, 214, 246, 0) 70%),
+    radial-gradient(105% 74% at 100% 102%, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0) 70%),
+    /* Soll-Profil 06.08.2026: der Panel-Boden ist QUER durchgehend weiss
+       (y11080-11140: 228-249 ueber die volle Breite), nicht nur in den Ecken */
+    radial-gradient(85% 52% at 50% 108%, rgba(255, 255, 255, 0.98) 22%, rgba(230, 244, 253, 0.8) 48%, rgba(230, 244, 253, 0) 76%),
+    linear-gradient(180deg, #05080c 0%, #0a1a26 52%, #7fa8c0 100%);
+  box-shadow: 6px 26px 26px rgba(0, 0, 0, 0.25);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+.lvf-s11-newsletter::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(140, 213, 255, 0.16);
+}
+
+.lvf-s11-nl-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 21px;
+  padding: 36px 30px;
+}
+
+.lvf-s11-nl-discord {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  flex: 0 0 auto;
+  border-radius: 15px;
+  /* Saum-Verlauf statt --lvf-grad-blue plus inset-Schatten, 11.08.2026.
+     Nachgereicht: der Knopf stand nicht auf der Liste der 13 Stellen.
+     Gemessen im Fuss von home, Knopf 75 x 75 px, Median je Zeile auf zwei
+     textfreien Streifen (die Kanten des schwarzen Umschlags bleiben aussen
+     vor), Soll home-aus-vollbild.png:
+       x 1057..1069   vorher 11,01   nachher 4,08
+       x 1111..1123   vorher  8,42   nachher 1,98
+       ganze Knopfflaeche 18,62 -> 15,38
+     Gegenprobe im Fuss von evaluation: 11,06 -> 4,12 und 8,45 -> 1,88.
+     ACHTUNG: mit 75 px (mobil 60) liegt der Knopf ueber dem Feld, fuer das
+     der Verlauf gerechnet ist (18 bis 53 px, sigma/Hoehe 0,166 bis 0,226);
+     hier sind es 0,113. Er trifft trotzdem besser als der inset-Schatten,
+     am staerksten an der Oberkante (Soll 254, vorher 245, nachher 255).
+     Die Farbe des Umschlags bleibt unangetastet: sie sitzt am <svg>, weil
+     die reset.css von hello-elementor mit 0-14-3 jede color-Regel am <a>
+     schlaegt. */
+  background: var(--lvf-grad-blue-btn);
+  color: #000;
+  transition: transform 0.18s ease, filter 0.18s ease;
+}
+.lvf-s11-nl-discord:hover { transform: translateY(-2px); filter: brightness(1.06); }
+.lvf-s11-nl-discord:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+/* Der Umschlag ist im Entwurf schwarz auf hellblauem Grund. Die Regel
+   `.lvf-s11-nl-discord { color: #000 }` daneben reicht dafuer nicht:
+
+   Das Markup setzt href="#", das Pruefskript entfernt diesen Platzhalter, und
+   damit greift aus dem Theme hello-elementor die Regel
+   `a:not([href]):not([tabindex])... { color: inherit }`. Die hat Spezifitaet
+   0-14-3, schlaegt jede vernuenftige eigene Regel und faerbt das Symbol weiss.
+   Die Theme-Datei gehoert uns nicht, sie waere beim naechsten Update wieder da.
+
+   Deshalb die Farbe direkt am SVG statt ueber currentColor: ein <svg> ist kein
+   <a>, die Reset-Regel kann es nicht treffen. */
+.lvf-s11-nl-discord svg { width: 28px; height: 28px; fill: #000; }
+
+.lvf-s11-nl-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+/* 0-3-0 gegen ".lvf-page.lvf-page h2 { color: inherit }" aus der Shell */
+.lvf-page.lvf-page .lvf-s11-nl-title {
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: 0.37px;
+  text-align: center;
+  background: linear-gradient(141deg, rgba(255, 255, 255, 0.7) 0%, #ffffff 50.5%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lvf-s11-nl-title-accent {
+  display: block;
+  background: linear-gradient(120deg, #6ecaff 12%, #0080ca 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lvf-s11-nl-form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 320px;
+}
+.lvf-s11-nl-field { flex: 1 1 auto; min-width: 0; }
+
+/* 0-3-0: muss den Theme-Gegenwehr-Reset in der Shell (.lvf-page.lvf-page input,
+   0-2-1, setzt background/border/border-radius/font zurueck) ueberstimmen */
+.lvf-page.lvf-page .lvf-s11-nl-input {
+  width: 100%;
+  min-height: 41px;
+  padding: 7px 10px 7px 18px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.77), rgba(0, 0, 0, 0.77)) padding-box,
+    linear-gradient(90deg, rgba(0, 162, 255, 0) 0%, #00a2ff 50%, rgba(0, 162, 255, 0) 100%) border-box;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.31px;
+  color: #fff;
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+.lvf-s11-nl-input::placeholder { color: rgba(255, 255, 255, 0.72); }
+.lvf-s11-nl-input:focus-visible { outline: 2px solid var(--lvf-blue-light); outline-offset: 1px; }
+
+.lvf-page.lvf-page .lvf-s11-nl-submit {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  min-height: 41px;
+  margin-left: -43px;
+  padding: 7px 10px 7px 4px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  /* Saum-Verlauf statt --lvf-grad-blue plus inset-Schatten, 11.08.2026,
+     siehe --lvf-grad-blue-btn in shell.css. Der Rahmenverlauf bleibt. */
+  background:
+    var(--lvf-grad-blue-btn) padding-box,
+    linear-gradient(90deg, rgba(0, 162, 255, 0) 0%, #00a2ff 50%, rgba(0, 162, 255, 0) 100%) border-box;
+  transition: filter 0.18s ease;
+}
+.lvf-s11-nl-submit:hover { filter: brightness(1.07); }
+.lvf-s11-nl-submit:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.lvf-s11-nl-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 29px;
+  flex: 0 0 auto;
+  border-radius: 5px;
+  background: #060606;
+}
+.lvf-s11-nl-icon svg { width: 14px; height: 14px; fill: #fff; }
+.lvf-s11-nl-submit-label {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.lvf-s11-nl-status:empty { display: none; }
+.lvf-s11-nl-status {
+  flex: 1 0 100%;
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--lvf-blue-light);
+}
+
+.lvf-s11-nl-sub {
+  max-width: 252px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.26px;
+  text-align: center;
+  color: #0a2c42;
+}
+
+/* -----------------------------------------------------------
+   Copyright-Leiste
+   ----------------------------------------------------------- */
+.lvf-s11-bottom {
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+.lvf-s11-copy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.5);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 15px;
+  text-align: center;
+  color: #fff;
+}
+.lvf-s11-legallinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  padding: 2px 10px 6px;
+}
+.lvf-s11-legallinks a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 15px;
+  color: #fff;
+  white-space: nowrap;
+  transition: color 0.18s ease;
+}
+/* Trefferbreite der Schlusszeilen-Links auf 44 px. Die Höhe stimmt bereits
+   über min-height: 44px, betroffen ist allein "Sitemap": gemessen 39,5 px
+   breit bei 390 px (werkzeuge/klickziele-messen.js, Zeiger "maus"). Die
+   Rechnung lässt alle anderen Punkte unangetastet, weil (Breite - 44) / 2 bei
+   ihnen positiv wird und das Overlay dann innerhalb der ohnehin größeren Box
+   bleibt. Der Abstand zwischen den Punkten beträgt 13 px (mobil) bis 18 px,
+   die 2,25 px Überstand können also keinen Nachbarn verdecken. */
+.lvf-s11-legallinks a { position: relative; }
+.lvf-s11-legallinks a::after {
+  content: "";
+  position: absolute;
+  inset: 0 calc((100% - 44px) / 2);
+}
+.lvf-s11-legallinks a:hover { color: var(--lvf-blue-light); }
+.lvf-s11-legallinks a:focus-visible { outline: 2px solid var(--lvf-blue); outline-offset: 2px; border-radius: 4px; }
+
+/* ===========================================================
+   Tablet 768-1023: gestapeltes Layout, aber 5 Linkspalten
+   =========================================================== */
+@media (min-width: 768px) {
+  .lvf-s11 { padding: 40px 0 48px; }
+  /* 20 px gelten ab 768, aber NICHT auf dem Desktop: dort verlangt der
+     Entwurf 30, siehe der Kommentar an .lvf-s11-shell weiter oben
+     ("1608er Karte + 2x30 Padding = 76px Rand wie im Design"). Weil diese
+     Regel spaeter steht als die clamp-Zeile, hat sie den Desktop-Wert
+     mitgenommen: die Fusskarte war dadurch 1628 statt 1608 breit und begann
+     bei x 66 statt x 76. Am Mockup gemessen liegt die linke Kartenkante bei
+     x 77. Der Desktop-Wert steht deshalb unten im 1024er-Zweig. */
+  .lvf-s11-shell { padding-inline: 20px; }
+
+  .lvf-s11-strip-inner { gap: 24px; padding: 26px 32px; }
+  .lvf-s11-tagline { max-width: 420px; font-size: 14px; line-height: 18px; letter-spacing: 0.42px; }
+
+  .lvf-s11-links {
+    grid-template-columns: repeat(5, auto);
+    justify-content: space-between;
+    column-gap: clamp(14px, 3.2vw, 60px);
+  }
+  .lvf-s11-nav.lvf-s11-nav--other { display: flex; }
+  .lvf-s11-nav a,
+  .lvf-s11-note { font-size: 13px; line-height: 19px; min-height: 40px; }
+  .lvf-s11-colhead { font-size: 13px; line-height: 19px; }
+
+  .lvf-s11-info p  { font-size: 11px; line-height: 16px; }
+  .lvf-s11-legal p { font-size: 9.5px; line-height: 13.5px; }
+
+  .lvf-s11-nl-inner { gap: 24px; padding: 40px clamp(30px, 7vw, 120px); }
+  .lvf-s11-nl-form { max-width: 560px; }
+  .lvf-page.lvf-page .lvf-s11-nl-input { font-size: 14px; padding-left: 22px; }
+  .lvf-page.lvf-page .lvf-s11-nl-submit { margin-left: -54px; padding: 8px 12px 8px 5px; gap: 8px; }
+  .lvf-s11-nl-icon { width: 35px; height: 35px; border-radius: 6px; }
+  .lvf-s11-nl-icon svg { width: 17px; height: 17px; }
+  .lvf-s11-nl-submit-label { font-size: 16px; }
+  .lvf-s11-nl-sub { max-width: 420px; }
+
+  .lvf-s11-bottom { flex-direction: row; align-items: center; justify-content: space-between; gap: 16px; padding: 6px 24px; }
+  .lvf-s11-copy { background: none; padding: 0; text-align: left; font-size: 13px; }
+  .lvf-s11-legallinks { padding: 0; gap: 16px; }
+  .lvf-s11-legallinks a { font-size: 13px; }
+  .lvf-s11-legallinks-mobile { display: none; }
+}
+
+/* ===========================================================
+   Mobil-Reparaturen 11.08.2026 (Pruefrunde mobil, Befunde 1, 2,
+   3, 5 und 9): Klickziele, iOS-Zoomschwelle und der schiefe
+   Umbruch der Schlusszeile. Alles bleibt unter 1024 px, der
+   Desktop-Zweig darunter ist pixelgenau abgenommen und wird
+   nicht angeruehrt.
+   =========================================================== */
+@media (max-width: 1023px) {
+  /* Befund 1: Telefon und E-Mail waren 86/102 px breit bei nur 12 px Hoehe
+     und lagen 1 px auseinander. inline-flex mit min-height macht die
+     Trefferbox 44 px hoch; die Zeilen wachsen im Layout mit, es kann sich
+     also nichts ueberlappen. Schrift 10 -> 12 px. (390-1023) */
+  .lvf-s11-info a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 12px;
+  }
+
+  /* Befund 5: Navigationslinks 33 px hoch mit 1 px Abstand, kaum treffbar.
+     min-height statt fester Hoehe, der Text darf weiter wachsen. (390-1023) */
+  .lvf-s11-nav a,
+  .lvf-s11-note { min-height: 44px; }
+
+  /* Befund 3: Rechtstext 9 px bei 13 px Zeilenhoehe ueber knapp 500 px
+     Blockhoehe. Mindestens 11/16. Der Block wird laenger, ganz unten im
+     Footer ist das der guenstigste Ort dafuer. (390-1023) */
+  .lvf-s11-legal p { font-size: 11px; line-height: 16px; }
+
+  /* Befund 2: Newsletter-Feld 41 px hoch bei 12 px Schrift; unter 16 px
+     zoomt iOS beim Antippen in die Seite hinein. Feld und Knopf auf 48 px,
+     Schrift 16 px. Nebeneffekt: der Sprung 41 -> 53 an der Grenze
+     1023/1024 faellt weg. (390-1023) */
+  .lvf-page.lvf-page .lvf-s11-nl-input { min-height: 48px; font-size: 16px; }
+  .lvf-page.lvf-page .lvf-s11-nl-submit { min-height: 48px; }
+}
+
+/* Der Knopf steht auf dem Tablet durch das groessere Symbol schon bei
+   53 px; das Feld zieht nach. Damit steht es an der Grenze zu 1024 px auf
+   demselben Wert wie im Desktop-Zweig und springt dort nicht mehr.
+   (768-1023) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .lvf-page.lvf-page .lvf-s11-nl-input { min-height: 53px; }
+}
+
+/* Befund 9: die Schlusszeile brach schief um - fuenf Punkte, davon einer
+   allein in der zweiten Zeile mittig unter einer Luecke. Die Breite wird so
+   begrenzt, dass sich ein sauberer 3+2-Umbruch ergibt. Ab 768 px sind die
+   beiden zusaetzlichen Mobil-Punkte ohnehin ausgeblendet. (390-767) */
+@media (max-width: 767px) {
+  .lvf-s11-legallinks { max-width: 240px; margin-inline: auto; }
+}
+
+/* ===========================================================
+   Desktop >= 1024: Design 1760 / Karte 1608
+   =========================================================== */
+@media (min-width: 1024px) {
+  /* Messpass 10.08.2026, ersetzt die Annahme vom 06.08. ("~150px zwischen
+     CTA-Panel und Footer-Karte"). Die war zu gross und hat den Footer auf
+     allen acht Seiten 177px zu hoch gemacht.
+     Nachgemessen mit zwei unabhaengigen Quellen, Abweichung hoechstens 2px:
+       Pixelmessung gegen die Kunden-Mockups (alle acht Seiten, 915..923px)
+       Figma-Baender s11-footer-desktop.json (Band 10330..11248, Karte ab 10378)
+     Soll-Sektionshoehe 918px = 48 oben + 870 Karte + 0 unten.
+     Der Abstand zwischen CTA-Karte und Footer-Karte betraegt im Soll 98px
+     (50px unter der CTA-Karte aus s10 plus diese 48px), nicht 168px. */
+  .lvf-s11 { padding: 48px 0 0; }
+
+  /* Die beiden seitlichen Lichtsaeulen als eigene, UNGEFILTERTE Ebene.
+     Warum nicht in ::before: dort liegt filter: blur(46px) darueber. Der
+     Weichzeichner frisst genau die Spitze weg, die der Entwurf braucht, denn
+     der helle Kern ist nur rund 76 px breit und klebt an der Bildkante - der
+     Blur mischt ihn zur Haelfte mit dem Schwarz jenseits der Kante. Gemessen
+     an der Rinne unten links: Soll 239,249,254, mit Blur kam dort nie mehr
+     als 122,199,239 an. Ohne Blur trifft die Marke.
+     Geometrie: Mittelpunkt in der jeweiligen unteren Ecke der Sektion,
+     Radien 395 x 960 px. Die Farbmarken sind unmittelbar die Messwerte aus
+     home-aus-vollbild.png, je Anteil der Kartenhoehe (Karte 870 hoch,
+     beginnt 48 px unter der Sektionsoberkante, endet an der Seitenunterkante):
+       Unterkante 239,249,254   95 % 223,243,254   90 % 186,234,254
+       80 %  65,206,249         60 %   2,154,219   40 %   1,122,183
+       20 %   1, 97,149          0 %   3, 80,125   darueber 2,62,98
+     Links und rechts bewusst identisch: im Entwurf sind die Rinnen auf den
+     Punkt spiegelgleich (Soll unten links 239,249,254, rechts 239,250,255),
+     live wichen sie um bis zu 18 Stufen voneinander ab (Befund 3.4). */
+  .lvf-s11::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(395px 960px at 0% 100%,
+        rgb(239, 249, 254) 0%, rgb(223, 243, 254) 4.5%, rgb(186, 234, 254) 9.1%,
+        rgb(65, 206, 249) 18.1%, rgb(2, 154, 219) 36.3%, rgb(1, 122, 183) 54.4%,
+        rgb(1, 97, 149) 72.5%, rgb(3, 80, 125) 90.6%, rgb(2, 62, 98) 95.6%,
+        rgba(2, 62, 98, 0) 100%),
+      radial-gradient(395px 960px at 100% 100%,
+        rgb(239, 249, 254) 0%, rgb(223, 243, 254) 4.5%, rgb(186, 234, 254) 9.1%,
+        rgb(65, 206, 249) 18.1%, rgb(2, 154, 219) 36.3%, rgb(1, 122, 183) 54.4%,
+        rgb(1, 97, 149) 72.5%, rgb(3, 80, 125) 90.6%, rgb(2, 62, 98) 95.6%,
+        rgba(2, 62, 98, 0) 100%);
+  }
+
+  .lvf-s11-card {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    position: relative;
+    /* unten 14 statt 24: im Entwurf endet die Copyright-Leiste 14 px ueber der
+       Kartenunterkante (Figma Frame 2147237246 y 11166..11234, Karte 10378,
+       Kartenunterkante 11248). Gemessen waren es 24, Karte damit 919 statt 870. */
+    padding: 24px 56px 14px 24px;
+  }
+  .lvf-s11-main {
+    display: grid;
+    grid-template-columns: minmax(0, 441fr) minmax(0, 1076fr);
+    gap: 11px;
+    align-items: start;
+  }
+  .lvf-s11-colleft {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+  .lvf-s11-colright {
+    display: flex;
+    flex-direction: column;
+    padding-top: 35px;
+  }
+
+  .lvf-s11-cardbg {
+    position: absolute;
+    inset: 0;
+    /* Unten eckig, 11.08.2026 (Kundenhinweis: "footer is ned buendig mit
+       unten und hat abgerundete ecken is ja im mockup ned so").
+
+       Die Karte reicht bis zur Unterkante der Seite, aber die 45 px Rundung
+       zog die unteren Ecken ein, und der blaue Seitengrund lief sichtbar
+       darunter durch. Am Mockup nachgemessen liegt die linke Kartenkante
+       ueber die letzten 80 px konstant bei x 77, ist dort also eckig; live
+       wanderte sie von x 91 (5 px ueber dem Seitenende) auf x 67 (bei 40 px)
+       und zurueck, das ist die Rundung.
+
+       Oben bleiben die 45 px, dort zeigt der Entwurf die Rundung. */
+    border-radius: 45px 45px 0 0;
+    /* Nur noch der Schlagschatten aus dem Entwurf. Die beiden blauen Glow-
+       Ringe (110px/24px und 260px/60px, "Befund r3 Desktop 4") sind am
+       11.08.2026 entfallen: sie malten einen Lichthof rund um die Karte, den
+       der Entwurf nicht hat. Gemessen 4 px ueber der Kartenoberkante,
+       Mitte x760: Soll 0,0,0 - mit den Ringen 6,52,79. Der Hof ist der zweite
+       Grund, warum die Karte aufgesetzt statt eingebettet wirkt. */
+    box-shadow: 6px 23px 23px rgba(0, 0, 0, 0.25);
+    /* Karte deckend statt 0.8: der Entwurf zeigt im Karteninneren reines
+       Schwarz (gemessen Kartenmitte 0,0,0, unter den Linkspalten 4,8,9),
+       live schlug das Hintergrundleuchten mit 9,31,44 durch (Befund 3.5).
+       Zweiter Grund: die Lichtsaeulen aus ::after reichen 395 px weit, also
+       bis unter die Karte. Bei 0.8 Deckung wuerde ihr helles Ende durch den
+       linken und rechten Kartenrand schimmern. */
+    background:
+      linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0)) padding-box,
+      linear-gradient(90deg, rgba(52, 176, 248, 0) 0%, #35aef4 52%, rgba(49, 169, 238, 0) 100%) border-box;
+    -webkit-backdrop-filter: blur(17px);
+    backdrop-filter: blur(17px);
+  }
+
+  .lvf-s11-strip      {
+    margin: 0 -32px 0 0;
+    border-radius: 21px;
+    min-height: 104px;
+    background-color: #050d14;
+    background-image:
+      radial-gradient(38% 300% at 0% 50%, #ffffff 0%, #cfeafb 34%, rgba(87, 169, 216, 0.85) 55%, rgba(11, 36, 54, 0) 100%),
+      radial-gradient(34% 300% at 100% 50%, #b8e2f7 0%, #8ecbed 30%, rgba(47, 124, 176, 0.85) 60%, rgba(11, 36, 54, 0) 100%),
+      linear-gradient(90deg, #0b2436 0%, #050d16 46%, #04101a 58%, #0b2c44 100%);
+  }
+  .lvf-s11-links      { margin: 0; }
+  .lvf-s11-info       { margin: 0; }
+  .lvf-s11-legal      { margin: 0; }
+  /* 44 statt 43: Entwurfsabstand zwischen Linkblock (endet 366 ab Kartenkante)
+     und Newsletter-Panel (beginnt 410). Zusammen mit dem 192 px hohen
+     Linkblock beginnt das Panel damit genau bei 410 statt bei 411. */
+  .lvf-s11-newsletter { margin: 44px 0 0; }
+  .lvf-s11-bottom     { margin: 0; }
+
+  /* Strip: Logo links, Tagline mittig, Socials rechts */
+  .lvf-s11-strip-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 26px 60px;
+  }
+  /* Logo-Pille. Kern des Problems ist die Bilddatei selbst: lvlup-logo-nav.webp
+     ist 780x120, die Wortmarke steckt darin aber nur in x 6..603 und y 47..108.
+     Rechts stehen 176 px, oben 47 px fast schwarzer Totrand. CSS skaliert die
+     DATEI, nicht die Wortmarke - deshalb wirkt das Logo in der schwarzen Pille
+     zu klein, obwohl die Pille die richtige Groesse hat. Genau das hat der
+     Kunde beanstandet.
+     Nachgemessen home-aus-vollbild.png gegen die Live-Aufnahme, beide 1760 breit:
+       Soll Wortmarke 233 px breit (x 178..410 im Markenband)
+       Ist  Wortmarke 180 px breit, also 77 Prozent davon
+     Der Dateianteil der Wortmarke ist 598/780. Noetige Bildbreite also
+     233 * 780 / 598 = 304 px, davon sind 233 px Wortmarke.
+     Die negativen Raender nehmen den Totrand aus dem LAYOUT (die Layoutbox des
+     Bildes ist danach exakt die Wortmarke), clip-path nimmt ihn aus dem
+     ANSTRICH - ohne das legte sich der Dateigrund ueber das helle Markenband.
+     Ergebnis: Pille 269 x 51 wie im Entwurf (Soll x 160..428, y 10428..10478),
+     Innenabstand 18 px seitlich und 13,5 px oben/unten, Wortmarke 233 px.
+     Sauberer waere, die Datei ohne Totrand neu zu exportieren. Das geht nur
+     ueber die Mediathek, nicht aus diesem Repo. */
+  .lvf-s11-logo {
+    padding: 13.5px 18px;
+    border-radius: 10px;
+    overflow: hidden;   /* Sicherheitsnetz, falls clip-path nicht greift */
+  }
+  /* .lvf-page muss mit in den Selektor: shell.css setzt mit ".lvf-page img"
+     (Spezifitaet 0,1,1) ein max-width: 100%. Da die Pille ihre Breite aus dem
+     Inhalt zieht und die negativen Raender diesen Inhalt schmaler machen,
+     klemmt dieses max-width das Bild sonst wieder auf 233 px zurueck - die
+     Vergroesserung waere wirkungslos. Genau das war zuerst gemessen worden. */
+  .lvf-page .lvf-s11-logo-img {
+    flex: none;         /* Flex-Element, soll nicht schrumpfen */
+    max-width: none;
+    width: 304px;
+    margin: -18.32px -68.6px -4.29px -2.34px;
+    clip-path: inset(18.32px 68.6px 4.29px 2.34px);
+  }
+  .lvf-s11-tagline {
+    max-width: 348px;
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: 0.45px;
+  }
+  .lvf-s11-social { gap: 7px; }
+  .lvf-s11-social a { width: 34px; height: 34px; background: rgba(0, 0, 0, 0.83); color: #8ccdef; }
+  .lvf-s11-social a::after { inset: 0; }
+
+  /* Linkspalten: 924 breit, zentriert in der 1076er Spalte */
+  .lvf-s11-links {
+    display: flex;
+    justify-content: space-between;
+    width: 85.87%;
+    margin-inline: auto;
+    column-gap: 0;
+  }
+  .lvf-s11-nav { text-align: left; }
+  /* Entwurf: fuenf Zeilen zu 38.4 px ohne Zwischenraum, Spalte damit 192 px
+     (Figma Frame 2147237242 y 10552..10744). Mit min-height 38 plus je 1 px
+     Abstand kam die Spalte auf 194 px und schob das Newsletter-Panel 2 px
+     nach unten. */
+  .lvf-s11-nav,
+  .lvf-s11-nav ul { gap: 0; }
+  .lvf-s11-colhead {
+    justify-content: flex-start;
+    min-height: 38.4px;
+    padding-block: 8px;
+    font-size: 15px;
+    line-height: 21px;
+    letter-spacing: 0.29px;
+  }
+  .lvf-s11-nav a,
+  .lvf-s11-note {
+    justify-content: flex-start;
+    min-height: 38.4px;
+    padding-block: 8px;
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  /* Firmendaten / Legal */
+  .lvf-s11-info {
+    min-height: 257px;
+    /* unten 26, oben 27: der Entwurf ist hier nicht symmetrisch (Figma Frame
+       2147237244 y 10517..10774, Text 10544..10748). Mit 27/27 wurde der
+       Kasten 258 statt 257 px hoch. */
+    padding: 27px 40px 26px;
+    border-radius: 21px;
+  }
+  .lvf-s11-info p { font-size: 12px; line-height: 17px; letter-spacing: 0.36px; }
+  .lvf-s11-info p + p { margin-top: 17px; }
+
+  .lvf-s11-legal {
+    padding: 27px 40px;
+    border-radius: 21px;
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+  }
+  .lvf-s11-legal p { font-size: 9px; line-height: 13px; letter-spacing: 0.27px; }
+  /* Ab hier steht der Rechtstext auf 9 px, der Zeilenkasten des Partner-Links
+     misst dann nur noch 12 px statt 15. 16 px Polsterung je Seite ergeben
+     wieder 44. Begründung der Technik und warum der Wert ganzzahlig sein
+     muss: siehe die Grundregel bei .lvf-s11-legal a. */
+  .lvf-page .lvf-s11-legal a { padding-block: 16px; }
+  .lvf-s11-legal p + p { margin-top: 0; }
+  .lvf-s11-legal p.lvf-s11-legal-gap { margin-top: 17px; }
+
+  /* Newsletter */
+  .lvf-s11-newsletter {
+    /* Soll-Profil 11.08.2026, gemessen im Mockup home-aus-vollbild.png in
+       Panel-Koordinaten (Karte 10380, Panel 410..777, x 552..1628).
+       Der Entwurf hat ZWEI schmale Lichtsaeulen ueber die volle Panelhoehe
+       und einen weissen Boden, die Mitte bleibt oben schwarz:
+         Spalte     3 % Breite: oben  17, 86,127  Mitte  25,155,206  unten 231,245,253
+         Spalte    97 % Breite: oben  81,171,221  Mitte  58,176,219  unten 242,251,255
+         Spalte    12 % Breite: oben   2, 19, 29  Mitte   5, 84,127  unten 199,233,252
+         Mitte  50 % Breite: bis 65 % Hoehe unter 15, dann bis 252,254,255
+       Vorher standen hier drei Verlaeufe, die alle vom BODEN ausgingen; die
+       Saeulen erreichten die obere Panelhaelfte nicht (dort 3,6,10 statt
+       17,86,127) und der Boden rechts war zu hell. Befund 3.2. */
+    background-color: #02050a;
+    background-image:
+      /* weisser Panelboden: im Entwurf laeuft er quer ueber die volle Breite
+         bis in die Ecken (unterste Zeile 232..253 an jeder Messstelle).
+         Steht VOR den Lichtsaeulen, sonst faerben die die Ecken wieder blau. */
+      linear-gradient(180deg, rgba(255, 255, 255, 0) 72%, rgba(238, 249, 255, 0.45) 86%, rgba(255, 255, 255, 0.88) 97%, rgba(255, 255, 255, 0.94) 100%),
+      /* schmale Lichtsaeule links, laeuft ueber die volle Panelhoehe */
+      radial-gradient(10% 132% at 0% 100%, rgba(240, 250, 255, 1) 0%, rgba(150, 220, 250, 0.95) 26%, rgba(40, 160, 215, 0.88) 52%, rgba(10, 100, 150, 0.75) 74%, rgba(6, 70, 110, 0) 100%),
+      /* links wird das Licht nach unten breiter (12 % Breite: Mitte 5,84,127,
+         bei 65 % Hoehe 8,128,181 - kraeftiges Blau, R bleibt niedrig) */
+      radial-gradient(40% 84% at 0% 100%, rgba(120, 205, 245, 0.9) 0%, rgba(20, 150, 210, 0.75) 36%, rgba(6, 100, 155, 0.4) 62%, rgba(4, 70, 110, 0) 90%),
+      /* rechte Lichtsaeule, im Entwurf oben deutlich heller als die linke */
+      radial-gradient(12% 150% at 100% 100%, rgba(246, 252, 255, 1) 0%, rgba(170, 225, 250, 0.95) 22%, rgba(60, 175, 225, 0.9) 46%, rgba(30, 135, 190, 0.82) 70%, rgba(14, 90, 140, 0) 100%),
+      radial-gradient(42% 86% at 100% 100%, rgba(130, 210, 246, 0.92) 0%, rgba(25, 155, 212, 0.78) 36%, rgba(8, 105, 160, 0.42) 62%, rgba(4, 70, 110, 0) 90%),
+      /* Oberlicht rechts: im Entwurf ist die rechte Flanke oben (44,111,151)
+         heller als auf halber Hoehe (2,91,138) */
+      radial-gradient(30% 55% at 100% 0%, rgba(60, 160, 215, 0.75) 0%, rgba(15, 95, 145, 0.3) 55%, rgba(8, 60, 95, 0) 85%),
+      /* Kern des Bodenlichts in der Mitte, wie bisher */
+      radial-gradient(85% 30% at 50% 104%, rgba(255, 255, 255, 0.98) 20%, rgba(228, 244, 253, 0.8) 52%, rgba(210, 236, 250, 0) 84%),
+      linear-gradient(180deg, #02050a 0%, #03080f 62%, #08202f 100%);
+  }
+  /* ---------------------------------------------------------------------
+     Innenmasse des Panels, Messpass 10.08.2026: Soll 367 px hoch (Figma Frame
+     2147237247 y 10788..11155), gemessen 405 px. Die 38 px stecken nicht in
+     den Abstaenden, sondern darin, dass Figma die Textkaesten auf die
+     Versalhoehe beschneidet (leadingTrim CAP_HEIGHT) und CSS den vollen
+     Zeilenkasten setzt. Titel: Kasten 37 im Entwurf, 51 in CSS. Hinweiszeile:
+     13 gegen 28. Deshalb werden die Abstaende um die Zeilenschulter gekuerzt,
+     nicht die Zeilenhoehen verkleinert - die stimmen (50.7 bzw. 28 px laut
+     Figma-Textstil). Rechnung ab Panel-Oberkante:
+       44 Innenabstand + 75 Discord + 16 + 51 Titel + 33 + 53 Formular
+       + 28 + 28 Hinweis + 39 Innenabstand = 367.
+     --------------------------------------------------------------------- */
+  .lvf-s11-nl-inner { gap: 16px; padding: 44px 15.24% 39px; }
+  .lvf-s11-nl-discord {
+    width: 75px;
+    height: 75px;
+    border-radius: 18px;
+    /* Ohne inset-Saum seit 11.08.2026, er sitzt in --lvf-grad-blue-btn
+       (Grundregel oben). */
+  }
+  .lvf-s11-nl-discord svg { width: 34px; height: 34px; }
+  /* Entwurfsabstand 37 px, gemessen zwischen den versalbeschnittenen Kaesten.
+     Unter dem Titel bleiben 4 px Zeilenschulter stehen (Grundlinie 47, Kasten
+     51), ueber dem Hinweis 9 px - daraus 33 px und 28 px. */
+  .lvf-s11-nl-body { gap: 28px; }
+  .lvf-s11-nl-form { margin-top: 5px; }
+  .lvf-page.lvf-page .lvf-s11-nl-title {
+    font-size: clamp(36px, 3.65vw - 9px, 54px);
+    line-height: 51px;
+    letter-spacing: 0.54px;
+    white-space: nowrap;
+  }
+  .lvf-s11-nl-title-accent { display: inline; }
+  .lvf-s11-nl-form { max-width: 703px; }
+  .lvf-page.lvf-page .lvf-s11-nl-input {
+    min-height: 53px;
+    padding: 10px 14px 10px 26px;
+    border-radius: 12px;
+    font-size: 15px;
+    letter-spacing: 0.45px;
+  }
+  .lvf-page.lvf-page .lvf-s11-nl-submit {
+    min-height: 53px;
+    margin-left: -64px;
+    /* oben/unten 5 statt 10: mit 1 px Rahmen und dem 41 px hohen Icon ergibt
+       das die Entwurfshoehe 53 px (Figma Frame 6 y 11007..11060, Icon
+       11013..11054). Mit 10 px war der Knopf 63 px hoch und damit auch das
+       ganze Formular, Soll sind 53. */
+    padding: 5px 14px 5px 6px;
+    gap: 9px;
+    border-radius: 12px;
+    /* Der frueher hier stehende inset-Saum #5bbce8 ist am 11.08.2026
+       entfallen, er steckt jetzt in --lvf-grad-blue-btn. */
+  }
+  .lvf-s11-nl-icon { width: 41px; height: 41px; border-radius: 7px; }
+  .lvf-s11-nl-icon svg { width: 20px; height: 20px; }
+  .lvf-s11-nl-submit-label { font-size: 19px; line-height: 29px; }
+  .lvf-s11-nl-sub {
+    max-width: none;
+    font-size: 19px;
+    font-weight: 523;
+    line-height: 28px;
+    letter-spacing: 0.37px;
+    /* kein color-Wert mehr: die Grundregel setzt #0a2c42. Das frueher hier
+       stehende #ffffff stand im Mockup auf dem hellen Panelboden bei rund
+       1,1:1 Kontrast, im Entwurf ist der Text schwarz (Soll rgb(0,0,0) auf
+       rgb(189,226,243), befund-footer.md 3.3). */
+  }
+
+  /* Copyright-Leiste */
+  .lvf-s11-bottom {
+    min-height: 68px;
+    padding: 15px 35px 15px 66px;
+    border-radius: 21px;
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+  }
+  .lvf-s11-copy { min-height: 38px; font-size: 15px; line-height: 21px; }
+  .lvf-s11-legallinks { gap: 18px; }
+  .lvf-s11-legallinks a { min-height: 38px; padding-block: 8px; font-size: 15px; line-height: 21px; }
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  /* Spaltenblock darf hier etwas breiter laufen, damit nichts kollidiert */
+  .lvf-s11-links { width: 96%; }
+  .lvf-s11-nl-inner { padding-inline: 8%; }
+}
+
+
+/* Fusskarte auf Entwurfsbreite, 11.08.2026 */
+@media (min-width: 1024px) {
+  .lvf-s11-shell { padding-inline: 30px; }
+}
+
+/* == gold-footer (Elite) == */
+/* Elite-Grundton: Seitengrund auf reines Schwarz.
+   Bis 11.08.2026 stand hier #080502 als "Warm-Schwarz" gegen den Blaustich von
+   #05060f. Beide Werte sind falsch: elite.json enthält #080502 kein einziges
+   Mal, und der Figma-Rahmen 263:465 trägt als oberste deckende Füllung
+   (0,0,0). Bildmessung an elite-aus-vollbild.png: häufigster dunkler Wert
+   (0,0,0), 17,7 Prozent aller Pixel in jedem Kanal höchstens 2.
+   Mit Schwarz erledigt sich auch der Blaustich, gegen den #080502 gesetzt war.
+   Alle Verläufe, die in var(--lvf-bg) auslaufen, enden damit auf Schwarz. */
+body.lvf-gold .lvf-page {
+  --lvf-bg: #000000;
+  background: var(--lvf-bg);
+}
+
+/* Gold-Variante des Footers für die Elite-Seite (body.lvf-gold, setzt das
+   Plugin). Referenz: Elite-Seite Fußbereich - Logobalken DUNKEL mit Gold-
+   Verlauf (gemessen 21,16,7), Newsletter warm gold, Knöpfe/Akzente gold.
+   Spezifität bewusst hoch (body.lvf-gold + Doppelklasse), weil s11 teils mit
+   .lvf-page.lvf-page-Regeln arbeitet. */
+
+/* Logobalken: dunkel mit warmem Goldverlauf statt weiß-blau */
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-strip {
+  background-color: #120c04;
+  background-image:
+    radial-gradient(90% 80% at 22% 100%, rgba(199, 141, 27, 0.55) 0%, rgba(199, 141, 27, 0) 62%),
+    radial-gradient(70% 60% at 96% 90%, rgba(240, 185, 80, 0.45) 0%, rgba(240, 185, 80, 0) 66%),
+    linear-gradient(90deg, #f3dfae 0%, #c69335 14%, #6d4d13 38%, #241806 66%, #0d0903 100%);
+}
+
+/* Blaue Hairline des Kartenrahmens -> gold. Messpass 06.08.2026: auch die
+   großen BLAUEN Karten-Schatten (110px/260px Spread) müssen warm werden,
+   sie malten einen Teal-Ring um die ganze Gold-Karte. */
+/* Nachgezogen 11.08.2026, zusammen mit derselben Korrektur in der blauen
+   Fassung (s11/fragment.css):
+   - Karte deckend statt 0.95. Das Elite-Mockup zeigt im Karteninneren
+     Schwarz (Kartenmitte 0,0,0, unter den Linkspalten 10,9,5). Außerdem
+     reichen die neuen Lichtsäulen bis unter die Karte, die dürfen nicht
+     durchschimmern.
+   - Die beiden warmen Glow-Ringe (110px/24px und 260px/60px) sind entfallen.
+     Sie malten einen Lichthof um die Karte. Gemessen 4 bis 40 px über der
+     Kartenoberkante in elite-aus-vollbild.png, x760 und x1200: durchgehend
+     0,0,0. Der Hof ist der Grund, warum der Footer aufgesetzt wirkt. */
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-cardbg {
+  background:
+    linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0)) padding-box,
+    linear-gradient(90deg, rgba(244, 180, 53, 0) 0%, #f4b435 52%, rgba(238, 169, 49, 0) 100%) border-box;
+  box-shadow: 6px 23px 23px rgba(0, 0, 0, 0.25);
+}
+
+/* Newsletter-Karte: warm statt blau */
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-newsletter {
+  background-color: #090603;
+  background-image:
+    radial-gradient(44% 75% at 97% 103%, rgba(255, 168, 32, 0.8) 0%, rgba(235, 150, 20, 0.3) 50%, rgba(235, 150, 20, 0) 78%),
+    radial-gradient(30% 45% at 3% 103%, rgba(220, 140, 20, 0.28) 0%, rgba(220, 140, 20, 0) 70%),
+    linear-gradient(180deg, #090603 0%, #1b1206 80%, #382408 100%);
+}
+
+/* Discord-/Mail-Badge und Submit-Knopf gold */
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-nl-discord {
+  background: var(--lvf-grad-gold);
+  box-shadow: inset 0 1px 17px #e8c25b;
+}
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-nl-submit {
+  background:
+    var(--lvf-grad-gold) padding-box,
+    linear-gradient(90deg, rgba(255, 146, 0, 0) 0%, #ff9200 50%, rgba(255, 146, 0, 0) 100%) border-box;
+  box-shadow: inset 0 1px 14px #e8c25b;
+}
+
+/* E-Mail-Feld: goldener statt blauer Randverlauf */
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-nl-input {
+  background:
+    linear-gradient(#000000, #000000) padding-box,
+    linear-gradient(90deg, rgba(255, 170, 40, 0.6) 0%, rgba(103, 65, 0, 0.1) 40%, rgba(141, 94, 0, 0.4) 100%) border-box;
+}
+
+/* Text-Verläufe (Tagline, Spaltenköpfe, Legal-Kopf, Titel-Akzent, blaue Spans) */
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-nl-title-accent,
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-colhead,
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-legal-head,
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-tagline,
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-blau {
+  background: var(--lvf-grad-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Blaue Interaktionsfarben -> gold */
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-info a:hover { color: #ffb43a; }
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-nav a:focus-visible,
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-legallinks a:focus-visible { outline-color: #ffb43a; }
+
+/* Seiten-Glow hinter dem Footer: warm statt blau */
+body.lvf-gold .lvf-s11::before {
+  background:
+    radial-gradient(62% 56% at 16% 60%, rgba(235, 150, 20, 0.3) 0%, rgba(235, 150, 20, 0) 70%),
+    radial-gradient(62% 56% at 86% 40%, rgba(235, 150, 20, 0.25) 0%, rgba(235, 150, 20, 0) 70%),
+    radial-gradient(46% 38% at 50% 92%, rgba(250, 210, 140, 0.14) 0%, rgba(250, 210, 140, 0) 72%);
+}
+
+/* PFLICHT, nicht Kür: s11/fragment.css legt seit 11.08.2026 in
+   .lvf-s11::after zwei BLAUE Lichtsäulen in die Seitenrinnen. Ohne diese
+   Gegenregel stünden auf der Elite-Seite blaue Säulen neben der Goldkarte.
+   Gleiche Geometrie wie die blaue Fassung (Mitte in der unteren Ecke,
+   Radien 395 x 960 px), nur andere Farbmarken. Gemessen in
+   elite-aus-vollbild.png, Karte ab y 6063, 875 hoch, Mittel aus linker und
+   rechter Rinne je Anteil der Kartenhöhe:
+     Unterkante 254,240,169   95 % 252,222,96   90 % 252,210,68
+     80 % 246,185,24          60 % 228,146,2    40 % 200,120,2
+     20 % 176,104,3            0 % 157,93,5     darüber 155,91,4
+   Die Fläche über der Karte ist auch im Elite-Entwurf schwarz (x760 und
+   x1200 durchgehend 0,0,0), die Säulen bleiben also auf die Rinnen begrenzt.
+   Die frühere Warnung, diese Werte seien nie im Render gegengeprüft, ist
+   erledigt. Am 12.08.2026 nachgemessen an einer Vorschau, die body.lvf-gold
+   setzt und diese Datei einbindet (und im Fußbereich pixelgleich zu live ist):
+   linke Rinne x0..76 gegen das Mockup 13,62, rechte Rinne x1684..1760 12,16.
+   Beides liegt im selben Feld wie das Karteninnere (11,57), die Säulen sind
+   also richtig gesetzt und wurden nicht angefasst. */
+@media (min-width: 1024px) {
+  body.lvf-gold .lvf-s11::after {
+    background:
+      radial-gradient(395px 960px at 0% 100%,
+        rgb(254, 240, 169) 0%, rgb(252, 222, 96) 4.5%, rgb(252, 210, 68) 9.1%,
+        rgb(246, 185, 24) 18.1%, rgb(228, 146, 2) 36.3%, rgb(200, 120, 2) 54.4%,
+        rgb(176, 104, 3) 72.5%, rgb(157, 93, 5) 90.6%, rgb(155, 91, 4) 95.6%,
+        rgba(155, 91, 4, 0) 100%),
+      radial-gradient(395px 960px at 100% 100%,
+        rgb(254, 240, 169) 0%, rgb(252, 222, 96) 4.5%, rgb(252, 210, 68) 9.1%,
+        rgb(246, 185, 24) 18.1%, rgb(228, 146, 2) 36.3%, rgb(200, 120, 2) 54.4%,
+        rgb(176, 104, 3) 72.5%, rgb(157, 93, 5) 90.6%, rgb(155, 91, 4) 95.6%,
+        rgba(155, 91, 4, 0) 100%);
+  }
+}
+
+/* Blaue Kontakt-/Registerlinks im Infoblock -> gold */
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-info a,
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-info .lvf-s11-blau,
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-legal a {
+  color: #e8b45a;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+}
+
+/* Deko-Lichter in der Footer-Karte: warm statt blau */
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-cardbg::after {
+  background:
+    radial-gradient(30% 26% at 72% 34%, rgba(255, 213, 140, 0.07) 0%, rgba(255, 213, 140, 0) 70%),
+    radial-gradient(30% 26% at 8% 68%, rgba(255, 213, 140, 0.06) 0%, rgba(255, 213, 140, 0) 70%);
+}
+
+/* Nachgezogen 11.08.2026: in s11 wurde "color: #ffffff" auf .lvf-s11-nl-sub
+   entfernt, weil der Panelboden der blauen Fassung im Entwurf hell ist und der
+   Hinweistext dort schwarz steht (befund-footer.md 3.3). Der Goldboden ist im
+   Build dagegen noch dunkel (#382408 unten), dort bleibt Weiß lesbar.
+   OFFEN: das Elite-Mockup zeigt den Goldboden ebenfalls HELL (bei 90 % der
+   Panelhöhe 247,231,206), also müsste auch die Gold-Fassung unten aufhellen
+   und der Text danach dunkel werden. Nicht umgesetzt, weil die lokale
+   Elite-Vorschau gold-footer.css nicht einbindet (build/assemble-seite.js
+   nimmt nur shell + s01 + Seite + s11) und die Änderung damit unbelegt bliebe. */
+/* ERLEDIGT 11.08.2026, der oben als OFFEN notierte Punkt.
+   Das Elite-Mockup zeigt den Goldboden des Newsletter-Blocks unten HELL (bei
+   90 Prozent der Panelhöhe 247,231,206), genau wie die blaue Fassung, nur
+   warmtonig. Live blieb er durchgehend dunkel und der Hinweistext weiß.
+   Die Stopps 72/86/97/100 sind aus der blauen Fassung übernommen, nur die
+   Farben sind warm. Der Text wird dadurch dunkel wie auf den anderen Seiten. */
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-newsletter {
+  background-image:
+    linear-gradient(rgba(255,255,255,0) 72%, rgba(255,235,200,0.45) 86%,
+                    rgba(255,244,222,0.88) 97%, rgba(255,247,230,0.94) 100%),
+    radial-gradient(44% 75% at 97% 103%, rgba(255,168,32,0.8) 0%, rgba(235,150,20,0.3) 50%, rgba(235,150,20,0) 78%),
+    radial-gradient(30% 45% at 3% 103%, rgba(220,140,20,0.28) 0%, rgba(220,140,20,0) 70%),
+    linear-gradient(rgb(9,6,3) 0%, rgb(27,18,6) 80%, rgb(56,36,8) 100%);
+}
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-nl-sub { color: #3a2408; }
+
+/* Gold-Buttons: dunkle Schrift (Abnahme: weiß auf Gold 1,5:1) */
+body.lvf-gold .lvf-page.lvf-page a.lvf-s01-cta { color: #1c1200; }
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-nl-submit { color: #1c1200; }
+
+/* ============================================================
+   Footer-Logo auf der Elite-Seite, 11.08.2026.
+
+   Befund der Gegenprüfung: das Logo im Fußbereich ist blau, gemessen
+   #4c9fd0 gegen Soll #db9e3c. Ursache: `.lvf-s11-logo-img` lädt
+   lvlup-logo-nav.webp, und für die Gold-Fassung gab es hier keine Regel.
+   In der Kopfleiste wird die Datei per JavaScript getauscht
+   (build/assemble-theme.js, Block "Gold-Logo auf der Elite-Seite",
+   Selektor .lvf-s01-logo-img); im Fuß gibt es diesen Mechanismus nicht.
+
+   Lösung über CSS statt über ein zweites Skript: `content` auf einem
+   <img> ersetzt in allen Zielbrowsern das dargestellte Bild, Breite und
+   Höhe aus .lvf-s11-logo-img bleiben unverändert (240 px). Damit bleibt
+   das gemeinsame Fragment build/fragments/s11 unangetastet, und die Regel
+   wirkt nur dort, wo das Plugin body.lvf-gold setzt, also auf elite.
+
+   Gemessen an der lokalen Vorschau mit body.lvf-gold und dieser Datei:
+   Tinte der Bildmarke vorher #4c9fd0, nachher #e2a441.
+
+   NACHGEMESSEN 12.08.2026, weil erneut gemeldet wurde, das Fuß-Logo sei
+   blau (rgb(140,205,239)). Es ist nicht blau, die Regel greift. Belege an
+   der Live-Seite und an der damit pixelgleichen lokalen Vorschau, Logo-Pille
+   x171..415:
+     kalte Pixel (Blau minus Rot > 40):   0 von 9760
+     warme Pixel (Rot minus Blau > 60): 253, Mittel (204,149,64)
+                              im Mockup 245, Mittel (220,159,61)
+     Wortmarke (Helligkeitssumme > 450): Ist (230,221,205), Soll (233,224,210)
+   Der gemeldete Wert rgb(140,205,239) ist exakt #8ccdef und stammt nicht vom
+   Logo, sondern von `.lvf-s11-social a` aus der Desktop-Regel in s11. Wer im
+   Streifen großflächig misst, fängt die Symbole mit ein. Siehe dazu Punkt
+   1 im Desktop-Block am Ende dieser Datei.
+
+   Nebenbefund derselben Messung: `content: url()` auf einem <img> ändert
+   `currentSrc` und `naturalWidth` NICHT. Beide melden weiter die blaue Datei
+   (780x120). Wer die Regel per DOM-Abfrage prüft, hält sie deshalb fälsch-
+   licherweise für wirkungslos. Nur das Bild entscheidet.
+   ============================================================ */
+body.lvf-gold .lvf-page.lvf-page .lvf-s11-logo-img {
+  content: url("https://lvlup.tivaosagencytempdomains.de/wp-content/uploads/2026/08/lvlup-logo-nav-gold.webp");
+}
+
+/* Die Desktop-Regel in s11/fragment.css schneidet den Totrand der BLAUEN
+   Datei weg: 780 x 120 px, Tinte darin x 6..603 / y 47..108. Bei 304 px
+   Anzeigebreite (Maßstab 0,3897) ergibt das die dortigen Werte
+   clip-path: inset(18.32px 68.6px 4.29px 2.34px) und eine sichtbare
+   Wortmarke von 233 x 24,19 px.
+   Die Gold-Datei hat ein anderes Format und fast keinen Totrand:
+   306 x 48 px, Tinte x 9..300 / y 5..35, also 292 x 31 px. Mit dem alten
+   Zuschnitt würde ihr rechts ein Viertel der Wortmarke abgeschnitten -
+   genau das war nach dem reinen Dateitausch zu sehen.
+   Neu gerechnet für dieselbe sichtbare Größe:
+     Anzeigebreite 233 / 292 * 306 = 244,2 px  (Maßstab 0,798)
+     links   9 * 0,798 =  7,18 px
+     oben    5 * 0,798 =  3,99 px
+     rechts (306-301) * 0,798 = 3,99 px
+     unten so gewählt, dass die sichtbare Höhe exakt 24,19 px bleibt wie
+     bei der blauen Fassung: 244,2 * 48 / 306 - 3,99 - 24,19 = 10,12 px
+   Damit bleiben Pillengröße und Footerhöhe unverändert. */
+@media (min-width: 1024px) {
+  body.lvf-gold .lvf-page .lvf-s11-logo-img {
+    width: 244.2px;
+    margin: -3.99px -3.99px -10.12px -7.18px;
+    clip-path: inset(3.99px 3.99px 10.12px 7.18px);
+  }
+}
+
+
+/* ===========================================================================
+   Das Symbol neben LVLUP25 blieb auf elite blau, 11.08.2026
+
+   Kundenhinweis: "beim header das icon neben lvlup25 oben rechts". In der
+   goldenen Kopfleiste war alles umgefärbt (Chip, Knopfschein, Logo), nur das
+   Kopiersymbol selbst nicht: seine drei Farbstopps stehen als feste Attribute
+   im SVG-Markup, und dafür gab es keine Gold-Regel. Ergebnis war ein blaues
+   Symbol auf goldenem Knopf.
+
+   Am Mockup gemessen (x 965..993, y 25..53) ist es warm: die hellsten Pixel
+   liegen bei (200,149,59), live bei (149,115,42) mit blauem Kern.
+
+   stop-color als CSS-Eigenschaft schlägt das Attribut im Markup, das HTML
+   in der Elementor-Vorlage muss also nicht angefasst werden. Die drei Werte
+   spiegeln die blaue Fassung (#ffffff, #6ecaff, #0080ca) in die Goldtöne des
+   Knopfes daneben (#f1c252, #ffa400).
+   =========================================================================== */
+body.lvf-gold .lvf-s01-copy-ico stop:nth-of-type(1) { stop-color: #fff6e2; }
+body.lvf-gold .lvf-s01-copy-ico stop:nth-of-type(2) { stop-color: #f1c252; }
+body.lvf-gold .lvf-s01-copy-ico stop:nth-of-type(3) { stop-color: #a86a1e; }
+
+
+/* ===========================================================================
+   DESKTOP-FASSUNG VON STREIFEN UND NEWSLETTER, 12.08.2026
+
+   GEMEINSAME URSACHE der drei Befunde unten, deshalb hier zusammen erklärt:
+
+   s11/fragment.css definiert Markenstreifen und Newsletter-Panel ZWEIMAL,
+   einmal für Mobil und ab 1024 px noch einmal mit völlig anderer Geometrie.
+   Mobil läuft der Streifen senkrecht hell nach dunkel, ab Desktop hat er
+   ZWEI Lichtkerne (links und rechts) mit schwarzer Mitte; das Newsletter-Panel
+   bekommt ab Desktop zwei Lichtsäulen über die volle Panelhöhe.
+
+   Die Gold-Regeln weiter oben in dieser Datei stehen außerhalb jeder
+   Media Query und sind mit `body.lvf-gold .lvf-page.lvf-page` (0,4,1) weit
+   spezifischer als die Desktop-Regeln in s11 (0,1,0). Sie gewinnen deshalb
+   AUCH auf dem Desktop und ersetzen dort die Desktop-Geometrie durch die
+   mobile. Genau das war der gemeldete Zustand: der Streifen lief monoton hell
+   links nach schwarz rechts, das Newsletter-Panel hatte gar keine Säulen.
+
+   Reparatur: dieselbe Sache noch einmal in `@media (min-width: 1024px)` und
+   nach den mobilen Blöcken, damit sie dort gewinnt. Mobil bleibt unberührt.
+
+   MESSSTAND (sonst misst man das Falsche, siehe WIDERLEGTE-BEFUNDE 23 und 25):
+   Die lokale Vorschau braucht `body.lvf-gold` UND diese Datei; build/
+   assemble-seite.js liefert beides nicht. Mit beidem ist die Vorschau im
+   ganzen Fußbereich pixelgleich zu live (Abweichung 0,000 über
+   y 6000..6919). Alle Zahlen unten sind Mittel der absoluten Abweichung
+   gegen referenz-neu/soll/elite-aus-vollbild.png, Versatz +13 (Streifen,
+   Karte) beziehungsweise +8 (Newsletter), Aufnahme 1760 px, s12-Overlay
+   ausgeblendet.
+
+     Bereich            vorher   nachher
+     Streifen            57,74     11,03
+     Newsletter-Panel    41,98     19,68
+     Fußkarte gesamt    23,26     11,78
+
+   Zur Einordnung: dieselben zwei Flächen in ihrer BLAUEN Fassung auf home,
+   gegen home-aus-vollbild.png gemessen, liegen bei 29,56 (Streifen) und
+   22,61 (Newsletter). Die Gold-Fassung ist also nicht nur besser als vorher,
+   sondern besser als das, was für dieselben Flächen in Blau abgenommen ist.
+
+   Die Seitenhöhe bleibt 6919 px. Die Verläufe ändern keine Geometrie.
+   =========================================================================== */
+@media (min-width: 1024px) {
+
+  /* -------------------------------------------------------------------
+     1) Sozialsymbole
+     s11 setzt ab Desktop `.lvf-s11-social a { color: #8ccdef }`, und dafür
+     gab es keine Gold-Regel. Gemessen wurde deshalb rgb(140,205,239), also
+     exakt dieser Wert - blaue Symbole auf goldenem Grund.
+     Sollwert aus dem Mockup, hellste 40 Pixel je Knopf einzeln gemessen
+     (Knopfinneres, ohne Kanten): 252/254/254/254/254 in Rot, im Mittel
+     (254,189,75). Genau dieser Wert steht jetzt hier; nachher gemessen
+     rgb(254,189,75).
+     Der Hover-Wert ist die warme Entsprechung zu #b7e6ff und nicht
+     gemessen - eine Hover-Farbe steht in keinem Standbild.
+     ------------------------------------------------------------------- */
+  body.lvf-gold .lvf-page.lvf-page .lvf-s11-social a { color: #febd4b; }
+  body.lvf-gold .lvf-page.lvf-page .lvf-s11-social a:hover { color: #ffd98a; }
+
+  /* -------------------------------------------------------------------
+     2) Markenstreifen: zwei Lichtkerne statt eines Verlaufs
+     Vorher x1583 (17,12,4) gegen Soll (233,166,34), x977 (62,43,11) gegen
+     (3,2,0) - rechts zu dunkel, in der Mitte zu hell. Nachher x1583
+     (236,177,39), x977 (3,1,0).
+
+     Die Farbstopps sind nicht geschätzt, sondern aus dem Mockup gerechnet:
+     für jede Lage wurde an rund 60 Messstellen der Gradientenparameter
+     p = hypot(dx/rx, dy/ry) bestimmt und die dort gemessene Soll-Farbe
+     zugeordnet, danach geglättet und auf Monotonie gezwungen. Gemessen
+     nur in den inhaltsfreien Zeilen 5..17 und 90..99 ab Streifenoberkante,
+     damit Logo-Pille und Sozialknöpfe die Werte nicht verfälschen.
+
+     Warum DREI Lagen und nicht zwei: der Streifen ist im Entwurf gekippt.
+     Der linke Kern reicht oben bis 40 % der Breite, unten nur bis 33 %; der
+     rechte umgekehrt (oben ab 66 %, unten ab 60 %). Ein einzelner
+     radial-gradient kann das nicht: bei p = hypot(dx/rx, dy/ry) wächst der
+     senkrechte Anteil dort am stärksten, wo dx/rx KLEIN ist, also an der
+     Kante - der Entwurf braucht es aber in der Mitte. Links löst das eine
+     nach oben versetzte Mitte (at 0% 15%), rechts braucht es zwei Lagen:
+     eine Kantensäule mit wenig Höhenverlauf und darunter einen Schein aus
+     der unteren rechten Ecke.
+     ------------------------------------------------------------------- */
+  body.lvf-gold .lvf-page.lvf-page .lvf-s11-strip {
+    background-color: #000000;
+    background-image:
+      /* rechte Kantensäule, deckt x 74..100 % */
+      radial-gradient(26% 300% at 100% 50%,
+        rgb(246, 197, 75) 0%, rgb(243, 192, 64) 11%, rgb(237, 179, 41) 22%,
+        rgb(228, 165, 26) 33%, rgb(218, 149, 18) 44%, rgb(206, 134, 15) 56%,
+        rgb(192, 121, 12) 67%, rgb(175, 108, 10) 78%,
+        rgba(156, 94, 8, 0.51) 89%, rgba(143, 85, 7, 0) 100%),
+      /* Schein aus der unteren rechten Ecke, deckt x 50..100 %; seine Stopps
+         sind an der untersten inhaltsfreien Zeile abgelesen, wo p = dx/rx */
+      radial-gradient(50% 220% at 100% 100%,
+        rgb(251, 215, 93) 0%, rgb(246, 203, 64) 9%, rgb(232, 176, 24) 18%,
+        rgb(211, 144, 9) 27%, rgb(187, 118, 5) 36%, rgb(164, 99, 4) 45%,
+        rgb(144, 84, 4) 55%, rgb(123, 72, 4) 64%, rgb(88, 52, 4) 73%,
+        rgb(37, 22, 3) 82%, rgb(6, 3, 0) 91%, rgba(1, 1, 0, 0) 100%),
+      /* linker Kern, Mitte bewusst über der Streifenmitte: das erzeugt die
+         Kippung (oben breiter als unten), die der Entwurf zeigt */
+      radial-gradient(55% 200% at 0% 15%,
+        rgb(255, 250, 243) 0%, rgb(255, 250, 242) 17%, rgb(254, 245, 231) 25%,
+        rgb(252, 238, 216) 33%, rgb(250, 234, 208) 42%, rgb(242, 223, 187) 50%,
+        rgb(214, 182, 112) 58%, rgb(156, 120, 49) 67%, rgb(85, 58, 17) 75%,
+        rgb(28, 18, 3) 83%, rgb(6, 4, 1) 92%, rgba(2, 1, 0, 0) 100%);
+  }
+
+  /* -------------------------------------------------------------------
+     3) Newsletter-Panel: Goldrahmen links und rechts
+     Vorher x1538 y6495 (11,7,3) gegen Soll (181,120,27), das Panel war außer
+     dem Boden flach dunkel. Nachher (222,157,38) bei Soll (228,155,45).
+
+     Lagenaufbau wie in der blauen Desktop-Fassung in s11 (Boden, je Seite
+     eine schmale Säule und ein breiter Schein, Oberlicht, Bodenkern, Basis),
+     nur warm eingefärbt und in vier Messrunden nachgezogen:
+       v1 Grundaufbau                              41,98 -> 23,60
+       v2 Säulen verbreitert                      23,60 -> 25,65  verworfen
+       v3 Scheine gestreckt, Boden ab 58 %         23,60 -> 23,09
+       v4 Oberlicht links ergänzt, Kern flacher   23,09 -> 20,91
+       v5 Oberlicht links entschärft, Boden 0,42  20,91 -> 19,68
+     Der verworfene Schritt steht hier, weil er die Richtung zeigt: die
+     Säulen sind an der Kante eher zu hell und erst daneben zu dunkel. Wer
+     sie einfach breiter macht, verschlimmert die Kante.
+     ------------------------------------------------------------------- */
+  body.lvf-gold .lvf-page.lvf-page .lvf-s11-newsletter::before {
+    /* s11 legt hier einen blauen Haarstrich rgba(140,213,255,.16) auf den
+       Panelrand. Gleiche Deckkraft, warme Farbe. */
+    box-shadow: inset 0 0 0 1px rgba(255, 196, 90, 0.16);
+  }
+
+  body.lvf-gold .lvf-page.lvf-page .lvf-s11-newsletter {
+    background-color: #020100;
+    background-image:
+      /* Goldboden quer über die volle Breite. Er trägt den Hinweistext,
+         der im Entwurf dunkel auf Hell steht (.lvf-s11-nl-sub, #3a2408). */
+      linear-gradient(180deg, rgba(255, 244, 214, 0) 58%, rgba(255, 240, 202, 0.03) 72%, rgba(255, 238, 196, 0.42) 84%, rgba(255, 250, 238, 0.92) 96%, rgba(255, 253, 250, 0.96) 100%),
+      /* Oberlichter: oben links ist der Entwurf deutlich schwächer als oben
+         rechts (bei 6 % Breite 84 gegen 244 in Rot) */
+      radial-gradient(26% 46% at 0% 0%, rgba(236, 156, 32, 0.26) 0%, rgba(170, 100, 12, 0.1) 55%, rgba(104, 60, 6, 0) 85%),
+      radial-gradient(36% 62% at 100% 0%, rgba(252, 190, 72, 0.9) 0%, rgba(220, 143, 24, 0.58) 45%, rgba(170, 104, 12, 0.24) 72%, rgba(112, 66, 7, 0) 92%),
+      /* linke Säule über die volle Panelhöhe, dazu ihr breiterer Schein */
+      radial-gradient(12% 132% at 0% 100%, rgba(255, 246, 215, 1) 0%, rgba(255, 216, 112, 0.9) 26%, rgba(242, 172, 34, 0.82) 52%, rgba(196, 122, 12, 0.7) 74%, rgba(164, 100, 9, 0) 100%),
+      radial-gradient(46% 96% at 0% 100%, rgba(255, 222, 134, 0.9) 0%, rgba(241, 172, 32, 0.75) 36%, rgba(191, 116, 10, 0.4) 62%, rgba(140, 84, 6, 0) 90%),
+      /* rechte Säule, im Entwurf oben heller als die linke */
+      radial-gradient(12% 150% at 100% 100%, rgba(255, 248, 222, 1) 0%, rgba(255, 222, 128, 0.92) 22%, rgba(246, 182, 48, 0.85) 46%, rgba(218, 142, 20, 0.74) 70%, rgba(186, 116, 10, 0) 100%),
+      radial-gradient(48% 98% at 100% 100%, rgba(255, 228, 144, 0.92) 0%, rgba(244, 179, 40, 0.78) 36%, rgba(198, 124, 12, 0.42) 62%, rgba(146, 89, 6, 0) 90%),
+      /* Kern des Bodenlichts in der Mitte */
+      radial-gradient(88% 32% at 50% 104%, rgba(255, 252, 244, 0.98) 20%, rgba(255, 243, 214, 0.8) 52%, rgba(255, 235, 190, 0) 85%),
+      linear-gradient(180deg, #020100 0%, #050301 62%, #241806 100%);
+  }
+}

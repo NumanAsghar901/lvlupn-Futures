@@ -1,0 +1,104 @@
+/* ============================================================================
+ * fixes-elite.css - Sicht-Fix fuer https://lvlup.tivaosagencytempdomains.de/elite/
+ * Angelegt 09.08.2026. Override ueber elite.css, Kaans Datei bleibt unangetastet.
+ *
+ * BEFUND (Kundenscreenshot: "der grosse orangene Pfeil rechts endet an der
+ * Containerkante")
+ * ----------------------------------------------------------------------------
+ * Betroffen ist die CTA-Tafel e7 ("Reach 10,000 Points. Enter a Different
+ * World."), die einzige Stelle der Seite mit grossen orangenen Pfeilen. Die
+ * Deko-Pfeile .lve-e7-arrows liegen absolut ueber der Tafel und ragen ueber
+ * deren Kante hinaus; .lve-e7-panel traegt overflow:hidden und schneidet sie
+ * hart ab. Dasselbe Muster ist in
+ * neue-seiten/gegencheck/elite-final.md, Abschnitt 4, dokumentiert
+ * ("ragen auf -38 bzw. 444 hinaus, Elternelement overflow: hidden faengt sie").
+ *
+ * Zweite Ursache, die dort noch nicht steht: das SVG in .lve-e7-arrows traegt
+ * die Attribute width="404" height="407". Kaans Breakpoint-Regeln verkleinern
+ * nur den Wrapper (300px bzw. 190px), nicht die Grafik. Die Zeichnung bleibt
+ * deshalb auf jeder Breite 404 px breit - auf 390 px Viewport ragen 278 px aus
+ * einer 338 px breiten Tafel heraus.
+ *
+ * GEMESSEN (Edge headless, DPR 1, Cache-Buster; Zahlen in Bildschirmpixel)
+ * ----------------------------------------------------------------------------
+ * Referenz _referenz/elite-1760.png:
+ *   Tafel        x 261..1499 (1238 breit), y 5426..5972 (546 hoch)
+ *   Pfeilkopf    120 px breit (Zeile y 5828: x 1336..1456 rechts, 305..424 links)
+ *   Tinte-Rand   44 px Abstand zur Tafelkante, links wie rechts
+ *   Spitze       y 5757, also 215 px ueber der Tafelunterkante
+ *   Schaftende   ca. 18 px ueber der Tafelunterkante, laeuft transparent aus
+ *   -> nichts wird abgeschnitten
+ * Live vorher (1760 px):
+ *   Tafel        x 270..1490 (1220 breit), y 5682..6271
+ *   Pfeilkopf    192 px breit, Tinte x 1372..1564
+ *   -> 74 px rechts ausserhalb der Tafel, 74 px links, 87 px unterhalb: gekappt
+ *
+ * ANSATZ
+ * ----------------------------------------------------------------------------
+ * overflow:hidden auf .lve-e7-panel bleibt stehen. Wuerde man es oeffnen, staende
+ * der Pfeil ueber der Tafel im freien Raum - das zeigt die Referenz gerade nicht,
+ * dort liegt er vollstaendig innen. Korrigiert wird deshalb Groesse und Position:
+ * das SVG wird an den Wrapper gebunden (width:100%), der Wrapper auf den
+ * Referenzmassstab gesetzt und nach innen gerueckt.
+ *
+ * Massstab: Kopfbreite 120 / 192 SVG-Einheiten = 0,625.
+ *   Wrapper-Breite 404 * 0,625 = 252,5 -> 253 px
+ *   Rand           44 - 16 * 0,626 = 34,0 -> left/right: 34px
+ *                  (16 = Abstand Pfadkante zum SVG-Rand in Einheiten)
+ *   bottom         Spitze 215 px ueber der Unterkante -> bottom: -34px
+ * Erwartung damit auf 1760: Tinte endet 44 px vor der Tafelkante, Kopf 120 px
+ * breit, Spitze 215 px ueber dem Tafelboden - die drei Referenzwerte.
+ *
+ * Tablet und Mobil haben kein Design. Dort wird derselbe Verhaeltniswert
+ * benutzt (Kopf = 9,69 % der Tafelbreite, Rand = 3,55 %), damit die Pfeile
+ * mitwachsen statt auf fester Pixelbreite stehen zu bleiben.
+ *
+ * Selektoren sind bewusst .lve-e7 .lve-e7-arrows (0-2-0) statt .lve-e7-arrows
+ * (0-1-0): so gewinnt der Override auch dann, wenn LiteSpeed die Dateien
+ * zusammenfasst und die Reihenfolge nicht mehr garantiert ist. Kein !important.
+ * ========================================================================== */
+
+/* --- Grafik an den Wrapper binden -------------------------------------------
+ * Ohne diese Regel ignoriert das SVG jede Wrapper-Breite und bleibt 404x407. */
+.lve-e7 .lve-e7-arrows > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* --- Desktop ab 1024 px ---------------------------------------------------- */
+.lve-e7 .lve-e7-arrows {
+  width: 253px;
+  height: auto;
+  bottom: -34px;
+}
+.lve-e7 .lve-e7-arrows--left { left: 34px; }
+.lve-e7 .lve-e7-arrows--right { right: 34px; }
+
+/* --- Tablet: Tafelbreite ist Viewport minus 60 px --------------------------
+ * 20,4vw entspricht 0,204 * Tafelbreite, also demselben Verhaeltnis wie oben. */
+@media (max-width: 1023px) {
+  .lve-e7 .lve-e7-arrows {
+    width: calc(20.4vw - 12px);
+    height: auto;
+    bottom: -23px;
+  }
+  .lve-e7 .lve-e7-arrows--left { left: 23px; }
+  .lve-e7 .lve-e7-arrows--right { right: 23px; }
+}
+
+/* --- Mobil: Tafelbreite ist Viewport minus 52 px ---------------------------
+ * opacity: 0.55 aus elite.css bleibt bewusst stehen, die Pfeile sind hier
+ * Hintergrunddeko. */
+@media (max-width: 767px) {
+  .lve-e7 .lve-e7-arrows {
+    width: calc(20.4vw - 11px);
+    height: auto;
+    bottom: -15px;
+  }
+  .lve-e7 .lve-e7-arrows--left { left: 15px; }
+  .lve-e7 .lve-e7-arrows--right { right: 15px; }
+}
+.lvf-page .lvf-s11-nl-submit .lvf-s11-nl-submit-label {
+  color: #000000;
+}
