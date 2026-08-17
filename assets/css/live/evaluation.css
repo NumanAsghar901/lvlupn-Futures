@@ -3296,11 +3296,22 @@
       #000 0, #000 calc(100% - 300px), rgba(0, 0, 0, 0) 100%);
   }
 
-  /* Lichtsaeule von e6, Anker 1282 = e5-Hoehe 898 plus e6-Anker 384 */
+  /* Lichtsaeule von e6, Anker 1282 = e5-Hoehe 898 plus e6-Anker 384.
+     17.08.2026 Kundenbefund: bei manchen Zoomstufen ein feiner Strich
+     genau an der e5/e6-Grenze. Ursache: die Sektionsgrenze faellt auf
+     eine gebrochene CSS-Pixelzahl (gemessen 5939.15625px), bei manchen
+     Zoomstufen rundet der Browser diese Ebene und die feste
+     e6-Grundflaeche unterschiedlich, ein Ein-Pixel-Rundungsspalt wird als
+     Linie sichtbar. Fix: 2px ueber die Sektionsgrenze hinaus ueberlappen
+     lassen (bottom:-2px statt inset:0), damit fuer jede Rundung immer
+     volle Deckung besteht. */
   .lvf-page .lvev-e5.lvev-e5::before {
     content: "";
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: -2px;
+    left: 0;
     z-index: -1;
     pointer-events: none;
     border-radius: 0;
@@ -3313,10 +3324,22 @@
       rgba(0, 0, 0, 0) calc(100% - 300px), #000 100%);
   }
 
-  /* Querband von e6, Anker 1332 = 898 plus 434, wie dort mit screen */
+  /* Querband von e6, Anker 1332 = 898 plus 434, wie dort mit screen.
+     17.08.2026 Kundenbefund: derselbe feste 1350px-Radius wie beim
+     e6-Querband weiter unten, hier zusaetzlich fuer den Handoff am
+     e5/e6-Uebergang. Gleiche Loesung: die urspruengliche Rezeptur wandert
+     unveraendert in ::before (bleibt ueberall dort deckend, wo ihr fester
+     Radius reicht - am normalen Zoom aendert sich nichts), das Element
+     selbst traegt jetzt einen prozentualen Nachschub, der nur dort
+     durchscheint, wo ::before bei sehr breitem Viewport ausfranst. Die
+     -300px-Maske haengt am Element und wirkt automatisch auf beide
+     Ebenen zusammen. */
   .lvf-page .lvev-e5 .lvev-e5-glow--bottom {
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: -2px;
+    left: 0;
     width: auto;
     height: auto;
     transform: none;
@@ -3325,12 +3348,21 @@
     opacity: 1;
     mix-blend-mode: screen;
     background:
-      radial-gradient(1350px 1400px at 0px 1332px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%),
-      radial-gradient(1350px 1400px at 100% 1332px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%);
+      radial-gradient(100% 1400px at 0px 1332px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%),
+      radial-gradient(100% 1400px at 100% 1332px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%);
     -webkit-mask-image: linear-gradient(180deg,
       rgba(0, 0, 0, 0) calc(100% - 300px), #000 100%);
     mask-image: linear-gradient(180deg,
       rgba(0, 0, 0, 0) calc(100% - 300px), #000 100%);
+  }
+  .lvf-page .lvev-e5 .lvev-e5-glow--bottom::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(1350px 1400px at 0px 1332px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%),
+      radial-gradient(1350px 1400px at 100% 1332px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%);
   }
 }
 
@@ -3878,7 +3910,33 @@
    0-2-0 setzt (Plugin lvlup-fixes, Prioritaet 1200).
    ============================================================ */
 @media (min-width: 1024px) {
-  .lvf-page .lvev-e6 .lvev-e6-glow--left { background: none; }
+  /* 17.08.2026 Kundenbefund (Zoom raus / sehr breiter Viewport): die
+     sichtbaren ::before/::after unten haben einen FESTEN 1350px-Radius,
+     verankert an den Sektionsraendern (0px/100% der vollen Sektionsbreite,
+     bestaetigt per getComputedStyle - width:auto+inset:0 aus r3-evaluation.css
+     macht die Box genauso breit wie .lvev-e6 selbst). Auf breiterem
+     effektivem Viewport faellt der Verlauf vor der Mitte auf 0 Deckkraft.
+     Ein direkter prozentualer Radius auf ::before/::after wurde probiert:
+     behebt die Mitte, veraendert aber die Helligkeit auch im obersten Band,
+     wo diese Sektion pixelgenau an die Unterkante von e5 anschliesst ("Naht
+     e5/e6" oben) - das reisst dort eine neue, deutlich sichtbare Kante auf.
+     Deshalb hier ein reiner Nachschub statt einer Aenderung an der bestehenden
+     Rezeptur: dieselbe Farbfolge, aber mit prozentualem statt festem Radius,
+     auf dem HINTERGRUND DES ELEMENTS SELBST (vorher "none", ungenutzt).
+     Paint-Reihenfolge: Element-Hintergrund liegt UNTER ::before/::after.
+     ::before ist ueberall dort voll deckend, wo sein fester 1350px-Radius
+     noch reicht - dort verdeckt es diesen Nachschub komplett, nichts aendert
+     sich. Erst dort, wo der feste Radius bei sehr breiter Box ausfranst,
+     wird dieser prozentuale Nachschub sichtbar und schliesst genau die
+     Luecke. Rein rechnerisch beruehren sich beide Radien bei box-width
+     1512px (aktuelle Referenzbreite) nirgends unter 2700px Boxbreite, der
+     Nachschub bleibt beim normalen Zoom also unsichtbar. */
+  .lvf-page .lvev-e6 .lvev-e6-glow--left {
+    background:
+      radial-gradient(100% 1400px at 0px 434px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%),
+      radial-gradient(100% 1400px at 100% 434px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%);
+    background-blend-mode: screen;
+  }
 
   .lvf-page .lvev-e6 .lvev-e6-glow--left::before,
   .lvf-page .lvev-e6 .lvev-e6-glow--left::after {

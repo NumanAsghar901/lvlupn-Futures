@@ -291,6 +291,23 @@ body.page-id-8049 { background-color: #000000; }
   filter: none;
   opacity: 1;
   mix-blend-mode: screen;
+  /* 17.08.2026 Kundenbefund: derselbe feste 1350px-Radius-Fehler wie in
+     e6 (siehe dortiger Kommentar in evaluation.css). Gleiche Loesung:
+     Originalrezeptur unveraendert nach ::before (bleibt am normalen Zoom
+     ueberall deckend, nichts aendert sich), Element-Hintergrund traegt
+     einen prozentualen Nachschub, der nur bei sehr breitem Viewport dort
+     durchscheint, wo ::before ausfranst. Die -300px-Ausblendmaske aus
+     evaluation.css haengt am Element und wirkt automatisch auf beide
+     Ebenen. */
+  background:
+    radial-gradient(100% 1400px at 0px 1296px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%),
+    radial-gradient(100% 1400px at 100% 1296px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%);
+}
+.lvev-e5 .lvev-e5-glow--right::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   background:
     radial-gradient(1350px 1400px at 0px 1296px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%),
     radial-gradient(1350px 1400px at 100% 1296px, rgba(255,255,255,1) 0%,rgba(250,253,255,1) 16%,rgba(215,240,255,1) 30%,rgba(175,226,255,.98) 42%,rgba(110,205,250,.92) 54%,rgba(70,185,240,.85) 64%,rgba(30,150,215,.7) 76%,rgba(10,90,140,.36) 88%,rgba(4,40,64,0) 100%);
