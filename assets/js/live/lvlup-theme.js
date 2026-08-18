@@ -219,4 +219,41 @@ for (var i = 0; i < felder.length; i++) {
     if (logo) logo.src = 'https://lvlup.tivaosagencytempdomains.de/wp-content/uploads/2026/08/lvlup-logo-nav-gold.webp';
   }
 })();
+
+/* Intercom: Live-Chat-Widget auf allen Seiten laden und "Start Live Chat"
+   Buttons (data-lvct-link="live-chat"), die bisher bewusst ohne href waren,
+   ans Widget anbinden. */
+(function(){
+  window.intercomSettings = { app_id: 'j66l9vrs' };
+  (function(){
+    var w = window, ic = w.Intercom;
+    if (typeof ic === 'function') {
+      ic('reattach_activator');
+      ic('update', w.intercomSettings);
+    } else {
+      var i = function () { i.c(arguments); };
+      i.q = [];
+      i.c = function (args) { i.q.push(args); };
+      w.Intercom = i;
+      var l = function () {
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = 'https://widget.intercom.io/widget/j66l9vrs';
+        var x = document.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(s, x);
+      };
+      if (document.readyState === 'complete') l();
+      else if (w.attachEvent) w.attachEvent('onload', l);
+      else w.addEventListener('load', l, false);
+    }
+  })();
+
+  document.addEventListener('click', function (e) {
+    var trigger = e.target.closest('[data-lvct-link="live-chat"]');
+    if (!trigger) return;
+    e.preventDefault();
+    if (window.Intercom) window.Intercom('show');
+  });
+})();
 })();
