@@ -1,0 +1,24 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="75.3441" height="75.3441" viewBox="0 0 75.3441 75.3441" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Link - Discord &#226;&#134;&#146; SVG">
+<rect width="75.3441" height="75.3441" rx="17.5803" fill="black"/>
+<rect width="75.3441" height="75.3441" rx="17.5803" fill="url(#paint0_linear_0_26)"/>
+<path id="Vector" d="M57.446 21.6659C56.6059 20.7947 55.414 20.2924 54.1853 20.2924H50.2736C50.2894 19.6056 50.2999 18.8984 50.2999 18.1706H25.0705C25.0705 18.8983 25.081 19.6056 25.0968 20.2924H21.1588C19.9301 20.2924 18.7383 20.7947 17.8982 21.6659C17.0475 22.5424 16.6065 23.7415 16.68 24.9562C17.3836 36.4054 23.4376 43.5906 33.0357 44.6567L31.177 50.9706C28.9665 50.9706 27.176 52.7182 27.176 54.8758V59.1706H48.1996V54.8758C48.1996 52.7182 46.4092 50.9706 44.1987 50.9706L42.3399 44.6567C51.9171 43.5804 57.9658 36.4003 58.6642 24.9562C58.7376 23.7467 58.2966 22.5475 57.446 21.6659ZM20.8753 24.7102C20.87 24.5975 20.9173 24.5206 20.9592 24.4795C21.038 24.3976 21.1326 24.3976 21.1588 24.3976H25.2964C25.9212 32.4592 27.7431 37.0307 29.5127 39.6137C22.776 36.8564 21.1693 29.4918 20.8753 24.7102ZM45.8578 39.5983C47.6273 37.0101 49.4441 32.4438 50.0688 24.3925H54.1906C54.222 24.3925 54.3114 24.3925 54.3901 24.4744C54.4322 24.5155 54.4794 24.5923 54.4741 24.7051C54.1749 29.4867 52.5734 36.8308 45.8578 39.5983Z" fill="black"/>
+</g>
+<defs>
+<filter id="filter0_i_0_26" x="-250.394" y="-250.394" width="576.131" height="576.131" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="0.30961" dy="0.61922"/>
+<feGaussianBlur stdDeviation="8.59886"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.356863 0 0 0 0 0.737255 0 0 0 0 0.909804 0 0 0 1 0"/>
+<feBlend mode="color-dodge" in2="shape" result="effect1_innerShadow_0_26"/>
+</filter>
+<clipPath id="bgblur_0_0_26_clip_path" transform="translate(250.394 250.394)"><rect width="75.3441" height="75.3441" rx="17.5803"/>
+</clipPath><linearGradient id="paint0_linear_0_26" x1="37.6721" y1="0" x2="37.6721" y2="75.3441" gradientUnits="userSpaceOnUse">
+<stop stop-color="#8CD5FF"/>
+<stop offset="1" stop-color="#12A9FF"/>
+</linearGradient>
+</defs>
+</svg>

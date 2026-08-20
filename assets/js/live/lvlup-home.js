@@ -428,11 +428,7 @@
 /* ===== s05 ===== */
 (function(){
 /* s05 Calculator - Live-Berechnung der beiden Schieberegler.
-   Monthly = Kapital * Rate / 100, Annual = Monthly * 12.
-   --p (0..1) je Regler wird erst ab der ersten Nutzereingabe gesetzt;
-   die Startdarstellung (Fuellung ~40%, Trenner/Blase davor, Wert rechts
-   auf dem dunklen Spur-Rest) kommt aus fragment.css und entspricht dem
-   Design-Zustand, obwohl die Reglerwerte auf Maximum stehen. */
+   Monthly = Kapital * Rate / 100, Annual = Monthly * 12. */
 (function () {
   var root = document.querySelector('.lvf-s05');
   if (!root) { return; }
@@ -515,8 +511,6 @@
     capital.setAttribute('aria-valuetext', capitalText);
     rate.setAttribute('aria-valuetext', rateText);
 
-    // --p nur bei echter Nutzereingabe auf den Reglerweg setzen, sonst
-    // bleibt die Design-Startdarstellung aus dem CSS erhalten.
     if (updateProgress) {
       if (slider.capital) { slider.capital.style.setProperty('--p', progress(capital)); }
       if (slider.rate) { slider.rate.style.setProperty('--p', progress(rate)); }
@@ -530,7 +524,7 @@
   rate.addEventListener('input', onInput);
   rate.addEventListener('change', onInput);
 
-  render(false);
+  render(true);
 })();
 })();
 
@@ -546,6 +540,74 @@
 
   var ROW_SELECTOR = '[data-lvf-s07-marquee]';
   var TRACK_SELECTOR = '[data-lvf-s07-track]';
+  var REVIEWS = [
+    { name: 'Adam K.', quote: 'Very smooth experience, support reply fast and rules are clear.' },
+    { name: 'Ryan M.', quote: 'Passed my account easy, dashboard is clean and simple to use.' },
+    { name: 'Daniel R.', quote: 'Good firm so far, no confusing rules and support helped me quick.' },
+    { name: 'Chris T.', quote: 'Really like the rules here, much easier to understand everything.' },
+    { name: 'Omar H.', quote: 'Support was very helpful and account setup was super fast.' },
+    { name: 'James L.', quote: 'Nice experience till now, platform works good and rules are fair.' },
+    { name: 'Ethan P.', quote: 'Everything feels simple, no headache when checking the rules.' },
+    { name: 'Samir A.', quote: 'Good prop firm, payout process was clear and team helped me fast.' },
+    { name: 'Noah B.', quote: 'I like how simple the account rules are compared to other firms.' },
+    { name: 'Lucas D.', quote: 'Very clean dashboard and support answer all my questions quickly.' },
+    { name: 'Ali S.', quote: 'Been trading here some days, overall experience is really good.' },
+    { name: 'Marcus J.', quote: 'The rules make sense and I did not find any hidden surprises.' },
+    { name: 'Zain R.', quote: 'Account came fast and everything was working without any issue.' },
+    { name: 'Kevin W.', quote: 'Really good support team, they explained my question very clearly.' },
+    { name: 'Hamza N.', quote: 'Easy process from buying account to starting my first trade.' },
+    { name: 'Ben C.', quote: 'So far very happy with Lvlup, simple rules and nice experience.' },
+    { name: 'Adeel M.', quote: 'Good firm for futures traders, everything feels well organized.' },
+    { name: 'Michael S.', quote: 'No daily loss limit is great, gives much more freedom when trading.' },
+    { name: 'Yusuf K.', quote: 'Support reply was fast and solved my problem without wasting time.' },
+    { name: 'Jake F.', quote: 'Really enjoying the account, rules are clear and easy to follow.' },
+    { name: 'Ahmed T.', quote: 'Very simple evaluation and dashboard looks clean and professional.' },
+    { name: 'Liam G.', quote: 'One of the better experiences I had with a futures prop firm.' },
+    { name: 'Bilal A.', quote: 'I had few questions before buying and support explained everything.' },
+    { name: 'David N.', quote: 'Good platform choice and account was ready very quickly for me.' },
+    { name: 'Hassan R.', quote: 'Rules are straightforward, I know exactly what I need to follow.' },
+    { name: 'Alex P.', quote: 'Nice company, support is active and the whole process feels easy.' },
+    { name: 'Ibrahim M.', quote: 'Trading conditions are good and I like how transparent it feels.' },
+    { name: 'George T.', quote: 'Bought my account and started trading same day, very smooth setup.' },
+    { name: 'Faisal K.', quote: 'Really good first impression, website and dashboard feel premium.' },
+    { name: 'Nathan B.', quote: 'Everything working good till now, happy with the overall service.' }
+  ];
+
+  function setReview(card, review) {
+    var quote = card.querySelector('.lvf-s07-quote');
+    var name = card.querySelector('.lvf-s07-name');
+    var role = card.querySelector('.lvf-s07-role');
+    if (quote) { quote.textContent = '\u201c' + review.quote + '\u201d'; }
+    if (name) { name.textContent = review.name; }
+    if (role) { role.remove(); }
+  }
+
+  function hydrateReviews(rows) {
+    var counts = [8, 7, 8, 7];
+    var reviewIndex = 0;
+
+    rows.forEach(function (row, rowIndex) {
+      var track = row.querySelector(TRACK_SELECTOR);
+      if (!track) { return; }
+      var cards = Array.prototype.slice.call(track.children);
+      var target = counts[rowIndex] || 0;
+      if (!cards.length || !target) { return; }
+
+      while (cards.length < target) {
+        var extra = cards[cards.length % Math.min(cards.length, 3)].cloneNode(true);
+        track.appendChild(extra);
+        cards.push(extra);
+      }
+      while (cards.length > target) {
+        track.removeChild(cards.pop());
+      }
+
+      cards.forEach(function (card) {
+        setReview(card, REVIEWS[reviewIndex]);
+        reviewIndex += 1;
+      });
+    });
+  }
 
   function cloneHidden(node) {
     var clone = node.cloneNode(true);
@@ -596,6 +658,8 @@
     var rows = Array.prototype.slice.call(document.querySelectorAll(ROW_SELECTOR));
     if (!rows.length) { return; }
 
+    hydrateReviews(rows);
+
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
     if (reduce && reduce.matches) { return; }
 
@@ -619,6 +683,65 @@
     init();
   }
 })();
+})();
+
+/* Homepage video cards: play in place, with the href retained as the
+   indexable/fallback watch-page destination. */
+(function () {
+  'use strict';
+
+  var modal = document.querySelector('[data-lvf-video-modal]');
+  if (!modal) return;
+  var frame = modal.querySelector('[data-lvf-video-frame]');
+  var title = modal.querySelector('[data-lvf-video-modal-title]');
+  var watchLink = modal.querySelector('[data-lvf-video-watch-link]');
+  var closeButton = modal.querySelector('.lvf-video-close');
+  var cards = document.querySelectorAll('[data-lvf-video-id]');
+  var lastTrigger = null;
+
+  function open(card) {
+    var id = card.getAttribute('data-lvf-video-id');
+    var label = card.getAttribute('data-lvf-video-title') || 'Lvlup Futures video';
+    if (!id) return;
+    lastTrigger = card;
+    title.textContent = label;
+    frame.title = label;
+    frame.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0';
+    watchLink.href = card.href;
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        modal.classList.add('is-open');
+        closeButton.focus();
+      });
+    });
+  }
+
+  function close() {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+    frame.src = 'about:blank';
+    window.setTimeout(function () {
+      modal.hidden = true;
+      if (lastTrigger) lastTrigger.focus();
+    }, 220);
+  }
+
+  Array.prototype.forEach.call(cards, function (card) {
+    card.addEventListener('click', function (event) {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      open(card);
+    });
+  });
+
+  Array.prototype.forEach.call(modal.querySelectorAll('[data-lvf-video-close]'), function (el) {
+    el.addEventListener('click', close);
+  });
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && !modal.hidden) close();
+  });
 })();
 
 /* ===== s09 ===== */
@@ -676,6 +799,68 @@
       });
     });
   });
+})();
+
+/* Figma landing popup. The current static project has no working newsletter
+   endpoint, so submission is held locally and reports that limitation. */
+(function () {
+  'use strict';
+
+  var modal = document.querySelector('[data-lvf-landing-modal]');
+  if (!modal) return;
+  var closeButton = modal.querySelector('.lvf-landing-close');
+  var form = modal.querySelector('[data-lvf-landing-form]');
+  var status = modal.querySelector('[data-lvf-landing-status]');
+
+  function open() {
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        modal.classList.add('is-open');
+        closeButton.focus();
+      });
+    });
+  }
+
+  function close() {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+    window.setTimeout(function () { modal.hidden = true; }, 240);
+  }
+
+  Array.prototype.forEach.call(modal.querySelectorAll('[data-lvf-landing-close]'), function (el) {
+    el.addEventListener('click', close);
+  });
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+    status.textContent = 'Newsletter signup is not connected yet. Please try again later.';
+  });
+
+  modal.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') {
+      close();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+    var focusable = Array.prototype.slice.call(modal.querySelectorAll('button, input, a[href]')).filter(function (el) {
+      return !el.disabled && el.getClientRects().length;
+    });
+    if (!focusable.length) return;
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  open();
 })();
 })();
 })();

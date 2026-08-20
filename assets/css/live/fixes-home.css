@@ -117,13 +117,109 @@
 .lvf-s02-partners .lvf-s02-dx-mark img,
 .lvf-s02-partners .lvf-s02-dx-word img,
 .lvf-s02-partners .lvf-s02-vol-mark img,
-.lvf-s02-partners .lvf-s02-partner--hansa {
+.lvf-s02-partners .lvf-s02-partner--hansa,
+.lvf-s02-partners .lvf-s02-partner--cert {
   filter: none !important;
   mix-blend-mode: normal !important;
   opacity: 1 !important;
+  object-fit: contain !important;
+}
+.lvf-s02-partners .lvf-s02-partner--cert {
+  width: auto !important;
+  height: clamp(52px, 5.5vw, 66px) !important;
+  max-height: 66px !important;
+  align-self: center !important;
 }
 .lvf-s02-partners .lvf-s02-partner,
 .lvf-s02-partners .lvf-s02-dx {
   filter: none !important;
   mix-blend-mode: normal !important;
 }
+
+/* H-3 Navbar font override for Home Page */
+body.page-id-7895 .lvf-s01-nav,
+body.page-id-7895 .lvf-s01-nav *,
+body.page-id-7895 .lvf-s01-banner,
+body.page-id-7895 .lvf-s01-banner * {
+  font-family: 'Clash Grotesk Variable', 'Segoe UI', sans-serif !important;
+}
+
+
+/* ------------------------------------------------------------
+   H-4 Tooltip / Popup Visibility Fix
+   Fixes tooltip translucency where underlying card text bleeds through.
+   Ensures 100% solid dark background, elevated z-index, and clear readability.
+   ------------------------------------------------------------ */
+
+/* On hover/focus, ensure parent info icon wrapper has 100% opacity so child tooltip is not 70% transparent */
+.lvf-s04 .lvf-s04-crow-info:hover,
+.lvf-s04 .lvf-s04-crow-info:focus,
+.lvf-s04 .lvf-s04-crow-info:focus-visible,
+.lvf-s04 .lvf-s04-addon-info:hover,
+.lvf-s04 .lvf-s04-addon-info:focus,
+.lvf-s04 .lvf-s04-addon-info:focus-visible {
+  opacity: 1 !important;
+  z-index: 100 !important;
+}
+
+/* Elevate the active row's z-index so tooltip sits cleanly above surrounding rows */
+.lvf-s04 .lvf-s04-crow:hover,
+.lvf-s04 .lvf-s04-crow:focus-within {
+  z-index: 50 !important;
+  position: relative !important;
+}
+
+/* 100% solid dark background, crisp border, drop shadow, and high contrast white text */
+.lvf-s04 .lvf-s04-tooltip,
+.lvf-s04 .lvf-s04-addon-tooltip,
+.lvf-s05 .lvf-s05-tooltip {
+  background-color: #08131e !important;
+  background-image: none !important;
+  border: 1px solid rgba(255, 190, 90, 0.45) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(0, 0, 0, 0.7) !important;
+  color: #ffffff !important;
+  z-index: 9999 !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Arrow matches solid background */
+.lvf-s04 .lvf-s04-tooltip::after,
+.lvf-s04 .lvf-s04-addon-tooltip::after {
+  border-top-color: #08131e !important;
+}
+
+/* Ensure tooltip opacity is 1 when visible */
+.lvf-s04 .lvf-s04-crow-info:hover .lvf-s04-tooltip,
+.lvf-s04 .lvf-s04-crow-info:focus .lvf-s04-tooltip,
+.lvf-s04 .lvf-s04-crow-info:focus-visible .lvf-s04-tooltip,
+.lvf-s04 .lvf-s04-addon-info:hover .lvf-s04-addon-tooltip,
+.lvf-s04 .lvf-s04-addon-info:focus .lvf-s04-addon-tooltip,
+.lvf-s04 .lvf-s04-addon-info:focus-visible .lvf-s04-addon-tooltip {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+
+/* ------------------------------------------------------------
+   H-5 Section Glow Boundary Mask Fix
+   Removes the sharp horizontal cutoff line at the bottom of section s02 glow.
+   Fades out the cyan side glows smoothly into pure black (#000000).
+   ------------------------------------------------------------ */
+
+.lvf-s02 {
+  overflow: hidden !important;
+}
+
+.lvf-s02-glow {
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 50%, transparent 90%) !important;
+  mask-image: linear-gradient(180deg, #000 0%, #000 50%, transparent 90%) !important;
+}
+
+.lvf-s02-media {
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 70%, transparent 100%) !important;
+  mask-image: linear-gradient(180deg, #000 0%, #000 70%, transparent 100%) !important;
+}
+
+
+

@@ -19,6 +19,7 @@ a { color: inherit; }
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   position: relative;
   z-index: 1000;
+  font-family: 'Clash Grotesk Variable', var(--lvf-font-display), sans-serif !important;
 }
 .tmp-nav-inner {
   max-width: 1240px;

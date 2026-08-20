@@ -57,13 +57,34 @@
     /* Set to full width per user request */
     max-width: none;
     margin-inline: 0;
-
-    /* Beschnitt bleibt am gerundeten Kasten, damit die Karten innerhalb
-       weich auslaufen und nicht ueber die Ecken stehen. Beide Werte
-       entsprechen der Grundregel und stehen hier nur als Absicherung,
-       falls eine weitere Welle am Beschnitt dreht. */
     overflow: hidden;
-    border-radius: 0; /* Remove border-radius on the left edge */
+    border-radius: 0;
+    box-shadow: none !important;
+    border: none !important;
+    background: transparent !important;
+    background-image: none !important;
   }
 
 }
+
+/* Remove horizontal divider lines and inset glows from ticker strip on all screen sizes */
+.lvf-s02 .lvf-s02-strip,
+.lvf-s02 .lvf-s02-ticker .lvf-s02-strip {
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent !important;
+  background-image: none !important;
+}
+
+/* Remove hairline divider glow from navbar if present */
+.lvf-page .lvf-s01-nav::before {
+  display: none !important;
+}
+
+/* Remove stats section divider line */
+.lvf-s02-stats::before {
+  display: none !important;
+  content: none !important;
+}
+
+
