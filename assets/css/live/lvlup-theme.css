@@ -1714,7 +1714,7 @@ a.lvf-s01-cta { color: #060606; }
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 320px;
+  max-width: 350px;
 }
 .lvf-s11-nl-field { flex: 1 1 auto; min-width: 0; }
 
@@ -1723,7 +1723,7 @@ a.lvf-s01-cta { color: #060606; }
 .lvf-page.lvf-page .lvf-s11-nl-input {
   width: 100%;
   min-height: 41px;
-  padding: 7px 10px 7px 18px;
+  padding: 7px 54px 7px 18px;
   border: 1px solid transparent;
   border-radius: 8px;
   background:
@@ -1893,7 +1893,7 @@ a.lvf-s01-cta { color: #060606; }
 
   .lvf-s11-nl-inner { gap: 24px; padding: 40px clamp(30px, 7vw, 120px); }
   .lvf-s11-nl-form { max-width: 560px; }
-  .lvf-page.lvf-page .lvf-s11-nl-input { font-size: 14px; padding-left: 22px; }
+  .lvf-page.lvf-page .lvf-s11-nl-input { font-size: 14px; padding-left: 22px; padding-right: 66px; }
   .lvf-page.lvf-page .lvf-s11-nl-submit { margin-left: -54px; padding: 8px 12px 8px 5px; gap: 8px; }
   .lvf-s11-nl-icon { width: 35px; height: 35px; border-radius: 6px; }
   .lvf-s11-nl-icon svg { width: 17px; height: 17px; }
