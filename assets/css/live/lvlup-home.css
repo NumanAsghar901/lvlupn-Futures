@@ -7488,6 +7488,33 @@
    Desktop ab 1024px: Bild absolut rechts, Text links
    Werte exakt (1:1) ab 1280px, darunter proportional skaliert
    ============================================================ */
+
+/* Naht s07/s08: auf Desktop bleibt trotz der Farbabgleichs-Gradienten in
+   s08::before/-aura eine sichtbare harte Kante an der Sektionsgrenze
+   (Mobile ist smooth, da dort ein anderer Aura-Aufbau greift). Statt die
+   Gradienten weiter pixelgenau nachzuziehen, wird die Kante mit einem
+   schmalen geblurrten Streifen ueber der Grenze kaschiert. Der Streifen
+   sitzt als eigenes Element ZWISCHEN den Sektionen (keins von beiden hat
+   overflow:hidden auf ihn), damit backdrop-filter beide Seiten erfasst. */
+@media (min-width: 1024px) {
+  .lvf-s07-s08-seam {
+    position: relative;
+    height: 0;
+    pointer-events: none;
+  }
+  .lvf-s07-s08-seam::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -70px;
+    height: 140px;
+    z-index: 2;
+    -webkit-backdrop-filter: blur(32px);
+    backdrop-filter: blur(32px);
+  }
+}
+
 @media (min-width: 1024px) {
   .lvf-s08 {
     --u: clamp(0.79px, 0.078125vw, 1px);
