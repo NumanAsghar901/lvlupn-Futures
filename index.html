@@ -54,7 +54,7 @@
           </div>
 
           <div class="lvf-s01-code">
-            <span class="lvf-s01-code-chip">Code: PALM40</span>
+            <span class="lvf-s01-code-chip"><b>PALM40</b></span>
             <button class="lvf-s01-copy" type="button" data-lvf-copy="PALM40">
               <span class="lvf-sr" data-lvf-copy-label>Copy discount code PALM40</span>
               <svg class="lvf-s01-copy-ico" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false">
@@ -1147,36 +1147,103 @@
 
 </section>
 
-<!-- Trading Conditions popup (not in original delivered code; built from Figma
-     node 158:21688 "View Trading Conditions (popup)" since data-lvf-open="conditions"
-     had no matching component in what was provided) -->
+<!-- Trading Conditions popup (built from Figma design) -->
 <div class="lvf-conditions-modal" data-lvf-conditions-modal hidden>
   <div class="lvf-conditions-backdrop" data-lvf-conditions-close></div>
   <div class="lvf-conditions-dialog" role="dialog" aria-modal="true" aria-labelledby="lvf-conditions-title">
     <button class="lvf-conditions-x" type="button" data-lvf-conditions-close aria-label="Close">&times;</button>
     <div class="lvf-conditions-head">
       <p class="lvf-conditions-kicker">Quick Rules Overview</p>
-      <h2 class="lvf-conditions-title" id="lvf-conditions-title">Know the <span class="lvf-conditions-title-hl">Conditions</span> Before You Trade</h2>
+      <h2 class="lvf-conditions-title" id="lvf-conditions-title">Know the <span class="lvf-conditions-title-hl">Conditions Before You Trade</span></h2>
       <p class="lvf-conditions-sub">Check the rules that shape your evaluation, funded account and payout eligibility.</p>
-    </div>
-    <div class="lvf-conditions-list">
-      <div class="lvf-conditions-row">
-        <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-n">1.</span> No <span class="lvf-conditions-row-hl">Daily Loss</span> Limit</p>
-        <p class="lvf-conditions-row-d">There is no separate daily loss cap. Your account must remain within the overall trailing drawdown.</p>
-      </div>
-      <div class="lvf-conditions-row">
-        <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-n">2.</span> EOD <span class="lvf-conditions-row-hl">Trailing Drawdown</span></p>
-        <p class="lvf-conditions-row-d">The drawdown threshold updates from your highest end-of-day balance rather than every intraday fluctuation.</p>
-      </div>
-      <div class="lvf-conditions-row">
-        <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-n">3.</span> 5 Minimum <span class="lvf-conditions-row-hl">Trading Days</span></p>
-        <p class="lvf-conditions-row-d">Trade on at least five separate days before completing the evaluation.</p>
-      </div>
-      <div class="lvf-conditions-row">
-        <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-n">4.</span> 40% Consistency Rule</p>
-        <p class="lvf-conditions-row-d">Your most profitable trading day cannot represent more than 40% of your total profits.</p>
+      <div class="lvf-conditions-tabs">
+        <button class="lvf-conditions-tab is-active" type="button" data-lvf-conditions-tab="lvlup">Lvlup Accounts</button>
+        <button class="lvf-conditions-tab" type="button" data-lvf-conditions-tab="starter">Starter Accounts</button>
       </div>
     </div>
+
+    <div class="lvf-conditions-frame">
+      <!-- Lvlup Accounts panel -->
+      <div class="lvf-conditions-panel is-active" data-lvf-conditions-panel="lvlup">
+        <div class="lvf-conditions-list">
+          <div class="lvf-conditions-row">
+            <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-hl">1. No</span> Daily Loss <span class="lvf-conditions-row-hl">Limit</span></p>
+            <p class="lvf-conditions-row-d">There is no separate daily loss cap. Your account must remain within the overall trailing drawdown.</p>
+          </div>
+          <div class="lvf-conditions-row">
+            <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-hl">2. EOD</span> Trailing Drawdown</p>
+            <p class="lvf-conditions-row-d">The drawdown threshold updates from your highest end-of-day balance rather than every intraday fluctuation.</p>
+          </div>
+          <div class="lvf-conditions-row">
+            <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-hl">3. 5 Minimum</span> Trading Days</p>
+            <p class="lvf-conditions-row-d">Trade on at least five separate days before completing the evaluation.</p>
+          </div>
+          <div class="lvf-conditions-row">
+            <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-hl">4. 40%</span> Consistency <span class="lvf-conditions-row-hl">Rule</span></p>
+            <p class="lvf-conditions-row-d">Your most profitable trading day cannot represent more than 40% of your total profits.</p>
+          </div>
+          <div class="lvf-conditions-row">
+            <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-hl">5. 80%</span> Profit Split</p>
+            <p class="lvf-conditions-row-d">Keep 80% of approved profits generated inside your funded Lvlup Account.</p>
+          </div>
+          <div class="lvf-conditions-row">
+            <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-hl">6. Payouts</span> Every 14 Days</p>
+            <p class="lvf-conditions-row-d">Eligible funded traders can submit payout requests on a biweekly schedule.</p>
+          </div>
+          <div class="lvf-conditions-row">
+            <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-hl">7. News</span> Trading Allowed</p>
+            <p class="lvf-conditions-row-d">Trading during scheduled economic news events is permitted under the applicable trading conditions.</p>
+          </div>
+          <div class="lvf-conditions-row">
+            <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-hl">8. No</span> Overnight or Weekend <span class="lvf-conditions-row-hl">Holding</span></p>
+            <p class="lvf-conditions-row-d">Positions must be closed before the applicable market close and cannot remain open through the weekend.</p>
+          </div>
+          <div class="lvf-conditions-row">
+            <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-hl">9. Activation Fee</span> After Passing</p>
+            <p class="lvf-conditions-row-d">Choose Monthly or One-Time evaluation payment inside the external dashboard. After passing, the required activation fee must be paid before the funded account becomes active.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Starter Accounts panel -->
+      <div class="lvf-conditions-panel" data-lvf-conditions-panel="starter" hidden>
+        <div class="lvf-conditions-list">
+          <div class="lvf-conditions-row">
+            <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-hl">1. One-Time</span> Fee Only</p>
+            <p class="lvf-conditions-row-d">Starter evaluations are purchased through a single one-time payment with no monthly evaluation subscription.</p>
+          </div>
+          <div class="lvf-conditions-row">
+            <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-hl">2. No</span> Activation <span class="lvf-conditions-row-hl">Fee</span></p>
+            <p class="lvf-conditions-row-d">After passing the evaluation, there is no additional activation fee before receiving the funded account.</p>
+          </div>
+          <div class="lvf-conditions-row">
+            <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-hl">3. 5 Minimum</span> Trading <span class="lvf-conditions-row-hl">Days</span></p>
+            <p class="lvf-conditions-row-d">Trade on at least five separate days before completing the evaluation.</p>
+          </div>
+          <div class="lvf-conditions-row">
+            <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-hl">4. 40%</span> Consistency <span class="lvf-conditions-row-hl">Rule</span></p>
+            <p class="lvf-conditions-row-d">Your most profitable evaluation day cannot exceed 40% of your total evaluation profit.</p>
+          </div>
+          <div class="lvf-conditions-row">
+            <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-hl">5. 100%</span> Profit Split</p>
+            <p class="lvf-conditions-row-d">Keep 100% of the eligible profits approved for payout from your Starter Account.</p>
+          </div>
+          <div class="lvf-conditions-row">
+            <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-hl">6. Up to 50%</span> Profit Per Payout</p>
+            <p class="lvf-conditions-row-d">You may withdraw a maximum of 50% of the profit generated on the account in one payout.</p>
+          </div>
+          <div class="lvf-conditions-row">
+            <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-hl">7. Maximum</span> 5 Payouts</p>
+            <p class="lvf-conditions-row-d">A Starter Account journey is limited to five approved payouts.</p>
+          </div>
+          <div class="lvf-conditions-row">
+            <p class="lvf-conditions-row-t"><span class="lvf-conditions-row-hl">8. 30-Day</span> Evaluation and Inactivity <span class="lvf-conditions-row-hl">Limits</span></p>
+            <p class="lvf-conditions-row-d">The evaluation has a maximum duration of 30 days, and accounts are also subject to a 30-day inactivity limit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -2019,8 +2086,6 @@
   </div>
 </section>
 
-<div class="lvf-s07-s08-seam" aria-hidden="true"></div>
-
 <!-- s08 -->
 <section class="lvf-s08" id="elite" aria-labelledby="lvf-s08-title">
 
@@ -2286,7 +2351,7 @@
 
     <!-- CTAs -->
     <div class="lvf-s09-cta">
-      <a class="lvf-s09-pill" href="rules.html">
+      <button class="lvf-s09-pill" type="button" data-lvf-open="conditions">
         <svg class="lvf-s09-pill-ico" viewBox="0 0 12 13" fill="none" aria-hidden="true" focusable="false">
           <defs>
             <linearGradient id="lvf-s09-grad-rules" x1="6" y1="0" x2="6" y2="13" gradientUnits="userSpaceOnUse">
@@ -2297,7 +2362,7 @@
           <path fill="url(#lvf-s09-grad-rules)" fill-rule="evenodd" clip-rule="evenodd" d="M1.8 0h4.9L12 5.1v6.1c0 1-.8 1.8-1.8 1.8H1.8C.8 13 0 12.2 0 11.2V1.8C0 .8.8 0 1.8 0Zm.8 6.9h6.8v1.2H2.6V6.9Zm4.6 2.6H2.6v1.2h4.6V9.5Z"/>
         </svg>
         <span class="lvf-s09-pill-text">View Rules Summary</span>
-      </a>
+      </button>
       <a class="lvf-s09-link" href="rules.html">Open Full Trading Rules &rarr;</a>
     </div>
 
@@ -2631,11 +2696,10 @@
 <div class="lvf-page lvf-landing-modal" data-lvf-landing-modal hidden>
   <div class="lvf-landing-backdrop" data-lvf-landing-close></div>
   <section class="lvf-landing-dialog" role="dialog" aria-modal="true" aria-labelledby="lvf-landing-title" aria-describedby="lvf-landing-copy">
-    <span class="lvf-landing-aura" aria-hidden="true"></span>
     <button class="lvf-landing-close" type="button" data-lvf-landing-close aria-label="Close newsletter signup">&times;</button>
     <img class="lvf-landing-trophy" src="assets/media/newsletter-popup-trophy.svg" width="88" height="88" alt="">
-    <h2 class="lvf-landing-title" id="lvf-landing-title">Join the List. Win a $150K<br><span>Starter Account</span></h2>
-    <p class="lvf-landing-copy" id="lvf-landing-copy">Get limited offers, evaluation updates and payout news, plus a chance to win a $150K Starter Account.</p>
+    <h2 class="lvf-landing-title" id="lvf-landing-title">Join the List. Win a <span class="lvf-landing-hl">$150K</span><br>Starter Account</h2>
+    <p class="lvf-landing-copy" id="lvf-landing-copy">Get limited offers, evaluation updates and payout news, plus a<br>chance to win a <strong class="lvf-landing-hl">$150K Starter Account.</strong></p>
     <form class="lvf-landing-form" action="#" method="post" data-lvf-landing-form>
       <label class="lvf-sr" for="lvf-landing-email">Enter your email address</label>
       <div class="lvf-landing-field">

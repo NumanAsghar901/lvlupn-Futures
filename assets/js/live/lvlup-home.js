@@ -865,12 +865,14 @@
 })();
 })();
 
-/* Trading Conditions popup wiring (component not in delivered code) */
+/* Trading Conditions popup wiring */
 (function () {
   var modal = document.querySelector('[data-lvf-conditions-modal]');
   if (!modal) return;
-  var openBtn = document.querySelector('[data-lvf-open="conditions"]');
+  var openBtns = document.querySelectorAll('[data-lvf-open="conditions"]');
   var closers = modal.querySelectorAll('[data-lvf-conditions-close]');
+  var tabs = modal.querySelectorAll('[data-lvf-conditions-tab]');
+  var panels = modal.querySelectorAll('[data-lvf-conditions-panel]');
 
   function open() {
     modal.hidden = false;
@@ -885,9 +887,34 @@
     setTimeout(function () { modal.hidden = true; }, 250);
   }
 
-  if (openBtn) openBtn.addEventListener('click', open);
+  openBtns.forEach(function (btn) {
+    btn.addEventListener('click', open);
+  });
   closers.forEach(function (el) { el.addEventListener('click', close); });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && !modal.hidden) close();
+  });
+
+  /* Tabs switching */
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var target = tab.getAttribute('data-lvf-conditions-tab');
+      tabs.forEach(function (t) {
+        if (t === tab) {
+          t.classList.add('is-active');
+        } else {
+          t.classList.remove('is-active');
+        }
+      });
+      panels.forEach(function (panel) {
+        if (panel.getAttribute('data-lvf-conditions-panel') === target) {
+          panel.classList.add('is-active');
+          panel.hidden = false;
+        } else {
+          panel.classList.remove('is-active');
+          panel.hidden = true;
+        }
+      });
+    });
   });
 })();

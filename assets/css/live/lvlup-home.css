@@ -11,7 +11,7 @@
   --lvf-s02-media-blur: 0px;
   /* Mobil-Befund R3: Hero-Schein war rund 30 % zu dunkel, Abdunkelung etwas
      gelockert, damit der blaue Schein durchkommt */
-  --lvf-s02-media-dark: 0.64;
+  --lvf-s02-media-dark: 0.5;
 
   /* --- Typo / Abstaende --- */
   --lvf-s02-pt: 198px;
@@ -286,13 +286,13 @@
   font-size: var(--lvf-s02-sub-fs);
   line-height: var(--lvf-s02-sub-lh);
   font-weight: 400;
-  letter-spacing: var(--lvf-s02-sub-ls);
+  letter-spacing: 0.06em;
   color: rgba(255, 255, 255, 0.85);
 }
 
 /* Figma: Subtext ist ab Tablet/Desktop (768px+) Medium statt Regular */
 @media (min-width: 768px) {
-  .lvf-s02-sub { font-weight: 500; }
+  .lvf-s02-sub { font-weight: 400; }
 }
 
 /* ---------------------------------------------------------------- CTAs */
@@ -2751,7 +2751,7 @@
 .lvf-s04 .lvf-s04-conditions-ico { flex: none; width: 19px; height: 19px; }
 .lvf-s04 .lvf-s04-conditions-t {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 18px;
   letter-spacing: 0.01em;
   white-space: nowrap;
@@ -5688,15 +5688,12 @@
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
-  /* Befund R3 (Desktop 3): der kraeftige blaue Sektions-Hintergrund fehlte
-     (Randstreifen SOLL RGB(11,81,119) vs IST RGB(16,17,22), Flaechenmittel
-     SOLL RGB(17,50,68) vs IST RGB(9,19,27)). Breite, weich auslaufende
-     Wash-Ebenen unter den beiden Star-Blobs: an den Raendern am staerksten,
-     zur Mitte hin abgeschwaecht, ohne harte Kanten. */
   background:
     radial-gradient(50% 65% at 0% 52%, rgba(12, 95, 140, 0.8) 0%, rgba(8, 60, 95, 0.42) 48%, rgba(4, 40, 65, 0) 100%),
     radial-gradient(50% 65% at 100% 48%, rgba(12, 95, 140, 0.8) 0%, rgba(8, 60, 95, 0.42) 48%, rgba(4, 40, 65, 0) 100%),
     radial-gradient(75% 85% at 50% 58%, rgba(8, 52, 80, 0.5) 0%, rgba(6, 38, 60, 0.22) 55%, rgba(4, 30, 50, 0) 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 85%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 85%, transparent 100%);
 }
 
 .lvf-s07-glow::before,
@@ -7498,20 +7495,7 @@
    overflow:hidden auf ihn), damit backdrop-filter beide Seiten erfasst. */
 @media (min-width: 1024px) {
   .lvf-s07-s08-seam {
-    position: relative;
-    height: 0;
-    pointer-events: none;
-  }
-  .lvf-s07-s08-seam::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: -70px;
-    height: 140px;
-    z-index: 2;
-    -webkit-backdrop-filter: blur(32px);
-    backdrop-filter: blur(32px);
+    display: none !important;
   }
 }
 
@@ -8646,6 +8630,7 @@
   max-width: 100%;
   height: var(--s09-pill-h);
   padding: 6px 9px;
+  border: none;
   border-radius: 12px;
   background:
     linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
@@ -8656,6 +8641,8 @@
     0 0 0 3px rgba(0, 0, 0, 0.16);
   -webkit-backdrop-filter: blur(41px);
   backdrop-filter: blur(41px);
+  cursor: pointer;
+  font: inherit;
   transition: filter 0.2s ease;
 }
 /* Touch-Ziel >= 44px, ohne die gezeichnete Hoehe zu veraendern */
@@ -9723,25 +9710,25 @@
 .lvf-conditions-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 6, 10, 0.75);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(0, 5, 8, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .lvf-conditions-dialog {
   position: relative;
   z-index: 1;
-  width: min(760px, 100%);
-  max-height: min(680px, 90vh);
-  overflow-y: auto;
+  width: min(860px, 100%);
+  max-height: min(860px, calc(100vh - 40px));
   border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(110, 202, 255, 0.22);
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0) 15%, rgba(0, 0, 0, 0.5) 86%),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.85) 100%),
-    linear-gradient(160deg, rgba(0, 162, 255, 0.35) 0%, rgba(0, 0, 0, 0.9) 55%);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
-  padding: 40px 44px 36px;
+    radial-gradient(ellipse 32% 60% at 0% 50%, rgba(0, 162, 255, 0.55) 0%, rgba(0, 162, 255, 0.1) 45%, transparent 75%),
+    radial-gradient(ellipse 32% 60% at 100% 50%, rgba(0, 162, 255, 0.55) 0%, rgba(0, 162, 255, 0.1) 45%, transparent 75%),
+    radial-gradient(ellipse 70% 35% at 50% 0%, rgba(0, 162, 255, 0.1) 0%, transparent 65%),
+    #000305;
+  box-shadow: 0 40px 110px rgba(0, 0, 0, 0.95), inset 0 0 50px rgba(0, 162, 255, 0.04);
+  padding: 40px 48px 36px;
   transform: translateY(16px) scale(0.97);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -9749,94 +9736,181 @@
 
 .lvf-conditions-x {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 34px;
-  height: 34px;
+  top: 18px;
+  right: 18px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #111e28;
+  color: rgba(255, 255, 255, 0.75);
   font-size: 20px;
   line-height: 1;
+  display: grid;
+  place-items: center;
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
-.lvf-conditions-x:hover { background: rgba(255, 255, 255, 0.1); }
+.lvf-conditions-x:hover { background: #1c2e3d; color: #fff; transform: scale(1.06); }
 
-.lvf-conditions-head { text-align: center; margin-bottom: 28px; }
+.lvf-conditions-head { text-align: center; margin-bottom: 20px; }
 
 .lvf-conditions-kicker {
   display: inline-flex;
-  padding: 6px 14px;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 14px;
   border-radius: 999px;
-  background: #00121c;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25), 0 0 0 2px rgba(0, 0, 0, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   font-family: var(--lvf-font-display);
-  font-size: 13px;
-  color: var(--lvf-white);
-  margin: 0 0 16px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 12px;
 }
 
 .lvf-conditions-title {
   font-family: var(--lvf-font-display);
-  font-weight: 500;
-  font-size: clamp(26px, 3vw, 34px);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: rgba(255, 255, 255, 0.92);
-  margin: 0 0 14px;
+  font-weight: 700;
+  font-size: clamp(26px, 3.2vw, 36px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 10px;
 }
 .lvf-conditions-title-hl {
-  font-weight: 600;
-  background-image: var(--lvf-grad-blue);
+  font-weight: 700;
+  background: linear-gradient(180deg, #70cdff 0%, #14a6fa 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-text-fill-color: transparent;
+  opacity: 0.95;
 }
 
 .lvf-conditions-sub {
   font-family: var(--lvf-font-display);
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.65);
   margin: 0;
+  font-weight: 400;
+}
+
+.lvf-conditions-tabs {
+  display: inline-flex;
+  align-items: center;
+  background: #010f1a;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 3px;
+  margin: 20px auto 0;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.lvf-conditions-tab {
+  padding: 6px 18px;
+  border-radius: 6px;
+  font-family: var(--lvf-font-display);
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.lvf-conditions-tab:hover { color: #ffffff; }
+.lvf-conditions-tab.is-active {
+  background: linear-gradient(180deg, #6ecaff 0%, #009df8 100%);
+  color: #010e17;
+  font-weight: 600;
+  box-shadow: 0 1px 6px rgba(0, 157, 248, 0.35);
+}
+
+.lvf-conditions-frame {
+  border: 1px solid rgba(18, 169, 255, 0.22);
+  border-radius: 12px;
+  background: rgba(2, 9, 14, 0.65);
+  padding: 22px 26px;
+  margin-top: 18px;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.lvf-conditions-panel {
+  display: none;
+}
+.lvf-conditions-panel.is-active {
+  display: block;
 }
 
 .lvf-conditions-list {
-  display: flex;
-  flex-direction: column;
+  max-height: 430px;
+  overflow-y: auto;
+  padding-right: 14px;
+  scrollbar-width: thin;
+  scrollbar-color: #00a2ff rgba(255, 255, 255, 0.05);
+}
+.lvf-conditions-list::-webkit-scrollbar {
+  width: 5px;
+}
+.lvf-conditions-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+}
+.lvf-conditions-list::-webkit-scrollbar-thumb {
+  background: #00a2ff;
+  border-radius: 4px;
 }
 
 .lvf-conditions-row {
-  padding: 18px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: left;
 }
 .lvf-conditions-row:first-child { border-top: 0; padding-top: 0; }
+.lvf-conditions-row:last-child { border-bottom: none; padding-bottom: 0; }
 
 .lvf-conditions-row-t {
   font-family: var(--lvf-font-display);
-  font-weight: 600;
-  font-size: 20px;
-  letter-spacing: 0.02em;
-  margin: 0 0 8px;
-  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 6.8%, #fff 51.29%, rgba(255, 255, 255, 0.7) 94.87%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  font-weight: 500;
+  font-size: 21px;
+  letter-spacing: 0.01em;
+  margin: 0 0 6px;
+  color: #ffffff;
+  line-height: 1.25;
 }
 .lvf-conditions-row-n { opacity: 0.6; }
 .lvf-conditions-row-hl {
-  background-image: linear-gradient(180deg, #8cd5ff 0%, #12a9ff 100%);
+  background: linear-gradient(180deg, #8cd5ff 0%, #12a9ff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
 }
 
 .lvf-conditions-row-d {
   font-family: var(--lvf-font-display);
-  font-weight: 300;
+  font-weight: 400;
   font-size: 14px;
-  line-height: 1.5;
-  letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.55;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.6);
   margin: 0;
+}
+
+@media (max-width: 767px) {
+  .lvf-conditions-dialog {
+    padding: 28px 18px 22px;
+    border-radius: 18px;
+  }
+  .lvf-conditions-frame {
+    padding: 16px 14px;
+  }
+  .lvf-conditions-row-t {
+    font-size: 18px;
+  }
 }
