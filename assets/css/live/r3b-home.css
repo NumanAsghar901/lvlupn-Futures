@@ -854,6 +854,24 @@ body.page-id-7895 .lvf-s05 .lvf-s05-res:focus-within {
   z-index: 10;
 }
 
+/* Match the desktop footer card's blue-gray fill. */
+@media (min-width: 1024px) {
+  body.page-id-7895 .lvf-page .lvf-s11-cardbg {
+    background:
+      linear-gradient(90deg,
+        #192933 0%,
+        #0a2433 30%,
+        #032233 45%,
+        #072333 64%,
+        #142833 88%,
+        #192a33 100%) padding-box,
+      linear-gradient(90deg,
+        rgba(52, 176, 248, 0) 0%,
+        #35aef4 52%,
+        rgba(49, 169, 238, 0) 100%) border-box;
+  }
+}
+
 /* Keep the complete Elite composition visible on wide, short desktops. */
 @media (min-width: 1024px) {
   body.page-id-7895 .lvf-s08 {
@@ -873,6 +891,7 @@ body.page-id-7895 .lvf-s05 .lvf-s05-res:focus-within {
 
   body.page-id-7895 .lvf-s08 .lvf-s08-visual-img {
     position: relative;
+    top: 50px;
     z-index: 1;
   }
 }
